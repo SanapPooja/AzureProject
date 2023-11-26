@@ -1,0 +1,6 @@
+{
+	"name": "nsqa",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

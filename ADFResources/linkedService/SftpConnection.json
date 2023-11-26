@@ -1,0 +1,21 @@
+{
+	"name": "SftpConnection",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "14.141.16.136",
+			"port": "222",
+			"skipHostKeyValidation": false,
+			"hostKeyFingerprint": "ssh-rsa 1024 0d:82:a3:ef:c6:cf:94:a0:9b:d9:9d:99:e9:4f:9c:86",
+			"authenticationType": "Basic",
+			"userName": "natsftpPRD",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0ZTdlZGE2Zi04ZGQ2LTQ4MzYtYjYyZC04MGNiZTkyYWQ5ODciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

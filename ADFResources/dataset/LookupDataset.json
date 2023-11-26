@@ -1,0 +1,45 @@
+{
+	"name": "LookupDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LookupTable",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SEQ_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INT_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "LOOKUP_KEY",
+				"type": "varchar"
+			},
+			{
+				"name": "VALUE",
+				"type": "varchar"
+			},
+			{
+				"name": "LOOKUP_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "UPDATED_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "WEBM_CUSTOM",
+			"table": "ESB_LOOKUP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

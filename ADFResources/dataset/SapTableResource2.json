@@ -1,0 +1,16 @@
+{
+	"name": "SapTableResource2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SapConnection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SapTableResource",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "Y_GET_TABLE_DETAILS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

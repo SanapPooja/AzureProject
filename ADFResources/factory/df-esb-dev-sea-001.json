@@ -1,0 +1,9 @@
+{
+	"name": "df-esb-dev-sea-001",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5b837ea5-05dd-4ea4-9a32-3583b468f0a1",
+		"tenantId": "e678edbd-9359-4ccb-9dfa-1c7641b172d8"
+	}
+}

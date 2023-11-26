@@ -1,0 +1,32 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"activities": [
+			{
+				"name": "DeleteQueueData_copy1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
+					"method": "DELETE",
+					"body": "{[]}",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-10-31T05:00:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

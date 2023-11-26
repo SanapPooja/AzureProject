@@ -1,0 +1,16 @@
+{
+	"name": "UpstreamMESQA",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB14;initial catalog=PRODDB;user id=MESAdmin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxMDU3YTMzZC05YmUzLTQ4ZTItYWFiOS0wMzUzNDhhMWUxNWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

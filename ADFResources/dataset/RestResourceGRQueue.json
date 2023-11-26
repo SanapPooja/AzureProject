@@ -1,0 +1,13 @@
+{
+	"name": "RestResourceGRQueue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestServiceGRQueue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

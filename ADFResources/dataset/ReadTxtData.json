@@ -1,0 +1,133 @@
+{
+	"name": "ReadTxtData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileConnection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "M504060L0600.txt",
+				"folderPath": "test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "A076785044      ",
+				"type": "String"
+			},
+			{
+				"name": "2  ",
+				"type": "String"
+			},
+			{
+				"name": "H13 ",
+				"type": "String"
+			},
+			{
+				"name": "037 ",
+				"type": "String"
+			},
+			{
+				"name": "10475",
+				"type": "String"
+			},
+			{
+				"name": "SPARE1  ",
+				"type": "String"
+			},
+			{
+				"name": "BOMUO54225N-Y00",
+				"type": "String"
+			},
+			{
+				"name": "02A       ",
+				"type": "String"
+			},
+			{
+				"name": "22.00 ",
+				"type": "String"
+			},
+			{
+				"name": "Prop_9",
+				"type": "String"
+			},
+			{
+				"name": "Prop_10",
+				"type": "String"
+			},
+			{
+				"name": "S",
+				"type": "String"
+			},
+			{
+				"name": "50 ",
+				"type": "String"
+			},
+			{
+				"name": "Prop_13",
+				"type": "String"
+			},
+			{
+				"name": "Prop_14",
+				"type": "String"
+			},
+			{
+				"name": "Prop_15",
+				"type": "String"
+			},
+			{
+				"name": "1   ",
+				"type": "String"
+			},
+			{
+				"name": "SPARE7      ",
+				"type": "String"
+			},
+			{
+				"name": "M504060L0600   ",
+				"type": "String"
+			},
+			{
+				"name": "0         ",
+				"type": "String"
+			},
+			{
+				"name": "SPARE9             ",
+				"type": "String"
+			},
+			{
+				"name": "124   ",
+				"type": "String"
+			},
+			{
+				"name": "CSBD102",
+				"type": "String"
+			},
+			{
+				"name": "2 ",
+				"type": "String"
+			},
+			{
+				"name": "1",
+				"type": "String"
+			},
+			{
+				"name": "19",
+				"type": "String"
+			},
+			{
+				"name": "Gl200@w90@l10300@w0@",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
