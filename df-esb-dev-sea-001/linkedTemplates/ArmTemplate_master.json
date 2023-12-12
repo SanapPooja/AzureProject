@@ -1,0 +1,451 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "df-esb-dev-sea-001"
+		},
+		"Democonnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Democonnection'"
+		},
+		"FileConnection_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileConnection'"
+		},
+		"IgnitionQA_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'IgnitionQA'"
+		},
+		"LookupTable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LookupTable'"
+		},
+		"NSQADB2Connection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'NSQADB2Connection'"
+		},
+		"Oracle1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Oracle1'"
+		},
+		"Oracle2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Oracle2'"
+		},
+		"SCM_IDB_Connect_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SCM_IDB_Connect'"
+		},
+		"SapConnection_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SapConnection'"
+		},
+		"SapOdp_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SapOdp'"
+		},
+		"SapRFCconnection_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SapRFCconnection'"
+		},
+		"SftpConnection_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SftpConnection'"
+		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
+		"SqlServer2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer2'"
+		},
+		"UpstreamMESQA_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
+		},
+		"FileConnection_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\nslfp4\\bend"
+		},
+		"FileConnection_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "NATSTEELCORP\\NSESBAPPSADM"
+		},
+		"IgnitionACTtoSAP_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages"
+		},
+		"IgnitionACTtoSAP_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionActQueue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head"
+		},
+		"IgnitionActQueue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
+		},
+		"RestService1_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestService2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mrtransfer.natsteel.com.sg:41/api/MRAutomation/GetMRNumbers"
+		},
+		"RestService3_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata"
+		},
+		"RestService3_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestServiceGR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages"
+		},
+		"RestServiceGR_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestServiceGRQueue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head"
+		},
+		"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestServiceSendMessage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages"
+		},
+		"RestServiceSendMessage_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"SapConnection_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "110"
+		},
+		"SapConnection_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "SCM_AUTOPO"
+		},
+		"SapConnection_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "172.25.101.6"
+		},
+		"SapConnection_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "00"
+		},
+		"SapOdp_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "600"
+		},
+		"SapOdp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "test1"
+		},
+		"SapOdp_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "172.25.101.5"
+		},
+		"SapOdp_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		},
+		"SapRFCconnection_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "600"
+		},
+		"SapRFCconnection_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "test1"
+		},
+		"SapRFCconnection_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "172.25.101.5"
+		},
+		"SapRFCconnection_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		},
+		"SftpConnection_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "14.141.16.136"
+		},
+		"SftpConnection_properties_typeProperties_hostKeyFingerprint": {
+			"type": "string",
+			"defaultValue": "ssh-rsa 1024 0d:82:a3:ef:c6:cf:94:a0:9b:d9:9d:99:e9:4f:9c:86"
+		},
+		"SftpConnection_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "natsftpPRD"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Democonnection_connectionString": {
+						"value": "[parameters('Democonnection_connectionString')]"
+					},
+					"FileConnection_password": {
+						"value": "[parameters('FileConnection_password')]"
+					},
+					"RestService1_properties_typeProperties_url": {
+						"value": "[parameters('RestService1_properties_typeProperties_url')]"
+					},
+					"RestService1_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestService1_properties_typeProperties_aadResourceId')]"
+					},
+					"RestService2_properties_typeProperties_url": {
+						"value": "[parameters('RestService2_properties_typeProperties_url')]"
+					},
+					"RestService3_properties_typeProperties_url": {
+						"value": "[parameters('RestService3_properties_typeProperties_url')]"
+					},
+					"RestService3_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestService3_properties_typeProperties_aadResourceId')]"
+					},
+					"RestServiceSendMessage_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceSendMessage_properties_typeProperties_url')]"
+					},
+					"RestServiceSendMessage_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceSendMessage_properties_typeProperties_aadResourceId')]"
+					},
+					"FileConnection_properties_typeProperties_host": {
+						"value": "[parameters('FileConnection_properties_typeProperties_host')]"
+					},
+					"FileConnection_properties_typeProperties_userId": {
+						"value": "[parameters('FileConnection_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"IgnitionQA_connectionString": {
+						"value": "[parameters('IgnitionQA_connectionString')]"
+					},
+					"LookupTable_connectionString": {
+						"value": "[parameters('LookupTable_connectionString')]"
+					},
+					"NSQADB2Connection_connectionString": {
+						"value": "[parameters('NSQADB2Connection_connectionString')]"
+					},
+					"Oracle1_connectionString": {
+						"value": "[parameters('Oracle1_connectionString')]"
+					},
+					"Oracle2_connectionString": {
+						"value": "[parameters('Oracle2_connectionString')]"
+					},
+					"SCM_IDB_Connect_connectionString": {
+						"value": "[parameters('SCM_IDB_Connect_connectionString')]"
+					},
+					"SapConnection_password": {
+						"value": "[parameters('SapConnection_password')]"
+					},
+					"SapOdp_password": {
+						"value": "[parameters('SapOdp_password')]"
+					},
+					"SapRFCconnection_password": {
+						"value": "[parameters('SapRFCconnection_password')]"
+					},
+					"SftpConnection_password": {
+						"value": "[parameters('SftpConnection_password')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer2_connectionString": {
+						"value": "[parameters('SqlServer2_connectionString')]"
+					},
+					"UpstreamMESQA_connectionString": {
+						"value": "[parameters('UpstreamMESQA_connectionString')]"
+					},
+					"IgnitionACTtoSAP_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionACTtoSAP_properties_typeProperties_url')]"
+					},
+					"IgnitionACTtoSAP_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionACTtoSAP_properties_typeProperties_aadResourceId')]"
+					},
+					"IgnitionActQueue_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionActQueue_properties_typeProperties_url')]"
+					},
+					"IgnitionActQueue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionActQueue_properties_typeProperties_aadResourceId')]"
+					},
+					"RestServiceGR_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceGR_properties_typeProperties_url')]"
+					},
+					"RestServiceGR_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceGR_properties_typeProperties_aadResourceId')]"
+					},
+					"RestServiceGRQueue_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_url')]"
+					},
+					"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_aadResourceId')]"
+					},
+					"SapConnection_properties_typeProperties_clientId": {
+						"value": "[parameters('SapConnection_properties_typeProperties_clientId')]"
+					},
+					"SapConnection_properties_typeProperties_userName": {
+						"value": "[parameters('SapConnection_properties_typeProperties_userName')]"
+					},
+					"SapConnection_properties_typeProperties_server": {
+						"value": "[parameters('SapConnection_properties_typeProperties_server')]"
+					},
+					"SapConnection_properties_typeProperties_systemNumber": {
+						"value": "[parameters('SapConnection_properties_typeProperties_systemNumber')]"
+					},
+					"SapOdp_properties_typeProperties_clientId": {
+						"value": "[parameters('SapOdp_properties_typeProperties_clientId')]"
+					},
+					"SapOdp_properties_typeProperties_userName": {
+						"value": "[parameters('SapOdp_properties_typeProperties_userName')]"
+					},
+					"SapOdp_properties_typeProperties_server": {
+						"value": "[parameters('SapOdp_properties_typeProperties_server')]"
+					},
+					"SapOdp_properties_typeProperties_systemNumber": {
+						"value": "[parameters('SapOdp_properties_typeProperties_systemNumber')]"
+					},
+					"SapRFCconnection_properties_typeProperties_clientId": {
+						"value": "[parameters('SapRFCconnection_properties_typeProperties_clientId')]"
+					},
+					"SapRFCconnection_properties_typeProperties_userName": {
+						"value": "[parameters('SapRFCconnection_properties_typeProperties_userName')]"
+					},
+					"SapRFCconnection_properties_typeProperties_server": {
+						"value": "[parameters('SapRFCconnection_properties_typeProperties_server')]"
+					},
+					"SapRFCconnection_properties_typeProperties_systemNumber": {
+						"value": "[parameters('SapRFCconnection_properties_typeProperties_systemNumber')]"
+					},
+					"SftpConnection_properties_typeProperties_host": {
+						"value": "[parameters('SftpConnection_properties_typeProperties_host')]"
+					},
+					"SftpConnection_properties_typeProperties_hostKeyFingerprint": {
+						"value": "[parameters('SftpConnection_properties_typeProperties_hostKeyFingerprint')]"
+					},
+					"SftpConnection_properties_typeProperties_userName": {
+						"value": "[parameters('SftpConnection_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_3')]"
+			]
+		}
+	]
+}

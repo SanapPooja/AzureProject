@@ -1,0 +1,156 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-esb-dev-sea-001"
+		},
+		"Democonnection_connectionString": {
+			"value": ""
+		},
+		"FileConnection_password": {
+			"value": ""
+		},
+		"IgnitionQA_connectionString": {
+			"value": ""
+		},
+		"LookupTable_connectionString": {
+			"value": ""
+		},
+		"NSQADB2Connection_connectionString": {
+			"value": ""
+		},
+		"Oracle1_connectionString": {
+			"value": ""
+		},
+		"Oracle2_connectionString": {
+			"value": ""
+		},
+		"SCM_IDB_Connect_connectionString": {
+			"value": ""
+		},
+		"SapConnection_password": {
+			"value": ""
+		},
+		"SapOdp_password": {
+			"value": ""
+		},
+		"SapRFCconnection_password": {
+			"value": ""
+		},
+		"SftpConnection_password": {
+			"value": ""
+		},
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"SqlServer2_connectionString": {
+			"value": ""
+		},
+		"UpstreamMESQA_connectionString": {
+			"value": ""
+		},
+		"FileConnection_properties_typeProperties_host": {
+			"value": "\\\\nslfp4\\bend"
+		},
+		"FileConnection_properties_typeProperties_userId": {
+			"value": "NATSTEELCORP\\NSESBAPPSADM"
+		},
+		"IgnitionACTtoSAP_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages"
+		},
+		"IgnitionACTtoSAP_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"IgnitionActQueue_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head"
+		},
+		"IgnitionActQueue_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
+		},
+		"RestService1_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestService2_properties_typeProperties_url": {
+			"value": "https://mrtransfer.natsteel.com.sg:41/api/MRAutomation/GetMRNumbers"
+		},
+		"RestService3_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata"
+		},
+		"RestService3_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestServiceGR_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages"
+		},
+		"RestServiceGR_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestServiceGRQueue_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head"
+		},
+		"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestServiceSendMessage_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages"
+		},
+		"RestServiceSendMessage_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"SapConnection_properties_typeProperties_clientId": {
+			"value": "110"
+		},
+		"SapConnection_properties_typeProperties_userName": {
+			"value": "SCM_AUTOPO"
+		},
+		"SapConnection_properties_typeProperties_server": {
+			"value": "172.25.101.6"
+		},
+		"SapConnection_properties_typeProperties_systemNumber": {
+			"value": "00"
+		},
+		"SapOdp_properties_typeProperties_clientId": {
+			"value": "600"
+		},
+		"SapOdp_properties_typeProperties_userName": {
+			"value": "test1"
+		},
+		"SapOdp_properties_typeProperties_server": {
+			"value": "172.25.101.5"
+		},
+		"SapOdp_properties_typeProperties_systemNumber": {
+			"value": "01"
+		},
+		"SapRFCconnection_properties_typeProperties_clientId": {
+			"value": "600"
+		},
+		"SapRFCconnection_properties_typeProperties_userName": {
+			"value": "test1"
+		},
+		"SapRFCconnection_properties_typeProperties_server": {
+			"value": "172.25.101.5"
+		},
+		"SapRFCconnection_properties_typeProperties_systemNumber": {
+			"value": "01"
+		},
+		"SftpConnection_properties_typeProperties_host": {
+			"value": "14.141.16.136"
+		},
+		"SftpConnection_properties_typeProperties_hostKeyFingerprint": {
+			"value": "ssh-rsa 1024 0d:82:a3:ef:c6:cf:94:a0:9b:d9:9d:99:e9:4f:9c:86"
+		},
+		"SftpConnection_properties_typeProperties_userName": {
+			"value": "natsftpPRD"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

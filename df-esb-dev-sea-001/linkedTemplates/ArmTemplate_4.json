@@ -1,0 +1,5426 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "df-esb-dev-sea-001"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ServiceBusToSQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"requestBody": "{\n}",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['message']"
+										},
+										"sink": {
+											"name": "Message",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Name']"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ServiceBus",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Web1_copy1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
+							"method": "DELETE",
+							"headers": {
+								"CustomHeader-Version": "\"1.0\"",
+								"Content-Type": "application/json"
+							},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
+					},
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 60
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-09-11T08:21:26Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline4')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SelectGRData",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "select * from [dbo].[T_NSA_GR] where STATUS = 'A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "UpdateStatusT",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "SelectGRData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "UPDATE [dbo].[T_NSA_GR] SET STATUS = 'T' WHERE STATUS = 'A' "
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Wait_5sec",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "IntermediateMES",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Wait_5sec",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "insert into [dbo].[T_NSA_GR_STAGING] \n  SELECT [MANDT] as MANDT\n     ,[CHARG] as CHARG\n     ,rtrim([AIM_MATL_NO]) as MATNR_AIM\n     ,[ID_MESSAGE] as TIMESTAMP\n     ,rtrim([ACH_MATL_NO]) as MATNR_ACH\n     ,[TOT_QTY] as QUANTITY\n     ,rtrim([BASE_UOM]) as MEINS\n     ,' ' as AUART\n     ,[ORD_NO] as AUFNR\n     ,[DOCU_DATE] as BLDAT\n     ,[POSTG_DATE] as BUDAT\n     ,[PCODE] as PCODE\n     ,[PLANT] as PLANT\n     ,[STOR_LOC] as LGORT\n     ,'    ' as NO_OF_GI_REC\n     ,'          ' as VBELN\n     ,' ' as POSNR\n     ,'          ' as MBLNR\n     ,' ' as MJAHR\n     ,' ' as RUECK\n     ,' ' as RMZHL\n     ,' ' as REV_RUECK\n     ,' ' as REV_RMZHL\n     ,isnull([ZBC_HEAT_NO],' ') as Z_HEAT_NO\n     ,isnull([ZBC_THEO_WT],0.000) as Z_THEO_WT\n     ,isnull([ZBC_SHIFT],' ') as Z_SHIFT\n     ,[PROD_DATE] as Z_PROD_DATE\n     ,rtrim([ZBC_MILL_SOURCE]) as Z_MILL_SOURCE\n     ,isnull([ZBC_LENGTH],' ') as Z_LENGTH\n     ,isnull(rtrim([ZBC_STANDARD]),' ') as Z_STANDARD\n     ,' ' as Z_BAT_LOCATOR_A\n     ,' ' as Z_BAT_LOCATOR_B\n     ,' ' as Z_BAT_LOCATOR_C\n     ,isnull([ZBC_PCS_PER_HEAT],' ') as Z_PCS_PER_HEAT\n     ,isnull([ZBC_WT_PER_BLD],0.000) as Z_KG_PER_BLD\n     ,isnull([ZBC_PCS_PER_BLD],' ') as Z_PCS_PER_BLD\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_KG_PER_PCS\n     ,isnull([ZBC_WT_PER_COIL],0.000) as Z_KG_PER_COIL\n     ,isnull([ZBC_ACT_COI_WT],0.000) as Z_ACT_COI_WT\n     ,'        ' as Z_MAC_NO\n     ,'        ' as Z_COIL_NO\n     ,' ' as Z_TOTAL_CUT\n     ,' ' as Z_TOTAL_BEND\n     ,' ' as Z_TOTAL_LINK\n     ,isnull([CUT_PER_TON],0.00) as Z_CUT_PER_TON\n     ,isnull([BEND_PER_TON],0.00) as Z_BEND_PER_TON\n     ,isnull([LINK_PER_TON],0.00) as Z_LINK_PER_TON\n     ,'        ' as Z_COU_GRA\n     ,'        ' as Z_COU_REF\n     ,' ' as Z_NO_OF_END\n     ,0.00 as Z_COU_DIA_1\n     ,0.00 as Z_COU_DIA_2\n     ,' ' as Z_COU_TYPE_1\n     ,' ' as Z_COU_TYPE_2\n     ,' ' as Z_NO_OF_PNT\n     ,' ' as Z_TAG_NO\n     ,' ' as Z_MAC_TPL\n     ,' ' as Z_NO_OF_STR\n     ,0.000 as Z_AREA_PER_PC\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_WT_PER_PC\n     ,isnull([CON_MAT],' ') as Z_CON_MAT\n     ,isnull([CONSUME_BATCHES],' ') as Z_CONSUME_BATCHE\n     ,' ' as Z_SHAPE_CODE\n     ,' ' as Z_INV_LEN\n     ,' ' as Z_WBS1\n     ,' ' as Z_WBS2\n     ,' ' as Z_WBS3\n     ,' ' as Z_BBSNO\n     ,' ' as Z_PROD_MARK\n     ,0.00 as Z_MW_SPA\n     ,0.00 as Z_CW_SPA\n     ,' ' as Z_MW_LEN\n     ,' ' as Z_CW_LEN\n     ,' ' as Z_PIECES\n     ,'0' as Z_CW_OVR_HANG1\n     ,'0' as Z_CW_OVR_HANG2\n     ,'0' as Z_MW_OVR_HANG1\n     ,'0' as Z_MW_OVR_HANG2\n     ,' ' as Z_BBS_DESC\n     ,isnull([PLANT_D],' ') as PLANT_D\n     ,isnull([STOR_LOC_D],' ') as LGORT_D\n     ,isnull([MATL_NO_D],' ') as MATNR_D\n     ,isnull([QUANTITY_D],0.000) as QUANTITY_D\n     ,isnull([CHARG_D],' ') as CHARG_D\n     ,[SHIFT] as SHIFT\n     ,' ' as REV_STATUS\n     ,' ' as PROD_STATUS\n     ,'A' as STATUS\n     ,' ' as ERROR_CD\n     ,[REC_TYPE] as REC_TYPE\n     ,' ' as PROC_TS\n     ,[INTERFACE_ID] as INTER_ID\n     ,'00000000' as UDATE\n     ,'000000' as UTIME\n     ,'BGDJOBS' as USERID\n     ,' ' as NDS_SALE_ORDER\n     ,' ' as ORDER_ITEM\n     FROM [dbo].[T_NSA_GR] where status='T'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "OracleSink",
+								"writeBatchSize": 10000,
+								"preCopyScript": "insert into sapsr3.ympct_nsa_gr\n  SELECT MANDT, CHARG, MATNR_AIM, TIMESTAMP, MATNR_ACH, QUANTITY, MEINS, AUART, AUFNR, BLDAT, BUDAT, PCODE\n     , PLANT\n     , LGORT\n     , NO_OF_GI_REC\n     , VBELN\n     , POSNR\n     , MBLNR\n     , MJAHR\n     , RUECK\n     , RMZHL\n     , REV_RUECK\n     , REV_RMZHL\n     , Z_HEAT_NO\n     , Z_THEO_WT\n     , Z_SHIFT\n     , Z_PROD_DATE\n     , Z_MILL_SOURCE\n     , Z_LENGTH\n     , Z_STANDARD\n     , Z_BAT_LOCATOR_A\n     , Z_BAT_LOCATOR_B\n     , Z_BAT_LOCATOR_C\n     , Z_PCS_PER_HEAT\n     , Z_KG_PER_BLD\n     , Z_PCS_PER_BLD\n     , Z_KG_PER_PCS\n     , Z_KG_PER_COIL\n     , Z_ACT_COI_WT\n     , Z_MAC_NO\n     , Z_COIL_NO\n     , Z_TOTAL_CUT\n     , Z_TOTAL_BEND\n     , Z_TOTAL_LINK\n     , Z_CUT_PER_TON\n     , Z_BEND_PER_TON\n     , Z_LINK_PER_TON\n     , Z_COU_GRA\n     , Z_COU_REF\n     , Z_NO_OF_END\n     , Z_COU_DIA_1\n     , Z_COU_DIA_2\n     , Z_COU_TYPE_1\n     , Z_COU_TYPE_2\n     , Z_NO_OF_PNT\n     , Z_TAG_NO\n     , Z_MAC_TPL\n     , Z_NO_OF_STR\n     , Z_AREA_PER_PC\n     , Z_WT_PER_PC\n     , Z_CON_MAT\n     , Z_CONSUME_BATCHE\n     , Z_SHAPE_CODE\n     , Z_INV_LEN\n     , Z_WBS1\n     , Z_WBS2\n     , Z_WBS3\n     , Z_BBSNO\n     , Z_PROD_MARK\n     , Z_MW_SPA\n     , Z_CW_SPA\n     , Z_MW_LEN\n     , Z_CW_LEN\n     , Z_PIECES\n     , Z_CW_OVR_HANG1\n     , Z_CW_OVR_HANG2\n     , Z_MW_OVR_HANG1\n     , Z_MW_OVR_HANG2\n     , Z_BBS_DESC\n     , PLANT_D\n     , LGORT_D\n     , MATNR_D\n     , QUANTITY_D\n     , CHARG_D\n     , SHIFT\n     , REV_STATUS\n     , PROD_STATUS\n     , STATUS\n     , ERROR_CD\n     , REC_TYPE\n     , PROC_TS\n     , INTER_ID\n     , UDATE\n     , UTIME\n     , USERID\n     , NDS_SALE_ORDER\n     , ORDER_ITEM\n     FROM [dbo].[T_NSA_GR_STAGING] where STATUS = 'T'"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MANDT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CHARG",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_AIM",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_AIM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_ACH",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_ACH",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "QUANTITY",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "MEINS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MEINS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AUART",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUFNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AUFNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BLDAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BLDAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BUDAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BUDAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PCODE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PCODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PLANT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LGORT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NO_OF_GI_REC",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NO_OF_GI_REC",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "VBELN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "VBELN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "POSNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "POSNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MBLNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MBLNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MJAHR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MJAHR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RUECK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RUECK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RMZHL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RMZHL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RUECK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_RUECK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RMZHL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_RMZHL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_HEAT_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_HEAT_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_THEO_WT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_THEO_WT",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHIFT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_SHIFT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PROD_DATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MILL_SOURCE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MILL_SOURCE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LENGTH",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_LENGTH",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_STANDARD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_STANDARD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_A",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_A",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_B",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_B",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_C",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_C",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_HEAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PCS_PER_HEAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_BLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_BLD",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_BLD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PCS_PER_BLD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_PCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_PCS",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_COIL",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_COIL",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_ACT_COI_WT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_ACT_COI_WT",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MAC_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COIL_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COIL_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_CUT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_CUT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_BEND",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_BEND",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_LINK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_LINK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CUT_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_CUT_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BEND_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_BEND_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LINK_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_LINK_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_GRA",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_GRA",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_REF",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_REF",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_END",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_END",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_1",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_COU_DIA_1",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_2",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_COU_DIA_2",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_TYPE_1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_TYPE_2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_PNT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_PNT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TAG_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TAG_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_TPL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MAC_TPL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_STR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_STR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_AREA_PER_PC",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_AREA_PER_PC",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WT_PER_PC",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_WT_PER_PC",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CON_MAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CON_MAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CONSUME_BATCHE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CONSUME_BATCHE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHAPE_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_SHAPE_CODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_INV_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_INV_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS3",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBSNO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BBSNO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_MARK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PROD_MARK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_SPA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_MW_SPA",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_SPA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_CW_SPA",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PIECES",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PIECES",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_OVR_HANG1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_OVR_HANG2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_OVR_HANG1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_OVR_HANG2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBS_DESC",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BBS_DESC",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PLANT_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LGORT_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY_D",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "QUANTITY_D",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CHARG_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHIFT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SHIFT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PROD_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PROD_STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ERROR_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REC_TYPE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PROC_TS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "INTER_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UDATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTIME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "USERID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NDS_SALE_ORDER",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NDS_SALE_ORDER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDER_ITEM",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ORDER_ITEM",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "GRIntermediate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SAP_GR_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Copy data2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "UpdatetoY_Success",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};\n\n\n\n\n\n\n",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Copy data2",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "IntermediateMES",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "OracleSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MANDT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CHARG",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_AIM",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_AIM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_ACH",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_ACH",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "QUANTITY",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "MEINS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MEINS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AUART",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUFNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AUFNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BLDAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BLDAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BUDAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BUDAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PCODE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PCODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PLANT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LGORT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NO_OF_GI_REC",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NO_OF_GI_REC",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "VBELN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "VBELN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "POSNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "POSNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MBLNR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MBLNR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MJAHR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MJAHR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RUECK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RUECK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RMZHL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RMZHL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RUECK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_RUECK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RMZHL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_RMZHL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_HEAT_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_HEAT_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_THEO_WT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_THEO_WT",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHIFT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_SHIFT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PROD_DATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MILL_SOURCE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MILL_SOURCE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LENGTH",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_LENGTH",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_STANDARD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_STANDARD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_A",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_A",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_B",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_B",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_C",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BAT_LOCATOR_C",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_HEAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PCS_PER_HEAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_BLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_BLD",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_BLD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PCS_PER_BLD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_PCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_PCS",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_COIL",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_KG_PER_COIL",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_ACT_COI_WT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_ACT_COI_WT",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MAC_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COIL_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COIL_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_CUT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_CUT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_BEND",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_BEND",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_LINK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TOTAL_LINK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CUT_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_CUT_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BEND_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_BEND_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LINK_PER_TON",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_LINK_PER_TON",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_GRA",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_GRA",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_REF",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_REF",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_END",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_END",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_1",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_COU_DIA_1",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_2",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_COU_DIA_2",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_TYPE_1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_COU_TYPE_2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_PNT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_PNT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TAG_NO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_TAG_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_TPL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MAC_TPL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_STR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_NO_OF_STR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_AREA_PER_PC",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_AREA_PER_PC",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WT_PER_PC",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "Z_WT_PER_PC",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CON_MAT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CON_MAT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CONSUME_BATCHE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CONSUME_BATCHE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHAPE_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_SHAPE_CODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_INV_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_INV_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS3",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_WBS3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBSNO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BBSNO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_MARK",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PROD_MARK",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_SPA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_MW_SPA",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_SPA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 6
+										},
+										"sink": {
+											"name": "Z_CW_SPA",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_LEN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_LEN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PIECES",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_PIECES",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_OVR_HANG1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_CW_OVR_HANG2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG1",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_OVR_HANG1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG2",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_MW_OVR_HANG2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBS_DESC",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Z_BBS_DESC",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PLANT_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LGORT_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MATNR_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY_D",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 15
+										},
+										"sink": {
+											"name": "QUANTITY_D",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG_D",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CHARG_D",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHIFT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SHIFT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REV_STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PROD_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PROD_STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ERROR_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "REC_TYPE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PROC_TS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "INTER_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UDATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTIME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "USERID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NDS_SALE_ORDER",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NDS_SALE_ORDER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDER_ITEM",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ORDER_ITEM",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "GRIntermediate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SAP_GR_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"CHARG": {
+						"type": "string",
+						"defaultValue": "CHARG"
+					},
+					"ID_MESSAGE": {
+						"type": "string",
+						"defaultValue": "ID_MESSAGE"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-11-04T10:37:58Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/task_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "task1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "taskquery",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "@variables('taskquery')",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TaskTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "taskquery",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "taskquery",
+							"value": {
+								"value": "SELECT * from dbo.Table_Student where ID=4;",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"taskquery": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-11-08T08:58:10Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_Ignition_ACT_Pub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Select_GI_Data",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "select * from t_nsa_gi_act where STATUS = 'A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Update_Status_To_P",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Select_GI_Data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update t_nsa_gi_act set status='P' where status='A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Wait_5sec",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Update_Status_To_P",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Wait_5sec",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select MANDT,GR_CHARG,rtrim(GR_AIM_MATL_NO) as GR_MATNR_AIM,ID_MESSAGE as TIMESTAMP,PLANT,DOCU_DATE as BLDAT,POSTG_DATE as BUDAT,WRK_CENT as ARBPL,TOT_QTY as QUANTITY,isnull(QUANTITY_D,' ') as QUANTITY_D,isnull(OPR_ACTV_NO,' ') as VORNR,ORD_NO as AUFNR,\n\tisnull(ACTV_NO1,' ') as ACTIVITY1,isnull(ACTV_QTY1,' ') as ACT_QTY1,isnull(ACTV_UOM1,' ') as ACT_UOM1,\n\tisnull(ACTV_NO2,' ') as ACTIVITY2,isnull(ACTV_QTY2,' ') as ACT_QTY2,isnull(ACTV_UOM2,' ') as ACT_UOM2,\n\tisnull(ACTV_NO3,' ') as ACTIVITY3,isnull(ACTV_QTY3,' ') as ACT_QTY3,isnull(ACTV_UOM3,' ') as ACT_UOM3,\n\tisnull(ACTV_NO4,' ') as ACTIVITY4,isnull(ACTV_QTY4,' ') as ACT_QTY4,isnull(ACTV_UOM4,' ') as ACT_UOM4,\n\tisnull(ACTV_NO5,' ') as ACTIVITY5,isnull(ACTV_QTY5,' ') as ACT_QTY5,isnull(ACTV_UOM5,' ') as ACT_UOM5,\n\tisnull(ACTV_NO6,' ') as ACTIVITY6,isnull(ACTV_QTY6,' ') as ACT_QTY6,isnull(ACTV_UOM6,' ') as ACT_UOM6,\n\tisnull(SD_DOCU_NO,' ') as VBELN,isnull(ITEM_NO,'000000') as POSNR,PCODE,SHIFT,\n\tisnull(CFRM_NO_OP,'0000000000') as RUECK,isnull(CFRM_CNTR,'00000000') as RMZHL,isnull(CFRM_NO_REVOP,'0000000000') as REV_RUECK,isnull(CFRM_REVCNTR,'00000000') as REV_RMZHL,\n\tINTERFACE_ID as INTER_ID,isnull(REV_STATUS,' ') as REV_STATUS,REC_TYPE,'A' as STATUS,isnull(ERROR_CD,' ') as ERROR_CD,' ' as PROC_TS, \n\t'00000000' as UDATE,'000000' as UTIME,' ' as USERID from t_nsa_gi_act \n\twhere status='P'\n ",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$MANDT"
+										}
+									},
+									{
+										"source": {
+											"name": "GR_CHARG",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$GR_CHARG"
+										}
+									},
+									{
+										"source": {
+											"name": "GR_MATNR_AIM",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$GR_MATNR_AIM"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$TIMESTAMP"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$PLANT"
+										}
+									},
+									{
+										"source": {
+											"name": "BLDAT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$BLDAT"
+										}
+									},
+									{
+										"source": {
+											"name": "BUDAT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$BUDAT"
+										}
+									},
+									{
+										"source": {
+											"name": "ARBPL",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ARBPL"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$QUANTITY"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY_D",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$QUANTITY_D"
+										}
+									},
+									{
+										"source": {
+											"name": "VORNR",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$VORNR"
+										}
+									},
+									{
+										"source": {
+											"name": "AUFNR",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$AUFNR"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY1",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY1"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY1",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY1"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM1",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM1"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY2",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY2"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY2",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY2"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM2",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM2"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY3",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY3"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY3",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY3"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM3",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM3"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY4",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY4"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY4",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY4"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM4",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM4"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY5",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY5"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY5",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY5"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM5",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM5"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY6",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACTIVITY6"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_QTY6",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_QTY6"
+										}
+									},
+									{
+										"source": {
+											"name": "ACT_UOM6",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ACT_UOM6"
+										}
+									},
+									{
+										"source": {
+											"name": "VBELN",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$VBELN"
+										}
+									},
+									{
+										"source": {
+											"name": "POSNR",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$POSNR"
+										}
+									},
+									{
+										"source": {
+											"name": "PCODE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$PCODE"
+										}
+									},
+									{
+										"source": {
+											"name": "SHIFT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$SHIFT"
+										}
+									},
+									{
+										"source": {
+											"name": "RUECK",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$RUECK"
+										}
+									},
+									{
+										"source": {
+											"name": "RMZHL",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$RMZHL"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RUECK",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$REV_RUECK"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RMZHL",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$REV_RMZHL"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$INTER_ID"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$REV_STATUS"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$REC_TYPE"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$STATUS"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ERROR_CD"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$PROC_TS"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$UDATE"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$UTIME"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$USERID"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "IgntionACTdatabase",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IgnitionACTtoSAP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_SAP_ACT_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_Ignition_GR_Pub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SelectGRData",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "select * from [dbo].[T_NSA_GR] where STATUS = 'A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "UpdateStatusT",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "SelectGRData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "UPDATE [dbo].[T_NSA_GR] SET STATUS = 'T' WHERE STATUS = 'A' "
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Wait_5sec",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "IntermediateMES",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Wait_5sec",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "insert into [dbo].[T_NSA_GR_STAGING] \n  SELECT [MANDT] as MANDT\n     ,[CHARG] as CHARG\n     ,rtrim([AIM_MATL_NO]) as MATNR_AIM\n     ,[ID_MESSAGE] as TIMESTAMP\n     ,rtrim([ACH_MATL_NO]) as MATNR_ACH\n     ,[TOT_QTY] as QUANTITY\n     ,rtrim([BASE_UOM]) as MEINS\n     ,' ' as AUART\n     ,[ORD_NO] as AUFNR\n     ,[DOCU_DATE] as BLDAT\n     ,[POSTG_DATE] as BUDAT\n     ,[PCODE] as PCODE\n     ,[PLANT] as PLANT\n     ,[STOR_LOC] as LGORT\n     ,'    ' as NO_OF_GI_REC\n     ,'          ' as VBELN\n     ,' ' as POSNR\n     ,'          ' as MBLNR\n     ,' ' as MJAHR\n     ,' ' as RUECK\n     ,' ' as RMZHL\n     ,' ' as REV_RUECK\n     ,' ' as REV_RMZHL\n     ,isnull([ZBC_HEAT_NO],' ') as Z_HEAT_NO\n     ,isnull([ZBC_THEO_WT],0.000) as Z_THEO_WT\n     ,isnull([ZBC_SHIFT],' ') as Z_SHIFT\n     ,[PROD_DATE] as Z_PROD_DATE\n     ,rtrim([ZBC_MILL_SOURCE]) as Z_MILL_SOURCE\n     ,isnull([ZBC_LENGTH],' ') as Z_LENGTH\n     ,isnull(rtrim([ZBC_STANDARD]),' ') as Z_STANDARD\n     ,' ' as Z_BAT_LOCATOR_A\n     ,' ' as Z_BAT_LOCATOR_B\n     ,' ' as Z_BAT_LOCATOR_C\n     ,isnull([ZBC_PCS_PER_HEAT],' ') as Z_PCS_PER_HEAT\n     ,isnull([ZBC_WT_PER_BLD],0.000) as Z_KG_PER_BLD\n     ,isnull([ZBC_PCS_PER_BLD],' ') as Z_PCS_PER_BLD\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_KG_PER_PCS\n     ,isnull([ZBC_WT_PER_COIL],0.000) as Z_KG_PER_COIL\n     ,isnull([ZBC_ACT_COI_WT],0.000) as Z_ACT_COI_WT\n     ,'        ' as Z_MAC_NO\n     ,'        ' as Z_COIL_NO\n     ,' ' as Z_TOTAL_CUT\n     ,' ' as Z_TOTAL_BEND\n     ,' ' as Z_TOTAL_LINK\n     ,isnull([CUT_PER_TON],0.00) as Z_CUT_PER_TON\n     ,isnull([BEND_PER_TON],0.00) as Z_BEND_PER_TON\n     ,isnull([LINK_PER_TON],0.00) as Z_LINK_PER_TON\n     ,'        ' as Z_COU_GRA\n     ,'        ' as Z_COU_REF\n     ,' ' as Z_NO_OF_END\n     ,0.00 as Z_COU_DIA_1\n     ,0.00 as Z_COU_DIA_2\n     ,' ' as Z_COU_TYPE_1\n     ,' ' as Z_COU_TYPE_2\n     ,' ' as Z_NO_OF_PNT\n     ,' ' as Z_TAG_NO\n     ,' ' as Z_MAC_TPL\n     ,' ' as Z_NO_OF_STR\n     ,0.000 as Z_AREA_PER_PC\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_WT_PER_PC\n     ,isnull([CON_MAT],' ') as Z_CON_MAT\n     ,isnull([CONSUME_BATCHES],' ') as Z_CONSUME_BATCHE\n     ,' ' as Z_SHAPE_CODE\n     ,' ' as Z_INV_LEN\n     ,' ' as Z_WBS1\n     ,' ' as Z_WBS2\n     ,' ' as Z_WBS3\n     ,' ' as Z_BBSNO\n     ,' ' as Z_PROD_MARK\n     ,0.00 as Z_MW_SPA\n     ,0.00 as Z_CW_SPA\n     ,' ' as Z_MW_LEN\n     ,' ' as Z_CW_LEN\n     ,' ' as Z_PIECES\n     ,'0' as Z_CW_OVR_HANG1\n     ,'0' as Z_CW_OVR_HANG2\n     ,'0' as Z_MW_OVR_HANG1\n     ,'0' as Z_MW_OVR_HANG2\n     ,' ' as Z_BBS_DESC\n     ,isnull([PLANT_D],' ') as PLANT_D\n     ,isnull([STOR_LOC_D],' ') as LGORT_D\n     ,isnull([MATL_NO_D],' ') as MATNR_D\n     ,isnull([QUANTITY_D],0.000) as QUANTITY_D\n     ,isnull([CHARG_D],' ') as CHARG_D\n     ,[SHIFT] as SHIFT\n     ,' ' as REV_STATUS\n     ,' ' as PROD_STATUS\n     ,'A' as STATUS\n     ,' ' as ERROR_CD\n     ,[REC_TYPE] as REC_TYPE\n     ,' ' as PROC_TS\n     ,[INTERFACE_ID] as INTER_ID\n     ,'00000000' as UDATE\n     ,'000000' as UTIME\n     ,'BGDJOBS' as USERID\n     ,' ' as NDS_SALE_ORDER\n     ,' ' as ORDER_ITEM\n     FROM [dbo].[T_NSA_GR] where status='T'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "SendtoQueue",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "IntermediateMES",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT  MANDT, CHARG, MATNR_AIM, TIMESTAMP, MATNR_ACH, QUANTITY, MEINS, AUART, AUFNR, BLDAT, BUDAT, PCODE, PLANT, LGORT, NO_OF_GI_REC, VBELN, POSNR, MBLNR, MJAHR, RUECK , RMZHL, REV_RUECK, REV_RMZHL, Z_HEAT_NO, Z_THEO_WT, Z_SHIFT, Z_PROD_DATE, Z_MILL_SOURCE, Z_LENGTH, Z_STANDARD\n     , Z_BAT_LOCATOR_A\n     , Z_BAT_LOCATOR_B\n     , Z_BAT_LOCATOR_C\n     , Z_PCS_PER_HEAT\n     , Z_KG_PER_BLD\n     , Z_PCS_PER_BLD\n     , Z_KG_PER_PCS\n     , Z_KG_PER_COIL\n     , Z_ACT_COI_WT\n     , Z_MAC_NO\n     , Z_COIL_NO\n     , Z_TOTAL_CUT\n     , Z_TOTAL_BEND\n     , Z_TOTAL_LINK\n     , Z_CUT_PER_TON\n     , Z_BEND_PER_TON\n     , Z_LINK_PER_TON\n     , Z_COU_GRA\n     , Z_COU_REF\n     , Z_NO_OF_END\n     , Z_COU_DIA_1\n     , Z_COU_DIA_2\n     , Z_COU_TYPE_1\n     , Z_COU_TYPE_2\n     , Z_NO_OF_PNT\n     , Z_TAG_NO\n     , Z_MAC_TPL\n     , Z_NO_OF_STR\n     , Z_AREA_PER_PC\n     , Z_WT_PER_PC\n     , Z_CON_MAT\n     , Z_CONSUME_BATCHE\n     , Z_SHAPE_CODE\n     , Z_INV_LEN\n     , Z_WBS1\n     , Z_WBS2\n     , Z_WBS3\n     , Z_BBSNO\n     , Z_PROD_MARK\n     , Z_MW_SPA\n     , Z_CW_SPA\n     , Z_MW_LEN\n     , Z_CW_LEN\n     , Z_PIECES\n     , Z_CW_OVR_HANG1\n     , Z_CW_OVR_HANG2\n     , Z_MW_OVR_HANG1\n     , Z_MW_OVR_HANG2\n     , Z_BBS_DESC\n     , PLANT_D\n     , LGORT_D\n     ,MATNR_D\n     , QUANTITY_D\n     , CHARG_D\n     , SHIFT\n     , REV_STATUS\n     ,PROD_STATUS\n     , STATUS\n     , ERROR_CD\n     , REC_TYPE\n     , PROC_TS\n     , INTER_ID\n     , UDATE\n     , UTIME\n     , USERID\n     , NDS_SALE_ORDER\n     , ORDER_ITEM\n     FROM [dbo].[T_NSA_GR_STAGING]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT"
+										},
+										"sink": {
+											"path": "$['$MANDT']"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG"
+										},
+										"sink": {
+											"path": "$['$CHARG']"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_AIM"
+										},
+										"sink": {
+											"path": "$['$MATNR_AIM']"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP"
+										},
+										"sink": {
+											"path": "$['$TIMESTAMP']"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_ACH"
+										},
+										"sink": {
+											"path": "$['$MATNR_ACH']"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY"
+										},
+										"sink": {
+											"path": "$['$QUANTITY']"
+										}
+									},
+									{
+										"source": {
+											"name": "MEINS"
+										},
+										"sink": {
+											"path": "$['$MEINS']"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART"
+										},
+										"sink": {
+											"path": "$['$AUART']"
+										}
+									},
+									{
+										"source": {
+											"name": "AUFNR"
+										},
+										"sink": {
+											"path": "$['$AUFNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "BLDAT"
+										},
+										"sink": {
+											"path": "$['$BLDAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "BUDAT"
+										},
+										"sink": {
+											"path": "$['$BUDAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "PCODE"
+										},
+										"sink": {
+											"path": "$['$PCODE']"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT"
+										},
+										"sink": {
+											"path": "$['$PLANT']"
+										}
+									},
+									{
+										"source": {
+											"name": "NO_OF_GI_REC"
+										},
+										"sink": {
+											"path": "$['$NO_OF_GI_REC']"
+										}
+									},
+									{
+										"source": {
+											"name": "VBELN"
+										},
+										"sink": {
+											"path": "$['$VBELN']"
+										}
+									},
+									{
+										"source": {
+											"name": "POSNR"
+										},
+										"sink": {
+											"path": "$['$POSNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "MBLNR"
+										},
+										"sink": {
+											"path": "$['$MBLNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "MJAHR"
+										},
+										"sink": {
+											"path": "$['$MJAHR']"
+										}
+									},
+									{
+										"source": {
+											"name": "RUECK"
+										},
+										"sink": {
+											"path": "$['$RUECK']"
+										}
+									},
+									{
+										"source": {
+											"name": "RMZHL"
+										},
+										"sink": {
+											"path": "$['$RMZHL']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RUECK"
+										},
+										"sink": {
+											"path": "$['$REV_RUECK']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RMZHL"
+										},
+										"sink": {
+											"path": "$['$REV_RMZHL']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_HEAT_NO"
+										},
+										"sink": {
+											"path": "$['$Z_HEAT_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_THEO_WT"
+										},
+										"sink": {
+											"path": "$['$Z_THEO_WT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHIFT"
+										},
+										"sink": {
+											"path": "$['$Z_SHIFT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_DATE"
+										},
+										"sink": {
+											"path": "$['$Z_PROD_DATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MILL_SOURCE"
+										},
+										"sink": {
+											"path": "$['$Z_MILL_SOURCE']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LENGTH"
+										},
+										"sink": {
+											"path": "$['$Z_LENGTH']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_STANDARD"
+										},
+										"sink": {
+											"path": "$['$Z_STANDARD']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_A"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_A']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_B"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_B']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_C"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_C']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_HEAT"
+										},
+										"sink": {
+											"path": "$['$Z_PCS_PER_HEAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_BLD"
+										},
+										"sink": {
+											"path": "$['$Z_KG_PER_BLD']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PCS_PER_BLD"
+										},
+										"sink": {
+											"path": "$['$Z_PCS_PER_BLD']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_KG_PER_COIL"
+										},
+										"sink": {
+											"path": "$['$Z_KG_PER_COIL']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_ACT_COI_WT"
+										},
+										"sink": {
+											"path": "$['$Z_ACT_COI_WT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_NO"
+										},
+										"sink": {
+											"path": "$['$Z_MAC_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COIL_NO"
+										},
+										"sink": {
+											"path": "$['$Z_COIL_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_CUT"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_CUT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_BEND"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_BEND']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_LINK"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_LINK']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CUT_PER_TON"
+										},
+										"sink": {
+											"path": "$['$Z_CUT_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BEND_PER_TON"
+										},
+										"sink": {
+											"path": "$['$Z_BEND_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_LINK_PER_TON"
+										},
+										"sink": {
+											"path": "$['$Z_LINK_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_GRA"
+										},
+										"sink": {
+											"path": "$['$Z_COU_GRA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_REF"
+										},
+										"sink": {
+											"path": "$['$Z_COU_REF']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_END"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_END']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_1"
+										},
+										"sink": {
+											"path": "$['$Z_COU_DIA_1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_2"
+										},
+										"sink": {
+											"path": "$['$Z_COU_DIA_2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_1"
+										},
+										"sink": {
+											"path": "$['$Z_COU_TYPE_1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_2"
+										},
+										"sink": {
+											"path": "$['$Z_COU_TYPE_2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_PNT"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_PNT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TAG_NO"
+										},
+										"sink": {
+											"path": "$['$Z_TAG_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_TPL"
+										},
+										"sink": {
+											"path": "$['$Z_MAC_TPL']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_STR"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_STR']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_AREA_PER_PC"
+										},
+										"sink": {
+											"path": "$['$Z_AREA_PER_PC']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CON_MAT"
+										},
+										"sink": {
+											"path": "$['$Z_CON_MAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CONSUME_BATCHE"
+										},
+										"sink": {
+											"path": "$['$Z_CONSUME_BATCHES']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHAPE_CODE"
+										},
+										"sink": {
+											"path": "$['$Z_SHAPE_CODE']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_INV_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_INV_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS1"
+										},
+										"sink": {
+											"path": "$['$Z_WBS1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS2"
+										},
+										"sink": {
+											"path": "$['$Z_WBS2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS3"
+										},
+										"sink": {
+											"path": "$['$Z_WBS3']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBSNO"
+										},
+										"sink": {
+											"path": "$['$Z_BBSNO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_MARK"
+										},
+										"sink": {
+											"path": "$['$Z_PROD_MARK']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_SPA"
+										},
+										"sink": {
+											"path": "$['$Z_MW_SPA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_SPA"
+										},
+										"sink": {
+											"path": "$['$Z_CW_SPA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_MW_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_CW_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PIECES"
+										},
+										"sink": {
+											"path": "$['$Z_PIECES']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG1"
+										},
+										"sink": {
+											"path": "$['$Z_CW_OVR_HANG1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG2"
+										},
+										"sink": {
+											"path": "$['$Z_CW_OVR_HANG2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG1"
+										},
+										"sink": {
+											"path": "$['$Z_MW_OVR_HANG1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG2"
+										},
+										"sink": {
+											"path": "$['$Z_MW_OVR_HANG2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBS_DESC"
+										},
+										"sink": {
+											"path": "$['$Z_BBS_DESC']"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT_D"
+										},
+										"sink": {
+											"path": "$['$PLANT_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT_D"
+										},
+										"sink": {
+											"path": "$['$LGORT']"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR_D"
+										},
+										"sink": {
+											"path": "$['$MATNR_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY_D"
+										},
+										"sink": {
+											"path": "$['$QUANTITY_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG_D"
+										},
+										"sink": {
+											"path": "$['$CHARG_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "SHIFT"
+										},
+										"sink": {
+											"path": "$['$SHIFT']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_STATUS"
+										},
+										"sink": {
+											"path": "$['$REV_STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROD_STATUS"
+										},
+										"sink": {
+											"path": "$['$PROD_STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS"
+										},
+										"sink": {
+											"path": "$['$STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD"
+										},
+										"sink": {
+											"path": "$['$ERROR_CD']"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE"
+										},
+										"sink": {
+											"path": "$['$REC_TYPE']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS"
+										},
+										"sink": {
+											"path": "$['$PROC_TS']"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID"
+										},
+										"sink": {
+											"path": "$['$INTER_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE"
+										},
+										"sink": {
+											"path": "$['$UDATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME"
+										},
+										"sink": {
+											"path": "$['$UTIME']"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID"
+										},
+										"sink": {
+											"path": "$['$USERID']"
+										}
+									},
+									{
+										"source": {
+											"name": "NDS_SALE_ORDER"
+										},
+										"sink": {
+											"path": "$['$NDS_SALE_ORDER']"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDER_ITEM"
+										},
+										"sink": {
+											"path": "$['$ORDER_ITEM']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "GRIntermediate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "RestResourceGR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Truncate_Intermediate_Data",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "SendtoQueue",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "truncate table [dbo].[T_NSA_GR_STAGING]"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "TriggerToSubscriber",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Truncate_Intermediate_Data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_SAP_GR_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": false,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"STATUS": {
+						"type": "string",
+						"defaultValue": "STATUS"
+					}
+				},
+				"variables": {
+					"MANDT": {
+						"type": "Array"
+					},
+					"ID_MESSAGE": {
+						"type": "Array"
+					},
+					"AIM_MATL_NO": {
+						"type": "Array"
+					},
+					"ACH_MATL_NO": {
+						"type": "Array"
+					},
+					"BASE_UOM": {
+						"type": "Array"
+					},
+					"ORD_TYPE": {
+						"type": "Integer",
+						"defaultValue": 0
+					},
+					"ORD_NO": {
+						"type": "Array"
+					},
+					"DOCU_DATE": {
+						"type": "Array"
+					},
+					"POSTG_DATE": {
+						"type": "Array"
+					},
+					"PCODE": {
+						"type": "Array"
+					},
+					"PLANT": {
+						"type": "Array"
+					},
+					"STOR_LOC": {
+						"type": "Array"
+					},
+					"NO_GI_RECS": {
+						"type": "Array"
+					},
+					"SD_DOCU_NO": {
+						"type": "Array"
+					},
+					" ITEM_NO": {
+						"type": "Array"
+					},
+					"STATUS": {
+						"type": "Array"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-10-26T12:03:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_Ignition_GR_Pub_Copy2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SelectGRData",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "select top 10 \nISNULL(nullif(LTRIM(RTRIM(MANDT)),''), ' ') AS MANDT,\nISNULL(nullif(LTRIM(RTRIM(ID_MESSAGE)),''), ' ') AS ID_MESSAGE, \nISNULL(nullif(LTRIM(RTRIM(AIM_MATL_NO)),''), ' ') AS AIM_MATL_NO, \nISNULL(nullif(LTRIM(RTRIM(ACH_MATL_NO)),''), ' ') AS ACH_MATL_NO, \nISNULL(nullif(LTRIM(RTRIM(BASE_UOM)),''), ' ') AS BASE_UOM, \n'0' as ORD_TYPE,\nISNULL(nullif(LTRIM(RTRIM(ORD_NO)),''), ' ') AS ORD_NO, \nISNULL(nullif(LTRIM(RTRIM(DOCU_DATE)),''), ' ') AS DOCU_DATE, \nISNULL(nullif(LTRIM(RTRIM(POSTG_DATE)),''), ' ') AS POSTG_DATE,\nISNULL(nullif(LTRIM(RTRIM(PCODE)),''), ' ') AS PCODE, \nISNULL(nullif(LTRIM(RTRIM(PLANT)),''), ' ') AS PLANT,\nISNULL(nullif(LTRIM(RTRIM(STOR_LOC)),''), ' ') AS STOR_LOC, \n'  ' AS NO_GI_RECS, \n'  ' AS SD_DOCU_NO,\n'  ' AS ITEM_NO,\nISNULL(nullif(LTRIM(RTRIM(NO_MATL_DOCU)),''), ' ') AS NO_MATL_DOCU,\nISNULL(ZBC_THEO_WT,0) AS ZBC_THEO_WT,\nISNULL(nullif(LTRIM(RTRIM(MATL_DOCU_YR)),''), ' ') AS MATL_DOCU_YR, \nISNULL(nullif(LTRIM(RTRIM(CFRM_NO_OP)),''), ' ') AS CFRM_NO_OP,\nISNULL(nullif(LTRIM(RTRIM(CFRM_CNTR)),''), ' ') AS CFRM_CNTR,\nISNULL(nullif(LTRIM(RTRIM(CFRM_NO_REVOP)),''), ' ') AS CFRM_NO_REVOP, \nISNULL(nullif(LTRIM(RTRIM(CFRM_REVCNTR)),''), ' ') AS CFRM_REVCNTR, \nISNULL(nullif(LTRIM(RTRIM(ZBC_HEAT_NO)),''), ' ') AS ZBC_HEAT_NO,  \n'  '  AS ZBC_WT_PER_PCS, \nISNULL(ZBC_WT_PER_COIL,0) AS ZBC_WT_PER_COIL, \nISNULL(ZBC_ACT_COI_WT,0) AS ZBC_ACT_COI_WT, \nISNULL(nullif(LTRIM(RTRIM(ZBC_SHIFT)),''), ' ') AS ZBC_SHIFT,\nISNULL(nullif(LTRIM(RTRIM(ZBC_MILL_SOURCE)),''), ' ') AS ZBC_MILL_SOURCE, \nISNULL(nullif(LTRIM(RTRIM(ZBC_LENGTH)),''), ' ') AS ZBC_LENGTH,\nISNULL(nullif(LTRIM(RTRIM(ZBC_STANDARD)),''), ' ') AS ZBC_STANDARD, \nISNULL(nullif(LTRIM(RTRIM(ZBC_PCS_PER_HEAT)),''), ' ') AS ZBC_PCS_PER_HEAT,\n'  '  AS ZBC_NO_OF_CUT,\n'  '  AS ZBC_NO_OF_BEND,\n'  '  AS ZBC_NO_OF_LINK,\nISNULL(nullif(LTRIM(RTRIM(ZBC_WT_PER_BLD)),''), ' ') AS ZBC_WT_PER_BLD,\nISNULL(nullif(LTRIM(RTRIM(ZBC_PCS_PER_BLD)),''), ' ') AS ZBC_PCS_PER_BLD,\nISNULL(ZBC_COU_DIA_1,0) AS ZBC_COU_DIA_1,\nISNULL(ZBC_COU_DIA_2,0) AS ZBC_COU_DIA_2,\n'  '  AS ZBC_COU_TYPE_1,\n'  '  AS ZBC_COU_TYPE_2,\n'  '  AS ZBC_MAC_NO, \n'  '  AS ZBC_COIL_NO, \n'  ' AS ZBC_COU_GRA, \n'  ' AS ZBC_COU_TRF,\n'  ' AS ZBC_NO_OF_END,\nISNULL(nullif(LTRIM(RTRIM(ZBC_COU_DIA_1)),''), ' ') AS ZBC_COU_DIA_1, \nISNULL(ZBC_AREA_PER_PC,0) AS ZBC_AREA_PER_PC,\nISNULL(ZBC_WT_PER_PC_MESH,0) AS ZBC_WT_PER_PC_MESH,\nISNULL(nullif(LTRIM(RTRIM(ZBC_COU_DIA_2)),''), ' ') AS ZBC_COU_DIA_2, \nISNULL(nullif(LTRIM(RTRIM(ZBC_NO_OF_PNT)),''), ' ') AS ZBC_NO_OF_PNT, \nISNULL(nullif(LTRIM(RTRIM(ZBC_TAG_NO)),''), ' ') AS ZBC_TAG_NO, \nISNULL(QUANTITY_D,0) AS QUANTITY_D,\n'  '  AS ZBC_MAC_TPL, \n'  '  AS ZBC_NO_OF_STR,\nISNULL(nullif(LTRIM(RTRIM(PLANT_D)),''), ' ') AS PLANT_D, \nISNULL(nullif(STOR_LOC_D,''), ' ') AS STOR_LOC_D,\nISNULL(nullif(LTRIM(RTRIM(MATL_NO_D)),''), ' ') AS MATL_NO_D,\nISNULL(nullif(LTRIM(RTRIM(CHARG_D)),''), ' ') AS CHARG_D,\nISNULL(nullif(LTRIM(RTRIM(SHIFT)),''), ' ') AS SHIFT,\nISNULL(nullif(LTRIM(RTRIM(REV_STATUS)),''), ' ') AS REV_STATUS,\n'  '  AS PROD_STATUS,\nSTATUS, \nISNULL(nullif(LTRIM(RTRIM(ERROR_CD)),''), ' ') ERROR_CD,\nISNULL(nullif(LTRIM(RTRIM(NIS_MESSAGEID)),''), ' ') NIS_MESSAGEID,\nISNULL(nullif(LTRIM(RTRIM(PROD_DATE)),''), ' ') PROD_DATE,\nISNULL(nullif(LTRIM(RTRIM(CUT_PER_TON)),''), ' ') CUT_PER_TON,\nISNULL(nullif(LTRIM(RTRIM(BEND_PER_TON)),''), ' ') BEND_PER_TON,\nISNULL(nullif(LTRIM(RTRIM(LINK_PER_TON)),''), ' ') LINK_PER_TON,\nISNULL(nullif(LTRIM(RTRIM(CONSUME_BATCHES)),''), ' ') AS CONSUME_BATCHES,\n'  '  AS BAT_LOCATOR_A, \n'  '  AS BAT_LOCATOR_B, \n'  '  AS BAT_LOCATOR_C, \nISNULL(nullif(LTRIM(RTRIM(CON_MAT)),''), ' ') AS CON_MAT,\nREC_TYPE\nFROM [dbo].[T_NSA_GR] \nWHERE STATUS = 'A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "UpdateStatusT",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "SelectGRData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"parameters": [
+										{
+											"name": "ORD_TYPE",
+											"type": "String",
+											"value": "0",
+											"direction": "Output",
+											"size": "1"
+										}
+									],
+									"type": "Query",
+									"text": "UPDATE [dbo].[T_NSA_GR] SET STATUS = 'T' WHERE STATUS = 'A' "
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Wait10Sec",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
+					},
+					{
+						"name": "SendtoQueue",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Wait10Sec",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT [MANDT] as MANDT\n     ,[CHARG] as CHARG\n     ,isnull(AIM_MATL_NO, ' ') as AIM_MATL_NO\n     ,isnull(ID_MESSAGE, ' ') as ID_MESSAGE\n     ,isnull(ACH_MATL_NO, ' ') as ACH_MATL_NO\n     ,Isnull (TOT_QTY, '0') as TOT_QTY\n     ,isnull(BASE_UOM, ' ') as BASE_UOM\n     ,' ' as AUART\n     ,isnull(ORD_NO, ' ') as ORD_NO\n     ,isnull(DOCU_DATE, ' ') as DOCU_DATE\n     ,isnull(POSTG_DATE, ' ') as POSTG_DATE\n     ,[PCODE] as PCODE\n     ,[PLANT] as PLANT\n     ,[STOR_LOC] as STOR_LOC\n     ,'    ' as NO_OF_GI_REC\n     ,'          ' as VBELN\n     ,' ' as POSNR\n     ,'          ' as MBLNR\n     ,' ' as MJAHR\n     ,' ' as RUECK\n     ,' ' as RMZHL\n     ,' ' as REV_RUECK\n     ,' ' as REV_RMZHL\n     ,isnull(ZBC_HEAT_NO, ' ') as ZBC_HEAT_NO\n     ,isnull([ZBC_THEO_WT],0.000) as ZBC_THEO_WT\n     ,isnull([ZBC_SHIFT],' ') as ZBC_SHIFT\n     ,Isnull (PROD_DATE, '') as PROD_DATE\n     ,isnull(ZBC_MILL_SOURCE, ' ') as ZBC_MILL_SOURCE\n\t ,isnull(ZBC_LENGTH, ' ') as ZBC_LENGTH\n     ,isnull(ZBC_STANDARD, ' ') as ZBC_STANDARD\n     ,' ' as Z_BAT_LOCATOR_A\n     ,' ' as Z_BAT_LOCATOR_B\n     ,' ' as Z_BAT_LOCATOR_C\n     ,isnull([ZBC_PCS_PER_HEAT],' ') as ZBC_PCS_PER_HEAT\n     ,isnull([ZBC_WT_PER_BLD],0.000) as ZBC_WT_PER_BLD\n     ,isnull([ZBC_PCS_PER_BLD],' ') as ZBC_PCS_PER_BLD\n     ,isnull([ZBC_WT_PER_PCS],0.000) as ZBC_WT_PER_PCS\n     ,isnull([ZBC_WT_PER_COIL],0.000) as ZBC_WT_PER_COIL\n     ,isnull([ZBC_ACT_COI_WT],0.000) as ZBC_ACT_COI_WT\n     ,'        ' as Z_MAC_NO\n     ,'        ' as Z_COIL_NO\n     ,' ' as Z_TOTAL_CUT\n     ,' ' as Z_TOTAL_BEND\n     ,' ' as Z_TOTAL_LINK\n     ,isnull([CUT_PER_TON],0.00) as CUT_PER_TON\n     ,isnull([BEND_PER_TON],0.00) as BEND_PER_TON\n     ,isnull([LINK_PER_TON],0.00) as LINK_PER_TON\n     ,'        ' as Z_COU_GRA\n     ,'        ' as Z_COU_REF\n     ,' ' as Z_NO_OF_END\n     ,0.00 as Z_COU_DIA_1\n     ,0.00 as Z_COU_DIA_2\n     ,' ' as Z_COU_TYPE_1\n     ,' ' as Z_COU_TYPE_2\n     ,' ' as Z_NO_OF_PNT\n     ,' ' as Z_TAG_NO\n     ,' ' as Z_MAC_TPL\n     ,' ' as Z_NO_OF_STR\n     ,0.000 as Z_AREA_PER_PC\n     ,isnull([CON_MAT],' ') as CON_MAT\n     ,isnull([CONSUME_BATCHES],' ') as CONSUME_BATCHES\n     ,' ' as Z_SHAPE_CODE\n     ,' ' as Z_INV_LEN\n     ,' ' as Z_WBS1\n     ,' ' as Z_WBS2\n     ,' ' as Z_WBS3\n     ,' ' as Z_BBSNO\n     ,' ' as Z_PROD_MARK\n     ,0.00 as Z_MW_SPA\n     ,0.00 as Z_CW_SPA\n     ,' ' as Z_MW_LEN\n     ,' ' as Z_CW_LEN\n     ,' ' as Z_PIECES\n     ,'0' as Z_CW_OVR_HANG1\n     ,'0' as Z_CW_OVR_HANG2\n     ,'0' as Z_MW_OVR_HANG1\n     ,'0' as Z_MW_OVR_HANG2\n     ,' ' as Z_BBS_DESC\n     ,isnull([PLANT_D],' ') as PLANT_D\n     ,isnull([STOR_LOC_D],' ') as STOR_LOC_D\n     ,isnull([MATL_NO_D],' ') as MATL_NO_D\n     ,isnull([QUANTITY_D],0.000) as QUANTITY_D\n     ,isnull([CHARG_D],' ') as CHARG_D\n     ,[SHIFT] as SHIFT\n     ,' ' as REV_STATUS\n     ,' ' as PROD_STATUS\n     ,'A' as STATUS\n     ,' ' as ERROR_CD\n     ,[REC_TYPE] as REC_TYPE\n     ,' ' as PROC_TS\n     ,[INTERFACE_ID] as INTERFACE_ID\n     ,'00000000' as UDATE\n     ,'000000' as UTIME\n     ,'BGDJOBS' as USERID\n     ,' ' as NDS_SALE_ORDER\n     ,' ' as ORDER_ITEM\n     FROM [dbo].[T_NSA_GR] where status='T'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT"
+										},
+										"sink": {
+											"path": "$['$MANDT']"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG"
+										},
+										"sink": {
+											"path": "$['$CHARG']"
+										}
+									},
+									{
+										"source": {
+											"name": "AIM_MATL_NO"
+										},
+										"sink": {
+											"path": "$['$AIM_MATL_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "ID_MESSAGE"
+										},
+										"sink": {
+											"path": "$['$ID_MESSAGE']"
+										}
+									},
+									{
+										"source": {
+											"name": "ACH_MATL_NO"
+										},
+										"sink": {
+											"path": "$['$ACH_MATL_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "TOT_QTY"
+										},
+										"sink": {
+											"path": "$['$QUANTITY']"
+										}
+									},
+									{
+										"source": {
+											"name": "BASE_UOM"
+										},
+										"sink": {
+											"path": "$['$MEINS']"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART"
+										},
+										"sink": {
+											"path": "$['$AUART']"
+										}
+									},
+									{
+										"source": {
+											"name": "ORD_NO"
+										},
+										"sink": {
+											"path": "$['$AUFNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "DOCU_DATE"
+										},
+										"sink": {
+											"path": "$['$BLDAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "POSTG_DATE"
+										},
+										"sink": {
+											"path": "$['$BUDAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "PCODE"
+										},
+										"sink": {
+											"path": "$['$PCODE']"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT"
+										},
+										"sink": {
+											"path": "$['$PLANT']"
+										}
+									},
+									{
+										"source": {
+											"name": "NO_OF_GI_REC"
+										},
+										"sink": {
+											"path": "$['$NO_OF_GI_REC']"
+										}
+									},
+									{
+										"source": {
+											"name": "VBELN"
+										},
+										"sink": {
+											"path": "$['$VBELN']"
+										}
+									},
+									{
+										"source": {
+											"name": "POSNR"
+										},
+										"sink": {
+											"path": "$['$POSNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "MBLNR"
+										},
+										"sink": {
+											"path": "$['$MBLNR']"
+										}
+									},
+									{
+										"source": {
+											"name": "MJAHR"
+										},
+										"sink": {
+											"path": "$['$MJAHR']"
+										}
+									},
+									{
+										"source": {
+											"name": "RUECK"
+										},
+										"sink": {
+											"path": "$['$RUECK']"
+										}
+									},
+									{
+										"source": {
+											"name": "RMZHL"
+										},
+										"sink": {
+											"path": "$['$RMZHL']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RUECK"
+										},
+										"sink": {
+											"path": "$['$REV_RUECK']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_RMZHL"
+										},
+										"sink": {
+											"path": "$['$REV_RMZHL']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_HEAT_NO"
+										},
+										"sink": {
+											"path": "$['$ZBC_HEAT_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_THEO_WT"
+										},
+										"sink": {
+											"path": "$['$ZBC_THEO_WT']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_SHIFT"
+										},
+										"sink": {
+											"path": "$['$ZBC_SHIFT']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROD_DATE"
+										},
+										"sink": {
+											"path": "$['$PROD_DATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_MILL_SOURCE"
+										},
+										"sink": {
+											"path": "$['$ZBC_MILL_SOURCE']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_LENGTH"
+										},
+										"sink": {
+											"path": "$['$ZBC_LENGTH']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_STANDARD"
+										},
+										"sink": {
+											"path": "$['$ZBC_STANDARD']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_A"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_A']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_B"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_B']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BAT_LOCATOR_C"
+										},
+										"sink": {
+											"path": "$['$Z_BAT_LOCATOR_C']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_PCS_PER_HEAT"
+										},
+										"sink": {
+											"path": "$['$ZBC_PCS_PER_HEAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_WT_PER_BLD"
+										},
+										"sink": {
+											"path": "$['$ZBC_WT_PER_BLD']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_PCS_PER_BLD"
+										},
+										"sink": {
+											"path": "$['$ZBC_PCS_PER_BLD']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_WT_PER_COIL"
+										},
+										"sink": {
+											"path": "$['$ZBC_WT_PER_COIL']"
+										}
+									},
+									{
+										"source": {
+											"name": "ZBC_ACT_COI_WT"
+										},
+										"sink": {
+											"path": "$['$ZBC_ACT_COI_WT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_NO"
+										},
+										"sink": {
+											"path": "$['$Z_MAC_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COIL_NO"
+										},
+										"sink": {
+											"path": "$['$Z_COIL_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_CUT"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_CUT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_BEND"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_BEND']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TOTAL_LINK"
+										},
+										"sink": {
+											"path": "$['$Z_TOTAL_LINK']"
+										}
+									},
+									{
+										"source": {
+											"name": "CUT_PER_TON"
+										},
+										"sink": {
+											"path": "$['$CUT_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "BEND_PER_TON"
+										},
+										"sink": {
+											"path": "$['$BEND_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "LINK_PER_TON"
+										},
+										"sink": {
+											"path": "$['$LINK_PER_TON']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_GRA"
+										},
+										"sink": {
+											"path": "$['$Z_COU_GRA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_REF"
+										},
+										"sink": {
+											"path": "$['$Z_COU_REF']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_END"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_END']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_1"
+										},
+										"sink": {
+											"path": "$['$Z_COU_DIA_1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_DIA_2"
+										},
+										"sink": {
+											"path": "$['$Z_COU_DIA_2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_1"
+										},
+										"sink": {
+											"path": "$['$Z_COU_TYPE_1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_COU_TYPE_2"
+										},
+										"sink": {
+											"path": "$['$Z_COU_TYPE_2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_PNT"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_PNT']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_TAG_NO"
+										},
+										"sink": {
+											"path": "$['$Z_TAG_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MAC_TPL"
+										},
+										"sink": {
+											"path": "$['$Z_MAC_TPL']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_NO_OF_STR"
+										},
+										"sink": {
+											"path": "$['$Z_NO_OF_STR']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_AREA_PER_PC"
+										},
+										"sink": {
+											"path": "$['$Z_AREA_PER_PC']"
+										}
+									},
+									{
+										"source": {
+											"name": "CON_MAT"
+										},
+										"sink": {
+											"path": "$['$CON_MAT']"
+										}
+									},
+									{
+										"source": {
+											"name": "CONSUME_BATCHES"
+										},
+										"sink": {
+											"path": "$['$CONSUME_BATCHES']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_SHAPE_CODE"
+										},
+										"sink": {
+											"path": "$['$Z_SHAPE_CODE']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_INV_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_INV_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS1"
+										},
+										"sink": {
+											"path": "$['$Z_WBS1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS2"
+										},
+										"sink": {
+											"path": "$['$Z_WBS2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_WBS3"
+										},
+										"sink": {
+											"path": "$['$Z_WBS3']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBSNO"
+										},
+										"sink": {
+											"path": "$['$Z_BBSNO']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PROD_MARK"
+										},
+										"sink": {
+											"path": "$['$Z_PROD_MARK']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_SPA"
+										},
+										"sink": {
+											"path": "$['$Z_MW_SPA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_SPA"
+										},
+										"sink": {
+											"path": "$['$Z_CW_SPA']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_MW_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_LEN"
+										},
+										"sink": {
+											"path": "$['$Z_CW_LEN']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_PIECES"
+										},
+										"sink": {
+											"path": "$['$Z_PIECES']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG1"
+										},
+										"sink": {
+											"path": "$['$Z_CW_OVR_HANG1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_CW_OVR_HANG2"
+										},
+										"sink": {
+											"path": "$['$Z_CW_OVR_HANG2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG1"
+										},
+										"sink": {
+											"path": "$['$Z_MW_OVR_HANG1']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_MW_OVR_HANG2"
+										},
+										"sink": {
+											"path": "$['$Z_MW_OVR_HANG2']"
+										}
+									},
+									{
+										"source": {
+											"name": "Z_BBS_DESC"
+										},
+										"sink": {
+											"path": "$['$Z_BBS_DESC']"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT_D"
+										},
+										"sink": {
+											"path": "$['$PLANT_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "STOR_LOC"
+										},
+										"sink": {
+											"path": "$['$STOR_LOC']"
+										}
+									},
+									{
+										"source": {
+											"name": "MATL_NO_D"
+										},
+										"sink": {
+											"path": "$['$MATL_NO_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITY_D"
+										},
+										"sink": {
+											"path": "$['$QUANTITY_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG_D"
+										},
+										"sink": {
+											"path": "$['$CHARG_D']"
+										}
+									},
+									{
+										"source": {
+											"name": "SHIFT"
+										},
+										"sink": {
+											"path": "$['$SHIFT']"
+										}
+									},
+									{
+										"source": {
+											"name": "REV_STATUS"
+										},
+										"sink": {
+											"path": "$['$REV_STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROD_STATUS"
+										},
+										"sink": {
+											"path": "$['$PROD_STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS"
+										},
+										"sink": {
+											"path": "$['$STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD"
+										},
+										"sink": {
+											"path": "$['$ERROR_CD']"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE"
+										},
+										"sink": {
+											"path": "$['$REC_TYPE']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS"
+										},
+										"sink": {
+											"path": "$['$PROC_TS']"
+										}
+									},
+									{
+										"source": {
+											"name": "INTERFACE_ID"
+										},
+										"sink": {
+											"path": "$['$INTERFACE_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE"
+										},
+										"sink": {
+											"path": "$['$UDATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME"
+										},
+										"sink": {
+											"path": "$['$UTIME']"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID"
+										},
+										"sink": {
+											"path": "$['$USERID']"
+										}
+									},
+									{
+										"source": {
+											"name": "NDS_SALE_ORDER"
+										},
+										"sink": {
+											"path": "$['$NDS_SALE_ORDER']"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDER_ITEM"
+										},
+										"sink": {
+											"path": "$['$ORDER_ITEM']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "MESGR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "RestResourceGR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "TriggertoSub",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "SendtoQueue",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_SAP_GR_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"MANDT": {
+						"type": "Array"
+					},
+					"ID_MESSAGE": {
+						"type": "Array"
+					},
+					"AIM_MATL_NO": {
+						"type": "Array"
+					},
+					"ACH_MATL_NO": {
+						"type": "Array"
+					},
+					"BASE_UOM": {
+						"type": "Array"
+					},
+					"ORD_TYPE": {
+						"type": "Integer",
+						"defaultValue": 0
+					},
+					"ORD_NO": {
+						"type": "Array"
+					},
+					"DOCU_DATE": {
+						"type": "Array"
+					},
+					"POSTG_DATE": {
+						"type": "Array"
+					},
+					"PCODE": {
+						"type": "Array"
+					},
+					"PLANT": {
+						"type": "Array"
+					},
+					"STOR_LOC": {
+						"type": "Array"
+					},
+					"NO_GI_RECS": {
+						"type": "Array"
+					},
+					"SD_DOCU_NO": {
+						"type": "Array"
+					},
+					" ITEM_NO": {
+						"type": "Array"
+					},
+					"STATUS": {
+						"type": "Array"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-10-12T12:07:44Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/GR')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "ReadGRMesssage",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "PostGRMessageSQL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 30,
+						"startTime": "2023-09-09T20:39:00",
+						"timeZone": "Singapore Standard Time"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MESGR')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ignition-->SAP GR Data Posting",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "NSH_Ignition_GR_Pub_Copy2",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "NSH_Ignition_GR_Pub",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "NSH_SAP_GR_Sub",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 30,
+						"startTime": "2023-10-03T08:09:00",
+						"timeZone": "Singapore Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/NSH_Ignition_GR_Pub_Copy2')]",
+				"[concat(variables('factoryId'), '/pipelines/NSH_Ignition_GR_Pub')]"
+			]
+		}
+	]
+}
