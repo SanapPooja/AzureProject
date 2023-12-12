@@ -446,15 +446,6 @@
 									"name": "USERID",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['$ACTIVITY2']"
-								},
-								"sink": {
-									"name": "ACTIVITY2",
-									"type": "String"
-								}
 							}
 						]
 					}
@@ -471,8 +462,128 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Delete_Act_Queue",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "PostACTRecords_to_SAP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
+					"method": "DELETE"
+				}
+			},
+			{
+				"name": "UpdateStatus_Y",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "wait_5sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update t_nsa_gi_act set status='Y' where status='P' and CHARG= @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "wait_5sec",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Delete_Act_Queue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 5
+				}
+			},
+			{
+				"name": "UpdateStatus_E",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "wait_5sec",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update t_nsa_gi_act set status='E' where status='P' and CHARG= @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"GR_CHARG": {
+				"type": "string"
+			},
+			"ID_MESSAGE": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
