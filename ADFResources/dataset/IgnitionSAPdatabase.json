@@ -2,7 +2,7 @@
 	"name": "IgnitionSAPdatabase",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "Oracle1",
+			"referenceName": "Oracle2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
