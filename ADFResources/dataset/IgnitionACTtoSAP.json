@@ -1,0 +1,12 @@
+{
+	"name": "IgnitionACTtoSAP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionACTtoSAP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

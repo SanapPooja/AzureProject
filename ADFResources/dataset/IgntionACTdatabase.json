@@ -1,0 +1,193 @@
+{
+	"name": "IgntionACTdatabase",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "GR_CHARG",
+				"type": "char"
+			},
+			{
+				"name": "GR_AIM_MATL_NO",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "PLANT",
+				"type": "char"
+			},
+			{
+				"name": "DOCU_DATE",
+				"type": "char"
+			},
+			{
+				"name": "POSTG_DATE",
+				"type": "char"
+			},
+			{
+				"name": "TOT_QTY",
+				"type": "varchar"
+			},
+			{
+				"name": "QUANTITY_D",
+				"type": "varchar"
+			},
+			{
+				"name": "OPR_ACTV_NO",
+				"type": "char"
+			},
+			{
+				"name": "ORD_NO",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO1",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY1",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM1",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO2",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY2",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM2",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO3",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY3",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM3",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO4",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY4",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM4",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO5",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY5",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM5",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_NO6",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_QTY6",
+				"type": "char"
+			},
+			{
+				"name": "ACTV_UOM6",
+				"type": "char"
+			},
+			{
+				"name": "SD_DOCU_NO",
+				"type": "char"
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "PCODE",
+				"type": "char"
+			},
+			{
+				"name": "SHIFT",
+				"type": "char"
+			},
+			{
+				"name": "CFRM_NO_OP",
+				"type": "varchar"
+			},
+			{
+				"name": "CFRM_CNTR",
+				"type": "varchar"
+			},
+			{
+				"name": "CFRM_NO_REVOP",
+				"type": "varchar"
+			},
+			{
+				"name": "CFRM_REVCNTR",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "REV_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "char"
+			},
+			{
+				"name": "NIS_MESSAGEID",
+				"type": "char"
+			},
+			{
+				"name": "WRK_CENT",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_NSA_GI_ACT"
+		}
+	}
+}
