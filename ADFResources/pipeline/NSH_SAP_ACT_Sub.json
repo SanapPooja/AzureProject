@@ -484,7 +484,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
-					"method": "DELETE"
+					"method": "DELETE",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			},
 			{
@@ -544,7 +548,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "wait_5sec",
+						"activity": "PostACTRecords_to_SAP",
 						"dependencyConditions": [
 							"Failed"
 						]
