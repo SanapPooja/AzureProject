@@ -4660,7 +4660,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update t_nsa_gi_act set status='Y' where status='P' and CHARG= @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+										"value": "update t_nsa_gi_act set status='Y' where status='P' and GR_CHARG = @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
 										"type": "Expression"
 									}
 								}
@@ -4712,7 +4712,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update t_nsa_gi_act set status='E' where status='P' and CHARG= @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+										"value": "update t_nsa_gi_act set status='E' where status='P' and GR_CHARG= @{pipeline().parameters.GR_CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
 										"type": "Expression"
 									}
 								}
