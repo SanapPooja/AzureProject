@@ -5,14 +5,7 @@
 			{
 				"name": "PostACTRecords_to_SAP",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Execute Pipeline1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -31,10 +24,6 @@
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
-					},
-					"sink": {
-						"type": "OracleSink",
-						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
 					"translator": {
@@ -462,12 +451,6 @@
 						"referenceName": "IgnitionACTQueue",
 						"type": "DatasetReference"
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "IgnitionSAPdatabase",
-						"type": "DatasetReference"
-					}
 				]
 			},
 			{
@@ -584,19 +567,6 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_Ignition_ACT_Pub",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
 				}
 			}
 		],
