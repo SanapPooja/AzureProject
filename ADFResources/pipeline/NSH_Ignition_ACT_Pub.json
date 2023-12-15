@@ -568,7 +568,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_SAP_ACT_Sub",
+						"referenceName": "NSH_Ignition_GR_Pub_Copy2",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
