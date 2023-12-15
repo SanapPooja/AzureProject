@@ -4135,13 +4135,13 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/NSH_SAP_ACT_Sub')]",
+			"name": "[concat(parameters('factoryName'), '/NSH_Ignition_GR_Pub_Copy2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PostACTRecords_to_SAP",
+						"name": "Copy data1",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -4158,7 +4158,6 @@
 								"httpRequestTimeout": "00:01:40",
 								"requestInterval": "00.00:00:00.010",
 								"requestMethod": "POST",
-								"requestBody": "{[],[],[]\n}",
 								"paginationRules": {
 									"supportRFC5988": "true"
 								}
@@ -4253,339 +4252,273 @@
 										}
 									},
 									{
-										"source": {
-											"path": "$QUANTITY_D"
-										},
+										"source": {},
 										"sink": {
 											"name": "QUANTITY_D",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$VORNR"
-										},
+										"source": {},
 										"sink": {
 											"name": "VORNR",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$AUFNR"
-										},
+										"source": {},
 										"sink": {
 											"name": "AUFNR",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACTIVITY1"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACTIVITY1",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY1"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY1",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM1"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM1",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY2"
-										},
+										"source": {},
+										"sink": {
+											"name": "ACTIVITY2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY2",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM2"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM2",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACTIVITY3"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACTIVITY3",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY3"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY3",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM3"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM3",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACTIVITY4"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACTIVITY4",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY4"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY4",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM4"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM4",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACTIVITY5"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACTIVITY5",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY5"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY5",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM5"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM5",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACTIVITY6"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACTIVITY6",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_QTY6"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_QTY6",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ACT_UOM6"
-										},
+										"source": {},
 										"sink": {
 											"name": "ACT_UOM6",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$VBELN"
-										},
+										"source": {},
 										"sink": {
 											"name": "VBELN",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$POSNR"
-										},
+										"source": {},
 										"sink": {
 											"name": "POSNR",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$PCODE"
-										},
+										"source": {},
 										"sink": {
 											"name": "PCODE",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$SHIFT"
-										},
+										"source": {},
 										"sink": {
 											"name": "SHIFT",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$RUECK"
-										},
+										"source": {},
 										"sink": {
 											"name": "RUECK",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$RMZHL"
-										},
+										"source": {},
 										"sink": {
 											"name": "RMZHL",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$REV_RUECK"
-										},
+										"source": {},
 										"sink": {
 											"name": "REV_RUECK",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$REV_RMZHL"
-										},
+										"source": {},
 										"sink": {
 											"name": "REV_RMZHL",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$INTER_ID"
-										},
+										"source": {},
 										"sink": {
 											"name": "INTER_ID",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$REV_STATUS"
-										},
+										"source": {},
 										"sink": {
 											"name": "REV_STATUS",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$REC_TYPE"
-										},
+										"source": {},
 										"sink": {
 											"name": "REC_TYPE",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$STATUS"
-										},
+										"source": {},
 										"sink": {
 											"name": "STATUS",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$ERROR_CD"
-										},
+										"source": {},
 										"sink": {
 											"name": "ERROR_CD",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$PROC_TS"
-										},
+										"source": {},
 										"sink": {
 											"name": "PROC_TS",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$UDATE"
-										},
+										"source": {},
 										"sink": {
 											"name": "UDATE",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$UTIME"
-										},
+										"source": {},
 										"sink": {
 											"name": "UTIME",
 											"type": "String"
 										}
 									},
 									{
-										"source": {
-											"path": "$USERID"
-										},
+										"source": {},
 										"sink": {
 											"name": "USERID",
 											"type": "String"
 										}
 									}
-								]
+								],
+								"collectionReference": ""
 							}
 						},
 						"inputs": [
@@ -4602,137 +4535,64 @@
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "Delete_Act_Queue",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "PostACTRecords_to_SAP",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
-							"method": "DELETE",
-							"headers": {},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://servicebus.azure.net/"
-							}
-						}
-					},
-					{
-						"name": "UpdateStatus_Y",
-						"type": "Script",
-						"dependsOn": [
-							{
-								"activity": "wait_5sec",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": {
-										"value": "update t_nsa_gi_act set status='Y' where status='P';",
-										"type": "Expression"
-									}
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
-						}
-					},
-					{
-						"name": "wait_5sec",
-						"type": "Wait",
-						"dependsOn": [
-							{
-								"activity": "Delete_Act_Queue",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 5
-						}
-					},
-					{
-						"name": "UpdateStatus_E",
-						"type": "Script",
-						"dependsOn": [
-							{
-								"activity": "PostACTRecords_to_SAP",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": {
-										"value": "update t_nsa_gi_act set status='E' where status='P';",
-										"type": "Expression"
-									}
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
-						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"GR_CHARG": {
-						"type": "string"
+				"variables": {
+					"MANDT": {
+						"type": "Array"
 					},
 					"ID_MESSAGE": {
-						"type": "string"
+						"type": "Array"
+					},
+					"AIM_MATL_NO": {
+						"type": "Array"
+					},
+					"ACH_MATL_NO": {
+						"type": "Array"
+					},
+					"BASE_UOM": {
+						"type": "Array"
+					},
+					"ORD_TYPE": {
+						"type": "Integer",
+						"defaultValue": 0
+					},
+					"ORD_NO": {
+						"type": "Array"
+					},
+					"DOCU_DATE": {
+						"type": "Array"
+					},
+					"POSTG_DATE": {
+						"type": "Array"
+					},
+					"PCODE": {
+						"type": "Array"
+					},
+					"PLANT": {
+						"type": "Array"
+					},
+					"STOR_LOC": {
+						"type": "Array"
+					},
+					"NO_GI_RECS": {
+						"type": "Array"
+					},
+					"SD_DOCU_NO": {
+						"type": "Array"
+					},
+					" ITEM_NO": {
+						"type": "Array"
+					},
+					"STATUS": {
+						"type": "Array"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-10-12T12:07:44Z"
 			},
 			"dependsOn": []
 		},
