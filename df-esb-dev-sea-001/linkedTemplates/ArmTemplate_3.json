@@ -4702,7 +4702,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update t_nsa_gi_act set status='Y' where status='T';\n\n\n\n\n\n\n",
+										"value": "update t_nsa_gi_act set status='Y' where status='P';\n\n\n\n\n\n\n",
 										"type": "Expression"
 									}
 								}
@@ -4738,7 +4738,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update t_nsa_gi_act set status='E' where status='T';",
+										"value": "update t_nsa_gi_act set status='E' where status='P';",
 										"type": "Expression"
 									}
 								}
@@ -4774,7 +4774,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update t_nsa_gi_act set status='T' where status='E';",
+										"value": "update t_nsa_gi_act set status='P' where status='E';",
 										"type": "Expression"
 									}
 								}
