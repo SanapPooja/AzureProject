@@ -1,5 +1,5 @@
 {
-	"name": "NSH_Ignition_ACT_Pub",
+	"name": "NSH_Ignition_ACTY_Pub",
 	"properties": {
 		"activities": [
 			{
@@ -568,7 +568,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_Ignition_GR_Pub_Copy2",
+						"referenceName": "NSH_SAP_ACTY_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

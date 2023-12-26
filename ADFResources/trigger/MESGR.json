@@ -7,7 +7,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "NSH_Ignition_GR_Pub_Copy2",
+					"referenceName": "NSH_SAP_ACTY_Sub",
 					"type": "PipelineReference"
 				}
 			},
