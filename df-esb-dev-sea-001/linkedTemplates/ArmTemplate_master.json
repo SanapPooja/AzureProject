@@ -91,6 +91,38 @@
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
+		"IgnitionQC_DTL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+		},
+		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
@@ -222,11 +254,29 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Democonnection_connectionString": {
-						"value": "[parameters('Democonnection_connectionString')]"
+					"IgnitionQC_DTL_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionQC_DTL_properties_typeProperties_url')]"
 					},
-					"FileConnection_password": {
-						"value": "[parameters('FileConnection_password')]"
+					"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionQC_DTL_properties_typeProperties_aadResourceId')]"
+					},
+					"IgnitionQC_DTL_Queue_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionQC_DTL_Queue_properties_typeProperties_url')]"
+					},
+					"IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId')]"
+					},
+					"IgnitionQC_HDR_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionQC_HDR_properties_typeProperties_url')]"
+					},
+					"IgnitionQC_HDR_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionQC_HDR_properties_typeProperties_aadResourceId')]"
+					},
+					"IgnitionQC_HDR_Queue_properties_typeProperties_url": {
+						"value": "[parameters('IgnitionQC_HDR_Queue_properties_typeProperties_url')]"
+					},
+					"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId')]"
 					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"
@@ -248,12 +298,6 @@
 					},
 					"RestServiceSendMessage_properties_typeProperties_aadResourceId": {
 						"value": "[parameters('RestServiceSendMessage_properties_typeProperties_aadResourceId')]"
-					},
-					"FileConnection_properties_typeProperties_host": {
-						"value": "[parameters('FileConnection_properties_typeProperties_host')]"
-					},
-					"FileConnection_properties_typeProperties_userId": {
-						"value": "[parameters('FileConnection_properties_typeProperties_userId')]"
 					}
 				}
 			},
@@ -272,6 +316,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Democonnection_connectionString": {
+						"value": "[parameters('Democonnection_connectionString')]"
+					},
+					"FileConnection_password": {
+						"value": "[parameters('FileConnection_password')]"
 					},
 					"IgnitionQA_connectionString": {
 						"value": "[parameters('IgnitionQA_connectionString')]"
@@ -309,8 +359,11 @@
 					"SqlServer2_connectionString": {
 						"value": "[parameters('SqlServer2_connectionString')]"
 					},
-					"UpstreamMESQA_connectionString": {
-						"value": "[parameters('UpstreamMESQA_connectionString')]"
+					"FileConnection_properties_typeProperties_host": {
+						"value": "[parameters('FileConnection_properties_typeProperties_host')]"
+					},
+					"FileConnection_properties_typeProperties_userId": {
+						"value": "[parameters('FileConnection_properties_typeProperties_userId')]"
 					},
 					"IgnitionACTtoSAP_properties_typeProperties_url": {
 						"value": "[parameters('IgnitionACTtoSAP_properties_typeProperties_url')]"
@@ -400,6 +453,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"UpstreamMESQA_connectionString": {
+						"value": "[parameters('UpstreamMESQA_connectionString')]"
 					}
 				}
 			},

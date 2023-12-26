@@ -7,13 +7,37 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "df-esb-dev-sea-001"
 		},
-		"Democonnection_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Democonnection'"
+		"IgnitionQC_DTL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
 		},
-		"FileConnection_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'FileConnection'"
+		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
@@ -42,14 +66,6 @@
 		"RestServiceSendMessage_properties_typeProperties_aadResourceId": {
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
-		},
-		"FileConnection_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "\\\\nslfp4\\bend"
-		},
-		"FileConnection_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "NATSTEELCORP\\NSESBAPPSADM"
 		}
 	},
 	"variables": {
@@ -220,6 +236,70 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('IgnitionQC_DTL_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('IgnitionQC_DTL_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL_Queue')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('IgnitionQC_DTL_Queue_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('IgnitionQC_HDR_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('IgnitionQC_HDR_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR_Queue')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('IgnitionQC_HDR_Queue_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestService1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -379,85 +459,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/RestServiceSendMessage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestService2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ServiceBus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestService1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Democonnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('Democonnection_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "NSHQA",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/NSHQA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FileConnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('FileConnection_properties_typeProperties_host')]",
-					"userId": "[parameters('FileConnection_properties_typeProperties_userId')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('FileConnection_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
 			]
 		}
 	]

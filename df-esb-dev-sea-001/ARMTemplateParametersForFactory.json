@@ -68,6 +68,30 @@
 		"IgnitionActQueue_properties_typeProperties_aadResourceId": {
 			"value": "https://servicebus.azure.net/"
 		},
+		"IgnitionQC_DTL_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+		},
+		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+		},
+		"IgnitionQC_DTL_Queue_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages"
+		},
+		"IgnitionQC_HDR_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head"
+		},
+		"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
 		"RestService1_properties_typeProperties_url": {
 			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
 		},
