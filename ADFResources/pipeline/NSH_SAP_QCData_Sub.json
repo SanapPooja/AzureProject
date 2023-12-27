@@ -1,6 +1,288 @@
 {
 	"name": "NSH_SAP_QCData_Sub",
 	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{[],[],[]\n}",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LOT_NO"
+								},
+								"sink": {
+									"name": "LOT_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MATL_NO"
+								},
+								"sink": {
+									"name": "MATL_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BATCH_NO"
+								},
+								"sink": {
+									"name": "BATCH_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STOR_LOC"
+								},
+								"sink": {
+									"name": "STOR_LOC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLANT"
+								},
+								"sink": {
+									"name": "PLANT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TOT_ELEM"
+								},
+								"sink": {
+									"name": "TOT_ELEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$INSP_LOT_NO"
+								},
+								"sink": {
+									"name": "INSP_LOT_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$USER_ID"
+								},
+								"sink": {
+									"name": "USER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TEST_DATE"
+								},
+								"sink": {
+									"name": "TEST_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TEST_TIME"
+								},
+								"sink": {
+									"name": "TEST_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$INTER_ID"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROC_TS"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$REC_TYPE"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$USERID"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$UDATE"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$UTIME"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "IgnitionQC_HDR_Queue",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SAP_QCData_HDR",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{[],[],[]\n}",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['Column_1']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "IgnitionQC_DTL_Queue",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SAP_QCData_DTL",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
 		"annotations": []
 	}
 }

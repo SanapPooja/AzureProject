@@ -1,0 +1,12 @@
+{
+	"name": "IgnitionQC_HDR_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQC_HDR_Queue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

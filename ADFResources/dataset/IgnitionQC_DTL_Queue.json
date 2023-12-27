@@ -1,0 +1,12 @@
+{
+	"name": "IgnitionQC_DTL_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQC_DTL_Queue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
