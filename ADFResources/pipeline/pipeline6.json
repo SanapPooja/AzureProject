@@ -1,0 +1,72 @@
+{
+	"name": "pipeline6",
+	"properties": {
+		"activities": [
+			{
+				"name": "LOTNO_1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT LOT_NO FROM SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b \n  on a.charg=b.charg where a.status='A' and b.status in('P','Y','E')"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "HDR_insertion",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "LOTNO_1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DECLARE @lcLotNo AS VARCHAR(MAX)\nINSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'P' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.status='A' and b.status in('P','Y','E');"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"LOT_NO": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

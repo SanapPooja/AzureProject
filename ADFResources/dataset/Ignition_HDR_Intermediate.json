@@ -1,0 +1,97 @@
+{
+	"name": "Ignition_HDR_Intermediate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MANDT",
+				"type": "varchar"
+			},
+			{
+				"name": "LOT_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "MATL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "BATCH_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "STOR_LOC",
+				"type": "varchar"
+			},
+			{
+				"name": "PLANT",
+				"type": "varchar"
+			},
+			{
+				"name": "TOT_ELEM",
+				"type": "varchar"
+			},
+			{
+				"name": "INSP_LOT_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "USER_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "TEST_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "TEST_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "INTER_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "TIMESTAMP",
+				"type": "varchar"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "USERID",
+				"type": "varchar"
+			},
+			{
+				"name": "UDATE",
+				"type": "varchar"
+			},
+			{
+				"name": "UTIME",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_HDR_T"
+		}
+	}
+}

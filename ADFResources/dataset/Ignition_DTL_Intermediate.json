@@ -1,0 +1,85 @@
+{
+	"name": "Ignition_DTL_Intermediate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MANDT",
+				"type": "varchar"
+			},
+			{
+				"name": "LOT_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "MAST_INSP_CHRST",
+				"type": "varchar"
+			},
+			{
+				"name": "SAMPLE",
+				"type": "varchar"
+			},
+			{
+				"name": "TEST_RESULT_VAL",
+				"type": "varchar"
+			},
+			{
+				"name": "USER_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "TEST_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "TEST_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "INTER_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "TIMESTAMP",
+				"type": "varchar"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "USERID",
+				"type": "varchar"
+			},
+			{
+				"name": "UDATE",
+				"type": "varchar"
+			},
+			{
+				"name": "UTIME",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_DTL_T"
+		}
+	}
+}
