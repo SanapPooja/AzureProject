@@ -1,0 +1,284 @@
+{
+	"name": "EHMSQATest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "EHMSQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "Emp_Master_20230824130034.csv",
+				"folderPath": "test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SerialNo",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeID",
+				"type": "String"
+			},
+			{
+				"name": "FullName",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "PreferredName",
+				"type": "String"
+			},
+			{
+				"name": "DateofBirth",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			},
+			{
+				"name": "EthnicOrigin",
+				"type": "String"
+			},
+			{
+				"name": "Religion",
+				"type": "String"
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "String"
+			},
+			{
+				"name": "Nationality",
+				"type": "String"
+			},
+			{
+				"name": "IdentiicationNo",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine3",
+				"type": "String"
+			},
+			{
+				"name": "PinCode",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "VisaType",
+				"type": "String"
+			},
+			{
+				"name": "VisaNo",
+				"type": "String"
+			},
+			{
+				"name": "IDIssueDate",
+				"type": "String"
+			},
+			{
+				"name": "IDExpiryDate",
+				"type": "String"
+			},
+			{
+				"name": "WorkPermitNo",
+				"type": "String"
+			},
+			{
+				"name": "DateofHire",
+				"type": "String"
+			},
+			{
+				"name": "LastWorkingDay",
+				"type": "String"
+			},
+			{
+				"name": "UnionCode",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeStatus",
+				"type": "String"
+			},
+			{
+				"name": "CompanyName",
+				"type": "String"
+			},
+			{
+				"name": "CompanyCode",
+				"type": "String"
+			},
+			{
+				"name": "DivisionName",
+				"type": "String"
+			},
+			{
+				"name": "DivisionCode",
+				"type": "String"
+			},
+			{
+				"name": "DepartmentName",
+				"type": "String"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "String"
+			},
+			{
+				"name": "SectionCode",
+				"type": "String"
+			},
+			{
+				"name": "PositionName",
+				"type": "String"
+			},
+			{
+				"name": "PositionCode",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeCategory",
+				"type": "String"
+			},
+			{
+				"name": "OfficialEmailID",
+				"type": "String"
+			},
+			{
+				"name": "OfficeLandline",
+				"type": "String"
+			},
+			{
+				"name": "PaymentMethod",
+				"type": "String"
+			},
+			{
+				"name": "BankCode",
+				"type": "String"
+			},
+			{
+				"name": "BankBranchCode",
+				"type": "String"
+			},
+			{
+				"name": "BankACNumber",
+				"type": "String"
+			},
+			{
+				"name": "EmployerCPFNo",
+				"type": "String"
+			},
+			{
+				"name": "EventType",
+				"type": "String"
+			},
+			{
+				"name": "EventEffectiveDate",
+				"type": "String"
+			},
+			{
+				"name": "JobLevel",
+				"type": "String"
+			},
+			{
+				"name": "JobGrade",
+				"type": "String"
+			},
+			{
+				"name": "PayFrequency",
+				"type": "String"
+			},
+			{
+				"name": "Fixed",
+				"type": "String"
+			},
+			{
+				"name": "MVC",
+				"type": "String"
+			},
+			{
+				"name": "TotalSalary",
+				"type": "String"
+			},
+			{
+				"name": "LevyType",
+				"type": "String"
+			},
+			{
+				"name": "LevyStartDate",
+				"type": "String"
+			},
+			{
+				"name": "LevyEndDate",
+				"type": "String"
+			},
+			{
+				"name": "CostCentre",
+				"type": "String"
+			},
+			{
+				"name": "Numberofworkingdaysmonth",
+				"type": "String"
+			},
+			{
+				"name": "Actualnumberofworkingdaysmonth",
+				"type": "String"
+			},
+			{
+				"name": "InitialDateofJoin",
+				"type": "String"
+			},
+			{
+				"name": "CorporateTitle",
+				"type": "String"
+			},
+			{
+				"name": "Daysperweek",
+				"type": "String"
+			},
+			{
+				"name": "OTCategory",
+				"type": "String"
+			},
+			{
+				"name": "CalendarCode",
+				"type": "String"
+			},
+			{
+				"name": "CalendarName",
+				"type": "String"
+			},
+			{
+				"name": "Created",
+				"type": "String"
+			}
+		]
+	}
+}

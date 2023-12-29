@@ -1,0 +1,177 @@
+{
+	"name": "EHMSDatabase",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "EHMSQATesting",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "EmployeeCode",
+				"type": "varchar"
+			},
+			{
+				"name": "EmployeeName",
+				"type": "varchar"
+			},
+			{
+				"name": "EmployeeAlias",
+				"type": "varchar"
+			},
+			{
+				"name": "BirthDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Gender",
+				"type": "char"
+			},
+			{
+				"name": "IdentityNo",
+				"type": "varchar"
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "char"
+			},
+			{
+				"name": "NationalityCode",
+				"type": "varchar"
+			},
+			{
+				"name": "UnionCode",
+				"type": "varchar"
+			},
+			{
+				"name": "EmployeeStatus",
+				"type": "char"
+			},
+			{
+				"name": "EmployeeTypeCode",
+				"type": "varchar"
+			},
+			{
+				"name": "CompanyCode",
+				"type": "varchar"
+			},
+			{
+				"name": "DivisionCode",
+				"type": "varchar"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "varchar"
+			},
+			{
+				"name": "DepartmentName",
+				"type": "varchar"
+			},
+			{
+				"name": "DateJoin",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DateJoinInitial",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DateResign",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CategoryCode",
+				"type": "char"
+			},
+			{
+				"name": "ClassificationCode",
+				"type": "varchar"
+			},
+			{
+				"name": "DesignationCode",
+				"type": "varchar"
+			},
+			{
+				"name": "corporate_title",
+				"type": "varchar"
+			},
+			{
+				"name": "functional_title",
+				"type": "varchar"
+			},
+			{
+				"name": "CalendarCode",
+				"type": "varchar"
+			},
+			{
+				"name": "CalendarName",
+				"type": "varchar"
+			},
+			{
+				"name": "Email",
+				"type": "varchar"
+			},
+			{
+				"name": "ExtensionNo",
+				"type": "varchar"
+			},
+			{
+				"name": "FilePhoto",
+				"type": "varchar"
+			},
+			{
+				"name": "JobGroupCode",
+				"type": "varchar"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "varchar"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ModifiedBy",
+				"type": "varchar"
+			},
+			{
+				"name": "CostCentreCode",
+				"type": "varchar"
+			},
+			{
+				"name": "BankBranch",
+				"type": "varchar"
+			},
+			{
+				"name": "BankCode",
+				"type": "varchar"
+			},
+			{
+				"name": "BankAccountNo",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MAST_EMPLOYEE"
+		}
+	}
+}
