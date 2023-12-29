@@ -5,9 +5,9 @@
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
-			"host": "\\\\nslfp4\\bend\\test",
+			"host": "\\\\nslfp4\\bend",
 			"userId": "NATSTEELCORP\\NSESBAPPSADM",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmOTE2MjQ5YS0wNDg2LTRiMWMtOGM3MS0zYzAxYjdhMjkzZmEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzZjZmYTk0Ni1kYzhlLTQyZDktOWQxZC1jNzRiYjRjNjhkODAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "MESQARuntime",
