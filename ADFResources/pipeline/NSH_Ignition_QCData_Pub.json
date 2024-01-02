@@ -123,7 +123,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "\nDECLARE @lcLotNo AS VARCHAR(MAX)\nINSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'A' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.LOT_NO=@lcLotNo;"
+							"text": "DECLARE @lcLotNo as varchar(255)='123022202520';\n\n--INSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'A' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.LOT_NO=@lcLotNo;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -617,15 +617,6 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "Execute Pipeline2",
 				"type": "ExecutePipeline",
 				"dependsOn": [
@@ -652,11 +643,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"LOT_NO": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }

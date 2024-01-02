@@ -171,7 +171,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "MAST_EMPLOYEE"
+			"table": "MAST_Employee_Staging"
 		}
 	}
 }

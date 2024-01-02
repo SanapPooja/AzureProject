@@ -32,6 +32,7 @@
 						"sqlWriterUseTableLock": false
 					},
 					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
@@ -48,6 +49,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "FullName",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "EmployeeName",
 									"type": "String",
@@ -55,17 +61,15 @@
 								}
 							},
 							{
+								"source": {
+									"name": "PreferredName",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "EmployeeAlias",
 									"type": "String",
 									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "BirthDate",
-									"type": "DateTime",
-									"physicalType": "datetime"
 								}
 							},
 							{
@@ -81,6 +85,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "VisaNo",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "IdentityNo",
 									"type": "String",
@@ -100,6 +109,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "Nationality",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "NationalityCode",
 									"type": "String",
@@ -131,6 +145,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "EmployeeCategory",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "EmployeeTypeCode",
 									"type": "String",
@@ -139,7 +158,7 @@
 							},
 							{
 								"source": {
-									"name": "CompanyCode",
+									"name": "EmployerCPFNo",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -186,27 +205,11 @@
 								}
 							},
 							{
-								"sink": {
-									"name": "DateJoin",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "DateJoinInitial",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "DateResign",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
+								"source": {
+									"name": "JobLevel",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "CategoryCode",
 									"type": "String",
@@ -220,144 +223,7 @@
 									"physicalType": "varchar"
 								}
 							},
-							{
-								"sink": {
-									"name": "DesignationCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "corporate_title",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "functional_title",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "CalendarCode",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "CalendarCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "CalendarName",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "CalendarName",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "Email",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "ExtensionNo",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "FilePhoto",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "JobGroupCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "CreatedDate",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "CreatedBy",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "ModifiedDate",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "ModifiedBy",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "CostCentreCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "BankBranch",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "BankCode",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "BankCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "BankCode",
-									"type": "String"
-								},
-								"sink": {
-									"name": "BankAccountNo",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							}
+							null
 						],
 						"typeConversion": true,
 						"typeConversionSettings": {
