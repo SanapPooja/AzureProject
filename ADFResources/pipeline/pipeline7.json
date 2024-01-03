@@ -158,7 +158,7 @@
 							},
 							{
 								"source": {
-									"name": "EmployerCPFNo",
+									"name": "CompanyCode",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -217,13 +217,113 @@
 								}
 							},
 							{
+								"source": {
+									"name": "JobGrade",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "ClassificationCode",
 									"type": "String",
 									"physicalType": "varchar"
 								}
 							},
-							null
+							{
+								"source": {
+									"name": "PositionName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "functional_title",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CalendarCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CalendarCode",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "OfficialEmailID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Email",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "OfficeLandline",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ExtensionNo",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CostCentre",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CostCentreCode",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BankBranchCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "BankBranch",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BankCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "BankCode",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BankACNumber",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "BankAccountNo",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
 						],
 						"typeConversion": true,
 						"typeConversionSettings": {
