@@ -8,6 +8,12 @@
 		"Democonnection_connectionString": {
 			"value": ""
 		},
+		"EHMSQA_password": {
+			"value": ""
+		},
+		"EHMSQATesting_connectionString": {
+			"value": ""
+		},
 		"FileConnection_password": {
 			"value": ""
 		},
@@ -50,6 +56,12 @@
 		"UpstreamMESQA_connectionString": {
 			"value": ""
 		},
+		"EHMSQA_properties_typeProperties_host": {
+			"value": "\\\\nslfp4\\bend"
+		},
+		"EHMSQA_properties_typeProperties_userId": {
+			"value": "NATSTEELCORP\\NSESBAPPSADM"
+		},
 		"FileConnection_properties_typeProperties_host": {
 			"value": "\\\\nslfp4\\bend"
 		},
@@ -69,7 +81,7 @@
 			"value": "https://servicebus.azure.net/"
 		},
 		"IgnitionQC_DTL_properties_typeProperties_url": {
-			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages"
 		},
 		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
 			"value": "https://servicebus.azure.net/"

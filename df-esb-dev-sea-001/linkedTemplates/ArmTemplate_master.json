@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Democonnection'"
 		},
+		"EHMSQA_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'EHMSQA'"
+		},
+		"EHMSQATesting_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'EHMSQATesting'"
+		},
 		"FileConnection_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileConnection'"
@@ -67,6 +75,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
 		},
+		"EHMSQA_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\nslfp4\\bend"
+		},
+		"EHMSQA_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "NATSTEELCORP\\NSESBAPPSADM"
+		},
 		"FileConnection_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "\\\\nslfp4\\bend"
@@ -93,7 +109,7 @@
 		},
 		"IgnitionQC_DTL_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages"
 		},
 		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
 			"type": "string",
@@ -320,6 +336,12 @@
 					"Democonnection_connectionString": {
 						"value": "[parameters('Democonnection_connectionString')]"
 					},
+					"EHMSQA_password": {
+						"value": "[parameters('EHMSQA_password')]"
+					},
+					"EHMSQATesting_connectionString": {
+						"value": "[parameters('EHMSQATesting_connectionString')]"
+					},
 					"FileConnection_password": {
 						"value": "[parameters('FileConnection_password')]"
 					},
@@ -341,23 +363,11 @@
 					"SCM_IDB_Connect_connectionString": {
 						"value": "[parameters('SCM_IDB_Connect_connectionString')]"
 					},
-					"SapConnection_password": {
-						"value": "[parameters('SapConnection_password')]"
+					"EHMSQA_properties_typeProperties_host": {
+						"value": "[parameters('EHMSQA_properties_typeProperties_host')]"
 					},
-					"SapOdp_password": {
-						"value": "[parameters('SapOdp_password')]"
-					},
-					"SapRFCconnection_password": {
-						"value": "[parameters('SapRFCconnection_password')]"
-					},
-					"SftpConnection_password": {
-						"value": "[parameters('SftpConnection_password')]"
-					},
-					"SqlServer1_connectionString": {
-						"value": "[parameters('SqlServer1_connectionString')]"
-					},
-					"SqlServer2_connectionString": {
-						"value": "[parameters('SqlServer2_connectionString')]"
+					"EHMSQA_properties_typeProperties_userId": {
+						"value": "[parameters('EHMSQA_properties_typeProperties_userId')]"
 					},
 					"FileConnection_properties_typeProperties_host": {
 						"value": "[parameters('FileConnection_properties_typeProperties_host')]"
@@ -388,6 +398,47 @@
 					},
 					"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
 						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_aadResourceId')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"SapConnection_password": {
+						"value": "[parameters('SapConnection_password')]"
+					},
+					"SapOdp_password": {
+						"value": "[parameters('SapOdp_password')]"
+					},
+					"SapRFCconnection_password": {
+						"value": "[parameters('SapRFCconnection_password')]"
+					},
+					"SftpConnection_password": {
+						"value": "[parameters('SftpConnection_password')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer2_connectionString": {
+						"value": "[parameters('SqlServer2_connectionString')]"
+					},
+					"UpstreamMESQA_connectionString": {
+						"value": "[parameters('UpstreamMESQA_connectionString')]"
 					},
 					"SapConnection_properties_typeProperties_clientId": {
 						"value": "[parameters('SapConnection_properties_typeProperties_clientId')]"
@@ -437,29 +488,6 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_0')]"
-			]
-		},
-		{
-			"name": "df-esb-dev-sea-001_ArmTemplate_2",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2018-02-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
-					},
-					"UpstreamMESQA_connectionString": {
-						"value": "[parameters('UpstreamMESQA_connectionString')]"
-					}
-				}
-			},
-			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_1')]"
 			]
 		},
@@ -501,6 +529,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_4')]"
 			]
 		}
 	]

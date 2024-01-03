@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Democonnection'"
 		},
+		"EHMSQA_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'EHMSQA'"
+		},
+		"EHMSQATesting_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'EHMSQATesting'"
+		},
 		"FileConnection_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileConnection'"
@@ -67,6 +75,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
 		},
+		"EHMSQA_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\nslfp4\\bend"
+		},
+		"EHMSQA_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "NATSTEELCORP\\NSESBAPPSADM"
+		},
 		"FileConnection_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "\\\\nslfp4\\bend"
@@ -93,7 +109,7 @@
 		},
 		"IgnitionQC_DTL_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages/head"
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages"
 		},
 		"IgnitionQC_DTL_properties_typeProperties_aadResourceId": {
 			"type": "string",
@@ -5522,6 +5538,8 @@
 					{
 						"name": "LOTNO_2",
 						"type": "Script",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -5548,6 +5566,8 @@
 					{
 						"name": "LOTNO_3",
 						"type": "Script",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -5572,7 +5592,7 @@
 						}
 					},
 					{
-						"name": "Script1",
+						"name": "HDR_insertion",
 						"type": "Script",
 						"dependsOn": [
 							{
@@ -5610,10 +5630,528 @@
 							"scripts": [
 								{
 									"type": "Query",
-									"text": "\nDECLARE @lcLotNo AS VARCHAR(MAX)\nINSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'A' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.LOT_NO=@lcLotNo;"
+									"text": "DECLARE @lcLotNo as varchar(255)='123022202520';\n\n--INSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'A' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.LOT_NO=@lcLotNo;"
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "DTL_insertion",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "LOTNO_1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LOTNO_2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LOTNO_3",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "DECLARE @lcLotNo AS VARCHAR(MAX) \ninsert into T_DTL_T \n\t\t\t\tselect MANDT,LOT_NO,rtrim(MAST_INSP_CHRSTICS) as MAST_INSP_CHRSTICS,rtrim(SAMPLE_NO) as SAMPLE,TEST_RESULT_VAL,USER_ID,rtrim(TEST_DATE) as TEST_DATE,rtrim(TEST_TIME) as TEST_TIME,'A' as STATUS,INTERFACE_ID as INTER_ID,ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME \n\t\t\t\tfrom SAP_RESULTS_DTL where LOT_NO=@lcLotNo;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "HDR_insertion",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select MANDT,\n    LOT_NO,\n    MATL_NO,\n    BATCH_NO,\n    STOR_LOC,\n    PLANT,\n    TOT_ELEM,\n    INSP_LOT_NO,\n    USER_ID,\n    TEST_DATE,\n    TEST_TIME,\n    STATUS,\n    INTER_ID,\n    TIMESTAMP,\n    ERROR_CD,\n    PROC_TS,\n    REC_TYPE,\n    USERID,\n    UDATE,\n    UTIME\n\tFROM [dbo].[T_HDR_T]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['MANDT']"
+										}
+									},
+									{
+										"source": {
+											"name": "LOT_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['LOT_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "MATL_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['MATL_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "BATCH_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['BATCH_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "STOR_LOC",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['STOR_LOC']"
+										}
+									},
+									{
+										"source": {
+											"name": "PLANT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['PLANT']"
+										}
+									},
+									{
+										"source": {
+											"name": "TOT_ELEM",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TOT_ELEM']"
+										}
+									},
+									{
+										"source": {
+											"name": "INSP_LOT_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['INSP_LOT_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "USER_ID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['USER_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "TEST_DATE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TEST_DATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "TEST_TIME",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TEST_TIME']"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['INTER_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TIMESTAMP']"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['ERROR_CD']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['PROC_TS']"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['REC_TYPE']"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['USERID']"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['UDATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['UTIME']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Ignition_HDR_Intermediate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IgnitionQC_HDR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy data2",
+						"description": "select MANDT,\n    LOT_NO,\n    MAST_INSP_CHRST,\n    SAMPLE,\n    TEST_RESULT_VAL,\n    USER_ID,\n    TEST_DATE,\n    TEST_TIME,\n    STATUS,\n    INTER_ID,\n    TIMESTAMP,\n    ERROR_CD,\n    PROC_TS,\n    REC_TYPE,\n    USERID,\n    UDATE,\n    UTIME\n\tFROM [dbo].[T_DTL_T]",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "DTL_insertion",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select MANDT,\n    LOT_NO,\n    MAST_INSP_CHRST,\n    SAMPLE,\n    TEST_RESULT_VAL,\n    USER_ID,\n    TEST_DATE,\n    TEST_TIME,\n    STATUS,\n    INTER_ID,\n    TIMESTAMP,\n    ERROR_CD,\n    PROC_TS,\n    REC_TYPE,\n    USERID,\n    UDATE,\n    UTIME\n\tFROM [dbo].[T_DTL_T]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MANDT",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['MANDT']"
+										}
+									},
+									{
+										"source": {
+											"name": "LOT_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['LOT_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "MAST_INSP_CHRST",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['MAST_INSP_CHRST']"
+										}
+									},
+									{
+										"source": {
+											"name": "SAMPLE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['SAMPLE']"
+										}
+									},
+									{
+										"source": {
+											"name": "TEST_RESULT_VAL",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TEST_RESULT_VAL']"
+										}
+									},
+									{
+										"source": {
+											"name": "USER_ID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['USER_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "TEST_DATE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TEST_DATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "TEST_TIME",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TEST_TIME']"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "INTER_ID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['INTER_ID']"
+										}
+									},
+									{
+										"source": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TIMESTAMP']"
+										}
+									},
+									{
+										"source": {
+											"name": "ERROR_CD",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['ERROR_CD']"
+										}
+									},
+									{
+										"source": {
+											"name": "PROC_TS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['PROC_TS']"
+										}
+									},
+									{
+										"source": {
+											"name": "REC_TYPE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['REC_TYPE']"
+										}
+									},
+									{
+										"source": {
+											"name": "USERID",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['USERID']"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['UDATE']"
+										}
+									},
+									{
+										"source": {
+											"name": "UTIME",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['UTIME']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Ignition_DTL_Intermediate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IgnitionQC_DTL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Execute Pipeline2",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy data2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_SAP_QCData_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
@@ -5623,7 +6161,12 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]",
+				"[concat(variables('factoryId'), '/datasets/Ignition_HDR_Intermediate')]",
+				"[concat(variables('factoryId'), '/datasets/IgnitionQC_HDR')]",
+				"[concat(variables('factoryId'), '/datasets/Ignition_DTL_Intermediate')]",
+				"[concat(variables('factoryId'), '/datasets/IgnitionQC_DTL')]",
+				"[concat(variables('factoryId'), '/pipelines/NSH_SAP_QCData_Sub')]"
 			]
 		},
 		{
@@ -7446,6 +7989,445 @@
 				"[concat(variables('factoryId'), '/datasets/RestResourceGRQueue')]",
 				"[concat(variables('factoryId'), '/datasets/OracleDevelopment')]",
 				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_SAP_QCData_Sub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"requestBody": "{[],[],[]\n}",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "OracleSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$MANDT"
+										},
+										"sink": {
+											"name": "MANDT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$LOT_NO"
+										},
+										"sink": {
+											"name": "LOT_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$MATL_NO"
+										},
+										"sink": {
+											"name": "MATL_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$BATCH_NO"
+										},
+										"sink": {
+											"name": "BATCH_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$STOR_LOC"
+										},
+										"sink": {
+											"name": "STOR_LOC",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$PLANT"
+										},
+										"sink": {
+											"name": "PLANT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$TOT_ELEM"
+										},
+										"sink": {
+											"name": "TOT_ELEM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$INSP_LOT_NO"
+										},
+										"sink": {
+											"name": "INSP_LOT_NO",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$USER_ID"
+										},
+										"sink": {
+											"name": "USER_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$TEST_DATE"
+										},
+										"sink": {
+											"name": "TEST_DATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$TEST_TIME"
+										},
+										"sink": {
+											"name": "TEST_TIME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$STATUS"
+										},
+										"sink": {
+											"name": "STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$INTER_ID"
+										},
+										"sink": {
+											"name": "INTER_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$TIMESTAMP"
+										},
+										"sink": {
+											"name": "TIMESTAMP",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$ERROR_CD"
+										},
+										"sink": {
+											"name": "ERROR_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$PROC_TS"
+										},
+										"sink": {
+											"name": "PROC_TS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$REC_TYPE"
+										},
+										"sink": {
+											"name": "REC_TYPE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$USERID"
+										},
+										"sink": {
+											"name": "USERID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$UDATE"
+										},
+										"sink": {
+											"name": "UDATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$UTIME"
+										},
+										"sink": {
+											"name": "UTIME",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": ""
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "IgnitionQC_HDR_Queue",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SAP_QCData_HDR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy data2",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"requestBody": "{[],[],[]\n}",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "OracleSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['Column_1']"
+										},
+										"sink": {}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "IgnitionQC_DTL_Queue",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SAP_QCData_DTL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "HDR_StatusToY",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update SAP_RESULTS_HDR set status='Y' where LOT_NO=@lcLotNo;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "HDR_ErrorStatuss",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update SAP_RESULTS_HDR set status='E' where LOT_NO=@lcLotNo;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "DTL_StatusToY",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update SAP_RESULTS_DTL set status='Y' where  LOT_NO=@lcLotNo;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "DTL_Error",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data2",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update SAP_RESULT_DTL set status='E' where LOT_NO=@lcLotNo;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/IgnitionQC_HDR_Queue')]",
+				"[concat(variables('factoryId'), '/datasets/SAP_QCData_HDR')]",
+				"[concat(variables('factoryId'), '/datasets/IgnitionQC_DTL_Queue')]",
+				"[concat(variables('factoryId'), '/datasets/SAP_QCData_DTL')]",
+				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
 			]
 		},
 		{
@@ -15520,6 +16502,448 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline6')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LOTNO_1",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "SELECT LOT_NO FROM SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b \n  on a.charg=b.charg where a.status='A' and b.status in('P','Y','E')"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "HDR_insertion",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "LOTNO_1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "DECLARE @lcLotNo AS VARCHAR(MAX)\nINSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'P' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.status='A' and b.status in('P','Y','E');"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"LOT_NO": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline7')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "FileServerReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EmployeeID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FullName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PreferredName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeAlias",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Gender",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Gender",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "VisaNo",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IdentityNo",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MaritalStatus",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MaritalStatus",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Nationality",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NationalityCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UnionCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UnionCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeStatus",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeStatus",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeCategory",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeTypeCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CompanyCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CompanyCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DivisionCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DivisionCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DepartmentCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DepartmentCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DepartmentName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DepartmentName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "JobLevel",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CategoryCode",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "JobGrade",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ClassificationCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PositionName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "functional_title",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CalendarCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CalendarCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OfficialEmailID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Email",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OfficeLandline",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ExtensionNo",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CostCentre",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CostCentreCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BankBranchCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BankBranch",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BankCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BankCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BankACNumber",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BankAccountNo",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "EHMSQATest",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "EHMSDatabase",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/EHMSQATest')]",
+				"[concat(variables('factoryId'), '/datasets/EHMSDatabase')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/task_pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -15959,6 +17383,477 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/FileConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSDatabase')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "EHMSQATesting",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "EmployeeCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmployeeName",
+						"type": "varchar"
+					},
+					{
+						"name": "EmployeeAlias",
+						"type": "varchar"
+					},
+					{
+						"name": "BirthDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Gender",
+						"type": "char"
+					},
+					{
+						"name": "IdentityNo",
+						"type": "varchar"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "char"
+					},
+					{
+						"name": "NationalityCode",
+						"type": "varchar"
+					},
+					{
+						"name": "UnionCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmployeeStatus",
+						"type": "char"
+					},
+					{
+						"name": "EmployeeTypeCode",
+						"type": "varchar"
+					},
+					{
+						"name": "CompanyCode",
+						"type": "varchar"
+					},
+					{
+						"name": "DivisionCode",
+						"type": "varchar"
+					},
+					{
+						"name": "DepartmentCode",
+						"type": "varchar"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "varchar"
+					},
+					{
+						"name": "DateJoin",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DateJoinInitial",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DateResign",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CategoryCode",
+						"type": "char"
+					},
+					{
+						"name": "ClassificationCode",
+						"type": "varchar"
+					},
+					{
+						"name": "DesignationCode",
+						"type": "varchar"
+					},
+					{
+						"name": "corporate_title",
+						"type": "varchar"
+					},
+					{
+						"name": "functional_title",
+						"type": "varchar"
+					},
+					{
+						"name": "CalendarCode",
+						"type": "varchar"
+					},
+					{
+						"name": "CalendarName",
+						"type": "varchar"
+					},
+					{
+						"name": "Email",
+						"type": "varchar"
+					},
+					{
+						"name": "ExtensionNo",
+						"type": "varchar"
+					},
+					{
+						"name": "FilePhoto",
+						"type": "varchar"
+					},
+					{
+						"name": "JobGroupCode",
+						"type": "varchar"
+					},
+					{
+						"name": "CreatedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CreatedBy",
+						"type": "varchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ModifiedBy",
+						"type": "varchar"
+					},
+					{
+						"name": "CostCentreCode",
+						"type": "varchar"
+					},
+					{
+						"name": "BankBranch",
+						"type": "varchar"
+					},
+					{
+						"name": "BankCode",
+						"type": "varchar"
+					},
+					{
+						"name": "BankAccountNo",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MAST_Employee_Staging"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EHMSQATesting')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSQATest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "EHMSQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "Emp_Master_20230824130034.csv",
+						"folderPath": "test"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SerialNo",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeID",
+						"type": "String"
+					},
+					{
+						"name": "FullName",
+						"type": "String"
+					},
+					{
+						"name": "FirstName",
+						"type": "String"
+					},
+					{
+						"name": "LastName",
+						"type": "String"
+					},
+					{
+						"name": "PreferredName",
+						"type": "String"
+					},
+					{
+						"name": "DateofBirth",
+						"type": "String"
+					},
+					{
+						"name": "Gender",
+						"type": "String"
+					},
+					{
+						"name": "EthnicOrigin",
+						"type": "String"
+					},
+					{
+						"name": "Religion",
+						"type": "String"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "String"
+					},
+					{
+						"name": "Nationality",
+						"type": "String"
+					},
+					{
+						"name": "IdentiicationNo",
+						"type": "String"
+					},
+					{
+						"name": "AddressLine1",
+						"type": "String"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "String"
+					},
+					{
+						"name": "AddressLine3",
+						"type": "String"
+					},
+					{
+						"name": "PinCode",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					},
+					{
+						"name": "VisaType",
+						"type": "String"
+					},
+					{
+						"name": "VisaNo",
+						"type": "String"
+					},
+					{
+						"name": "IDIssueDate",
+						"type": "String"
+					},
+					{
+						"name": "IDExpiryDate",
+						"type": "String"
+					},
+					{
+						"name": "WorkPermitNo",
+						"type": "String"
+					},
+					{
+						"name": "DateofHire",
+						"type": "String"
+					},
+					{
+						"name": "LastWorkingDay",
+						"type": "String"
+					},
+					{
+						"name": "UnionCode",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeStatus",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "CompanyCode",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionCode",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentCode",
+						"type": "String"
+					},
+					{
+						"name": "SectionCode",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionCode",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeCategory",
+						"type": "String"
+					},
+					{
+						"name": "OfficialEmailID",
+						"type": "String"
+					},
+					{
+						"name": "OfficeLandline",
+						"type": "String"
+					},
+					{
+						"name": "PaymentMethod",
+						"type": "String"
+					},
+					{
+						"name": "BankCode",
+						"type": "String"
+					},
+					{
+						"name": "BankBranchCode",
+						"type": "String"
+					},
+					{
+						"name": "BankACNumber",
+						"type": "String"
+					},
+					{
+						"name": "EmployerCPFNo",
+						"type": "String"
+					},
+					{
+						"name": "EventType",
+						"type": "String"
+					},
+					{
+						"name": "EventEffectiveDate",
+						"type": "String"
+					},
+					{
+						"name": "JobLevel",
+						"type": "String"
+					},
+					{
+						"name": "JobGrade",
+						"type": "String"
+					},
+					{
+						"name": "PayFrequency",
+						"type": "String"
+					},
+					{
+						"name": "Fixed",
+						"type": "String"
+					},
+					{
+						"name": "MVC",
+						"type": "String"
+					},
+					{
+						"name": "TotalSalary",
+						"type": "String"
+					},
+					{
+						"name": "LevyType",
+						"type": "String"
+					},
+					{
+						"name": "LevyStartDate",
+						"type": "String"
+					},
+					{
+						"name": "LevyEndDate",
+						"type": "String"
+					},
+					{
+						"name": "CostCentre",
+						"type": "String"
+					},
+					{
+						"name": "Numberofworkingdaysmonth",
+						"type": "String"
+					},
+					{
+						"name": "Actualnumberofworkingdaysmonth",
+						"type": "String"
+					},
+					{
+						"name": "InitialDateofJoin",
+						"type": "String"
+					},
+					{
+						"name": "CorporateTitle",
+						"type": "String"
+					},
+					{
+						"name": "Daysperweek",
+						"type": "String"
+					},
+					{
+						"name": "OTCategory",
+						"type": "String"
+					},
+					{
+						"name": "CalendarCode",
+						"type": "String"
+					},
+					{
+						"name": "CalendarName",
+						"type": "String"
+					},
+					{
+						"name": "Created",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EHMSQA')]"
 			]
 		},
 		{
@@ -17069,6 +18964,78 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_DTL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQC_DTL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL_Queue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_DTL_Queue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQC_DTL_Queue')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_HDR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQC_HDR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR_Queue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_HDR_Queue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQC_HDR_Queue')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IgnitionSAPdatabase')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -17087,6 +19054,198 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ignition_DTL_Intermediate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "MANDT",
+						"type": "varchar"
+					},
+					{
+						"name": "LOT_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "MAST_INSP_CHRST",
+						"type": "varchar"
+					},
+					{
+						"name": "SAMPLE",
+						"type": "varchar"
+					},
+					{
+						"name": "TEST_RESULT_VAL",
+						"type": "varchar"
+					},
+					{
+						"name": "USER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TEST_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "TEST_TIME",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "INTER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TIMESTAMP",
+						"type": "varchar"
+					},
+					{
+						"name": "ERROR_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "PROC_TS",
+						"type": "varchar"
+					},
+					{
+						"name": "REC_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "USERID",
+						"type": "varchar"
+					},
+					{
+						"name": "UDATE",
+						"type": "varchar"
+					},
+					{
+						"name": "UTIME",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "T_DTL_T"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ignition_HDR_Intermediate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "MANDT",
+						"type": "varchar"
+					},
+					{
+						"name": "LOT_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "MATL_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "BATCH_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "STOR_LOC",
+						"type": "varchar"
+					},
+					{
+						"name": "PLANT",
+						"type": "varchar"
+					},
+					{
+						"name": "TOT_ELEM",
+						"type": "varchar"
+					},
+					{
+						"name": "INSP_LOT_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "USER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TEST_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "TEST_TIME",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "INTER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TIMESTAMP",
+						"type": "varchar"
+					},
+					{
+						"name": "ERROR_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "PROC_TS",
+						"type": "varchar"
+					},
+					{
+						"name": "REC_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "USERID",
+						"type": "varchar"
+					},
+					{
+						"name": "UDATE",
+						"type": "varchar"
+					},
+					{
+						"name": "UTIME",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "T_HDR_T"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
 			]
 		},
 		{
@@ -17935,6 +20094,48 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_QCData_DTL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YQMT_RESULTS_DTL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_QCData_HDR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YQMT_RESULTS_HDR"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
 			]
 		},
 		{
@@ -18960,6 +21161,49 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/NSHQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSQA')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('EHMSQA_properties_typeProperties_host')]",
+					"userId": "[parameters('EHMSQA_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('EHMSQA_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSQATesting')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('EHMSQATesting_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
 			]
 		},
 		{

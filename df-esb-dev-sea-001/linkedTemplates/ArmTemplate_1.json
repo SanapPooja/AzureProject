@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Democonnection'"
 		},
+		"EHMSQA_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'EHMSQA'"
+		},
+		"EHMSQATesting_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'EHMSQATesting'"
+		},
 		"FileConnection_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileConnection'"
@@ -39,29 +47,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SCM_IDB_Connect'"
 		},
-		"SapConnection_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SapConnection'"
+		"EHMSQA_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\nslfp4\\bend"
 		},
-		"SapOdp_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SapOdp'"
-		},
-		"SapRFCconnection_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SapRFCconnection'"
-		},
-		"SftpConnection_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SftpConnection'"
-		},
-		"SqlServer1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
-		},
-		"SqlServer2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer2'"
+		"EHMSQA_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "NATSTEELCORP\\NSESBAPPSADM"
 		},
 		"FileConnection_properties_typeProperties_host": {
 			"type": "string",
@@ -102,72 +94,76 @@
 		"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
-		},
-		"SapConnection_properties_typeProperties_clientId": {
-			"type": "string",
-			"defaultValue": "110"
-		},
-		"SapConnection_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "SCM_AUTOPO"
-		},
-		"SapConnection_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "172.25.101.6"
-		},
-		"SapConnection_properties_typeProperties_systemNumber": {
-			"type": "string",
-			"defaultValue": "00"
-		},
-		"SapOdp_properties_typeProperties_clientId": {
-			"type": "string",
-			"defaultValue": "600"
-		},
-		"SapOdp_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "test1"
-		},
-		"SapOdp_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "172.25.101.5"
-		},
-		"SapOdp_properties_typeProperties_systemNumber": {
-			"type": "string",
-			"defaultValue": "01"
-		},
-		"SapRFCconnection_properties_typeProperties_clientId": {
-			"type": "string",
-			"defaultValue": "600"
-		},
-		"SapRFCconnection_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "test1"
-		},
-		"SapRFCconnection_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "172.25.101.5"
-		},
-		"SapRFCconnection_properties_typeProperties_systemNumber": {
-			"type": "string",
-			"defaultValue": "01"
-		},
-		"SftpConnection_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "14.141.16.136"
-		},
-		"SftpConnection_properties_typeProperties_hostKeyFingerprint": {
-			"type": "string",
-			"defaultValue": "ssh-rsa 1024 0d:82:a3:ef:c6:cf:94:a0:9b:d9:9d:99:e9:4f:9c:86"
-		},
-		"SftpConnection_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "natsftpPRD"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL_Queue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_DTL_Queue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_HDR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_HDR_Queue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_HDR_Queue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestServiceSendMessage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/RestResource2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -212,6 +208,45 @@
 				},
 				"connectVia": {
 					"referenceName": "NSHQA",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSQA')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('EHMSQA_properties_typeProperties_host')]",
+					"userId": "[parameters('EHMSQA_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('EHMSQA_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EHMSQATesting')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('EHMSQATesting_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
@@ -416,142 +451,6 @@
 				},
 				"connectVia": {
 					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapConnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SapConnection_properties_typeProperties_clientId')]",
-					"language": "EN",
-					"sncMode": false,
-					"userName": "[parameters('SapConnection_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SapConnection_password')]"
-					},
-					"server": "[parameters('SapConnection_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SapConnection_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapOdp')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SapOdp",
-				"typeProperties": {
-					"clientId": "[parameters('SapOdp_properties_typeProperties_clientId')]",
-					"sncMode": false,
-					"userName": "[parameters('SapOdp_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SapOdp_password')]"
-					},
-					"server": "[parameters('SapOdp_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SapOdp_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapRFCconnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SapRFCconnection_properties_typeProperties_clientId')]",
-					"sncMode": false,
-					"userName": "[parameters('SapRFCconnection_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SapRFCconnection_password')]"
-					},
-					"server": "[parameters('SapRFCconnection_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SapRFCconnection_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SftpConnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Sftp",
-				"typeProperties": {
-					"host": "[parameters('SftpConnection_properties_typeProperties_host')]",
-					"port": "222",
-					"skipHostKeyValidation": false,
-					"hostKeyFingerprint": "[parameters('SftpConnection_properties_typeProperties_hostKeyFingerprint')]",
-					"authenticationType": "Basic",
-					"userName": "[parameters('SftpConnection_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SftpConnection_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "NSHQA",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer2_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "NSHQA",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
