@@ -1,0 +1,17 @@
+{
+	"name": "ScrapGrade_CancelledTickets_Queue",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
