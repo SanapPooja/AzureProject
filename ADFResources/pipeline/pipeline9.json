@@ -1,5 +1,5 @@
 {
-	"name": "NSH_SAP_ACTY_Sub",
+	"name": "pipeline9",
 	"properties": {
 		"activities": [
 			{
@@ -473,30 +473,11 @@
 				]
 			},
 			{
-				"name": "Skip_Unique_Constraint_Error",
-				"type": "Fail",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "PostQueue_To_SAP",
-						"dependencyConditions": [
-							"Skipped"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"message": "unique constraint",
-					"errorCode": "ORA-00001: unique constraint violated"
-				}
-			},
-			{
 				"name": "Delete_Queue_Data",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "PostQueue_To_SAP",
+						"activity": "Wait1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -513,7 +494,6 @@
 				"typeProperties": {
 					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
 					"method": "DELETE",
-					"body": "{[]}",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -521,27 +501,11 @@
 				}
 			},
 			{
-				"name": "Wait_5sec",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Delete_Queue_Data",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 5
-				}
-			},
-			{
 				"name": "UpdatetoY_Success",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Wait_5sec",
+						"activity": "Delete_Queue_Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -573,52 +537,25 @@
 				}
 			},
 			{
-				"name": "UpdatetoE_Error",
-				"type": "Script",
+				"name": "Wait1",
+				"type": "Wait",
 				"dependsOn": [
 					{
 						"activity": "PostQueue_To_SAP",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update t_nsa_gi_act set status='E' where status='P';",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "ReprocessErrorRecords",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "UpdatetoE_Error",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 5
+				}
+			},
+			{
+				"name": "Azure Function1",
+				"type": "AzureFunctionActivity",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -626,78 +563,9 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update t_nsa_gi_act set status='P' where status='E';",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
+				"userProperties": []
 			}
 		],
-		"variables": {
-			"MANDT": {
-				"type": "Array"
-			},
-			"ID_MESSAGE": {
-				"type": "Array"
-			},
-			"AIM_MATL_NO": {
-				"type": "Array"
-			},
-			"ACH_MATL_NO": {
-				"type": "Array"
-			},
-			"BASE_UOM": {
-				"type": "Array"
-			},
-			"ORD_TYPE": {
-				"type": "Integer",
-				"defaultValue": 0
-			},
-			"ORD_NO": {
-				"type": "Array"
-			},
-			"DOCU_DATE": {
-				"type": "Array"
-			},
-			"POSTG_DATE": {
-				"type": "Array"
-			},
-			"PCODE": {
-				"type": "Array"
-			},
-			"PLANT": {
-				"type": "Array"
-			},
-			"STOR_LOC": {
-				"type": "Array"
-			},
-			"NO_GI_RECS": {
-				"type": "Array"
-			},
-			"SD_DOCU_NO": {
-				"type": "Array"
-			},
-			" ITEM_NO": {
-				"type": "Array"
-			},
-			"STATUS": {
-				"type": "Array"
-			}
-		},
-		"annotations": [],
-		"lastPublishTime": "2023-10-12T12:07:44Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }
