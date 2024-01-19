@@ -13,12 +13,6 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "NSH_Ignition_GR_Pub",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "NSH_SAP_GR_Sub",
 					"type": "PipelineReference"
 				}
