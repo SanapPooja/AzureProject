@@ -970,8 +970,8 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
+				"name": "Web1",
+				"type": "WebActivity",
 				"dependsOn": [
 					{
 						"activity": "TriggerToSubscriber",
@@ -980,13 +980,21 @@
 						]
 					}
 				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "pipeline1",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
+					"method": "DELETE",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			}
 		],
