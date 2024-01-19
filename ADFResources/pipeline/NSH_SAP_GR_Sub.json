@@ -901,7 +901,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "DeleteQueueData_copy1",
+						"activity": "PostMessagetoSAP_copy",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -985,35 +985,6 @@
 				}
 			},
 			{
-				"name": "DeleteQueueData_copy1",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "PostMessagetoSAP_copy",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
-					"method": "DELETE",
-					"body": "{[]}",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
 				"name": "ReprocessErrorRecords",
 				"type": "Script",
 				"dependsOn": [
@@ -1064,6 +1035,21 @@
 				"typeProperties": {
 					"message": "unique constraint",
 					"errorCode": "ORA-00001: unique constraint violated"
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_Ignition_GR_Pub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],

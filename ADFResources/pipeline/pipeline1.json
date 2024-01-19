@@ -101,7 +101,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
 					"method": "DELETE",
 					"authentication": {
 						"type": "MSI",
