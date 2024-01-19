@@ -473,59 +473,11 @@
 				]
 			},
 			{
-				"name": "Skip_Unique_Constraint_Error",
-				"type": "Fail",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "PostQueue_To_SAP",
-						"dependencyConditions": [
-							"Skipped"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"message": "unique constraint",
-					"errorCode": "ORA-00001: unique constraint violated"
-				}
-			},
-			{
-				"name": "Delete_Queue_Data",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "PostQueue_To_SAP",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
-					"method": "DELETE",
-					"body": "{[]}",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
 				"name": "Wait_5sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Delete_Queue_Data",
+						"activity": "PostQueue_To_SAP",
 						"dependencyConditions": [
 							"Succeeded"
 						]
