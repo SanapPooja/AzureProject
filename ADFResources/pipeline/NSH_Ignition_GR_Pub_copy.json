@@ -965,6 +965,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_SAP_GR_Sub_copy",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}

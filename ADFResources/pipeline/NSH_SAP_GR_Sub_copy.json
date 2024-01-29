@@ -895,8 +895,70 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "PostMessagetoSAP_copy",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 5
+				}
+			},
+			{
+				"name": "updateStatus_Y",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};\n\n\n\n\n\n\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"ID_MESSAGE": {
+				"type": "string",
+				"defaultValue": "ID_MESSAGE"
+			},
+			"CHARG": {
+				"type": "string",
+				"defaultValue": "CHARG"
+			}
+		},
 		"annotations": []
 	}
 }
