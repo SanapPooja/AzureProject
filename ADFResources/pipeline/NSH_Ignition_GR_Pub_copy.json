@@ -979,7 +979,7 @@
 					{
 						"activity": "Execute Pipeline1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
