@@ -5,8 +5,6 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -18,339 +16,913 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "FileServerReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{[],[],[]}",
+						"paginationRules": {
+							"supportRFC5988": "true"
 						}
 					},
 					"sink": {
-						"type": "SqlServerSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"type": "OracleSink",
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
 							{
 								"source": {
-									"name": "EmployeeID",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MANDT']"
 								},
 								"sink": {
-									"name": "EmployeeCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MANDT",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "FullName",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$CHARG']"
 								},
 								"sink": {
-									"name": "EmployeeName",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "CHARG",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "PreferredName",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MATNR_AIM']"
 								},
 								"sink": {
-									"name": "EmployeeAlias",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MATNR_AIM",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "Gender",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$TIMESTAMP']"
 								},
 								"sink": {
-									"name": "Gender",
-									"type": "String",
-									"physicalType": "char"
+									"name": "TIMESTAMP",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "VisaNo",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MATNR_ACH']"
 								},
 								"sink": {
-									"name": "IdentityNo",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MATNR_ACH",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "MaritalStatus",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$QUANTITY']"
 								},
 								"sink": {
-									"name": "MaritalStatus",
-									"type": "String",
-									"physicalType": "char"
+									"name": "QUANTITY",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
-									"name": "Nationality",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MEINS']"
 								},
 								"sink": {
-									"name": "NationalityCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MEINS",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "UnionCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$AUART']"
 								},
 								"sink": {
-									"name": "UnionCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "AUART",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "EmployeeStatus",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$AUFNR']"
 								},
 								"sink": {
-									"name": "EmployeeStatus",
-									"type": "String",
-									"physicalType": "char"
+									"name": "AUFNR",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "EmployeeCategory",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$BLDAT']"
 								},
 								"sink": {
-									"name": "EmployeeTypeCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "BLDAT",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "CompanyCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$BUDAT']"
 								},
 								"sink": {
-									"name": "CompanyCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "BUDAT",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "DivisionCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$PCODE']"
 								},
 								"sink": {
-									"name": "DivisionCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "PCODE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "DepartmentCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$PLANT']"
 								},
 								"sink": {
-									"name": "DepartmentCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "PLANT",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "DepartmentName",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$NO_OF_GI_REC']"
 								},
 								"sink": {
-									"name": "DepartmentName",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "NO_OF_GI_REC",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "JobLevel",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$VBELN']"
 								},
 								"sink": {
-									"name": "CategoryCode",
-									"type": "String",
-									"physicalType": "char"
+									"name": "VBELN",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "JobGrade",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$POSNR']"
 								},
 								"sink": {
-									"name": "ClassificationCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "POSNR",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "PositionName",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MBLNR']"
 								},
 								"sink": {
-									"name": "functional_title",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MBLNR",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "CalendarCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$MJAHR']"
 								},
 								"sink": {
-									"name": "CalendarCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "MJAHR",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "OfficialEmailID",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$RUECK']"
 								},
 								"sink": {
-									"name": "Email",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "RUECK",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "OfficeLandline",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$RMZHL']"
 								},
 								"sink": {
-									"name": "ExtensionNo",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "RMZHL",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "CostCentre",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$REV_RUECK']"
 								},
 								"sink": {
-									"name": "CostCentreCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "REV_RUECK",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "BankBranchCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$REV_RMZHL']"
 								},
 								"sink": {
-									"name": "BankBranch",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "REV_RMZHL",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "BankCode",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$Z_HEAT_NO']"
 								},
 								"sink": {
-									"name": "BankCode",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "Z_HEAT_NO",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "BankACNumber",
-									"type": "String",
-									"physicalType": "String"
+									"path": "$['$Z_THEO_WT']"
 								},
 								"sink": {
-									"name": "BankAccountNo",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "Z_THEO_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_SHIFT']"
+								},
+								"sink": {
+									"name": "Z_SHIFT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_PROD_DATE']"
+								},
+								"sink": {
+									"name": "Z_PROD_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MILL_SOURCE']"
+								},
+								"sink": {
+									"name": "Z_MILL_SOURCE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_LENGTH']"
+								},
+								"sink": {
+									"name": "Z_LENGTH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_STANDARD']"
+								},
+								"sink": {
+									"name": "Z_STANDARD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BAT_LOCATOR_A']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_A",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BAT_LOCATOR_B']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_B",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BAT_LOCATOR_C']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_C",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_PCS_PER_HEAT']"
+								},
+								"sink": {
+									"name": "Z_PCS_PER_HEAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_KG_PER_BLD']"
+								},
+								"sink": {
+									"name": "Z_KG_PER_BLD",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_PCS_PER_BLD']"
+								},
+								"sink": {
+									"name": "Z_PCS_PER_BLD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_KG_PER_COIL']"
+								},
+								"sink": {
+									"name": "Z_KG_PER_COIL",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_ACT_COI_WT']"
+								},
+								"sink": {
+									"name": "Z_ACT_COI_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MAC_NO']"
+								},
+								"sink": {
+									"name": "Z_MAC_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COIL_NO']"
+								},
+								"sink": {
+									"name": "Z_COIL_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_TOTAL_CUT']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_CUT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_TOTAL_BEND']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_BEND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_TOTAL_LINK']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_LINK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CUT_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_CUT_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BEND_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_BEND_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_LINK_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_LINK_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_GRA']"
+								},
+								"sink": {
+									"name": "Z_COU_GRA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_REF']"
+								},
+								"sink": {
+									"name": "Z_COU_REF",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_NO_OF_END']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_END",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_DIA_1']"
+								},
+								"sink": {
+									"name": "Z_COU_DIA_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_DIA_2']"
+								},
+								"sink": {
+									"name": "Z_COU_DIA_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_TYPE_1']"
+								},
+								"sink": {
+									"name": "Z_COU_TYPE_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_COU_TYPE_2']"
+								},
+								"sink": {
+									"name": "Z_COU_TYPE_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_NO_OF_PNT']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_PNT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_TAG_NO']"
+								},
+								"sink": {
+									"name": "Z_TAG_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MAC_TPL']"
+								},
+								"sink": {
+									"name": "Z_MAC_TPL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_NO_OF_STR']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_STR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_AREA_PER_PC']"
+								},
+								"sink": {
+									"name": "Z_AREA_PER_PC",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CON_MAT']"
+								},
+								"sink": {
+									"name": "Z_CON_MAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CONSUME_BATCHES']"
+								},
+								"sink": {
+									"name": "Z_CONSUME_BATCHE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_SHAPE_CODE']"
+								},
+								"sink": {
+									"name": "Z_SHAPE_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_INV_LEN']"
+								},
+								"sink": {
+									"name": "Z_INV_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_WBS1']"
+								},
+								"sink": {
+									"name": "Z_WBS1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_WBS2']"
+								},
+								"sink": {
+									"name": "Z_WBS2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_WBS3']"
+								},
+								"sink": {
+									"name": "Z_WBS3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BBSNO']"
+								},
+								"sink": {
+									"name": "Z_BBSNO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_PROD_MARK']"
+								},
+								"sink": {
+									"name": "Z_PROD_MARK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MW_SPA']"
+								},
+								"sink": {
+									"name": "Z_MW_SPA",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CW_SPA']"
+								},
+								"sink": {
+									"name": "Z_CW_SPA",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MW_LEN']"
+								},
+								"sink": {
+									"name": "Z_MW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CW_LEN']"
+								},
+								"sink": {
+									"name": "Z_CW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_PIECES']"
+								},
+								"sink": {
+									"name": "Z_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CW_OVR_HANG1']"
+								},
+								"sink": {
+									"name": "Z_CW_OVR_HANG1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_CW_OVR_HANG2']"
+								},
+								"sink": {
+									"name": "Z_CW_OVR_HANG2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MW_OVR_HANG1']"
+								},
+								"sink": {
+									"name": "Z_MW_OVR_HANG1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_MW_OVR_HANG2']"
+								},
+								"sink": {
+									"name": "Z_MW_OVR_HANG2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Z_BBS_DESC']"
+								},
+								"sink": {
+									"name": "Z_BBS_DESC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANT_D']"
+								},
+								"sink": {
+									"name": "PLANT_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LGORT']"
+								},
+								"sink": {
+									"name": "LGORT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATNR_D']"
+								},
+								"sink": {
+									"name": "MATNR_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY_D']"
+								},
+								"sink": {
+									"name": "QUANTITY_D",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CHARG_D']"
+								},
+								"sink": {
+									"name": "CHARG_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHIFT']"
+								},
+								"sink": {
+									"name": "SHIFT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REV_STATUS']"
+								},
+								"sink": {
+									"name": "REV_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROD_STATUS']"
+								},
+								"sink": {
+									"name": "PROD_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INTER_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UDATE']"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UTIME']"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$USERID']"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NDS_SALE_ORDER']"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_ITEM']"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
 								}
 							}
 						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "EHMSQATest",
+						"referenceName": "RestResourceGRQueue",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "EHMSDatabase",
+						"referenceName": "OracleDevelopment",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Web1",
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "DeleteServiceBusMessage",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -361,14 +933,136 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
 					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
 					}
 				}
+			},
+			{
+				"name": "UpdateStatus_Y_Success",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "UpdateStatus_E_Error",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update [dbo].[T_NSA_GR] set status='E' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Reprocess_UpdateStatus_T",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatus_E_Error",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update [dbo].[T_NSA_GR] set status='T' where status='E' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"ID_MESSAGE": {
+				"type": "string",
+				"defaultValue": "ID_MESSAGE"
+			},
+			"CHARG": {
+				"type": "string",
+				"defaultValue": "CHARG"
+			}
+		},
 		"annotations": []
 	}
 }
