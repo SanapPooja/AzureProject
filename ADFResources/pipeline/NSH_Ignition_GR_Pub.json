@@ -1,5 +1,5 @@
 {
-	"name": "NSH_Ignition_GR_Pub_copy",
+	"name": "NSH_Ignition_GR_Pub",
 	"properties": {
 		"activities": [
 			{
@@ -950,24 +950,6 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_SAP_GR_Sub_copy",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "Execute Pipeline2",
 				"type": "ExecutePipeline",
 				"dependsOn": [
@@ -984,7 +966,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pipeline7",
+						"referenceName": "NSH_SAP_GR_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
