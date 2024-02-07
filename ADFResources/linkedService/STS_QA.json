@@ -1,0 +1,16 @@
+{
+	"name": "STS_QA",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB14;initial catalog=STS;user id=MESAdmin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4NjIyY2NkNS05YTQ5LTRkNzAtYjgxZS1mMTUyOGM5ZDk1MWYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
