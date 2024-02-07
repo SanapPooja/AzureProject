@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Select_GI_Data",
+				"name": "Select_ACT_Data",
 				"type": "Script",
 				"dependsOn": [],
 				"policy": {
@@ -33,7 +33,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Select_GI_Data",
+						"activity": "Select_ACT_Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -78,7 +78,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "ACT_To_QueueData_Copy",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -559,12 +559,15 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "ACT_To_QueueData_Copy",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
+				"policy": {
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -594,8 +597,8 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
 					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
 					"body": "{[]}",
 					"authentication": {
 						"type": "MSI",

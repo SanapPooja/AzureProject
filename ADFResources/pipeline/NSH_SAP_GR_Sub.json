@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "PostQueue_To_SAP",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -901,7 +901,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "PostQueue_To_SAP",
 						"dependencyConditions": [
 							"Succeeded"
 						]

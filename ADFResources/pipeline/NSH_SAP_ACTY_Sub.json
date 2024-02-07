@@ -473,7 +473,7 @@
 				]
 			},
 			{
-				"name": "Wait_5sec",
+				"name": "Wait_60_sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
@@ -485,7 +485,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 5
+					"waitTimeInSeconds": 60
 				}
 			},
 			{
@@ -493,7 +493,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Wait_5sec",
+						"activity": "DeleteServiceBusMessage",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -594,6 +594,38 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DeleteServiceBusMessage",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait_60_sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			}
 		],
