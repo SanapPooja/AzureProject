@@ -233,8 +233,6 @@
 			{
 				"name": "Copy data2",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -289,7 +287,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "DeleteServiceBusMessage_HDR",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -355,7 +353,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "DeleteServiceBusMessage_DTL",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -414,6 +412,102 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Wait_60_sec_HDR",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "DeleteServiceBusMessage_HDR",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait_60_sec_HDR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait_60_sec_DTL",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "DeleteServiceBusMessage_DTL",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait_60_sec_DTL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			}
 		],
