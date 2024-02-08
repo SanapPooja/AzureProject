@@ -83,7 +83,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "if",
+						"value": "",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -160,6 +160,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "If Condition2",
