@@ -1,0 +1,93 @@
+{
+	"name": "SqlServerTable6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "STS_QA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TUO_MANDT",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_AIM_MATL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ORD_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ORD_ITEM_QTY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "TUO_BSC_FINISH_DT",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_SCHD_FINISH_DT",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ORD_CONFRM",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "TUO_INTERFACE_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ID_MESSAGE",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_PROC_TS",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_WRK_CENT",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ORD_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_PRODH",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_VORNR",
+				"type": "varchar"
+			},
+			{
+				"name": "TUO_ABLAD",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_UPST_ORDER_TEMP"
+		}
+	}
+}
