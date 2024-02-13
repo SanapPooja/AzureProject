@@ -1,0 +1,16 @@
+{
+	"name": "YESB_SOR_SO_DEMO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YESB_SOR_SO"
+		}
+	}
+}
