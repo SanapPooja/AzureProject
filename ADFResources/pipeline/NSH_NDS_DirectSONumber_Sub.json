@@ -35,7 +35,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$ORDER_REQUEST_NO']"
+									"path": "$ORDER_REQUEST_NO"
 								},
 								"sink": {
 									"name": "SOR_Number",
@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$SALES_ORDER']"
+									"path": "$SALES_ORDER"
 								},
 								"sink": {
 									"name": "SO_Number",
@@ -53,21 +53,15 @@
 							},
 							{
 								"source": {
-									"path": "$['$TM_ACCESS']"
+									"path": "$TM_ACCESS"
 								},
 								"sink": {
-									"name": "TM_Access"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$Inserted_Date']"
-								},
-								"sink": {
-									"name": "Inserted_date"
+									"name": "TM_Access",
+									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
