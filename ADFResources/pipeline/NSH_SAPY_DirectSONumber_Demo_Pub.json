@@ -52,6 +52,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "TM_ACCESS",
+								"value": "N"
+							}
+						],
 						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
@@ -84,6 +90,14 @@
 								},
 								"sink": {
 									"path": "$SALES_ORDER"
+								}
+							},
+							{
+								"source": {
+									"name": "TM_ACCESS"
+								},
+								"sink": {
+									"path": "$['$TM_ACCESS']"
 								}
 							}
 						]
