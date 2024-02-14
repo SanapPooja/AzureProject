@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "PostQueueToODOS",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -35,7 +35,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$ORDER_REQUEST_NO"
+									"path": "$['$ORDER_REQUEST_NO']"
 								},
 								"sink": {
 									"name": "SOR_Number",
@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"path": "$SALES_ORDER"
+									"path": "$['$SALES_ORDER']"
 								},
 								"sink": {
 									"name": "SO_Number",
@@ -53,15 +53,21 @@
 							},
 							{
 								"source": {
-									"path": "$TM_ACCESS"
+									"path": "$['$TM_ACCESS']"
 								},
 								"sink": {
-									"name": "TM_Access",
-									"type": "String"
+									"name": "TM_Access"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Inserted_Date']"
+								},
+								"sink": {
+									"name": "Inserted_date"
 								}
 							}
-						],
-						"collectionReference": ""
+						]
 					}
 				},
 				"inputs": [
@@ -78,11 +84,11 @@
 				]
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "PostQueueToODOS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -94,11 +100,11 @@
 				}
 			},
 			{
-				"name": "Web1",
+				"name": "DeleteFromQueue",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
