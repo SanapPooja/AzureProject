@@ -1,0 +1,12 @@
+{
+	"name": "DatasetQueueHeadDemo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService4HeadDemo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
