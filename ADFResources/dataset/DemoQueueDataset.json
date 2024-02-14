@@ -1,0 +1,12 @@
+{
+	"name": "DemoQueueDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DemoQueueRestService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
