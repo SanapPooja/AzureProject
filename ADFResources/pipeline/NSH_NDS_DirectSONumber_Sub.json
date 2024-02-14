@@ -50,6 +50,22 @@
 									"name": "SO_Number",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$TM_ACCESS']"
+								},
+								"sink": {
+									"name": "TM_Access"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$Inserted_Date']"
+								},
+								"sink": {
+									"name": "Inserted_date"
+								}
 							}
 						]
 					}
