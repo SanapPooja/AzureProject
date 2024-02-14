@@ -31,7 +31,7 @@
 				}
 			},
 			{
-				"name": "SapToQueue",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -56,18 +56,10 @@
 							{
 								"name": "TM_ACCESS",
 								"value": "N"
-							},
-							{
-								"name": "Inserted_Date",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
 							}
 						],
 						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
 						"partitionOption": "None",
-						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -102,20 +94,10 @@
 							},
 							{
 								"source": {
-									"name": "TM_ACCESS",
-									"type": "String"
+									"name": "TM_ACCESS"
 								},
 								"sink": {
-									"path": "$TM_ACCESS"
-								}
-							},
-							{
-								"source": {
-									"name": "Inserted_Date",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$Inserted_Date"
+									"path": "$['$TM_ACCESS']"
 								}
 							}
 						]
@@ -135,11 +117,11 @@
 				]
 			},
 			{
-				"name": "NSH_NDS_DirectSONumber_Sub",
+				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "SapToQueue",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]

@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PostQueueToODOS",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -35,7 +35,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$ORDER_REQUEST_NO']"
+									"path": "$ORDER_REQUEST_NO"
 								},
 								"sink": {
 									"name": "SOR_Number",
@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$SALES_ORDER']"
+									"path": "$SALES_ORDER"
 								},
 								"sink": {
 									"name": "SO_Number",
@@ -53,21 +53,15 @@
 							},
 							{
 								"source": {
-									"path": "$['$TM_ACCESS']"
+									"path": "$TM_ACCESS"
 								},
 								"sink": {
-									"name": "TM_Access"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$Inserted_Date']"
-								},
-								"sink": {
-									"name": "Inserted_date"
+									"name": "TM_Access",
+									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -84,11 +78,11 @@
 				]
 			},
 			{
-				"name": "Wait_For_60sec",
+				"name": "Wait1",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "PostQueueToODOS",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -100,11 +94,11 @@
 				}
 			},
 			{
-				"name": "DeleteFromQueue",
+				"name": "Web1",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait_For_60sec",
+						"activity": "Wait1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -126,8 +120,47 @@
 						"resource": "https://servicebus.azure.net/"
 					}
 				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": ""
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"SALES_ORDER": {
+				"type": "string",
+				"defaultValue": "SALES_ORDER"
+			}
+		},
 		"annotations": []
 	}
 }
