@@ -21,6 +21,10 @@
 							{
 								"name": "TM_ACCESS",
 								"value": "N"
+							},
+							{
+								"name": "inserted_date",
+								"value": "@utcnow()"
 							}
 						],
 						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
@@ -64,6 +68,14 @@
 								"sink": {
 									"path": "$['$TM_ACCESS']"
 								}
+							},
+							{
+								"source": {
+									"name": "inserted_date"
+								},
+								"sink": {
+									"path": "$['$inserted_date']"
+								}
 							}
 						]
 					}
@@ -82,7 +94,7 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline1",
+				"name": "Execute INT010 Sub",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
