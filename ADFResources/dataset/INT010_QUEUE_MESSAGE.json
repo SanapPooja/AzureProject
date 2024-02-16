@@ -1,5 +1,5 @@
 {
-	"name": "RestResourceDemo3",
+	"name": "INT010_QUEUE_MESSAGE",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "RestServiceDemo",

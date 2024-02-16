@@ -66,13 +66,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DatasetQueueHeadDemo",
+						"referenceName": "INT010_QUEUE_MESSAGE_HEAD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SAP_SO_SOR_DEMO",
+						"referenceName": "INT010_SAP_SO_SOR",
 						"type": "DatasetReference"
 					}
 				]

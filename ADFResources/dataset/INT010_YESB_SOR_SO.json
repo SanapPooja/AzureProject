@@ -1,5 +1,5 @@
 {
-	"name": "YESB_SOR_SO_DEMO",
+	"name": "INT010_YESB_SOR_SO",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SAP_DEV_DEMO",

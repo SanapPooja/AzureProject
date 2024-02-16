@@ -70,13 +70,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "YESB_SOR_SO_DEMO",
+						"referenceName": "INT010_YESB_SOR_SO",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "RestResourceDemo3",
+						"referenceName": "INT010_QUEUE_MESSAGE",
 						"type": "DatasetReference"
 					}
 				]

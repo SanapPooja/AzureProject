@@ -1,5 +1,5 @@
 {
-	"name": "SAP_SO_SOR_DEMO",
+	"name": "INT010_SAP_SO_SOR",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SQL_DEV_DEMO",

@@ -1,5 +1,5 @@
 {
-	"name": "DatasetQueueHeadDemo",
+	"name": "INT010_QUEUE_MESSAGE_HEAD",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "RestService4HeadDemo",
