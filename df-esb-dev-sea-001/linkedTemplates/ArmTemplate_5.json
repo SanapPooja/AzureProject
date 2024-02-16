@@ -4924,7 +4924,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "QUEUE_to_ODOS_Records",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -5010,11 +5010,11 @@
 						]
 					},
 					{
-						"name": "Wait1",
+						"name": "Wait_60_sec",
 						"type": "Wait",
 						"dependsOn": [
 							{
-								"activity": "Copy data1",
+								"activity": "QUEUE_to_ODOS_Records",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -5026,11 +5026,11 @@
 						}
 					},
 					{
-						"name": "Web1",
+						"name": "Delete_Queue_head",
 						"type": "WebActivity",
 						"dependsOn": [
 							{
-								"activity": "Wait1",
+								"activity": "Wait_60_sec",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -5055,13 +5055,13 @@
 						}
 					},
 					{
-						"name": "Script1",
+						"name": "Delete_SALES_ORDER_Records",
 						"type": "Script",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "Copy data1",
+								"activity": "QUEUE_to_ODOS_Records",
 								"dependencyConditions": [
 									"Failed"
 								]
@@ -5093,13 +5093,13 @@
 						}
 					},
 					{
-						"name": "Script1_copy1",
+						"name": "Delete_SALES_ORDER_Record",
 						"type": "Script",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "Web1",
+								"activity": "Delete_Queue_head",
 								"dependencyConditions": [
 									"Succeeded"
 								]
