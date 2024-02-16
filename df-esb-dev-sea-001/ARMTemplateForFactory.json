@@ -4057,7 +4057,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$ORDER_REQUEST_NO"
+											"path": "$['$ORDER_REQUEST_NO']"
 										},
 										"sink": {
 											"name": "SOR_Number",
@@ -4066,7 +4066,7 @@
 									},
 									{
 										"source": {
-											"path": "$SALES_ORDER"
+											"path": "$['$SALES_ORDER']"
 										},
 										"sink": {
 											"name": "SO_Number",
@@ -4075,11 +4075,20 @@
 									},
 									{
 										"source": {
-											"path": "$TM_ACCESS"
+											"path": "$['$TM_ACCESS']"
 										},
 										"sink": {
 											"name": "TM_Access",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['$inserted_date']"
+										},
+										"sink": {
+											"name": "Inserted_date",
+											"type": "DateTime"
 										}
 									}
 								],
@@ -4149,6 +4158,8 @@
 					{
 						"name": "Script1",
 						"type": "Script",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data1",
@@ -4263,6 +4274,13 @@
 									{
 										"name": "TM_ACCESS",
 										"value": "N"
+									},
+									{
+										"name": "inserted_date",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
 									}
 								],
 								"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
@@ -4306,6 +4324,14 @@
 										"sink": {
 											"path": "$['$TM_ACCESS']"
 										}
+									},
+									{
+										"source": {
+											"name": "inserted_date"
+										},
+										"sink": {
+											"path": "$['$inserted_date']"
+										}
 									}
 								]
 							}
@@ -4326,7 +4352,7 @@
 						]
 					},
 					{
-						"name": "Execute Pipeline1",
+						"name": "Execute INT010 Sub",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{

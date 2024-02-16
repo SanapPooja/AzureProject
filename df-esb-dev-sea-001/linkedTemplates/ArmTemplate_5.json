@@ -4956,7 +4956,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$ORDER_REQUEST_NO"
+											"path": "$['$ORDER_REQUEST_NO']"
 										},
 										"sink": {
 											"name": "SOR_Number",
@@ -4965,7 +4965,7 @@
 									},
 									{
 										"source": {
-											"path": "$SALES_ORDER"
+											"path": "$['$SALES_ORDER']"
 										},
 										"sink": {
 											"name": "SO_Number",
@@ -4974,11 +4974,20 @@
 									},
 									{
 										"source": {
-											"path": "$TM_ACCESS"
+											"path": "$['$TM_ACCESS']"
 										},
 										"sink": {
 											"name": "TM_Access",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['$inserted_date']"
+										},
+										"sink": {
+											"name": "Inserted_date",
+											"type": "DateTime"
 										}
 									}
 								],
@@ -5048,6 +5057,8 @@
 					{
 						"name": "Script1",
 						"type": "Script",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data1",
