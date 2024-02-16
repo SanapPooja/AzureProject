@@ -20,6 +20,9 @@
 		"IgnitionQA_connectionString": {
 			"value": ""
 		},
+		"LinkedSqlServerDemo_connectionString": {
+			"value": ""
+		},
 		"LookupTable_connectionString": {
 			"value": ""
 		},
@@ -32,7 +35,19 @@
 		"Oracle2_connectionString": {
 			"value": ""
 		},
+		"OracleLinkedServerDemo_connectionString": {
+			"value": ""
+		},
+		"SAP_DEV_DEMO_connectionString": {
+			"value": ""
+		},
 		"SCM_IDB_Connect_connectionString": {
+			"value": ""
+		},
+		"SQL_DEV_DEMO_connectionString": {
+			"value": ""
+		},
+		"STS_QA_connectionString": {
 			"value": ""
 		},
 		"SapConnection_password": {
@@ -42,6 +57,9 @@
 			"value": ""
 		},
 		"SapRFCconnection_password": {
+			"value": ""
+		},
+		"ScrapGradeConnection_connectionString": {
 			"value": ""
 		},
 		"SftpConnection_password": {
@@ -55,6 +73,12 @@
 		},
 		"UpstreamMESQA_connectionString": {
 			"value": ""
+		},
+		"DemoQueueRestService_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages"
+		},
+		"DemoQueueRestService_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
 		},
 		"EHMSQA_properties_typeProperties_host": {
 			"value": "\\\\nslfp4\\bend"
@@ -104,6 +128,12 @@
 		"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
 			"value": "https://servicebus.azure.net/"
 		},
+		"LinkedServerQueueDestination_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages/head"
+		},
+		"LinkedServerQueueDestination_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
 		"RestService1_properties_typeProperties_url": {
 			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
 		},
@@ -117,6 +147,18 @@
 			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata"
 		},
 		"RestService3_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestService4HeadDemo_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head"
+		},
+		"RestService4HeadDemo_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"RestServiceDemo_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages"
+		},
+		"RestServiceDemo_properties_typeProperties_aadResourceId": {
 			"value": "https://servicebus.azure.net/"
 		},
 		"RestServiceGR_properties_typeProperties_url": {
@@ -172,6 +214,18 @@
 		},
 		"SapRFCconnection_properties_typeProperties_systemNumber": {
 			"value": "01"
+		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages/head"
+		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
 		},
 		"SftpConnection_properties_typeProperties_host": {
 			"value": "14.141.16.136"

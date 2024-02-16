@@ -27,25 +27,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'IgnitionQA'"
 		},
-		"LookupTable_connectionString": {
+		"LinkedSqlServerDemo_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LookupTable'"
-		},
-		"NSQADB2Connection_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'NSQADB2Connection'"
-		},
-		"Oracle1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Oracle1'"
-		},
-		"Oracle2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Oracle2'"
-		},
-		"SCM_IDB_Connect_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SCM_IDB_Connect'"
+			"metadata": "Secure string for 'connectionString' of 'LinkedSqlServerDemo'"
 		},
 		"EHMSQA_properties_typeProperties_host": {
 			"type": "string",
@@ -78,28 +62,96 @@
 		"IgnitionActQueue_properties_typeProperties_aadResourceId": {
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
-		},
-		"RestServiceGR_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages"
-		},
-		"RestServiceGR_properties_typeProperties_aadResourceId": {
-			"type": "string",
-			"defaultValue": "https://servicebus.azure.net/"
-		},
-		"RestServiceGRQueue_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head"
-		},
-		"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
-			"type": "string",
-			"defaultValue": "https://servicebus.azure.net/"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntimeTemp')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/nsqa')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DemoQueueDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DemoQueueRestService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_QUEUE_MESSAGE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestServiceDemo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_QUEUE_MESSAGE_HEAD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService4HeadDemo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQC_DTL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL_Queue')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -332,122 +384,14 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LookupTable')]",
+			"name": "[concat(parameters('factoryName'), '/LinkedSqlServerDemo')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "SqlServer",
 				"typeProperties": {
-					"connectionString": "[parameters('LookupTable_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "NSHQA",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/NSQADB2Connection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('NSQADB2Connection_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "NSHQA",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Oracle1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('Oracle1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Oracle2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('Oracle2_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestServiceGR')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestServiceGR_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "ManagedServiceIdentity",
-					"aadResourceId": "[parameters('RestServiceGR_properties_typeProperties_aadResourceId')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestServiceGRQueue')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestServiceGRQueue_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "ManagedServiceIdentity",
-					"aadResourceId": "[parameters('RestServiceGRQueue_properties_typeProperties_aadResourceId')]"
-				},
-				"connectVia": {
-					"referenceName": "MESQARuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SCM_IDB_Connect')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('SCM_IDB_Connect_connectionString')]"
+					"connectionString": "[parameters('LinkedSqlServerDemo_connectionString')]"
 				},
 				"connectVia": {
 					"referenceName": "MESQARuntime",

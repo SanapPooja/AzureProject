@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'IgnitionQA'"
 		},
+		"LinkedSqlServerDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LinkedSqlServerDemo'"
+		},
 		"LookupTable_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LookupTable'"
@@ -43,9 +47,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Oracle2'"
 		},
+		"OracleLinkedServerDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OracleLinkedServerDemo'"
+		},
+		"SAP_DEV_DEMO_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SAP_DEV_DEMO'"
+		},
 		"SCM_IDB_Connect_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SCM_IDB_Connect'"
+		},
+		"SQL_DEV_DEMO_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL_DEV_DEMO'"
+		},
+		"STS_QA_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'STS_QA'"
 		},
 		"SapConnection_password": {
 			"type": "secureString",
@@ -58,6 +78,10 @@
 		"SapRFCconnection_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SapRFCconnection'"
+		},
+		"ScrapGradeConnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ScrapGradeConnection'"
 		},
 		"SftpConnection_password": {
 			"type": "secureString",
@@ -74,6 +98,14 @@
 		"UpstreamMESQA_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
+		},
+		"DemoQueueRestService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages"
+		},
+		"DemoQueueRestService_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
 		},
 		"EHMSQA_properties_typeProperties_host": {
 			"type": "string",
@@ -139,6 +171,14 @@
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
+		"LinkedServerQueueDestination_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages/head"
+		},
+		"LinkedServerQueueDestination_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
@@ -156,6 +196,22 @@
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata"
 		},
 		"RestService3_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestService4HeadDemo_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head"
+		},
+		"RestService4HeadDemo_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestServiceDemo_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages"
+		},
+		"RestServiceDemo_properties_typeProperties_aadResourceId": {
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
@@ -230,6 +286,22 @@
 		"SapRFCconnection_properties_typeProperties_systemNumber": {
 			"type": "string",
 			"defaultValue": "01"
+		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages/head"
+		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
 		},
 		"SftpConnection_properties_typeProperties_host": {
 			"type": "string",
@@ -1598,6 +1670,90 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DemoPipelinePub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
+								"partitionOption": "None",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ORDER_REQUEST_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['$ORDER_REQUEST_NO']"
+										}
+									},
+									{
+										"source": {
+											"name": "SALES_ORDER",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['$SALES_ORDER']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Demo_YESB_SOR_SO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DemoQueueDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Demo_YESB_SOR_SO')]",
+				"[concat(variables('factoryId'), '/datasets/DemoQueueDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/GetMessage_copy1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1616,13 +1772,13 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net",
 							"method": "GET",
 							"headers": {
 								"SharedAccessKeyName": "Sendm",
 								"SharedAccessKey": "NQy3A095Ro+07sqUQ+WRVKV/GsfpNzVFO+ASbJ2aIPg=",
 								"EntityPath": "mesgrqueue"
-							}
+							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net"
 						}
 					}
 				],
@@ -3863,13 +4019,356 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/NSH_INT010_ODOS_DirectSONumber_Sub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$ORDER_REQUEST_NO"
+										},
+										"sink": {
+											"name": "SOR_Number",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$SALES_ORDER"
+										},
+										"sink": {
+											"name": "SO_Number",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$TM_ACCESS"
+										},
+										"sink": {
+											"name": "TM_Access",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": ""
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "INT010_QUEUE_MESSAGE_HEAD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "INT010_SAP_SO_SOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 60
+						}
+					},
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "DELETE",
+							"headers": {},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
+					},
+					{
+						"name": "Script1",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "SAP_DEV_DEMO",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Script1_copy1",
+						"type": "Script",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Web1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "SAP_DEV_DEMO",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"SALES_ORDER": {
+						"type": "string",
+						"defaultValue": "SALES_ORDER"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/INT010_QUEUE_MESSAGE_HEAD')]",
+				"[concat(variables('factoryId'), '/datasets/INT010_SAP_SO_SOR')]",
+				"[concat(variables('factoryId'), '/linkedServices/SAP_DEV_DEMO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_INT010_SAPY_DirectSONumber_Pub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Select_SAPY_to_QUEUE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"additionalColumns": [
+									{
+										"name": "TM_ACCESS",
+										"value": "N"
+									}
+								],
+								"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
+								"partitionOption": "None",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ORDER_REQUEST_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$ORDER_REQUEST_NO"
+										}
+									},
+									{
+										"source": {
+											"name": "SALES_ORDER",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$SALES_ORDER"
+										}
+									},
+									{
+										"source": {
+											"name": "TM_ACCESS"
+										},
+										"sink": {
+											"path": "$['$TM_ACCESS']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "INT010_YESB_SOR_SO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "INT010_QUEUE_MESSAGE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Select_SAPY_to_QUEUE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_INT010_ODOS_DirectSONumber_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/INT010_YESB_SOR_SO')]",
+				"[concat(variables('factoryId'), '/datasets/INT010_QUEUE_MESSAGE')]",
+				"[concat(variables('factoryId'), '/pipelines/NSH_INT010_ODOS_DirectSONumber_Sub')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NSH_Ignition_ACTY_Pub')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Select_GI_Data",
+						"name": "Select_ACT_Data",
 						"type": "Script",
 						"dependsOn": [],
 						"policy": {
@@ -3899,7 +4398,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Select_GI_Data",
+								"activity": "Select_ACT_Data",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -3944,7 +4443,7 @@
 						}
 					},
 					{
-						"name": "Copy data1",
+						"name": "ACT_To_QueueData_Copy",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -4427,12 +4926,15 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "Copy data1",
+								"activity": "ACT_To_QueueData_Copy",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -4522,7 +5024,7 @@
 						}
 					},
 					{
-						"name": "Wait_5sec",
+						"name": "Wait",
 						"type": "Wait",
 						"dependsOn": [
 							{
@@ -4542,7 +5044,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Wait_5sec",
+								"activity": "Wait",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -5412,7 +5914,7 @@
 						}
 					},
 					{
-						"name": "TriggerToSubscriber",
+						"name": "Execute Pipeline2",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -5422,13 +5924,16 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "NSH_SAP_GR_Sub",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": false,
+							"waitOnCompletion": true,
 							"parameters": {}
 						}
 					}
@@ -5436,65 +5941,7 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"STATUS": {
-						"type": "string",
-						"defaultValue": "STATUS"
-					}
-				},
-				"variables": {
-					"MANDT": {
-						"type": "Array"
-					},
-					"ID_MESSAGE": {
-						"type": "Array"
-					},
-					"AIM_MATL_NO": {
-						"type": "Array"
-					},
-					"ACH_MATL_NO": {
-						"type": "Array"
-					},
-					"BASE_UOM": {
-						"type": "Array"
-					},
-					"ORD_TYPE": {
-						"type": "Integer",
-						"defaultValue": 0
-					},
-					"ORD_NO": {
-						"type": "Array"
-					},
-					"DOCU_DATE": {
-						"type": "Array"
-					},
-					"POSTG_DATE": {
-						"type": "Array"
-					},
-					"PCODE": {
-						"type": "Array"
-					},
-					"PLANT": {
-						"type": "Array"
-					},
-					"STOR_LOC": {
-						"type": "Array"
-					},
-					"NO_GI_RECS": {
-						"type": "Array"
-					},
-					"SD_DOCU_NO": {
-						"type": "Array"
-					},
-					" ITEM_NO": {
-						"type": "Array"
-					},
-					"STATUS": {
-						"type": "Array"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-10-26T12:03:23Z"
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]",
@@ -5538,8 +5985,6 @@
 					{
 						"name": "LOTNO_2",
 						"type": "Script",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -5566,8 +6011,6 @@
 					{
 						"name": "LOTNO_3",
 						"type": "Script",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -6144,6 +6587,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -6648,57 +7094,11 @@
 						]
 					},
 					{
-						"name": "Skip_Unique_Constraint_Error",
-						"type": "Fail",
-						"dependsOn": [
-							{
-								"activity": "PostQueue_To_SAP",
-								"dependencyConditions": [
-									"Skipped"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"message": "unique constraint",
-							"errorCode": "ORA-00001: unique constraint violated"
-						}
-					},
-					{
-						"name": "Delete_Queue_Data",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "PostQueue_To_SAP",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
-							"method": "DELETE",
-							"headers": {},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://servicebus.azure.net/"
-							}
-						}
-					},
-					{
-						"name": "Wait_5sec",
+						"name": "Wait_60_sec",
 						"type": "Wait",
 						"dependsOn": [
 							{
-								"activity": "Delete_Queue_Data",
+								"activity": "PostQueue_To_SAP",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -6706,7 +7106,7 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"waitTimeInSeconds": 5
+							"waitTimeInSeconds": 60
 						}
 					},
 					{
@@ -6714,7 +7114,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Wait_5sec",
+								"activity": "DeleteServiceBusMessage",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -6816,6 +7216,38 @@
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
 						}
+					},
+					{
+						"name": "DeleteServiceBusMessage",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait_60_sec",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "DELETE",
+							"headers": {
+								"CustomHeader-Version": "\"1.0\"",
+								"Content-Type": "application/json"
+							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -6882,13 +7314,199 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/NSH_SAP_CanceledTickets_Pub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Script1",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "ScrapGradeConnection",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "SELECT TICKET_NO FROM DEDUCTION_EXTERNAL_ITEM_HEADER WHERE CONVERT(DATE, (MODIFIED_DATE_TIME)) >= CONVERT(DATE, (GETDATE()-90))\n\tAND CONVERT(DATE, (MODIFIED_DATE_TIME))<= CONVERT(DATE, (GETDATE())) and STATUS = 'A'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Script2",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Script1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": " select TICKET_NO ,STATUS from sapsr3.YMPIT_PUR_WB_HDR WHERE status = 'C'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Script2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"oracleReaderQuery": "select STATUS,TICKET_NO from sapsr3.YMPIT_PUR_WB_HDR where STATUS = 'C'",
+								"partitionOption": "None",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "RestSink",
+								"httpRequestTimeout": "00:05:00",
+								"requestInterval": 10,
+								"requestMethod": "POST",
+								"writeBatchSize": 10000,
+								"httpCompressionType": "none"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['STATUS']"
+										}
+									},
+									{
+										"source": {
+											"name": "TICKET_NO",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['TICKET_NO']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SAP_YMPIT_PUR_WB_HDR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ScrapGrade_CancelledTickets",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "NSH_ScrapGrade_CanceledTickets_Sub",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"STATUS": {
+						"type": "string",
+						"defaultValue": "C"
+					},
+					"TICKET_NO": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ScrapGradeConnection')]",
+				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]",
+				"[concat(variables('factoryId'), '/datasets/SAP_YMPIT_PUR_WB_HDR')]",
+				"[concat(variables('factoryId'), '/datasets/ScrapGrade_CancelledTickets')]",
+				"[concat(variables('factoryId'), '/pipelines/NSH_ScrapGrade_CanceledTickets_Sub')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NSH_SAP_GR_Sub')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PostMessagetoSAP_copy",
+						"name": "PostQueue_To_SAP",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -6905,7 +7523,7 @@
 								"httpRequestTimeout": "00:01:40",
 								"requestInterval": "00.00:00:00.010",
 								"requestMethod": "POST",
-								"requestBody": "{[],[],[]\n}",
+								"requestBody": "{[],[],[]}",
 								"paginationRules": {
 									"supportRFC5988": "true"
 								}
@@ -7788,7 +8406,7 @@
 						"type": "Wait",
 						"dependsOn": [
 							{
-								"activity": "DeleteQueueData_copy1",
+								"activity": "PostQueue_To_SAP",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -7796,11 +8414,43 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"waitTimeInSeconds": 5
+							"waitTimeInSeconds": 60
 						}
 					},
 					{
-						"name": "UpdatetoY_Success",
+						"name": "DeleteServiceBusMessage",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "DELETE",
+							"headers": {
+								"CustomHeader-Version": "\"1.0\"",
+								"Content-Type": "application/json"
+							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
+					},
+					{
+						"name": "UpdateStatus_Y_Success",
 						"type": "Script",
 						"dependsOn": [
 							{
@@ -7827,7 +8477,7 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};\n\n\n\n\n\n\n",
+										"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};",
 										"type": "Expression"
 									}
 								}
@@ -7836,11 +8486,11 @@
 						}
 					},
 					{
-						"name": "UpdatetoE_Error",
+						"name": "UpdateStatus_E_Error",
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "PostMessagetoSAP_copy",
+								"activity": "Wait1",
 								"dependencyConditions": [
 									"Failed"
 								]
@@ -7872,41 +8522,11 @@
 						}
 					},
 					{
-						"name": "DeleteQueueData_copy1",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "PostMessagetoSAP_copy",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
-							"method": "DELETE",
-							"headers": {},
-							"body": "{[]}",
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://servicebus.azure.net/"
-							}
-						}
-					},
-					{
-						"name": "ReprocessErrorRecords",
+						"name": "Reprocess_UpdateStatus_T",
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "UpdatetoE_Error",
+								"activity": "UpdateStatus_E_Error",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -7936,54 +8556,22 @@
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
 						}
-					},
-					{
-						"name": "Fail1",
-						"type": "Fail",
-						"dependsOn": [
-							{
-								"activity": "PostMessagetoSAP_copy",
-								"dependencyConditions": [
-									"Skipped"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"message": "unique constraint",
-							"errorCode": "ORA-00001: unique constraint violated"
-						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
 				"parameters": {
-					"CHARG": {
-						"type": "string",
-						"defaultValue": "CHARG"
-					},
 					"ID_MESSAGE": {
 						"type": "string",
 						"defaultValue": "ID_MESSAGE"
+					},
+					"CHARG": {
+						"type": "string",
+						"defaultValue": "CHARG"
 					}
 				},
-				"variables": {
-					"lcAllCharg": {
-						"type": "String"
-					},
-					"lcCharg": {
-						"type": "String"
-					},
-					"lcAllTimestamp": {
-						"type": "String"
-					},
-					"lcTimeStamp": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-10-31T05:00:08Z"
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/RestResourceGRQueue')]",
@@ -8289,7 +8877,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Copy data1",
+								"activity": "DeleteServiceBusMessage_HDR",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -8355,7 +8943,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Copy data2",
+								"activity": "DeleteServiceBusMessage_DTL",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -8415,6 +9003,102 @@
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
 						}
+					},
+					{
+						"name": "Wait_60_sec_HDR",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 60
+						}
+					},
+					{
+						"name": "DeleteServiceBusMessage_HDR",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait_60_sec_HDR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "DELETE",
+							"headers": {
+								"CustomHeader-Version": "\"1.0\"",
+								"Content-Type": "application/json"
+							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
+					},
+					{
+						"name": "Wait_60_sec_DTL",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Copy data2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 60
+						}
+					},
+					{
+						"name": "DeleteServiceBusMessage_DTL",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait_60_sec_DTL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "DELETE",
+							"headers": {
+								"CustomHeader-Version": "\"1.0\"",
+								"Content-Type": "application/json"
+							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_hdr/messages/head",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://servicebus.azure.net/"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -8428,6 +9112,71 @@
 				"[concat(variables('factoryId'), '/datasets/IgnitionQC_DTL_Queue')]",
 				"[concat(variables('factoryId'), '/datasets/SAP_QCData_DTL')]",
 				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_ScrapGrade_CanceledTickets_Sub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"preCopyScript": {
+									"value": "UPDATE DEDUCTION_EXTERNAL_ITEM_HEADER SET STATUS='C' where TICKET_NO = ",
+									"type": "Expression"
+								},
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ScrapGrade_CancelledTicket_Queue",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ScrapGrade_CancelledTickets_DB",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ScrapGrade_CancelledTicket_Queue')]",
+				"[concat(variables('factoryId'), '/datasets/ScrapGrade_CancelledTickets_DB')]"
 			]
 		},
 		{
@@ -9205,12 +9954,12 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"method": "DELETE",
 							"headers": {
 								"CustomHeader-Version": "\"1.0\"",
 								"Content-Type": "application/json"
 							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://servicebus.azure.net/"
@@ -9905,12 +10654,12 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"method": "DELETE",
 							"headers": {
 								"CustomHeader-Version": "\"1.0\"",
 								"Content-Type": "application/json"
 							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://servicebus.azure.net/"
@@ -10705,12 +11454,12 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages/head",
 							"method": "DELETE",
 							"headers": {
 								"CustomHeader-Version": "\"1.0\"",
 								"Content-Type": "application/json"
 							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages/head",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://servicebus.azure.net/"
@@ -13475,7 +14224,6 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages",
 							"method": "POST",
 							"headers": {
 								"CustomHeader-Version": "\"1.0\"",
@@ -13485,6 +14233,7 @@
 									"type": "Expression"
 								}
 							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages",
 							"body": {
 								"value": "{\n    \"message\":\"Send Message4\"\n}",
 								"type": "Expression"
@@ -13598,12 +14347,12 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"method": "DELETE",
 							"headers": {
 								"CustomHeader-Version": "\"1.0\"",
 								"Content-Type": "application/json"
 							},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://servicebus.azure.net/"
@@ -13743,9 +14492,9 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
 							"method": "DELETE",
 							"headers": {},
+							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://servicebus.azure.net/"
@@ -13968,51 +14717,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline10')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "DeleteQueueData_copy1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages/head",
-							"method": "DELETE",
-							"headers": {},
-							"body": "{[]}",
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://servicebus.azure.net/"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-10-31T05:00:07Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline4')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SelectGRData",
+						"name": "Truncate_Table",
 						"type": "Script",
 						"dependsOn": [],
 						"policy": {
@@ -14024,96 +14735,14 @@
 						},
 						"userProperties": [],
 						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
+							"referenceName": "STS_QA",
 							"type": "LinkedServiceReference"
 						},
 						"typeProperties": {
 							"scripts": [
 								{
 									"type": "Query",
-									"text": "select * from [dbo].[T_NSA_GR] where STATUS = 'A'"
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
-						}
-					},
-					{
-						"name": "UpdateStatusT",
-						"type": "Script",
-						"dependsOn": [
-							{
-								"activity": "SelectGRData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "UPDATE [dbo].[T_NSA_GR] SET STATUS = 'T' WHERE STATUS = 'A' "
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
-						}
-					},
-					{
-						"name": "Wait_5sec",
-						"type": "Wait",
-						"dependsOn": [
-							{
-								"activity": "UpdateStatusT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 5
-						}
-					},
-					{
-						"name": "IntermediateMES",
-						"type": "Script",
-						"dependsOn": [
-							{
-								"activity": "Wait_5sec",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "insert into [dbo].[T_NSA_GR_STAGING] \n  SELECT [MANDT] as MANDT\n     ,[CHARG] as CHARG\n     ,rtrim([AIM_MATL_NO]) as MATNR_AIM\n     ,[ID_MESSAGE] as TIMESTAMP\n     ,rtrim([ACH_MATL_NO]) as MATNR_ACH\n     ,[TOT_QTY] as QUANTITY\n     ,rtrim([BASE_UOM]) as MEINS\n     ,' ' as AUART\n     ,[ORD_NO] as AUFNR\n     ,[DOCU_DATE] as BLDAT\n     ,[POSTG_DATE] as BUDAT\n     ,[PCODE] as PCODE\n     ,[PLANT] as PLANT\n     ,[STOR_LOC] as LGORT\n     ,'    ' as NO_OF_GI_REC\n     ,'          ' as VBELN\n     ,' ' as POSNR\n     ,'          ' as MBLNR\n     ,' ' as MJAHR\n     ,' ' as RUECK\n     ,' ' as RMZHL\n     ,' ' as REV_RUECK\n     ,' ' as REV_RMZHL\n     ,isnull([ZBC_HEAT_NO],' ') as Z_HEAT_NO\n     ,isnull([ZBC_THEO_WT],0.000) as Z_THEO_WT\n     ,isnull([ZBC_SHIFT],' ') as Z_SHIFT\n     ,[PROD_DATE] as Z_PROD_DATE\n     ,rtrim([ZBC_MILL_SOURCE]) as Z_MILL_SOURCE\n     ,isnull([ZBC_LENGTH],' ') as Z_LENGTH\n     ,isnull(rtrim([ZBC_STANDARD]),' ') as Z_STANDARD\n     ,' ' as Z_BAT_LOCATOR_A\n     ,' ' as Z_BAT_LOCATOR_B\n     ,' ' as Z_BAT_LOCATOR_C\n     ,isnull([ZBC_PCS_PER_HEAT],' ') as Z_PCS_PER_HEAT\n     ,isnull([ZBC_WT_PER_BLD],0.000) as Z_KG_PER_BLD\n     ,isnull([ZBC_PCS_PER_BLD],' ') as Z_PCS_PER_BLD\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_KG_PER_PCS\n     ,isnull([ZBC_WT_PER_COIL],0.000) as Z_KG_PER_COIL\n     ,isnull([ZBC_ACT_COI_WT],0.000) as Z_ACT_COI_WT\n     ,'        ' as Z_MAC_NO\n     ,'        ' as Z_COIL_NO\n     ,' ' as Z_TOTAL_CUT\n     ,' ' as Z_TOTAL_BEND\n     ,' ' as Z_TOTAL_LINK\n     ,isnull([CUT_PER_TON],0.00) as Z_CUT_PER_TON\n     ,isnull([BEND_PER_TON],0.00) as Z_BEND_PER_TON\n     ,isnull([LINK_PER_TON],0.00) as Z_LINK_PER_TON\n     ,'        ' as Z_COU_GRA\n     ,'        ' as Z_COU_REF\n     ,' ' as Z_NO_OF_END\n     ,0.00 as Z_COU_DIA_1\n     ,0.00 as Z_COU_DIA_2\n     ,' ' as Z_COU_TYPE_1\n     ,' ' as Z_COU_TYPE_2\n     ,' ' as Z_NO_OF_PNT\n     ,' ' as Z_TAG_NO\n     ,' ' as Z_MAC_TPL\n     ,' ' as Z_NO_OF_STR\n     ,0.000 as Z_AREA_PER_PC\n     ,isnull([ZBC_WT_PER_PCS],0.000) as Z_WT_PER_PC\n     ,isnull([CON_MAT],' ') as Z_CON_MAT\n     ,isnull([CONSUME_BATCHES],' ') as Z_CONSUME_BATCHE\n     ,' ' as Z_SHAPE_CODE\n     ,' ' as Z_INV_LEN\n     ,' ' as Z_WBS1\n     ,' ' as Z_WBS2\n     ,' ' as Z_WBS3\n     ,' ' as Z_BBSNO\n     ,' ' as Z_PROD_MARK\n     ,0.00 as Z_MW_SPA\n     ,0.00 as Z_CW_SPA\n     ,' ' as Z_MW_LEN\n     ,' ' as Z_CW_LEN\n     ,' ' as Z_PIECES\n     ,'0' as Z_CW_OVR_HANG1\n     ,'0' as Z_CW_OVR_HANG2\n     ,'0' as Z_MW_OVR_HANG1\n     ,'0' as Z_MW_OVR_HANG2\n     ,' ' as Z_BBS_DESC\n     ,isnull([PLANT_D],' ') as PLANT_D\n     ,isnull([STOR_LOC_D],' ') as LGORT_D\n     ,isnull([MATL_NO_D],' ') as MATNR_D\n     ,isnull([QUANTITY_D],0.000) as QUANTITY_D\n     ,isnull([CHARG_D],' ') as CHARG_D\n     ,[SHIFT] as SHIFT\n     ,' ' as REV_STATUS\n     ,' ' as PROD_STATUS\n     ,'A' as STATUS\n     ,' ' as ERROR_CD\n     ,[REC_TYPE] as REC_TYPE\n     ,' ' as PROC_TS\n     ,[INTERFACE_ID] as INTER_ID\n     ,'00000000' as UDATE\n     ,'000000' as UTIME\n     ,'BGDJOBS' as USERID\n     ,' ' as NDS_SALE_ORDER\n     ,' ' as ORDER_ITEM\n     FROM [dbo].[T_NSA_GR] where status='T'"
+									"text": "TRUNCATE TABLE T_UPST_ORDER_Temp;\n"
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
@@ -14122,9 +14751,14 @@
 					{
 						"name": "Copy data1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Truncate_Table",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -14135,1117 +14769,209 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "OracleSource",
+								"oracleReaderQuery": "select * from sapsr3.ympct_upst_order where ARBPL<>'MSLAFC01'",
+								"partitionOption": "None",
+								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "OracleSink",
-								"writeBatchSize": 10000,
-								"preCopyScript": "insert into sapsr3.ympct_nsa_gr\n  SELECT MANDT, CHARG, MATNR_AIM, TIMESTAMP, MATNR_ACH, QUANTITY, MEINS, AUART, AUFNR, BLDAT, BUDAT, PCODE\n     , PLANT\n     , LGORT\n     , NO_OF_GI_REC\n     , VBELN\n     , POSNR\n     , MBLNR\n     , MJAHR\n     , RUECK\n     , RMZHL\n     , REV_RUECK\n     , REV_RMZHL\n     , Z_HEAT_NO\n     , Z_THEO_WT\n     , Z_SHIFT\n     , Z_PROD_DATE\n     , Z_MILL_SOURCE\n     , Z_LENGTH\n     , Z_STANDARD\n     , Z_BAT_LOCATOR_A\n     , Z_BAT_LOCATOR_B\n     , Z_BAT_LOCATOR_C\n     , Z_PCS_PER_HEAT\n     , Z_KG_PER_BLD\n     , Z_PCS_PER_BLD\n     , Z_KG_PER_PCS\n     , Z_KG_PER_COIL\n     , Z_ACT_COI_WT\n     , Z_MAC_NO\n     , Z_COIL_NO\n     , Z_TOTAL_CUT\n     , Z_TOTAL_BEND\n     , Z_TOTAL_LINK\n     , Z_CUT_PER_TON\n     , Z_BEND_PER_TON\n     , Z_LINK_PER_TON\n     , Z_COU_GRA\n     , Z_COU_REF\n     , Z_NO_OF_END\n     , Z_COU_DIA_1\n     , Z_COU_DIA_2\n     , Z_COU_TYPE_1\n     , Z_COU_TYPE_2\n     , Z_NO_OF_PNT\n     , Z_TAG_NO\n     , Z_MAC_TPL\n     , Z_NO_OF_STR\n     , Z_AREA_PER_PC\n     , Z_WT_PER_PC\n     , Z_CON_MAT\n     , Z_CONSUME_BATCHE\n     , Z_SHAPE_CODE\n     , Z_INV_LEN\n     , Z_WBS1\n     , Z_WBS2\n     , Z_WBS3\n     , Z_BBSNO\n     , Z_PROD_MARK\n     , Z_MW_SPA\n     , Z_CW_SPA\n     , Z_MW_LEN\n     , Z_CW_LEN\n     , Z_PIECES\n     , Z_CW_OVR_HANG1\n     , Z_CW_OVR_HANG2\n     , Z_MW_OVR_HANG1\n     , Z_MW_OVR_HANG2\n     , Z_BBS_DESC\n     , PLANT_D\n     , LGORT_D\n     , MATNR_D\n     , QUANTITY_D\n     , CHARG_D\n     , SHIFT\n     , REV_STATUS\n     , PROD_STATUS\n     , STATUS\n     , ERROR_CD\n     , REC_TYPE\n     , PROC_TS\n     , INTER_ID\n     , UDATE\n     , UTIME\n     , USERID\n     , NDS_SALE_ORDER\n     , ORDER_ITEM\n     FROM [dbo].[T_NSA_GR_STAGING] where STATUS = 'T'"
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
 							},
 							"enableStaging": false,
-							"validateDataConsistency": true,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
 									{
 										"source": {
 											"name": "MANDT",
-											"type": "String",
-											"physicalType": "varchar"
+											"type": "String"
 										},
 										"sink": {
-											"name": "MANDT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CHARG",
+											"name": "TUO_MANDT",
 											"type": "String",
 											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CHARG",
-											"type": "String"
 										}
 									},
 									{
 										"source": {
 											"name": "MATNR_AIM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_AIM_MATL_NO",
 											"type": "String",
 											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_AIM",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "TIMESTAMP",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "TIMESTAMP",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR_ACH",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_ACH",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QUANTITY",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "QUANTITY",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "MEINS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MEINS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AUART",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "AUART",
-											"type": "String"
 										}
 									},
 									{
 										"source": {
 											"name": "AUFNR",
-											"type": "String",
-											"physicalType": "varchar"
+											"type": "String"
 										},
 										"sink": {
-											"name": "AUFNR",
-											"type": "String"
+											"name": "TUO_ORD_NO",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "BLDAT",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "PSMNG",
+											"type": "Decimal"
 										},
 										"sink": {
-											"name": "BLDAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BUDAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "BUDAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PCODE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PCODE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PLANT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PLANT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LGORT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "LGORT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "NO_OF_GI_REC",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "NO_OF_GI_REC",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "VBELN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "VBELN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "POSNR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "POSNR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MBLNR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MBLNR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MJAHR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MJAHR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RUECK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "RUECK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RMZHL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "RMZHL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_RUECK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_RUECK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_RMZHL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_RMZHL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_HEAT_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_HEAT_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_THEO_WT",
+											"name": "TUO_ORD_ITEM_QTY",
 											"type": "Decimal",
 											"physicalType": "decimal",
 											"scale": 3,
 											"precision": 15
+										}
+									},
+									{
+										"source": {
+											"name": "DGLTP",
+											"type": "String"
 										},
 										"sink": {
-											"name": "Z_THEO_WT",
+											"name": "TUO_BSC_FINISH_DT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "IGMNG",
 											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_SHIFT",
-											"type": "String",
-											"physicalType": "varchar"
 										},
 										"sink": {
-											"name": "Z_SHIFT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PROD_DATE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PROD_DATE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MILL_SOURCE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MILL_SOURCE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_LENGTH",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_LENGTH",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_STANDARD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_STANDARD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_A",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_A",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_B",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_B",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_C",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_C",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PCS_PER_HEAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PCS_PER_HEAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_BLD",
+											"name": "TUO_ORD_CONFRM",
 											"type": "Decimal",
 											"physicalType": "decimal",
 											"scale": 3,
 											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_BLD",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PCS_PER_BLD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PCS_PER_BLD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_PCS",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_PCS",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_COIL",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_COIL",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_ACT_COI_WT",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_ACT_COI_WT",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MAC_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MAC_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COIL_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COIL_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_CUT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_CUT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_BEND",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_BEND",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_LINK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_LINK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CUT_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_CUT_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BEND_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_BEND_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_LINK_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_LINK_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_GRA",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_GRA",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_REF",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_REF",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_END",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_END",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_DIA_1",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_COU_DIA_1",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_DIA_2",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_COU_DIA_2",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_TYPE_1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_TYPE_1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_TYPE_2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_TYPE_2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_PNT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_PNT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TAG_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TAG_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MAC_TPL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MAC_TPL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_STR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_STR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_AREA_PER_PC",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_AREA_PER_PC",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WT_PER_PC",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_WT_PER_PC",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CON_MAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CON_MAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CONSUME_BATCHE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CONSUME_BATCHE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_SHAPE_CODE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_SHAPE_CODE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_INV_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_INV_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS3",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BBSNO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BBSNO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PROD_MARK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PROD_MARK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_SPA",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_MW_SPA",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_SPA",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_CW_SPA",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PIECES",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PIECES",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_OVR_HANG1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_OVR_HANG1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_OVR_HANG2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_OVR_HANG2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_OVR_HANG1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_OVR_HANG1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_OVR_HANG2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_OVR_HANG2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BBS_DESC",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BBS_DESC",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PLANT_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PLANT_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LGORT_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "LGORT_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QUANTITY_D",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "QUANTITY_D",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "CHARG_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CHARG_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHIFT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "SHIFT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PROD_STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PROD_STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERROR_CD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "ERROR_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REC_TYPE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REC_TYPE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PROC_TS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PROC_TS",
-											"type": "String"
 										}
 									},
 									{
 										"source": {
 											"name": "INTER_ID",
-											"type": "String",
-											"physicalType": "varchar"
+											"type": "String"
 										},
 										"sink": {
-											"name": "INTER_ID",
-											"type": "String"
+											"name": "TUO_INTERFACE_ID",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "UDATE",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "TIMESTAMP",
+											"type": "String"
 										},
 										"sink": {
-											"name": "UDATE",
-											"type": "String"
+											"name": "TUO_ID_MESSAGE",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "UTIME",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "ERROR_CD",
+											"type": "String"
 										},
 										"sink": {
-											"name": "UTIME",
-											"type": "String"
+											"name": "TUO_ERROR_CD",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "USERID",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "STATUS",
+											"type": "String"
 										},
 										"sink": {
-											"name": "USERID",
-											"type": "String"
+											"name": "TUO_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "NDS_SALE_ORDER",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "PROC_TS",
+											"type": "String"
 										},
 										"sink": {
-											"name": "NDS_SALE_ORDER",
-											"type": "String"
+											"name": "TUO_PROC_TS",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "ORDER_ITEM",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "REC_TYPE",
+											"type": "String"
 										},
 										"sink": {
-											"name": "ORDER_ITEM",
+											"name": "TUO_REC_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ARBPL",
 											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_WRK_CENT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DAUAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_ORD_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODH",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_PRODH",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "VORNR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_VORNR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ABLAD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TUO_ABLAD",
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									}
 								],
@@ -15258,14 +14984,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "GRIntermediate",
+								"referenceName": "IgnitionSAPdatabase",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SAP_GR_Table",
+								"referenceName": "SapToSts",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -15276,7 +15002,7 @@
 						"type": "Wait",
 						"dependsOn": [
 							{
-								"activity": "Copy data2",
+								"activity": "Copy data1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -15288,8 +15014,8 @@
 						}
 					},
 					{
-						"name": "UpdatetoY_Success",
-						"type": "Script",
+						"name": "Lookup1",
+						"type": "Lookup",
 						"dependsOn": [
 							{
 								"activity": "Wait1",
@@ -15306,34 +15032,42 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
 						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": {
-										"value": "update [dbo].[T_NSA_GR] set status='Y' where status='T' and CHARG= @{pipeline().parameters.CHARG} and ID_MESSAGE= @{pipeline().parameters.ID_MESSAGE};\n\n\n\n\n\n\n",
-										"type": "Expression"
-									}
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "SapToSts",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
 						}
-					},
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]",
+				"[concat(variables('factoryId'), '/datasets/IgnitionSAPdatabase')]",
+				"[concat(variables('factoryId'), '/datasets/SapToSts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline12')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
 					{
-						"name": "Copy data2",
+						"name": "Copy data3",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "IntermediateMES",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -15349,1113 +15083,13 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "OracleSink",
-								"writeBatchSize": 10000
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
 							},
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "MANDT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MANDT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CHARG",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CHARG",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR_AIM",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_AIM",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "TIMESTAMP",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "TIMESTAMP",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR_ACH",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_ACH",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QUANTITY",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "QUANTITY",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "MEINS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MEINS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AUART",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "AUART",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AUFNR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "AUFNR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BLDAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "BLDAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BUDAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "BUDAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PCODE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PCODE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PLANT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PLANT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LGORT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "LGORT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "NO_OF_GI_REC",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "NO_OF_GI_REC",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "VBELN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "VBELN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "POSNR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "POSNR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MBLNR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MBLNR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MJAHR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MJAHR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RUECK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "RUECK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RMZHL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "RMZHL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_RUECK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_RUECK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_RMZHL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_RMZHL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_HEAT_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_HEAT_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_THEO_WT",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_THEO_WT",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_SHIFT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_SHIFT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PROD_DATE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PROD_DATE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MILL_SOURCE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MILL_SOURCE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_LENGTH",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_LENGTH",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_STANDARD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_STANDARD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_A",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_A",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_B",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_B",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BAT_LOCATOR_C",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BAT_LOCATOR_C",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PCS_PER_HEAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PCS_PER_HEAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_BLD",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_BLD",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PCS_PER_BLD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PCS_PER_BLD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_PCS",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_PCS",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_KG_PER_COIL",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_KG_PER_COIL",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_ACT_COI_WT",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_ACT_COI_WT",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MAC_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MAC_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COIL_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COIL_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_CUT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_CUT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_BEND",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_BEND",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TOTAL_LINK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TOTAL_LINK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CUT_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_CUT_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BEND_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_BEND_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_LINK_PER_TON",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_LINK_PER_TON",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_GRA",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_GRA",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_REF",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_REF",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_END",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_END",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_DIA_1",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_COU_DIA_1",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_DIA_2",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_COU_DIA_2",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_TYPE_1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_TYPE_1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_COU_TYPE_2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_COU_TYPE_2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_PNT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_PNT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_TAG_NO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_TAG_NO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MAC_TPL",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MAC_TPL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_NO_OF_STR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_NO_OF_STR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_AREA_PER_PC",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_AREA_PER_PC",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WT_PER_PC",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "Z_WT_PER_PC",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CON_MAT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CON_MAT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CONSUME_BATCHE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CONSUME_BATCHE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_SHAPE_CODE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_SHAPE_CODE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_INV_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_INV_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_WBS3",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_WBS3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BBSNO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BBSNO",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PROD_MARK",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PROD_MARK",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_SPA",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_MW_SPA",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_SPA",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 6
-										},
-										"sink": {
-											"name": "Z_CW_SPA",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_LEN",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_LEN",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_PIECES",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_PIECES",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_OVR_HANG1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_OVR_HANG1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_CW_OVR_HANG2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_CW_OVR_HANG2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_OVR_HANG1",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_OVR_HANG1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_MW_OVR_HANG2",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_MW_OVR_HANG2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Z_BBS_DESC",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Z_BBS_DESC",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PLANT_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PLANT_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LGORT_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "LGORT_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "MATNR_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QUANTITY_D",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 3,
-											"precision": 15
-										},
-										"sink": {
-											"name": "QUANTITY_D",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "CHARG_D",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CHARG_D",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHIFT",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "SHIFT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REV_STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REV_STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PROD_STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PROD_STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "STATUS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "STATUS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERROR_CD",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "ERROR_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "REC_TYPE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "REC_TYPE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PROC_TS",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "PROC_TS",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "INTER_ID",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "INTER_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "UDATE",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "UDATE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "UTIME",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "UTIME",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "USERID",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "USERID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "NDS_SALE_ORDER",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "NDS_SALE_ORDER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ORDER_ITEM",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "ORDER_ITEM",
-											"type": "String"
-										}
-									}
-								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
@@ -16465,80 +15099,376 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "GRIntermediate",
+								"referenceName": "SapToSts",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SAP_GR_Table",
+								"referenceName": "SqlServerTable4",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"CHARG": {
-						"type": "string",
-						"defaultValue": "CHARG"
 					},
-					"ID_MESSAGE": {
-						"type": "string",
-						"defaultValue": "ID_MESSAGE"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-11-04T10:37:58Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]",
-				"[concat(variables('factoryId'), '/datasets/GRIntermediate')]",
-				"[concat(variables('factoryId'), '/datasets/SAP_GR_Table')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline6')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
 					{
-						"name": "LOTNO_1",
-						"type": "Script",
-						"dependsOn": [],
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Copy data3",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
 						},
 						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "IgnitionQA",
-							"type": "LinkedServiceReference"
-						},
 						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "SELECT LOT_NO FROM SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b \n  on a.charg=b.charg where a.status='A' and b.status in('P','Y','E')"
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
+							"variableName": "@x",
+							"value": 1
 						}
 					},
 					{
-						"name": "HDR_insertion",
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Lookup1",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": "select count(*) from ups_prodorder where status='A'",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "SqlServerTable5",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								},
+								{
+									"name": "Lookup2",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "Lookup1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": "po not in(select tuo_ord_no from T_UPST_ORDER_Temp)",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "SqlServerTable6",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "If Condition1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "If Condition2",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"ifTrueActivities": [
+											{
+												"name": "Lookup3",
+												"type": "Lookup",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [
+													{
+														"name": "po_id",
+														"value": "@item().PO_ID"
+													}
+												],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": "select ablad from ups_prodorder where po_id=@PO_ID",
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"dataset": {
+														"referenceName": "SqlServerTable7",
+														"type": "DatasetReference",
+														"parameters": {}
+													},
+													"firstRowOnly": false
+												}
+											},
+											{
+												"name": "Script1",
+												"type": "Script",
+												"dependsOn": [
+													{
+														"activity": "Lookup3",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"linkedServiceName": {
+													"referenceName": "IgnitionQA",
+													"type": "LinkedServiceReference"
+												},
+												"typeProperties": {
+													"scripts": [
+														{
+															"type": "Query",
+															"text": "select @PO=PO,@ABLAD=ablad,@PRODN_ORDER_NO=substring(ablad,1,11),@VORNR=VORNR,@WorkCtrID=WorkCtrID from ups_prodorder where po_id=@PO_ID"
+														}
+													],
+													"scriptBlockExecutionTimeout": "02:00:00"
+												}
+											},
+											{
+												"name": "Script2",
+												"type": "Script",
+												"dependsOn": [
+													{
+														"activity": "Script1",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"linkedServiceName": {
+													"referenceName": "STS_QA",
+													"type": "LinkedServiceReference"
+												},
+												"typeProperties": {
+													"scripts": [
+														{
+															"type": "Query",
+															"text": "select @Wrk_Cent=WorkCtr from mast_workctr where WorkCtrID=@WorkCtrID"
+														}
+													],
+													"scriptBlockExecutionTimeout": "02:00:00"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "If Condition3",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "If Condition2",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"ifFalseActivities": [
+											{
+												"name": "Copy1_1",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": "INSERT INTO tbl_sts_scm_operation_feedback (REF_ID,PRODN_ORDER_NO,SEQ_NO,SAP_PRODN_ORDER_NO,PHYSICAL_RESOURCE,SAP_ORD_NO,SAP_ITEM_NO,PROC_ID,PRODN_START,PRODN_END,CUM_PRODN_QTY,OPEN_QTY,UOM,CUM_PRODN_PIECES,OPEN_PIECES,REMARKS,TIME_STAMP,IS_CLOSED_IND,UPDATE_STATUS,REC_TYPE,CREATE_DATE,CREATE_BY,REQ_TECO_IND,PRODN_ORDER_NO_US)\n\t\t\t\t\t VALUES (null,@PRODN_ORDER_NO,0,@PO,@Wrk_Cent,'',@VORNR,0,convert(varchar(19),getdate(),120),convert(varchar(19),getdate(),120),0.001,null,null,1,null,null,substring(convert(varchar(26),getdate(),121),1,10)+'.'+substring(convert(varchar(26),getdate(),121),12,2)+'.'+substring(convert(varchar(26),getdate(),121),15,2)+'.'+substring(convert(varchar(26),getdate(),121),18,3)+right('000'+convert(varchar(3),@x),3),'Y','F','R',getdate(),'STS_P_3_0','N',@ABLAD)",
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "SqlServerSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SqlServerTable7",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "tbl_sts_scm_operation_feedback",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												]
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Copy",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": "update tbl_sts_scm_operation_feedback set TIME_STAMP=substring(convert(varchar(26),getdate(),121),1,10)+'.'+substring(convert(varchar(26),getdate(),121),12,2)+'.'+substring(convert(varchar(26),getdate(),121),15,2)+'.'+substring(convert(varchar(26),getdate(),121),18,3)+right('000'+convert(varchar(3),@x),3),IS_CLOSED_IND='Y',UPDATE_STATUS='F',REC_TYPE='R',MODIFY_DATE=null,MODIFY_BY=null,REQ_TECO_IND='N',PRODN_ORDER_NO_US=@ABLAD where PRODN_ORDER_NO=@PRODN_ORDER_NO and SAP_PRODN_ORDER_NO=@PO",
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "SqlServerSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SqlServerTable7",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "tbl_sts_scm_operation_feedback",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Script3",
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "LOTNO_1",
+								"activity": "ForEach1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -16560,7 +15490,40 @@
 							"scripts": [
 								{
 									"type": "Query",
-									"text": "DECLARE @lcLotNo AS VARCHAR(MAX)\nINSERT INTO T_HDR_T\n\t\t\tselect DISTINCT a.MANDT,a.LOT_NO,\n\t\t    (CASE WHEN a.MATL_NO like 'FP%' THEN a.MATL_NO ELSE LTRIM(RTRIM((b.ach_MATL_NO))) END) as MATL_NO,\n\t\t\ta.CHARG as BATCH_NO,a.STOR_LOC,a.PLANT,a.TOT_ELEM,' ' as INSP_LOT_NO,a.USER_ID,a.TEST_DATE,a.TEST_TIME,'P' as STATUS,a.INTERFACE_ID as INTER_ID,a.ID_MESSAGE as TIMESTAMP,' ' as ERROR_CD,' ' as PROC_TS,' ' as REC_TYPE,' ' as USERID,'00000000' as UDATE,'000000' as UTIME\n\t\t\tfrom SAP_RESULTS_HDR a left join (select distinct charg,ach_matl_no,status from t_nsa_gr) b on a.charg=b.charg where a.status='A' and b.status in('P','Y','E');"
+									"text": "update ups_prodorder with (rowlock) set status='Y' where status='A' and po not in(select tuo_ord_no from T_UPST_ORDER_Temp)"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Script4",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Script3",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "IgnitionQA",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "update ups_prodorder with (rowlock)  set status='A' where status='Y' and workctrid>10 and po in(select tuo_ord_no from T_UPST_ORDER_Temp)\n\t"
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
@@ -16570,377 +15533,23 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"LOT_NO": {
-						"type": "string"
+				"variables": {
+					"@x": {
+						"type": "Integer",
+						"defaultValue": 1
 					}
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline7')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "EmployeeID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "FullName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PreferredName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeAlias",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "char"
-										}
-									},
-									{
-										"source": {
-											"name": "VisaNo",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "IdentityNo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "MaritalStatus",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MaritalStatus",
-											"type": "String",
-											"physicalType": "char"
-										}
-									},
-									{
-										"source": {
-											"name": "Nationality",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "NationalityCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "UnionCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "UnionCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EmployeeStatus",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeStatus",
-											"type": "String",
-											"physicalType": "char"
-										}
-									},
-									{
-										"source": {
-											"name": "EmployeeCategory",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeTypeCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CompanyCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CompanyCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DivisionCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DivisionCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DepartmentCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DepartmentCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DepartmentName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DepartmentName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "JobLevel",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CategoryCode",
-											"type": "String",
-											"physicalType": "char"
-										}
-									},
-									{
-										"source": {
-											"name": "JobGrade",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ClassificationCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PositionName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "functional_title",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CalendarCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CalendarCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "OfficialEmailID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Email",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "OfficeLandline",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ExtensionNo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CostCentre",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CostCentreCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BankBranchCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BankBranch",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BankCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BankCode",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BankACNumber",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BankAccountNo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "EHMSQATest",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "EHMSDatabase",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/EHMSQATest')]",
-				"[concat(variables('factoryId'), '/datasets/EHMSDatabase')]"
+				"[concat(variables('factoryId'), '/datasets/SapToSts')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable4')]",
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable5')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable6')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable7')]",
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]",
+				"[concat(variables('factoryId'), '/datasets/tbl_sts_scm_operation_feedback')]"
 			]
 		},
 		{
@@ -17383,6 +15992,45 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/FileConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DemoQueueDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DemoQueueRestService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DemoQueueRestService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Demo_YESB_SOR_SO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OracleLinkedServerDemo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YESB_SOR_SO"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OracleLinkedServerDemo')]"
 			]
 		},
 		{
@@ -18928,6 +17576,108 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/INT010_QUEUE_MESSAGE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestServiceDemo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestServiceDemo')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_QUEUE_MESSAGE_HEAD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService4HeadDemo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService4HeadDemo')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_SAP_SO_SOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Identity_No",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SOR_Number",
+						"type": "nchar"
+					},
+					{
+						"name": "SO_Number",
+						"type": "nchar"
+					},
+					{
+						"name": "TM_Access",
+						"type": "nchar"
+					},
+					{
+						"name": "Inserted_date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SAP_SO_SOR"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL_DEV_DEMO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_YESB_SOR_SO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YESB_SOR_SO"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SAP_DEV_DEMO')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IgnitionACTQueue')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -19049,7 +17799,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "SAPSR3",
-					"table": "YMPCT_NSA_ACT"
+					"table": "YMPCT_UPST_ORDER"
 				}
 			},
 			"dependsOn": [
@@ -19846,6 +18596,57 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/MaterialNo_check')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "STS_QA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Matl_No",
+						"type": "char"
+					},
+					{
+						"name": "Matl_Description",
+						"type": "char"
+					},
+					{
+						"name": "Matl_Grade",
+						"type": "char"
+					},
+					{
+						"name": "Matl_Group",
+						"type": "varchar"
+					},
+					{
+						"name": "WorkCtrID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ID_Message",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Mast_MaterialNo"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/OracleDevelopment')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -20132,6 +18933,27 @@
 				"typeProperties": {
 					"schema": "SAPSR3",
 					"table": "YQMT_RESULTS_HDR"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_YMPIT_PUR_WB_HDR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YMPIT_PUR_WB_HDR"
 				}
 			},
 			"dependsOn": [
@@ -20561,6 +19383,389 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SapToSts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "STS_QA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "TUO_MANDT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_AIM_MATL_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_ITEM_QTY",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "TUO_BSC_FINISH_DT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_SCHD_FINISH_DT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_CONFRM",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "TUO_INTERFACE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ID_MESSAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ERROR_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_PROC_TS",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_REC_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_WRK_CENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_PRODH",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "T_UPST_ORDER_TEMP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTicket_Queue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ScrapGrade_CancelledTickets",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ScrapGrade_CancelledTickets')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTickets')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ScrapGrade_CancelledTickets_Queue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ScrapGrade_CancelledTickets_Queue')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTickets_DB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ScrapGradeConnection",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "TICKET_YEAR_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PROCESS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BUKRS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TICKET_NO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TICKET_YR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IC_REF_TNO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IC_REF_TYR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VEHICLE_NO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GROSS_WT",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "DT_OF_ENTRY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TIME_OF_ENTRY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "REPL_TKT_NO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "REPL_TKT_YR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WT_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CREATED_BY_SAP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NAME1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EBELN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VEHICLE_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LIFNR_MATL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SCRAP_SUPL_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TARE_WT",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "NET_WT",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "STATUS_SAP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WEIGH_START_DT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WEIGH_START_TIME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SUPPLIER_WT",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "INFO1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INFO2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INFO3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CONTAINER_NO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INST_WEIGHER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ZZONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DRIVER_NO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ACT_FRT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NAME2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA4",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA5",
+						"type": "nvarchar"
+					},
+					{
+						"name": "QI_REMARK",
+						"type": "varchar"
+					},
+					{
+						"name": "ESCLATION_STATUS",
+						"type": "bit"
+					},
+					{
+						"name": "REJECTION_STATUS",
+						"type": "bit"
+					},
+					{
+						"name": "SL_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CREATED_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "CREATED_DATE_TIME",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "MODIFIED_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "MODIFIED_DATE_TIME",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "STATUS",
+						"type": "char"
+					},
+					{
+						"name": "COM_Status",
+						"type": "char"
+					},
+					{
+						"name": "COM_Remarks",
+						"type": "varchar"
+					},
+					{
+						"name": "Com_User",
+						"type": "varchar"
+					},
+					{
+						"name": "COM_DATE_TIME",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DEDUCTION_EXTERNAL_ITEM_HEADER"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ScrapGradeConnection')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ServiceBus')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -20653,6 +19858,384 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Democonnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PO_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PO",
+						"type": "char"
+					},
+					{
+						"name": "WorkCtrID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "BSC_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "SCHD_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "Matl_No",
+						"type": "char"
+					},
+					{
+						"name": "FG_Qty",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "ID_Message",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UPS_ProdOrder"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PO_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PO",
+						"type": "char"
+					},
+					{
+						"name": "WorkCtrID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "BSC_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "SCHD_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "Matl_No",
+						"type": "char"
+					},
+					{
+						"name": "FG_Qty",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "ID_Message",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UPS_ProdOrder"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PO_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PO",
+						"type": "char"
+					},
+					{
+						"name": "WorkCtrID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "BSC_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "SCHD_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "Matl_No",
+						"type": "char"
+					},
+					{
+						"name": "FG_Qty",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "ID_Message",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UPS_ProdOrder"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "STS_QA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "TUO_MANDT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_AIM_MATL_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_ITEM_QTY",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "TUO_BSC_FINISH_DT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_SCHD_FINISH_DT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_CONFRM",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "TUO_INTERFACE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ID_MESSAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ERROR_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_PROC_TS",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_REC_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_WRK_CENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ORD_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_PRODH",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "TUO_ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "T_UPST_ORDER_TEMP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PO_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PO",
+						"type": "char"
+					},
+					{
+						"name": "WorkCtrID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "BSC_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "SCHD_FINISH_DT",
+						"type": "char"
+					},
+					{
+						"name": "Matl_No",
+						"type": "char"
+					},
+					{
+						"name": "FG_Qty",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "ID_Message",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "VORNR",
+						"type": "varchar"
+					},
+					{
+						"name": "ABLAD",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UPS_ProdOrder"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/IgnitionQA')]"
 			]
 		},
 		{
@@ -21145,6 +20728,161 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/tbl_sts_scm_operation_feedback')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "STS_QA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "REF_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRODN_ORDER_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "SEQ_NO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SAP_PRODN_ORDER_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_RESOURCE",
+						"type": "varchar"
+					},
+					{
+						"name": "SAP_ORD_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "SAP_ITEM_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "PROC_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PRODN_START",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODN_END",
+						"type": "varchar"
+					},
+					{
+						"name": "CUM_PRODN_QTY",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "OPEN_QTY",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 3
+					},
+					{
+						"name": "UOM",
+						"type": "varchar"
+					},
+					{
+						"name": "CUM_PRODN_PIECES",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OPEN_PIECES",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "REMARKS",
+						"type": "varchar"
+					},
+					{
+						"name": "TIME_STAMP",
+						"type": "varchar"
+					},
+					{
+						"name": "IS_CLOSED_IND",
+						"type": "char"
+					},
+					{
+						"name": "UPDATE_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "REC_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CREATE_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CREATE_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "MODIFY_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "MODIFY_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "REQ_TECO_IND",
+						"type": "char"
+					},
+					{
+						"name": "PRODN_ORDER_NO_US",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tbl_sts_scm_operation_feedback"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/STS_QA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DemoQueueRestService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('DemoQueueRestService_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('DemoQueueRestService_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Democonnection')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -21358,6 +21096,41 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LinkedServerQueueDestination')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('LinkedServerQueueDestination_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('LinkedServerQueueDestination_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LinkedSqlServerDemo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('LinkedSqlServerDemo_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LookupTable')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -21434,6 +21207,25 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/OracleLinkedServerDemo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Oracle",
+				"typeProperties": {
+					"connectionString": "[parameters('OracleLinkedServerDemo_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestService1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -21476,6 +21268,38 @@
 					"enableServerCertificateValidation": true,
 					"authenticationType": "ManagedServiceIdentity",
 					"aadResourceId": "[parameters('RestService3_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService4HeadDemo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService4HeadDemo_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('RestService4HeadDemo_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestServiceDemo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestServiceDemo_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('RestServiceDemo_properties_typeProperties_aadResourceId')]"
 				}
 			},
 			"dependsOn": []
@@ -21541,6 +21365,25 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SAP_DEV_DEMO')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Oracle",
+				"typeProperties": {
+					"connectionString": "[parameters('SAP_DEV_DEMO_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SCM_IDB_Connect')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -21549,6 +21392,44 @@
 				"type": "Oracle",
 				"typeProperties": {
 					"connectionString": "[parameters('SCM_IDB_Connect_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL_DEV_DEMO')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SQL_DEV_DEMO_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STS_QA')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('STS_QA_connectionString')]"
 				},
 				"connectVia": {
 					"referenceName": "MESQARuntime",
@@ -21631,6 +21512,69 @@
 					},
 					"server": "[parameters('SapRFCconnection_properties_typeProperties_server')]",
 					"systemNumber": "[parameters('SapRFCconnection_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGradeConnection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('ScrapGradeConnection_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTickets')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('ScrapGrade_CancelledTickets_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/MESQARuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTickets_Queue')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId')]"
 				},
 				"connectVia": {
 					"referenceName": "MESQARuntime",
@@ -21779,20 +21723,6 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "NSH_Ignition_GR_Pub",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "NSH_SAP_GR_Sub",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -21806,9 +21736,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/NSH_SAP_ACTY_Sub')]",
-				"[concat(variables('factoryId'), '/pipelines/NSH_Ignition_GR_Pub')]",
-				"[concat(variables('factoryId'), '/pipelines/NSH_SAP_GR_Sub')]"
+				"[concat(variables('factoryId'), '/pipelines/NSH_SAP_ACTY_Sub')]"
 			]
 		},
 		{

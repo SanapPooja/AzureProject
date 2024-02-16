@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'IgnitionQA'"
 		},
+		"LinkedSqlServerDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LinkedSqlServerDemo'"
+		},
 		"LookupTable_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LookupTable'"
@@ -43,9 +47,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Oracle2'"
 		},
+		"OracleLinkedServerDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OracleLinkedServerDemo'"
+		},
+		"SAP_DEV_DEMO_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SAP_DEV_DEMO'"
+		},
 		"SCM_IDB_Connect_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SCM_IDB_Connect'"
+		},
+		"SQL_DEV_DEMO_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL_DEV_DEMO'"
+		},
+		"STS_QA_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'STS_QA'"
 		},
 		"SapConnection_password": {
 			"type": "secureString",
@@ -58,6 +78,10 @@
 		"SapRFCconnection_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SapRFCconnection'"
+		},
+		"ScrapGradeConnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ScrapGradeConnection'"
 		},
 		"SftpConnection_password": {
 			"type": "secureString",
@@ -74,6 +98,14 @@
 		"UpstreamMESQA_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
+		},
+		"DemoQueueRestService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages"
+		},
+		"DemoQueueRestService_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
 		},
 		"EHMSQA_properties_typeProperties_host": {
 			"type": "string",
@@ -139,6 +171,14 @@
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
+		"LinkedServerQueueDestination_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/demoqueue/messages/head"
+		},
+		"LinkedServerQueueDestination_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head"
@@ -156,6 +196,22 @@
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata"
 		},
 		"RestService3_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestService4HeadDemo_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head"
+		},
+		"RestService4HeadDemo_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"RestServiceDemo_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages"
+		},
+		"RestServiceDemo_properties_typeProperties_aadResourceId": {
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
@@ -231,6 +287,22 @@
 			"type": "string",
 			"defaultValue": "01"
 		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages/head"
+		},
+		"ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
 		"SftpConnection_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "14.141.16.136"
@@ -270,6 +342,12 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"DemoQueueRestService_properties_typeProperties_url": {
+						"value": "[parameters('DemoQueueRestService_properties_typeProperties_url')]"
+					},
+					"DemoQueueRestService_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('DemoQueueRestService_properties_typeProperties_aadResourceId')]"
+					},
 					"IgnitionQC_DTL_properties_typeProperties_url": {
 						"value": "[parameters('IgnitionQC_DTL_properties_typeProperties_url')]"
 					},
@@ -294,6 +372,12 @@
 					"IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId": {
 						"value": "[parameters('IgnitionQC_HDR_Queue_properties_typeProperties_aadResourceId')]"
 					},
+					"LinkedServerQueueDestination_properties_typeProperties_url": {
+						"value": "[parameters('LinkedServerQueueDestination_properties_typeProperties_url')]"
+					},
+					"LinkedServerQueueDestination_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('LinkedServerQueueDestination_properties_typeProperties_aadResourceId')]"
+					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"
 					},
@@ -308,6 +392,18 @@
 					},
 					"RestService3_properties_typeProperties_aadResourceId": {
 						"value": "[parameters('RestService3_properties_typeProperties_aadResourceId')]"
+					},
+					"RestService4HeadDemo_properties_typeProperties_url": {
+						"value": "[parameters('RestService4HeadDemo_properties_typeProperties_url')]"
+					},
+					"RestService4HeadDemo_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestService4HeadDemo_properties_typeProperties_aadResourceId')]"
+					},
+					"RestServiceDemo_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceDemo_properties_typeProperties_url')]"
+					},
+					"RestServiceDemo_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceDemo_properties_typeProperties_aadResourceId')]"
 					},
 					"RestServiceSendMessage_properties_typeProperties_url": {
 						"value": "[parameters('RestServiceSendMessage_properties_typeProperties_url')]"
@@ -348,20 +444,8 @@
 					"IgnitionQA_connectionString": {
 						"value": "[parameters('IgnitionQA_connectionString')]"
 					},
-					"LookupTable_connectionString": {
-						"value": "[parameters('LookupTable_connectionString')]"
-					},
-					"NSQADB2Connection_connectionString": {
-						"value": "[parameters('NSQADB2Connection_connectionString')]"
-					},
-					"Oracle1_connectionString": {
-						"value": "[parameters('Oracle1_connectionString')]"
-					},
-					"Oracle2_connectionString": {
-						"value": "[parameters('Oracle2_connectionString')]"
-					},
-					"SCM_IDB_Connect_connectionString": {
-						"value": "[parameters('SCM_IDB_Connect_connectionString')]"
+					"LinkedSqlServerDemo_connectionString": {
+						"value": "[parameters('LinkedSqlServerDemo_connectionString')]"
 					},
 					"EHMSQA_properties_typeProperties_host": {
 						"value": "[parameters('EHMSQA_properties_typeProperties_host')]"
@@ -386,18 +470,6 @@
 					},
 					"IgnitionActQueue_properties_typeProperties_aadResourceId": {
 						"value": "[parameters('IgnitionActQueue_properties_typeProperties_aadResourceId')]"
-					},
-					"RestServiceGR_properties_typeProperties_url": {
-						"value": "[parameters('RestServiceGR_properties_typeProperties_url')]"
-					},
-					"RestServiceGR_properties_typeProperties_aadResourceId": {
-						"value": "[parameters('RestServiceGR_properties_typeProperties_aadResourceId')]"
-					},
-					"RestServiceGRQueue_properties_typeProperties_url": {
-						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_url')]"
-					},
-					"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
-						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_aadResourceId')]"
 					}
 				}
 			},
@@ -419,6 +491,33 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"LookupTable_connectionString": {
+						"value": "[parameters('LookupTable_connectionString')]"
+					},
+					"NSQADB2Connection_connectionString": {
+						"value": "[parameters('NSQADB2Connection_connectionString')]"
+					},
+					"Oracle1_connectionString": {
+						"value": "[parameters('Oracle1_connectionString')]"
+					},
+					"Oracle2_connectionString": {
+						"value": "[parameters('Oracle2_connectionString')]"
+					},
+					"OracleLinkedServerDemo_connectionString": {
+						"value": "[parameters('OracleLinkedServerDemo_connectionString')]"
+					},
+					"SAP_DEV_DEMO_connectionString": {
+						"value": "[parameters('SAP_DEV_DEMO_connectionString')]"
+					},
+					"SCM_IDB_Connect_connectionString": {
+						"value": "[parameters('SCM_IDB_Connect_connectionString')]"
+					},
+					"SQL_DEV_DEMO_connectionString": {
+						"value": "[parameters('SQL_DEV_DEMO_connectionString')]"
+					},
+					"STS_QA_connectionString": {
+						"value": "[parameters('STS_QA_connectionString')]"
+					},
 					"SapConnection_password": {
 						"value": "[parameters('SapConnection_password')]"
 					},
@@ -427,6 +526,9 @@
 					},
 					"SapRFCconnection_password": {
 						"value": "[parameters('SapRFCconnection_password')]"
+					},
+					"ScrapGradeConnection_connectionString": {
+						"value": "[parameters('ScrapGradeConnection_connectionString')]"
 					},
 					"SftpConnection_password": {
 						"value": "[parameters('SftpConnection_password')]"
@@ -437,8 +539,17 @@
 					"SqlServer2_connectionString": {
 						"value": "[parameters('SqlServer2_connectionString')]"
 					},
-					"UpstreamMESQA_connectionString": {
-						"value": "[parameters('UpstreamMESQA_connectionString')]"
+					"RestServiceGR_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceGR_properties_typeProperties_url')]"
+					},
+					"RestServiceGR_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceGR_properties_typeProperties_aadResourceId')]"
+					},
+					"RestServiceGRQueue_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_url')]"
+					},
+					"RestServiceGRQueue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('RestServiceGRQueue_properties_typeProperties_aadResourceId')]"
 					},
 					"SapConnection_properties_typeProperties_clientId": {
 						"value": "[parameters('SapConnection_properties_typeProperties_clientId')]"
@@ -476,6 +587,18 @@
 					"SapRFCconnection_properties_typeProperties_systemNumber": {
 						"value": "[parameters('SapRFCconnection_properties_typeProperties_systemNumber')]"
 					},
+					"ScrapGrade_CancelledTickets_properties_typeProperties_url": {
+						"value": "[parameters('ScrapGrade_CancelledTickets_properties_typeProperties_url')]"
+					},
+					"ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('ScrapGrade_CancelledTickets_properties_typeProperties_aadResourceId')]"
+					},
+					"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url": {
+						"value": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url')]"
+					},
+					"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId')]"
+					},
 					"SftpConnection_properties_typeProperties_host": {
 						"value": "[parameters('SftpConnection_properties_typeProperties_host')]"
 					},
@@ -504,6 +627,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"UpstreamMESQA_connectionString": {
+						"value": "[parameters('UpstreamMESQA_connectionString')]"
 					}
 				}
 			},
@@ -549,6 +675,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "df-esb-dev-sea-001_ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-esb-dev-sea-001_ArmTemplate_5')]"
 			]
 		}
 	]
