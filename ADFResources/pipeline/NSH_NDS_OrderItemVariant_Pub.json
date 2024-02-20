@@ -1,0 +1,125 @@
+{
+	"name": "NSH_NDS_OrderItemVariant_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "NVC_REF_ORD_REQ_NO",
+									"type": "String",
+									"value": "",
+									"direction": "Input"
+								}
+							],
+							"type": "Query",
+							"text": {
+								"value": "select ORD_REQ_NO from SAP_ORDER_ITEM where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"additionalColumns": {
+							"type": "Expression",
+							"value": "@pipeline().parameters.Row"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"value": "@pipeline().parameters.Row",
+						"type": "Expression"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT001_NDS_SAPY_Queue",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"ORD_REQ_NO": {
+				"type": "string",
+				"defaultValue": "ORD_REQ_NO"
+			},
+			"NVC_REF_ORD_REQ_NO": {
+				"type": "string",
+				"defaultValue": "NVC_REF_ORD_REQ_NO"
+			},
+			"Row": {
+				"type": "array",
+				"defaultValue": "Row"
+			}
+		},
+		"variables": {
+			"endRowNum": {
+				"type": "String",
+				"defaultValue": "0"
+			},
+			"startRowNum": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
+		"annotations": []
+	}
+}
