@@ -15,6 +15,22 @@
 			"type": "string",
 			"defaultValue": "https://servicebus.azure.net/"
 		},
+		"INT001_NDS_SAPY_OrderItem_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_orderitem/messages"
+		},
+		"INT001_NDS_SAPY_OrderItem_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_orderitem/messages/head"
+		},
+		"INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
 		"IgnitionQC_DTL_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/qcdata_dtl/messages"
@@ -246,6 +262,38 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/INT001_NDS_SAPY_OrderItem')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('INT001_NDS_SAPY_OrderItem_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('INT001_NDS_SAPY_OrderItem_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT001_NDS_SAPY_OrderItem_Head')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_aadResourceId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IgnitionQC_DTL')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -447,37 +495,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ServiceBus')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "AutoResolve",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false,
-							"customProperties": []
-						}
-					}
-				}
 			},
 			"dependsOn": []
 		}

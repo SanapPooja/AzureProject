@@ -92,6 +92,18 @@
 		"FileConnection_properties_typeProperties_userId": {
 			"value": "NATSTEELCORP\\NSESBAPPSADM"
 		},
+		"INT001_NDS_SAPY_OrderItem_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_orderitem/messages"
+		},
+		"INT001_NDS_SAPY_OrderItem_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
+		"INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_url": {
+			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_orderitem/messages/head"
+		},
+		"INT001_NDS_SAPY_OrderItem_Head_properties_typeProperties_aadResourceId": {
+			"value": "https://servicebus.azure.net/"
+		},
 		"IgnitionACTtoSAP_properties_typeProperties_url": {
 			"value": "https://sb-nsh-esb-dev.servicebus.windows.net/actrecords/messages"
 		},

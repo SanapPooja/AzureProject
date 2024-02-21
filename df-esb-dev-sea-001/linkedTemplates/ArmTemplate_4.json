@@ -13,6 +13,267 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/INT001_SAP_ORDER_ITEM')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "IDENTITY_NO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "INTERFACE_ID",
+						"type": "char"
+					},
+					{
+						"name": "MANDT",
+						"type": "char"
+					},
+					{
+						"name": "ID_MESSAGE",
+						"type": "char"
+					},
+					{
+						"name": "ORD_REQ_NO",
+						"type": "char"
+					},
+					{
+						"name": "PROJ_ID",
+						"type": "char"
+					},
+					{
+						"name": "CONTR_NO",
+						"type": "char"
+					},
+					{
+						"name": "PO_NUM",
+						"type": "varchar"
+					},
+					{
+						"name": "SO_ORD_NO",
+						"type": "char"
+					},
+					{
+						"name": "ORD_TYPE",
+						"type": "char"
+					},
+					{
+						"name": "ORD_INDICATOR",
+						"type": "char"
+					},
+					{
+						"name": "ORD_DATE",
+						"type": "char"
+					},
+					{
+						"name": "MATL_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "CAB_FORMER_TYPE",
+						"type": "char"
+					},
+					{
+						"name": "VEHI_TYPE",
+						"type": "char"
+					},
+					{
+						"name": "INT_REMARK",
+						"type": "char"
+					},
+					{
+						"name": "EXT_REMARK",
+						"type": "char"
+					},
+					{
+						"name": "SALES_ORG",
+						"type": "char"
+					},
+					{
+						"name": "DISTR_CHANNEL",
+						"type": "char"
+					},
+					{
+						"name": "DIVISION",
+						"type": "char"
+					},
+					{
+						"name": "STATUS",
+						"type": "char"
+					},
+					{
+						"name": "ERROR_CD",
+						"type": "char"
+					},
+					{
+						"name": "PROC_TS",
+						"type": "char"
+					},
+					{
+						"name": "REC_TYPE",
+						"type": "char"
+					},
+					{
+						"name": "NVC_REF_ORD_REQ_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "NVC_REF_CONTR_NO",
+						"type": "char"
+					},
+					{
+						"name": "GROUP_ID",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SAP_ORDER_ITEM"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT001_YMSDT_ORDER_ITEM')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YMSDT_ORDER_ITEM"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_SAP_SO_SOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Identity_No",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SOR_Number",
+						"type": "nchar"
+					},
+					{
+						"name": "SO_Number",
+						"type": "nchar"
+					},
+					{
+						"name": "TM_Access",
+						"type": "nchar"
+					},
+					{
+						"name": "Inserted_date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SAP_SO_SOR"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT010_YESB_SOR_SO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YESB_SOR_SO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/INT011_YMSDT_CONTRACT_M')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SAPSR3",
+					"table": "YMSDT_CONTRACT_M"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionACTQueue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionActQueue",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IgnitionACTtoSAP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "IgnitionACTtoSAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IgnitionSAPdatabase')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1079,554 +1340,6 @@
 				"typeProperties": {
 					"schema": "SAPSR3",
 					"table": "YQMT_RESULTS_DTL"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP_QCData_HDR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Oracle2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SAPSR3",
-					"table": "YQMT_RESULTS_HDR"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP_YMPIT_PUR_WB_HDR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Oracle2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SAPSR3",
-					"table": "YMPIT_PUR_WB_HDR"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SB_GR_Table')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "INTERFACE_ID",
-						"type": "char"
-					},
-					{
-						"name": "MANDT",
-						"type": "char"
-					},
-					{
-						"name": "ID_MESSAGE",
-						"type": "char"
-					},
-					{
-						"name": "AIM_MATL_NO",
-						"type": "char"
-					},
-					{
-						"name": "CHARG",
-						"type": "char"
-					},
-					{
-						"name": "ACH_MATL_NO",
-						"type": "char"
-					},
-					{
-						"name": "TOT_QTY",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "BASE_UOM",
-						"type": "char"
-					},
-					{
-						"name": "ORD_TYPE",
-						"type": "char"
-					},
-					{
-						"name": "ORD_NO",
-						"type": "char"
-					},
-					{
-						"name": "DOCU_DATE",
-						"type": "char"
-					},
-					{
-						"name": "POSTG_DATE",
-						"type": "char"
-					},
-					{
-						"name": "PCODE",
-						"type": "char"
-					},
-					{
-						"name": "PLANT",
-						"type": "char"
-					},
-					{
-						"name": "STOR_LOC",
-						"type": "char"
-					},
-					{
-						"name": "NO_GI_RECS",
-						"type": "char"
-					},
-					{
-						"name": "SD_DOCU_NO",
-						"type": "char"
-					},
-					{
-						"name": "ITEM_NO",
-						"type": "varchar"
-					},
-					{
-						"name": "NO_MATL_DOCU",
-						"type": "char"
-					},
-					{
-						"name": "MATL_DOCU_YR",
-						"type": "varchar"
-					},
-					{
-						"name": "CFRM_NO_OP",
-						"type": "varchar"
-					},
-					{
-						"name": "CFRM_CNTR",
-						"type": "varchar"
-					},
-					{
-						"name": "CFRM_NO_REVOP",
-						"type": "varchar"
-					},
-					{
-						"name": "CFRM_REVCNTR",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_HEAT_NO",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_THEO_WT",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_SHIFT",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_MILL_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_LENGTH",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_STANDARD",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_PCS_PER_HEAT",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_WT_PER_BLD",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_PCS_PER_BLD",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_WT_PER_PCS",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_WT_PER_COIL",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_ACT_COI_WT",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_MAC_NO",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_COIL_NO",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_NO_OF_CUT",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_NO_OF_BEND",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_NO_OF_LINK",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_COU_GRA",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_COU_TRF",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_NO_OF_END",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_COU_DIA_1",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					},
-					{
-						"name": "ZBC_COU_DIA_2",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					},
-					{
-						"name": "ZBC_COU_TYPE_1",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_COU_TYPE_2",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_NO_OF_PNT",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_TAG_NO",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_MAC_TPL",
-						"type": "char"
-					},
-					{
-						"name": "ZBC_NO_OF_STR",
-						"type": "varchar"
-					},
-					{
-						"name": "ZBC_AREA_PER_PC",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "ZBC_WT_PER_PC_MESH",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "PLANT_D",
-						"type": "char"
-					},
-					{
-						"name": "STOR_LOC_D",
-						"type": "char"
-					},
-					{
-						"name": "MATL_NO_D",
-						"type": "char"
-					},
-					{
-						"name": "QUANTITY_D",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "CHARG_D",
-						"type": "char"
-					},
-					{
-						"name": "SHIFT",
-						"type": "char"
-					},
-					{
-						"name": "REV_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "PROD_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "STATUS",
-						"type": "char"
-					},
-					{
-						"name": "ERROR_CD",
-						"type": "varchar"
-					},
-					{
-						"name": "REC_TYPE",
-						"type": "char"
-					},
-					{
-						"name": "NIS_MESSAGEID",
-						"type": "char"
-					},
-					{
-						"name": "PROD_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "CUT_PER_TON",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					},
-					{
-						"name": "BEND_PER_TON",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					},
-					{
-						"name": "LINK_PER_TON",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					},
-					{
-						"name": "CON_MAT",
-						"type": "varchar"
-					},
-					{
-						"name": "CONSUME_BATCHES",
-						"type": "varchar"
-					},
-					{
-						"name": "BAT_LOCATOR_A",
-						"type": "varchar"
-					},
-					{
-						"name": "BAT_LOCATOR_B",
-						"type": "varchar"
-					},
-					{
-						"name": "BAT_LOCATOR_C",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "SB_NSA_GR"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SCM_IDB_DB')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapTableResource1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SapConnection",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"I_VAL_MATNR": {
-						"type": "string",
-						"defaultValue": "FHH_500L_D0500"
-					},
-					"I_VAL_WERKS": {
-						"type": "string",
-						"defaultValue": "6400"
-					},
-					"I_VAL_CHARGE": {
-						"type": "string",
-						"defaultValue": "H13F000755"
-					}
-				},
-				"annotations": [],
-				"type": "SapTableResource",
-				"schema": [],
-				"typeProperties": {
-					"tableName": "YMQMFM_QC01_BATCH_VALUES_READ"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapTableResource2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SapConnection",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SapTableResource",
-				"schema": [],
-				"typeProperties": {
-					"tableName": "Y_GET_TABLE_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapToSts')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "STS_QA",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "TUO_MANDT",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_AIM_MATL_NO",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ORD_NO",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ORD_ITEM_QTY",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "TUO_BSC_FINISH_DT",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_SCHD_FINISH_DT",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ORD_CONFRM",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "TUO_INTERFACE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ID_MESSAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ERROR_CD",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_PROC_TS",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_REC_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_WRK_CENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_PRODH",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_VORNR",
-						"type": "varchar"
-					},
-					{
-						"name": "TUO_ABLAD",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "T_UPST_ORDER_TEMP"
 				}
 			},
 			"dependsOn": []

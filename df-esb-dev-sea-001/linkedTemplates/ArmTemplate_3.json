@@ -7,15 +7,127 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "df-esb-dev-sea-001"
 		},
+		"SftpConnection_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SftpConnection'"
+		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
+		"SqlServer2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer2'"
+		},
 		"UpstreamMESQA_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'UpstreamMESQA'"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sb-nsh-esb-dev.servicebus.windows.net/scrapgrade_cancelticketqueue/messages"
+		},
+		"ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://servicebus.azure.net/"
+		},
+		"SftpConnection_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "14.141.16.136"
+		},
+		"SftpConnection_properties_typeProperties_hostKeyFingerprint": {
+			"type": "string",
+			"defaultValue": "ssh-rsa 1024 0d:82:a3:ef:c6:cf:94:a0:9b:d9:9d:99:e9:4f:9c:86"
+		},
+		"SftpConnection_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "natsftpPRD"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ScrapGrade_CancelledTickets_Queue')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('ScrapGrade_CancelledTickets_Queue_properties_typeProperties_aadResourceId')]"
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SftpConnection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('SftpConnection_properties_typeProperties_host')]",
+					"port": "222",
+					"skipHostKeyValidation": false,
+					"hostKeyFingerprint": "[parameters('SftpConnection_properties_typeProperties_hostKeyFingerprint')]",
+					"authenticationType": "Basic",
+					"userName": "[parameters('SftpConnection_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SftpConnection_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "MESQARuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "NSHQA",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer2_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "NSHQA",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UpstreamMESQA')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -90,6 +202,123 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2023-10-31T09:18:22Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NSH_INT013_SAPY_ProjectMaster_Pub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "compare_project_master",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "select MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YMSDT_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}\t\t\t\n\nminus \nselect MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YESB_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}\t\n\n\n\n",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "compare_project_master",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "DynamicValue",
+							"value": {
+								"value": "@{activity('compare_project_master').output.resultSets[0].rows[0].MANDT}",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Find_ProjectMaster_Record",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "Oracle2",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "select MANDT, PROJ_ID from SAPSR3.YESB_PRO_HDR WHERE MANDT = @{variables('DynamicValue')}",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"MANDT": {
+						"type": "string",
+						"defaultValue": "MANDT"
+					}
+				},
+				"variables": {
+					"hee": {
+						"type": "String"
+					},
+					"DynamicValue": {
+						"type": "String"
+					}
+				},
+				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -505,7 +734,9 @@
 				},
 				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SftpConnection')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CSVFileTrasnsfer')]",
@@ -792,7 +1023,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SftpConnection')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CopyTxtFile')]",
@@ -1589,7 +1822,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SftpConnection')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/EmpMast_PROCESSED')]",
@@ -1875,7 +2110,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SftpConnection')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/EmpMast_WORKING')]",
@@ -1900,7 +2137,9 @@
 				},
 				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SftpConnection')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/FileConnection')]",
@@ -2363,119 +2602,6 @@
 					"schema": "dbo",
 					"table": "T_NSA_GR_STAGING"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/INT010_SAP_SO_SOR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Identity_No",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SOR_Number",
-						"type": "nchar"
-					},
-					{
-						"name": "SO_Number",
-						"type": "nchar"
-					},
-					{
-						"name": "TM_Access",
-						"type": "nchar"
-					},
-					{
-						"name": "Inserted_date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "SAP_SO_SOR"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/INT010_YESB_SOR_SO')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SAPSR3",
-					"table": "YESB_SOR_SO"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/INT011_YMSDT_CONTRACT_M')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SAPSR3",
-					"table": "YMSDT_CONTRACT_M"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IgnitionACTQueue')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "IgnitionActQueue",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IgnitionACTtoSAP')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "IgnitionACTtoSAP",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
 			},
 			"dependsOn": []
 		}
