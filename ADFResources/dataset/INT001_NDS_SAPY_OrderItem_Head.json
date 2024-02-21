@@ -1,0 +1,12 @@
+{
+	"name": "INT001_NDS_SAPY_OrderItem_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT001_NDS_SAPY_OrderItem_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
