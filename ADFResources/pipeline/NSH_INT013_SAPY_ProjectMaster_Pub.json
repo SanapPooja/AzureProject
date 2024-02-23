@@ -106,7 +106,7 @@
 				"typeProperties": {
 					"ifFalseActivities": [
 						{
-							"name": "Copy data1",
+							"name": "Insert_into_Intermediatory",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -120,12 +120,45 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "INSERT INTO SAPSR3.YESB_PROJ_HDR (TIMESTAMP, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, STATUS, INTER_ID, ERROR_CD, PROC_TS, REC_TYPE, USERID, UDATE, UTIME)\nSELECT TIMESTAMP, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, STATUS, INTER_ID, ERROR_CD, PROC_TS, REC_TYPE, USERID, UDATE, UTIME\nFROM @{activity('compare_project_master').output}",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "MANDT"
+											},
+											"sink": {
+												"name": "$MANDT"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
+								{
+									"referenceName": "OracleTable1",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
 								{
 									"referenceName": "OracleTable1",
 									"type": "DatasetReference"
@@ -135,7 +168,7 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Script1",
+							"name": "Update_IntermediatoryTable",
 							"type": "Script",
 							"dependsOn": [],
 							"policy": {
@@ -165,6 +198,54 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Intermediatory_to_Queue",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "OracleTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Project_Master",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
