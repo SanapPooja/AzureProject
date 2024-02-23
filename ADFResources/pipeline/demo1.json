@@ -1,0 +1,208 @@
+{
+	"name": "demo1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YMSDT_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}\t\t\t\n\nminus \nselect MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YESB_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}\t\n\n\n\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_DESC1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROJ_DESC1']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_DESC2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROJ_DESC2']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_ADRRS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_ADRRS']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_COORD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_COORD"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_NAME1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SITE_CONT_NAME1"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_TEL1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SITE_CONT_TEL1"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_NAME2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SITE_CONT_NAME2"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_TEL2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SITE_CONT_TEL2"
+								}
+							},
+							{
+								"source": {
+									"name": "GEO_FENCE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GEO_FENCE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRY_KEY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONTRY_KEY"
+								}
+							},
+							{
+								"source": {
+									"name": "CITY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CITY"
+								}
+							},
+							{
+								"source": {
+									"name": "POST_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$POST_CODE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "OracleTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Project_Master",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "MANDT"
+			}
+		},
+		"annotations": []
+	}
+}

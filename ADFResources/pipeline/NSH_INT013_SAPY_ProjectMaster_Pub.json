@@ -90,12 +90,191 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Find_ProjectMaster_Record",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifFalseActivities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "OracleTable1",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Script1",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "Oracle2",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE YESB_PROJ_HDR \nSET \n    TIMESTAMP =@{ pipeline().parameters.TIMESTAMP},\n    PROJ_DESC1 = @{pipeline().parameters.PROJ_DESC1},\n    PROJ_DESC2 = @{pipeline().parameters.PROJ_DESC2},\n    SITE_ADRRS = @{pipeline().parameters.SITE_ADRRS},\n    PROJ_COORD = @{pipeline().parameters.PROJ_COORD},\n    SITE_CONT_NAME1 = @{pipeline().parameters.SITE_CONT_NAME1},\n    SITE_CONT_TEL1 = @{pipeline().parameters.SITE_CONT_TEL1},\n    SITE_CONT_NAME2 = @{pipeline().parameters.SITE_CONT_NAME2},\n    SITE_CONT_TEL2 = @{pipeline().parameters.SITE_CONT_TEL2},\n    GEO_FENCE_ID = @{pipeline().parameters.GEO_FENCE_ID},\n    CONTRY_KEY = C@{pipeline().parameters.CONTRY_KEY},\n    CITY = @{pipeline().parameters.CITY},\n    POST_CODE = @{pipeline().parameters.POST_CODE},\n    REGION = @{pipeline().parameters.REGION},\n    SORT_FIELD = @{pipeline().parameters.SORT_FIELD},\n    TELE_NO = @{pipeline().parameters.TELE_NO},\n    FAX_NO = @{pipeline().parameters.FAX_NO},\n    STATUS = @{pipeline().parameters.STATUS},\n    INTER_ID = @{pipeline().parameters.INTER_ID},\n    ERROR_CD = @{pipeline().parameters.ERROR_CD},\n    PROC_TS = @{pipeline().parameters.PROC_TS},\n    REC_TYPE = @{pipeline().parameters.REC_TYPE},\n    USERID = @{pipeline().parameters.USERID},\n    UDATE = @{pipeline().parameters.UDATE},\n    UTIME = @{pipeline().parameters.UTIME}\nWHERE EXISTS (\n    SELECT 1\n    FROM YMSDT_PROJ_HDR \n    WHERE MANDT = @{pipeline().parameters.MANDT}\n      AND PROJ_ID = @{pipeline().parameters.PROJ_ID}\n);",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"MANDT": {
 				"type": "string",
 				"defaultValue": "MANDT"
+			},
+			"PROJ_ID": {
+				"type": "string",
+				"defaultValue": "PROJ_ID"
+			},
+			"TIMESTAMP": {
+				"type": "string",
+				"defaultValue": "TIMESTAMP"
+			},
+			"PROJ_DESC1": {
+				"type": "string",
+				"defaultValue": "PROJ_DESC1"
+			},
+			"PROJ_DESC2": {
+				"type": "string",
+				"defaultValue": "PROJ_DESC2"
+			},
+			"SITE_ADRRS": {
+				"type": "string",
+				"defaultValue": "SITE_ADRRS"
+			},
+			"PROJ_COORD": {
+				"type": "string",
+				"defaultValue": "PROJ_COORD"
+			},
+			"SITE_CONT_NAME1": {
+				"type": "string",
+				"defaultValue": "SITE_CONT_NAME1"
+			},
+			"SITE_CONT_TEL1": {
+				"type": "string",
+				"defaultValue": "SITE_CONT_TEL1"
+			},
+			"SITE_CONT_NAME2": {
+				"type": "string",
+				"defaultValue": "SITE_CONT_NAME2"
+			},
+			"SITE_CONT_TEL2": {
+				"type": "string",
+				"defaultValue": "SITE_CONT_TEL2"
+			},
+			"GEO_FENCE_ID": {
+				"type": "string",
+				"defaultValue": "GEO_FENCE_ID"
+			},
+			"CONTRY_KEY": {
+				"type": "string",
+				"defaultValue": "CONTRY_KEY"
+			},
+			"CITY": {
+				"type": "string",
+				"defaultValue": "CITY"
+			},
+			"POST_CODE": {
+				"type": "string",
+				"defaultValue": "POST_CODE"
+			},
+			"REGION": {
+				"type": "string",
+				"defaultValue": "REGION"
+			},
+			"SORT_FIELD": {
+				"type": "string",
+				"defaultValue": "SORT_FIELD"
+			},
+			"TELE_NO": {
+				"type": "string",
+				"defaultValue": "TELE_NO"
+			},
+			"FAX_NO": {
+				"type": "string",
+				"defaultValue": "FAX_NO"
+			},
+			"STATUS": {
+				"type": "string",
+				"defaultValue": "STATUS"
+			},
+			"INTER_ID": {
+				"type": "string",
+				"defaultValue": "INTER_ID"
+			},
+			"ERROR_CD": {
+				"type": "string",
+				"defaultValue": "ERROR_CD"
+			},
+			"PROC_TS": {
+				"type": "string",
+				"defaultValue": "PROC_TS"
+			},
+			"REC_TYPE": {
+				"type": "string",
+				"defaultValue": "REC_TYPE"
+			},
+			"USERID": {
+				"type": "string",
+				"defaultValue": "USERID"
+			},
+			"UDATE": {
+				"type": "string",
+				"defaultValue": "UDATE"
+			},
+			"UTIME": {
+				"type": "string",
+				"defaultValue": "UTIME"
 			}
 		},
 		"variables": {

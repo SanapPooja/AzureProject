@@ -1,0 +1,12 @@
+{
+	"name": "Project_Master",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Project_Master",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
