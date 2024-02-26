@@ -490,15 +490,6 @@
 									"name": "SIMILAR_EL_HCODE",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['$CONF_DEL_DATE']"
-								},
-								"sink": {
-									"name": "CONF_DEL_DATE",
-									"type": "String"
-								}
 							}
 						]
 					}
