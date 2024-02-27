@@ -717,7 +717,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK\nSET new_Status = 'Q'\nWHERE fld_trk_sor_no = @{pipeline().parameters.fld_trk_sor_no}",
+								"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK\nSET New_Status = @{pipeline().parameters.New_Status}\nWHERE fld_trk_sor_no = @{pipeline().parameters.fld_trk_sor_no}",
 								"type": "Expression"
 							}
 						}
@@ -734,6 +734,10 @@
 			"fld_trk_sor_no": {
 				"type": "string",
 				"defaultValue": "fld_vattr_sor_no"
+			},
+			"New_Status": {
+				"type": "String",
+				"defaultValue": "T"
 			}
 		},
 		"annotations": []
