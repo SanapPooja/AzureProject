@@ -34,7 +34,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Send_DataFrom_NDS_To_Queue",
 				"type": "Copy",
 				"dependsOn": [
 					{
