@@ -665,10 +665,73 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "NSH_INT003_STS_OrderAttribute_Sub",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Send_DataFrom_NDS_To_Queue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT003_STS_OrderAttribute_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Update_StatusTo_T",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "NSH_INT003_STS_OrderAttribute_Sub",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NDSQADB5_NDS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK\nSET new_Status = 'Q'\nWHERE fld_trk_sor_no = @{pipeline().parameters.fld_trk_sor_no}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
 			"fld_vattr_sor_no": {
+				"type": "string",
+				"defaultValue": "fld_vattr_sor_no"
+			},
+			"fld_trk_sor_no": {
 				"type": "string",
 				"defaultValue": "fld_vattr_sor_no"
 			}
