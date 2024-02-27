@@ -42,6 +42,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script1",
@@ -690,6 +692,8 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -784,6 +788,346 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"additionalColumns": [
+							{
+								"name": "ATINN",
+								"value": "0000000000"
+							},
+							{
+								"name": "SALES_ORDER",
+								"value": ""
+							},
+							{
+								"name": "PROC_TS",
+								"value": ""
+							},
+							{
+								"name": "USER_ID",
+								"value": ""
+							},
+							{
+								"name": "UDATE",
+								"value": "00000000"
+							},
+							{
+								"name": "UTIME",
+								"value": ""
+							},
+							{
+								"name": "HG_ITEM_NO",
+								"value": ""
+							},
+							{
+								"name": "SUB_PROD_GRP",
+								"value": ""
+							},
+							{
+								"name": "NDS_SALE_ORDER",
+								"value": ""
+							},
+							{
+								"name": "PROD_GRP",
+								"value": ""
+							}
+						],
+						"sqlReaderQuery": {
+							"value": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\n  FROM dbo.SAP_ORDER_VARIANT where ord_req_no = '8000822044' and (status = 'N' or status = 'T') and sap_status = 'A' ) AS Order_Variant",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Row",
+									"type": "Int64"
+								},
+								"sink": {
+									"path": "$['$Row']"
+								}
+							},
+							{
+								"source": {
+									"name": "IDENTITY_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$IDENTITY_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$INTERFACE_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$MANDT']"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$ID_MESSAGE']"
+								}
+							},
+							{
+								"source": {
+									"name": "ORD_REQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$ORD_REQ_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$ITEM_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$MATL_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$CHRSTICS']"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS_VAL",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$CHRSTICS_VAL']"
+								}
+							},
+							{
+								"source": {
+									"name": "BASE_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$BASE_UOM']"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$STATUS']"
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$ERROR_CD']"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$REC_TYPE']"
+								}
+							},
+							{
+								"source": {
+									"name": "WBSELEMENTID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$WBSELEMENTID']"
+								}
+							},
+							{
+								"source": {
+									"name": "SAP_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SAP_STATUS']"
+								}
+							},
+							{
+								"source": {
+									"name": "ATINN"
+								},
+								"sink": {
+									"path": "$['$ATINN']"
+								}
+							},
+							{
+								"source": {
+									"name": "SALES_ORDER"
+								},
+								"sink": {
+									"path": "$['$SALES_ORDER']"
+								}
+							},
+							{
+								"source": {
+									"name": "USER_ID"
+								},
+								"sink": {
+									"path": "$['$USER_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "UDATE"
+								},
+								"sink": {
+									"path": "$['$UDATE']"
+								}
+							},
+							{
+								"source": {
+									"name": "UTIME"
+								},
+								"sink": {
+									"path": "$['$UTIME']"
+								}
+							},
+							{
+								"source": {
+									"name": "HG_ITEM_NO"
+								},
+								"sink": {
+									"path": "$['$HG_ITEM_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_GRP"
+								},
+								"sink": {
+									"path": "$['$PROD_GRP ']"
+								}
+							},
+							{
+								"source": {
+									"name": "NDS_SALE_ORDER"
+								},
+								"sink": {
+									"path": "$['$NDS_SALE_ORDER']"
+								}
+							},
+							{
+								"source": {
+									"name": "SUB_PROD_GRP"
+								},
+								"sink": {
+									"path": "$['$SUB_PROD_GRP']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT002_ODOS_SAPY_Queue",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Execute Pipeline2",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT002_SAPY_OrderVariant_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],

@@ -1,0 +1,83 @@
+{
+	"name": "INT002_SAP_ORDER_VARIANT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NDSQADB5_NDS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "IDENTITY_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "ORD_REQ_NO",
+				"type": "char"
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "char"
+			},
+			{
+				"name": "MATL_NO",
+				"type": "char"
+			},
+			{
+				"name": "CHRSTICS",
+				"type": "varchar"
+			},
+			{
+				"name": "CHRSTICS_VAL",
+				"type": "varchar"
+			},
+			{
+				"name": "BASE_UOM",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "char"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "WBSELEMENTID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SAP_STATUS",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAP_ORDER_VARIANT"
+		}
+	}
+}

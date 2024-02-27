@@ -1,0 +1,12 @@
+{
+	"name": "INT002_ODOS_SAPY_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT002_NDS_SAPY_OrderVariant",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

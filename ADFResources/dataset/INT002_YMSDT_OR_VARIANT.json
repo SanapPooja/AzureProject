@@ -1,0 +1,16 @@
+{
+	"name": "INT002_YMSDT_OR_VARIANT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMSDT_OR_VARIANT"
+		}
+	}
+}
