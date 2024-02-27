@@ -508,7 +508,7 @@
 				]
 			},
 			{
-				"name": "Script1",
+				"name": "UPDATE SAP_ORDER_ITEM",
 				"type": "Script",
 				"dependsOn": [
 					{
@@ -534,13 +534,62 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "\t\t\t\t\t\t\t\t\t"
+							"text": {
+								"value": "update dbo.SAP_ORDER_ITEM set STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "UPDATE SAP_WBS_SOR",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "UPDATE SAP_ORDER_ITEM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
+		"parameters": {
+			"ORD_REQ_NO": {
+				"type": "String",
+				"defaultValue": "ORD_REQ_NO"
+			},
+			"ITEM_NO": {
+				"type": "String",
+				"defaultValue": "ITEM_NO"
+			}
+		},
 		"annotations": []
 	}
 }
