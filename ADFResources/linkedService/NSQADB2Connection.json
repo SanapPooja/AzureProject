@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=NSQADB2.natsteel.corp;initial catalog=EHMS;user id=stsapp",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiNGI4MDk2Mi0wNmI1LTQ3YzctOWNhNi04NTg5MzJlYjdkYzEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "integrated security=False;data source=NSQADB2.natsteel.corp;initial catalog=STS;user id=stsapp",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5NTQ2NTMzNy00MzVjLTQ0MWEtOThlMC0xMGU3YjZiMzQxZGUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "NSHQA",
