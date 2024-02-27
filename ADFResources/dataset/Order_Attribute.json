@@ -1,0 +1,12 @@
+{
+	"name": "Order_Attribute",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Order_Attribute",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
