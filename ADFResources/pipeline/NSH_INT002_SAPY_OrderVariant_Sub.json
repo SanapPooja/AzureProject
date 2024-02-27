@@ -284,8 +284,90 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 60
 				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "DeleteServiceBusMessage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NDSQADB5_NDS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T' from dbo.SAP_ORDER_VARIANT where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script1_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NDSQADB5_NDS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update dbo.SAP_WBS_SOR set ESB_STATUS = 'T where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}\n\n\t\t\t\t\t\t",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"ORD_REQ_NO": {
+				"type": "String",
+				"defaultValue": "ORD_REQ_NO"
+			},
+			"ITEM_NO": {
+				"type": "String",
+				"defaultValue": "ITEM_NO"
+			}
+		},
 		"annotations": []
 	}
 }
