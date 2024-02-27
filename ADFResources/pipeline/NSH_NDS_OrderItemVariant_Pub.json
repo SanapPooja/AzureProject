@@ -690,8 +690,6 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -797,6 +795,10 @@
 			"NVC_REF_ORD_REQ_NO": {
 				"type": "string",
 				"defaultValue": "NVC_REF_ORD_REQ_NO"
+			},
+			"ITEM_NO": {
+				"type": "string",
+				"defaultValue": "ITEM_NO"
 			}
 		},
 		"variables": {
