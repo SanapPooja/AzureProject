@@ -742,15 +742,6 @@
 							},
 							{
 								"source": {
-									"name": "ERROR_CD",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$ERROR_CD']"
-								}
-							},
-							{
-								"source": {
 									"name": "PROC_TS",
 									"type": "String"
 								},

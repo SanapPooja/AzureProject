@@ -1,0 +1,57 @@
+{
+	"name": "NSH_IN046_SAPY_OrderHeader_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT MANDT,ORDER_REQUEST_NO, CONTRACT, PO_NUMBER, CUST_ORDER_DATE, ORDER_TYPE, SALES_ORDER , STATUS, UDATE,UTIME,SALES_ORG, KUNNR, NAME_WE, KUNAG, NAME_AG, YMAT_SOURCE, YCAB_TYPE, VEHICLE_TYPE, INT_REMARK, EXT_REMARK, NO_ITEM, NDS_SALE_ORDER, PROCESS_STATUS, URG_ORD_IND, PRM_SVC_IND, CRN_BKD_IND, BRG_BKD_IND, POL_ESC_IND,REQ_DAT_FRM, REQ_DAT_TO, PRJ_CST_DAT, ORDER_GROUP_ID, LOW_BED_VEH_IND, TON50_VEH_IND, UNIT_MODE_IND,MUST_HAVE_DAT, REF_ORD_REQ_NO, YORD_TYPE FROM SAPSR3.YMSDT_ORDER_HDR WHERE ORDER_REQUEST_NO = @{pipeline().parameters.ORDER_REQUEST_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_REQUEST_NO": {
+				"type": "String",
+				"defaultValue": "ORDER_REQUEST_NO"
+			},
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "MANDT"
+			},
+			"VBELN": {
+				"type": "String",
+				"defaultValue": "VBELN"
+			},
+			"PARVW": {
+				"type": "String",
+				"defaultValue": "PARVW"
+			}
+		},
+		"annotations": []
+	}
+}
