@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "Oracle",
 		"typeProperties": {
-			"connectionString": "host=172.25.101.6;port=1527;sid=NSD;user id=sapsr3",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxODBjZGEyOC1iYjZhLTQ3ZTItODViNi02ZjA5ODI3YjcyOWQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "host=172.25.101.6;port=1527;sid=NSD;user id=ESB_SAPINT",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiMjlkODQ0Ni02N2YyLTQwNzMtYTgxZS1hZDkzYTZjYjFiZWUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "MESQARuntime",
