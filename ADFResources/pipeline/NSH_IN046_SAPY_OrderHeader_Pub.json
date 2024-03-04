@@ -302,7 +302,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Select count(*) from SAPSR3.YMSDT_ORDER_HDR WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR = @{pipeline().parameters.KUNNR} AND ORDER_GROUP_ID = @{pipeline().parameters.ORDER_GROUP_ID} AND ON_HOLD_IND = 'Y' AND STATUS = 'X'pipeline().parameters.MANDT",
+								"value": "Select count(*) from SAPSR3.YMSDT_ORDER_HDR WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR = @{pipeline().parameters.KUNNR} AND ORDER_GROUP_ID = @{pipeline().parameters.ORDER_GROUP_ID} AND ON_HOLD_IND = 'Y' AND STATUS = 'X'",
 								"type": "Expression"
 							}
 						}
