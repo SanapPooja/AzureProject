@@ -173,6 +173,8 @@
 				"defaultValue": "CONTR_NO"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T12:43:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

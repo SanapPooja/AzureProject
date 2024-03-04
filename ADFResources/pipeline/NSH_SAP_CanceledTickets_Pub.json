@@ -144,6 +144,9 @@
 						]
 					}
 				],
+				"policy": {
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -163,6 +166,8 @@
 				"type": "string"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T05:23:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

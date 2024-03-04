@@ -15,13 +15,13 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net",
 					"method": "GET",
 					"headers": {
 						"SharedAccessKeyName": "Sendm",
 						"SharedAccessKey": "NQy3A095Ro+07sqUQ+WRVKV/GsfpNzVFO+ASbJ2aIPg=",
 						"EntityPath": "mesgrqueue"
-					}
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net"
 				}
 			}
 		],

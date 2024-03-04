@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data2",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -17,6 +17,64 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "CLBD_ITEM",
+								"value": "000000"
+							},
+							{
+								"name": "STATUS_DSS",
+								"value": ""
+							},
+							{
+								"name": "UOM_NET",
+								"value": ""
+							},
+							{
+								"name": "UOM_GROSS",
+								"value": ""
+							},
+							{
+								"name": "PSTYV",
+								"value": ""
+							},
+							{
+								"name": "USERID",
+								"value": ""
+							},
+							{
+								"name": "UDATE",
+								"value": "000000"
+							},
+							{
+								"name": "UTIME",
+								"value": "000000"
+							},
+							{
+								"name": "NET_WT",
+								"value": "0"
+							},
+							{
+								"name": "GROSS_WT",
+								"value": "0"
+							},
+							{
+								"name": "NDS_SALE_ORDER",
+								"value": ""
+							},
+							{
+								"name": "SALES_ORDER",
+								"value": ""
+							},
+							{
+								"name": "ERROR_CD",
+								"value": ""
+							},
+							{
+								"name": "PROC_TS",
+								"value": ""
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -490,6 +548,132 @@
 									"name": "SIMILAR_EL_HCODE",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$CLBD_ITEM']"
+								},
+								"sink": {
+									"name": "CLBD_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS_DSS']"
+								},
+								"sink": {
+									"name": "STATUS_DSS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UOM_NET']"
+								},
+								"sink": {
+									"name": "UOM_NET",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UOM_GROSS']"
+								},
+								"sink": {
+									"name": "UOM_GROSS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PSTYV']"
+								},
+								"sink": {
+									"name": "PSTYV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$USERID']"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UDATE']"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$UTIME']"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NET_WT']"
+								},
+								"sink": {
+									"name": "NET_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GROSS_WT']"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NDS_SALE_ORDER']"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SALES_ORDER']"
+								},
+								"sink": {
+									"name": "SALES_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
 							}
 						]
 					}
@@ -508,83 +692,11 @@
 				]
 			},
 			{
-				"name": "UPDATE SAP_ORDER_ITEM",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "DeleteServiceBusMessage",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update dbo.SAP_ORDER_ITEM set STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "UPDATE SAP_WBS_SOR",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "UPDATE SAP_ORDER_ITEM",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "UPDATE dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Wait1",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -628,16 +740,8 @@
 				}
 			}
 		],
-		"parameters": {
-			"ORD_REQ_NO": {
-				"type": "String",
-				"defaultValue": "ORD_REQ_NO"
-			},
-			"ITEM_NO": {
-				"type": "String",
-				"defaultValue": "ITEM_NO"
-			}
-		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-02-21T12:39:41Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

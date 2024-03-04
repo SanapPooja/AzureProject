@@ -12,5 +12,6 @@
 			"schema": "SAPSR3",
 			"table": "YQMT_RESULTS_DTL"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

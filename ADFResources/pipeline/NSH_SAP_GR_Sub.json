@@ -1063,6 +1063,8 @@
 				"defaultValue": "CHARG"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T05:23:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

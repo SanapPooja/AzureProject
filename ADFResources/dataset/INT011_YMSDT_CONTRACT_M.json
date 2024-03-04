@@ -12,5 +12,6 @@
 			"schema": "SAPSR3",
 			"table": "YMSDT_CONTRACT_M"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

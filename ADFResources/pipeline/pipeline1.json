@@ -91,8 +91,6 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -109,35 +107,6 @@
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
 					}
-				}
-			},
-			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "Oracle1",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "UPDATE YESB_PROJ_HDR \nSET \n    TIMESTAMP = TIMESTAMP,\n    PROJ_DESC1 = PROJ_DESC1,\n    PROJ_DESC2 = PROJ_DESC2,\n    SITE_ADRRS = SITE_ADRRS,\n    PROJ_COORD = PROJ_COORD,\n    SITE_CONT_NAME1 = SITE_CONT_NAME1,\n    SITE_CONT_TEL1 = SITE_CONT_TEL1,\n    SITE_CONT_NAME2 = SITE_CONT_NAME2,\n    SITE_CONT_TEL2 = SITE_CONT_TEL2,\n    GEO_FENCE_ID = GEO_FENCE_ID,\n    CONTRY_KEY = CONTRY_KEY,\n    CITY = CITY,\n    POST_CODE = POST_CODE,\n    REGION = REGION,\n    SORT_FIELD = SORT_FIELD,\n    TELE_NO = TELE_NO,\n    FAX_NO = FAX_NO,\n    STATUS = STATUS,\n    INTER_ID = INTER_ID,\n    ERROR_CD = ERROR_CD,\n    PROC_TS = PROC_TS,\n    REC_TYPE = REC_TYPE,\n    USERID = USERID,\n    UDATE = UDATE,\n    UTIME = UTIME\nWHERE EXISTS (\n    SELECT 1\n    FROM YMSDT_PROJ_HDR \n    WHERE MANDT = @{pipeline().parameters.MANDT}\n      AND PROJ_ID = @{pipeline().parameters.PROJ_ID}\n);",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
@@ -337,10 +306,6 @@
 			"USERID": {
 				"type": "string",
 				"defaultValue": "BGDJOBS"
-			},
-			"PROJ_ID": {
-				"type": "string",
-				"defaultValue": "PROJ_ID"
 			}
 		},
 		"variables": {
@@ -350,7 +315,7 @@
 			}
 		},
 		"annotations": [],
-		"lastPublishTime": "2023-10-04T12:53:01Z"
+		"lastPublishTime": "2024-02-16T05:23:49Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

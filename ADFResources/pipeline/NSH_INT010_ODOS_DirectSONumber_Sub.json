@@ -213,6 +213,8 @@
 				"defaultValue": "SALES_ORDER"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T09:41:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

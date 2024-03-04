@@ -15,7 +15,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages",
 					"method": "POST",
 					"headers": {
 						"CustomHeader-Version": "\"1.0\"",
@@ -25,6 +24,7 @@
 							"type": "Expression"
 						}
 					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrdata/messages",
 					"body": {
 						"value": "{\n    \"message\":\"Send Message4\"\n}",
 						"type": "Expression"

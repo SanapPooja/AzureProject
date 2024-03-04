@@ -654,12 +654,12 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 					"method": "DELETE",
 					"headers": {
 						"CustomHeader-Version": "\"1.0\"",
 						"Content-Type": "application/json"
 					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"

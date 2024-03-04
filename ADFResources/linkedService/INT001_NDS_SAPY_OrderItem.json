@@ -1,5 +1,6 @@
 {
 	"name": "INT001_NDS_SAPY_OrderItem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "RestService",

@@ -36,5 +36,6 @@
 			"schema": "dbo",
 			"table": "SAP_SO_SOR"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }
