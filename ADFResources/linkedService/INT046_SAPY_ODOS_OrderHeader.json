@@ -1,0 +1,13 @@
+{
+	"name": "INT046_SAPY_ODOS_OrderHeader",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sapy_nds_orderheader/messages",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
