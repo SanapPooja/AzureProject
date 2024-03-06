@@ -15,14 +15,17 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
+					"referenceName": "SAP_DEV_DEMO",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "select CHARG from T_NSA_GR where STATUS = 'A'"
+							"text": {
+								"value": "select PROJ_ID from SAPSR3.YESB_PRO_HDR where PROJ_ID = '0000100001'  ",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -48,7 +51,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
+					"referenceName": "SAP_DEV_DEMO",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -56,7 +59,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select CHARG from T_NSA_GR where CHARG = '@{activity(\n'Script1').output.resultSets[0].rows[0].CHARG}'",
+								"value": "select PROJ_ID from SAPSR3.YESB_PRO_HDR WHERE PROJ_ID = @{activity('Script1').output.resultSets[0].rows[0].PROJ_ID}",
 								"type": "Expression"
 							}
 						}
@@ -65,6 +68,15 @@
 				}
 			}
 		],
+		"parameters": {
+			"CHARG": {
+				"type": "string"
+			},
+			"PROJ_ID": {
+				"type": "String",
+				"defaultValue": "PROJ_ID"
+			}
+		},
 		"annotations": []
 	}
 }
