@@ -34,6 +34,8 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "compare_project_master",
@@ -48,7 +50,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "DynamicValue",
+					"variableName": "MANDT",
 					"value": {
 						"value": "@{activity('compare_project_master').output.resultSets[0].rows[0].MANDT}",
 						"type": "Expression"
@@ -61,6 +63,12 @@
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "compare_project_master",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -83,12 +91,38 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select MANDT, PROJ_ID from SAPSR3.YESB_PRO_HDR WHERE MANDT = @{variables('DynamicValue')}",
+								"value": "select PROJ_ID from SAPSR3.YESB_PRO_HDR WHERE PROJ_ID = @{activity('compare_project_master').output.resultSets[0].rows[0].PROJ_ID}",
 								"type": "Expression"
 							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1_copy1",
+				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "compare_project_master",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "PROJ_ID",
+					"value": {
+						"value": "@{activity('compare_project_master').output.resultSets[0].rows[0].PROJ_ID}",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -96,13 +130,20 @@
 			"MANDT": {
 				"type": "string",
 				"defaultValue": "MANDT"
+			},
+			"PROJ_ID": {
+				"type": "String",
+				"defaultValue": "PROJ_ID"
 			}
 		},
 		"variables": {
 			"hee": {
 				"type": "String"
 			},
-			"DynamicValue": {
+			"MANDT": {
+				"type": "String"
+			},
+			"PROJ_ID": {
 				"type": "String"
 			}
 		},

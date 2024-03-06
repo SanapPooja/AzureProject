@@ -3,85 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "MANDT",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$"
-								}
-							},
-							{
-								"source": {
-									"name": "PROJ_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "TIMESTAMP",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": ""
-								}
-							},
-							null,
-							null,
-							null,
-							null,
-							null
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "SAP_YMSDT_PRO_HDR",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Project_Master",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
 				"name": "Script1",
 				"type": "Script",
 				"dependsOn": [],
@@ -94,17 +15,14 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "Oracle2",
+					"referenceName": "IgnitionQA",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "select MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YMSDT_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}\t\t\t\n\nminus \nselect MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, TELE_NO, FAX_NO, INTER_ID, REC_TYPE, BRAN5  from SAPSR3.YESB_PRO_HDR where  MANDT = @{pipeline().parameters.MANDT}",
-								"type": "Expression"
-							}
+							"text": "select CHARG from T_NSA_GR where STATUS = 'A'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -113,8 +31,6 @@
 			{
 				"name": "Script2",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script1",
@@ -132,102 +48,23 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "Oracle2",
+					"referenceName": "IgnitionQA",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "select * from YESB_PROJ_HDR"
+							"text": {
+								"value": "select CHARG from T_NSA_GR where CHARG = '@{activity(\n'Script1').output.resultSets[0].rows[0].CHARG}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
-			},
-			{
-				"name": "Lookup2",
-				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "@activity('Lookup1').output.firstRow",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "SAPS_YESB_PRO_HDR",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"enableStaging": false
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "MANDT",
-					"value": {
-						"value": "@activity('Copy data2').output",
-						"type": "Expression"
-					}
-				}
 			}
 		],
-		"parameters": {
-			"MANDT": {
-				"type": "string",
-				"defaultValue": "MANDT"
-			}
-		},
-		"variables": {
-			"MANDT": {
-				"type": "String"
-			}
-		},
 		"annotations": []
 	}
 }
