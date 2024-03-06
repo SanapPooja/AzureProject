@@ -1,0 +1,16 @@
+{
+	"name": "SAP_YMSDT_PRO_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMSDT_PRO_HDR"
+		}
+	}
+}

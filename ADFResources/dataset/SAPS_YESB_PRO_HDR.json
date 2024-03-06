@@ -1,0 +1,16 @@
+{
+	"name": "SAPS_YESB_PRO_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YESB_PRO_HDR"
+		}
+	}
+}
