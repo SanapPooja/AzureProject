@@ -1,0 +1,12 @@
+{
+	"name": "Order_Attribute_pub",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

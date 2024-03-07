@@ -23,7 +23,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select CHARG from [dbo].[T_NSA_GR_STAGING] where CHARG = @{pipeline().parameters.CHARG}",
+								"value": "select * from [dbo].[T_NSA_GR_STAGING] where CHARG = @{pipeline().parameters.CHARG}",
 								"type": "Expression"
 							}
 						}
@@ -59,7 +59,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select CHARG from [dbo].[T_NSA_GR_STAGING] where CHARG = '@{activity('Script1').output.resultSets[0].rows[0].CHARG}'",
+								"value": "select * from [dbo].[T_NSA_GR_STAGING] where CHARG = '@{activity('Script1').output.resultSets[0].rows.CHARG}'",
 								"type": "Expression"
 							}
 						}
