@@ -67,7 +67,7 @@
 						"httpRequestTimeout": "00:05:00",
 						"requestInterval": 10,
 						"requestMethod": "POST",
-						"writeBatchSize": 10000,
+						"writeBatchSize": "10000000",
 						"httpCompressionType": "none"
 					},
 					"enableStaging": false,
