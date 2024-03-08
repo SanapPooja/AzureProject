@@ -26,10 +26,6 @@
 								}
 							},
 							{
-								"name": "cust_order_date",
-								"value": "''"
-							},
-							{
 								"name": "actual_del_date",
 								"value": "''"
 							},
@@ -98,6 +94,10 @@
 							},
 							{
 								"name": "remarks",
+								"value": "''"
+							},
+							{
+								"name": "cust_order_date",
 								"value": "''"
 							}
 						],
@@ -529,11 +529,6 @@
 								},
 								"sink": {
 									"path": "$['$cust_order_date']"
-								}
-							},
-							{
-								"sink": {
-									"path": "$['Column_1']"
 								}
 							}
 						]
