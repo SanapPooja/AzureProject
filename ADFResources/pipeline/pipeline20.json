@@ -376,9 +376,18 @@
 							},
 							{
 								"source": {
-									"name": ""
+									"name": "id_message"
+								},
+								"sink": {
+									"path": "$id_message"
 								}
 							},
+							{
+								"source": {
+									"name": "id_message"
+								}
+							},
+							null,
 							null,
 							null,
 							null
