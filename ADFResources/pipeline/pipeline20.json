@@ -31,11 +31,11 @@
 							},
 							{
 								"name": "actual_del_date",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "planning_strategy",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "order_pieces",
@@ -47,11 +47,11 @@
 							},
 							{
 								"name": "credit_status",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "approval_status",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "delivery_status",
@@ -63,7 +63,7 @@
 							},
 							{
 								"name": "allow_partial_delivery_ind",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "time_stamp",
@@ -86,21 +86,22 @@
 							},
 							{
 								"name": "update_by",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "update_date",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "QA_transfer_status",
-								"value": ""
+								"value": "''"
 							},
 							{
 								"name": "remarks",
-								"value": ""
+								"value": "''"
 							}
 						],
+						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=3",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -520,6 +521,19 @@
 								},
 								"sink": {
 									"path": "$['$QA_transfer_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_order_date"
+								},
+								"sink": {
+									"path": "$['$cust_order_date']"
+								}
+							},
+							{
+								"sink": {
+									"path": "$['Column_1']"
 								}
 							}
 						]
