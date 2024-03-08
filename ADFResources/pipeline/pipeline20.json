@@ -54,7 +54,7 @@
 								"value": ""
 							},
 							{
-								"name": "delivary_satatus",
+								"name": "delivery_status",
 								"value": "A"
 							},
 							{
@@ -62,7 +62,7 @@
 								"value": "A"
 							},
 							{
-								"name": "allow_partial_delivary_ind",
+								"name": "allow_partial_delivery_ind",
 								"value": ""
 							},
 							{
@@ -94,6 +94,10 @@
 							},
 							{
 								"name": "QA_transfer_status",
+								"value": ""
+							},
+							{
+								"name": "remarks",
 								"value": ""
 							}
 						],
@@ -384,13 +388,140 @@
 							},
 							{
 								"source": {
-									"name": "id_message"
+									"name": "actual_del_date"
+								},
+								"sink": {
+									"path": "$['$actual_del_date']"
 								}
 							},
-							null,
-							null,
-							null,
-							null
+							{
+								"source": {
+									"name": "planning_strategy"
+								},
+								"sink": {
+									"path": "$['$planning_strategy']"
+								}
+							},
+							{
+								"source": {
+									"name": "order_pieces"
+								},
+								"sink": {
+									"path": "$['$order_pieces']"
+								}
+							},
+							{
+								"source": {
+									"name": "delivered_pieces"
+								},
+								"sink": {
+									"path": "$['$delivered_pieces']"
+								}
+							},
+							{
+								"source": {
+									"name": "credit_status"
+								},
+								"sink": {
+									"path": "$['$credit_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "approval_status"
+								},
+								"sink": {
+									"path": "$['$approval_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "delivery_status"
+								},
+								"sink": {
+									"path": "$['$delivery_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "cancellation_status"
+								},
+								"sink": {
+									"path": "$['$cancellation_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "allow_partial_delivery_ind"
+								},
+								"sink": {
+									"path": "$['$allow_partial_delivery_ind']"
+								}
+							},
+							{
+								"source": {
+									"name": "time_stamp"
+								},
+								"sink": {
+									"path": "$['$time_stamp']"
+								}
+							},
+							{
+								"source": {
+									"name": "remarks"
+								},
+								"sink": {
+									"path": "$['$remarks']"
+								}
+							},
+							{
+								"source": {
+									"name": "transfer_idref"
+								},
+								"sink": {
+									"path": "$['$transfer_idref']"
+								}
+							},
+							{
+								"source": {
+									"name": "transfer_status"
+								},
+								"sink": {
+									"path": "$['$transfer_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "create_by"
+								},
+								"sink": {
+									"path": "$['$create_by']"
+								}
+							},
+							{
+								"source": {
+									"name": "update_by"
+								},
+								"sink": {
+									"path": "$['$update_by']"
+								}
+							},
+							{
+								"source": {
+									"name": "update_date"
+								},
+								"sink": {
+									"path": "$['$update_date']"
+								}
+							},
+							{
+								"source": {
+									"name": "QA_transfer_status"
+								},
+								"sink": {
+									"path": "$['$QA_transfer_status']"
+								}
+							}
 						]
 					}
 				},
