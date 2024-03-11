@@ -1,0 +1,553 @@
+{
+	"name": "pipeline20",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "id_message",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "actual_del_date",
+								"value": "''"
+							},
+							{
+								"name": "planning_strategy",
+								"value": "''"
+							},
+							{
+								"name": "order_pieces",
+								"value": "0"
+							},
+							{
+								"name": "delivered_pieces",
+								"value": "0"
+							},
+							{
+								"name": "credit_status",
+								"value": "''"
+							},
+							{
+								"name": "approval_status",
+								"value": "''"
+							},
+							{
+								"name": "delivery_status",
+								"value": "A"
+							},
+							{
+								"name": "cancellation_status",
+								"value": "A"
+							},
+							{
+								"name": "allow_partial_delivery_ind",
+								"value": "''"
+							},
+							{
+								"name": "time_stamp",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "transfer_idref",
+								"value": "0"
+							},
+							{
+								"name": "transfer_status",
+								"value": "B"
+							},
+							{
+								"name": "create_by",
+								"value": "ESB Service"
+							},
+							{
+								"name": "update_by",
+								"value": "''"
+							},
+							{
+								"name": "update_date",
+								"value": "''"
+							},
+							{
+								"name": "QA_transfer_status",
+								"value": "''"
+							},
+							{
+								"name": "remarks",
+								"value": "''"
+							},
+							{
+								"name": "cust_order_date",
+								"value": "''"
+							}
+						],
+						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=3",
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$mandt"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_request_no"
+								}
+							},
+							{
+								"source": {
+									"name": "SALES_ORDER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_no"
+								}
+							},
+							{
+								"source": {
+									"name": "KUNAG",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$cust_code"
+								}
+							},
+							{
+								"source": {
+									"name": "NAME_AG",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$cust_name"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRACT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$contract_no"
+								}
+							},
+							{
+								"source": {
+									"name": "KUNNR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$proj_no"
+								}
+							},
+							{
+								"source": {
+									"name": "NAME_WE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$proj_name"
+								}
+							},
+							{
+								"source": {
+									"name": "PO_NUMBER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$cust_po_no"
+								}
+							},
+							{
+								"source": {
+									"name": "REQ_DAT_FRM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$req_del_date_fr"
+								}
+							},
+							{
+								"source": {
+									"name": "REQ_DAT_TO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$req_del_date_to"
+								}
+							},
+							{
+								"source": {
+									"name": "PRJ_CST_DAT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$projected_casting_date"
+								}
+							},
+							{
+								"source": {
+									"name": "YORD_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_type"
+								}
+							},
+							{
+								"source": {
+									"name": "VEHICLE_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$vechile_type"
+								}
+							},
+							{
+								"source": {
+									"name": "YMAT_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$mat_source_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "PRM_SVC_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$premium_service_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "CRN_BKD_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$crane_booked_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "BRG_BKD_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$barge_booked_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "POL_ESC_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$police_escort_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "NO_ITEM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$no_of_items"
+								}
+							},
+							{
+								"source": {
+									"name": "INT_REMARK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$int_remark"
+								}
+							},
+							{
+								"source": {
+									"name": "EXT_REMARK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ext_remark"
+								}
+							},
+							{
+								"source": {
+									"name": "UDATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_udate"
+								}
+							},
+							{
+								"source": {
+									"name": "UTIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_utime"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_GROUP_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_group_id"
+								}
+							},
+							{
+								"source": {
+									"name": "LOW_BED_VEH_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$low_bed_vechile_allowed"
+								}
+							},
+							{
+								"source": {
+									"name": "TON50_VEH_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$fiftyton_vechile_allowed"
+								}
+							},
+							{
+								"source": {
+									"name": "UNIT_MODE_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$unit_tag_mode_ind"
+								}
+							},
+							{
+								"source": {
+									"name": "MUST_HAVE_DAT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$must_have_dat"
+								}
+							},
+							{
+								"source": {
+									"name": "id_message"
+								},
+								"sink": {
+									"path": "$id_message"
+								}
+							},
+							{
+								"source": {
+									"name": "actual_del_date"
+								},
+								"sink": {
+									"path": "$['$actual_del_date']"
+								}
+							},
+							{
+								"source": {
+									"name": "planning_strategy"
+								},
+								"sink": {
+									"path": "$['$planning_strategy']"
+								}
+							},
+							{
+								"source": {
+									"name": "order_pieces"
+								},
+								"sink": {
+									"path": "$['$order_pieces']"
+								}
+							},
+							{
+								"source": {
+									"name": "delivered_pieces"
+								},
+								"sink": {
+									"path": "$['$delivered_pieces']"
+								}
+							},
+							{
+								"source": {
+									"name": "credit_status"
+								},
+								"sink": {
+									"path": "$['$credit_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "approval_status"
+								},
+								"sink": {
+									"path": "$['$approval_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "delivery_status"
+								},
+								"sink": {
+									"path": "$['$delivery_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "cancellation_status"
+								},
+								"sink": {
+									"path": "$['$cancellation_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "allow_partial_delivery_ind"
+								},
+								"sink": {
+									"path": "$['$allow_partial_delivery_ind']"
+								}
+							},
+							{
+								"source": {
+									"name": "time_stamp"
+								},
+								"sink": {
+									"path": "$['$time_stamp']"
+								}
+							},
+							{
+								"source": {
+									"name": "remarks"
+								},
+								"sink": {
+									"path": "$['$remarks']"
+								}
+							},
+							{
+								"source": {
+									"name": "transfer_idref"
+								},
+								"sink": {
+									"path": "$['$transfer_idref']"
+								}
+							},
+							{
+								"source": {
+									"name": "transfer_status"
+								},
+								"sink": {
+									"path": "$['$transfer_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "create_by"
+								},
+								"sink": {
+									"path": "$['$create_by']"
+								}
+							},
+							{
+								"source": {
+									"name": "update_by"
+								},
+								"sink": {
+									"path": "$['$update_by']"
+								}
+							},
+							{
+								"source": {
+									"name": "update_date"
+								},
+								"sink": {
+									"path": "$['$update_date']"
+								}
+							},
+							{
+								"source": {
+									"name": "QA_transfer_status"
+								},
+								"sink": {
+									"path": "$['$QA_transfer_status']"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_order_date"
+								},
+								"sink": {
+									"path": "$['$cust_order_date']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT046_YMSDT_ORDER_HDR",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT046_SAPY_ODOS_OrderHeader",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
