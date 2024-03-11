@@ -1,0 +1,805 @@
+{
+	"name": "PostGRMessage",
+	"properties": {
+		"activities": [
+			{
+				"name": "PostMessagetoSAP",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "NDS_SALE_ORDER",
+								"value": "\" \""
+							},
+							{
+								"name": "ORDER_ITEM",
+								"value": "\" \""
+							},
+							{
+								"name": "Z_SHAPE_CODE",
+								"value": "\" \""
+							},
+							{
+								"name": "Z_INV_LEN",
+								"value": "\" \""
+							},
+							{
+								"name": "Z_MW_SPA",
+								"value": "0"
+							},
+							{
+								"name": "Z_CW_SPA",
+								"value": "0"
+							},
+							{
+								"name": "Z_CW_OVR_HANG1",
+								"value": "0"
+							},
+							{
+								"name": "Z_CW_OVR_HANG2",
+								"value": "0"
+							},
+							{
+								"name": "Z_MW_OVR_HANG1",
+								"value": "0"
+							},
+							{
+								"name": "Z_MW_OVR_HANG2",
+								"value": ""
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{\n}",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$INTERFACE_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MANDT']"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$AIM_MATL_NO']"
+								},
+								"sink": {
+									"name": "MATNR_AIM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CHARG']"
+								},
+								"sink": {
+									"name": "CHARG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ACH_MATL_NO']"
+								},
+								"sink": {
+									"name": "MATNR_ACH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TOT_QTY']"
+								},
+								"sink": {
+									"name": "QUANTITY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BASE_UOM']"
+								},
+								"sink": {
+									"name": "MEINS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORD_NO']"
+								},
+								"sink": {
+									"name": "AUFNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DOCU_DATE']"
+								},
+								"sink": {
+									"name": "BLDAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$POSTG_DATE']"
+								},
+								"sink": {
+									"name": "BUDAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PCODE']"
+								},
+								"sink": {
+									"name": "PCODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANT']"
+								},
+								"sink": {
+									"name": "PLANT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STOR_LOC']"
+								},
+								"sink": {
+									"name": "LGORT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NO_GI_RECS']"
+								},
+								"sink": {
+									"name": "NO_OF_GI_REC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SD_DOCU_NO']"
+								},
+								"sink": {
+									"name": "VBELN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "POSNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NO_MATL_DOCU']"
+								},
+								"sink": {
+									"name": "MBLNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATL_DOCU_YR']"
+								},
+								"sink": {
+									"name": "MJAHR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CFRM_NO_OP']"
+								},
+								"sink": {
+									"name": "RUECK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CFRM_CNTR']"
+								},
+								"sink": {
+									"name": "RMZHL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CFRM_NO_REVOP']"
+								},
+								"sink": {
+									"name": "REV_RUECK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CFRM_REVCNTR']"
+								},
+								"sink": {
+									"name": "REV_RMZHL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_HEAT_NO']"
+								},
+								"sink": {
+									"name": "Z_HEAT_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_THEO_WT']"
+								},
+								"sink": {
+									"name": "Z_THEO_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_SHIFT']"
+								},
+								"sink": {
+									"name": "Z_SHIFT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_MILL_SOURCE']"
+								},
+								"sink": {
+									"name": "Z_MILL_SOURCE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_LENGTH']"
+								},
+								"sink": {
+									"name": "Z_LENGTH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_STANDARD']"
+								},
+								"sink": {
+									"name": "Z_STANDARD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_PCS_PER_HEAT']"
+								},
+								"sink": {
+									"name": "Z_PCS_PER_HEAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_WT_PER_BLD']"
+								},
+								"sink": {
+									"name": "Z_KG_PER_BLD",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_PCS_PER_BLD']"
+								},
+								"sink": {
+									"name": "Z_PCS_PER_BLD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_WT_PER_PCS']"
+								},
+								"sink": {
+									"name": "Z_KG_PER_PCS",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_WT_PER_COIL']"
+								},
+								"sink": {
+									"name": "Z_KG_PER_COIL",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_ACT_COI_WT']"
+								},
+								"sink": {
+									"name": "Z_ACT_COI_WT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_MAC_NO']"
+								},
+								"sink": {
+									"name": "Z_MAC_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COIL_NO']"
+								},
+								"sink": {
+									"name": "Z_COIL_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_CUT']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_CUT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_BEND']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_BEND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_LINK']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_LINK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_GRA']"
+								},
+								"sink": {
+									"name": "Z_COU_GRA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_TRF']"
+								},
+								"sink": {
+									"name": "Z_COU_REF",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_END']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_END",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_DIA_1']"
+								},
+								"sink": {
+									"name": "Z_COU_DIA_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_DIA_2']"
+								},
+								"sink": {
+									"name": "Z_COU_DIA_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_TYPE_1']"
+								},
+								"sink": {
+									"name": "Z_COU_TYPE_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_COU_TYPE_2']"
+								},
+								"sink": {
+									"name": "Z_COU_TYPE_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_PNT']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_PNT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_TAG_NO']"
+								},
+								"sink": {
+									"name": "Z_TAG_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_MAC_TPL']"
+								},
+								"sink": {
+									"name": "Z_MAC_TPL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_NO_OF_STR']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_STR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_AREA_PER_PC']"
+								},
+								"sink": {
+									"name": "Z_AREA_PER_PC",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ZBC_WT_PER_PC_MESH']"
+								},
+								"sink": {
+									"name": "Z_WT_PER_PC",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANT_D']"
+								},
+								"sink": {
+									"name": "PLANT_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STOR_LOC_D']"
+								},
+								"sink": {
+									"name": "LGORT_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATL_NO_D']"
+								},
+								"sink": {
+									"name": "MATNR_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY_D']"
+								},
+								"sink": {
+									"name": "QUANTITY_D",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CHARG_D']"
+								},
+								"sink": {
+									"name": "CHARG_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHIFT']"
+								},
+								"sink": {
+									"name": "SHIFT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REV_STATUS']"
+								},
+								"sink": {
+									"name": "REV_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROD_STATUS']"
+								},
+								"sink": {
+									"name": "PROD_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROD_DATE']"
+								},
+								"sink": {
+									"name": "Z_PROD_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUT_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_CUT_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BEND_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_BEND_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LINK_PER_TON']"
+								},
+								"sink": {
+									"name": "Z_LINK_PER_TON",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CON_MAT']"
+								},
+								"sink": {
+									"name": "Z_CON_MAT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CONSUME_BATCHES']"
+								},
+								"sink": {
+									"name": "Z_CONSUME_BATCHE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BAT_LOCATOR_A']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_A",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BAT_LOCATOR_B']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_B",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BAT_LOCATOR_C']"
+								},
+								"sink": {
+									"name": "Z_BAT_LOCATOR_C",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ServiceBus",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SAP_GR_Table",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DeleteServiceBusMessage",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/mesgrqueue/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "PostMessagetoSAP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-09-09T20:33:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

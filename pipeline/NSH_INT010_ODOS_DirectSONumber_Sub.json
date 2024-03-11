@@ -1,0 +1,220 @@
+{
+	"name": "NSH_INT010_ODOS_DirectSONumber_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "QUEUE_to_ODOS_Records",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$ORDER_REQUEST_NO']"
+								},
+								"sink": {
+									"name": "SOR_Number",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SALES_ORDER']"
+								},
+								"sink": {
+									"name": "SO_Number",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TM_ACCESS']"
+								},
+								"sink": {
+									"name": "TM_Access",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$inserted_date']"
+								},
+								"sink": {
+									"name": "Inserted_date",
+									"type": "DateTime"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT010_QUEUE_MESSAGE_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT010_SAP_SO_SOR",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Wait_60_sec",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "QUEUE_to_ODOS_Records",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Delete_Queue_head",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait_60_sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Delete_SALES_ORDER_Records",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "QUEUE_to_ODOS_Records",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Delete_SALES_ORDER_Record",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Delete_Queue_head",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"SALES_ORDER": {
+				"type": "string",
+				"defaultValue": "SALES_ORDER"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T09:41:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

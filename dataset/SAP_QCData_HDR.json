@@ -1,0 +1,17 @@
+{
+	"name": "SAP_QCData_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YQMT_RESULTS_HDR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

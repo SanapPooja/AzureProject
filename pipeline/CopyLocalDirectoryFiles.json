@@ -1,0 +1,336 @@
+{
+	"name": "CopyLocalDirectoryFiles",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "FileServerWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"maxRowsPerFile": 5,
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "A076785044      ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "A076785044      ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2  ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "2  ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H13 ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H13 ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "037 ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "037 ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "10475",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "10475",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE1  ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SPARE1  ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "BOMUO54225N-Y00",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "BOMUO54225N-Y00",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "02A       ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "02A       ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "22.00 ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "22.00 ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "S",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "S",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "50 ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "50 ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "1   ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "1   ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE7      ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SPARE7      ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "M504060L0600   ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "M504060L0600   ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "0         ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "0         ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE9             ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SPARE9             ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "124   ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "124   ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CSBD102",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CSBD102",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2 ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "2 ",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "19",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "19",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Gl200@w90@l10300@w0@",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Gl200@w90@l10300@w0@",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ReadTxtData",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CopyTxtFile",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-09-13T05:44:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

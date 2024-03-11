@@ -1,0 +1,16 @@
+{
+	"name": "LookupTable",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSDEVESBAPP02;initial catalog=ESBDB;user id=WEBM_INTERNAL",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmY2ZmODNhYi0zMGE4LTQ2NmQtOTNlMy0xNzhhOTg1YjM1ZWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NSHQA",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"name": "IgnitionQC_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQC_HDR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

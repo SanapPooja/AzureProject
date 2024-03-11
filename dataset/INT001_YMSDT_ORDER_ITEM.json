@@ -1,0 +1,17 @@
+{
+	"name": "INT001_YMSDT_ORDER_ITEM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMSDT_ORDER_ITEM"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

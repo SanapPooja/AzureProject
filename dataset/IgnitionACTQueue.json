@@ -1,0 +1,13 @@
+{
+	"name": "IgnitionACTQueue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionActQueue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

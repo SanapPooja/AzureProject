@@ -1,0 +1,127 @@
+{
+	"name": "INT001_SAP_ORDER_ITEM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "IDENTITY_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "ORD_REQ_NO",
+				"type": "char"
+			},
+			{
+				"name": "PROJ_ID",
+				"type": "char"
+			},
+			{
+				"name": "CONTR_NO",
+				"type": "char"
+			},
+			{
+				"name": "PO_NUM",
+				"type": "varchar"
+			},
+			{
+				"name": "SO_ORD_NO",
+				"type": "char"
+			},
+			{
+				"name": "ORD_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "ORD_INDICATOR",
+				"type": "char"
+			},
+			{
+				"name": "ORD_DATE",
+				"type": "char"
+			},
+			{
+				"name": "MATL_SOURCE",
+				"type": "char"
+			},
+			{
+				"name": "CAB_FORMER_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "VEHI_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "INT_REMARK",
+				"type": "char"
+			},
+			{
+				"name": "EXT_REMARK",
+				"type": "char"
+			},
+			{
+				"name": "SALES_ORG",
+				"type": "char"
+			},
+			{
+				"name": "DISTR_CHANNEL",
+				"type": "char"
+			},
+			{
+				"name": "DIVISION",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "char"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "char"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "NVC_REF_ORD_REQ_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "NVC_REF_CONTR_NO",
+				"type": "char"
+			},
+			{
+				"name": "GROUP_ID",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAP_ORDER_ITEM"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

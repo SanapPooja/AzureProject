@@ -1,0 +1,13 @@
+{
+	"name": "ScrapGrade_CancelledTickets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ScrapGrade_CancelledTickets_Queue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

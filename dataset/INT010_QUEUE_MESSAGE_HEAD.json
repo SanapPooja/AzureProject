@@ -1,0 +1,13 @@
+{
+	"name": "INT010_QUEUE_MESSAGE_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService4HeadDemo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

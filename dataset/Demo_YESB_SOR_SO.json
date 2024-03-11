@@ -1,0 +1,17 @@
+{
+	"name": "Demo_YESB_SOR_SO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OracleLinkedServerDemo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YESB_SOR_SO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

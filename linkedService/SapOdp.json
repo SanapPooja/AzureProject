@@ -1,0 +1,20 @@
+{
+	"name": "SapOdp",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapOdp",
+		"typeProperties": {
+			"clientId": "600",
+			"sncMode": false,
+			"userName": "test1",
+			"server": "172.25.101.5",
+			"systemNumber": "01",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlYWE1YmE0MC00YmMzLTRjNjktODIyYS1jYzdjZTkzN2NjMzEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

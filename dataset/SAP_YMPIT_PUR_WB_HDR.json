@@ -1,0 +1,17 @@
+{
+	"name": "SAP_YMPIT_PUR_WB_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMPIT_PUR_WB_HDR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

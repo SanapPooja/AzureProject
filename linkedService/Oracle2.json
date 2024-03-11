@@ -1,0 +1,16 @@
+{
+	"name": "Oracle2",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=172.25.101.6;port=1527;sid=NSD;user id=ESB_SAPINT",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1NWQ5M2UxZi1mYmFhLTRjYmQtODFlYi0yZmUzOTQ3Y2NkNDIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

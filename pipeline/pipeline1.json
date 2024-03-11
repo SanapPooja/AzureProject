@@ -1,0 +1,321 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "BEND_PER_TON",
+									"type": "Int16",
+									"value": "0",
+									"direction": "Input"
+								}
+							],
+							"type": "Query",
+							"text": {
+								"value": "SELECT @{pipeline().parameters.ACH_MATL_NO},@{pipeline().parameters.AIM_MATL_NO},@{pipeline().parameters.BASE_UOM},BEND_PER_TON = coalesce('pipeline().parameters.BEND_PER_TON','fallback'),@{pipeline().parameters.CHARG},@{pipeline().parameters.CUT_PER_TON},@{pipeline().parameters.DOCU_DATE},@{pipeline().parameters.ID_MESSAGE},@{pipeline().parameters.LINK_PER_TON},@{pipeline().parameters.MANDT},@{pipeline().parameters.ACH_MATL_NO},@{pipeline().parameters.AIM_MATL_NO},@{pipeline().parameters.BASE_UOM},@{pipeline().parameters.BEND_PER_TON},@{pipeline().parameters.CHARG},@{pipeline().parameters.CUT_PER_TON},@{pipeline().parameters.DOCU_DATE},@{pipeline().parameters.ID_MESSAGE},@{pipeline().parameters.LINK_PER_TON},@{pipeline().parameters.MANDT},@{pipeline().parameters.STATUS} FROM [dbo].[T_NSA_GR] where STATUS = 'A'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "UpdatetoY_Success",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "IgnitionQA",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "STATUS",
+									"type": "String",
+									"value": "A",
+									"direction": "Output",
+									"size": "4"
+								}
+							],
+							"type": "Query",
+							"text": {
+								"value": "update [dbo].[T_NSA_GR] set status='T' where status = @{activity('Script1').output.resultSets.STATUS}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/grrecords/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"MANDT": {
+				"type": "string",
+				"defaultValue": "MANDT"
+			},
+			"CHARG": {
+				"type": "string",
+				"defaultValue": "CHARG"
+			},
+			"AIM_MATL_NO": {
+				"type": "string",
+				"defaultValue": "AIM_MATL_NO"
+			},
+			"ID_MESSAGE": {
+				"type": "string",
+				"defaultValue": "ID_MESSAGE"
+			},
+			"ACH_MATL_NO": {
+				"type": "string",
+				"defaultValue": "ACH_MATL_NO"
+			},
+			"TOT_QTY": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"BASE_UOM": {
+				"type": "string",
+				"defaultValue": "BASE_UOM"
+			},
+			"ORD_NO": {
+				"type": "string",
+				"defaultValue": "ORD_NO"
+			},
+			"DOCU_DATE": {
+				"type": "string",
+				"defaultValue": "DOCU_DATE"
+			},
+			"POSTG_DATE": {
+				"type": "string",
+				"defaultValue": "POSTG_DATE"
+			},
+			"PCODE": {
+				"type": "string",
+				"defaultValue": "PCODE"
+			},
+			"PLANT": {
+				"type": "string",
+				"defaultValue": "PLANT"
+			},
+			"STOR_LOC": {
+				"type": "string",
+				"defaultValue": "STOR_LOC"
+			},
+			"NO_OF_GI_REC": {
+				"type": "string",
+				"defaultValue": "NO_OF_GI_REC"
+			},
+			"VBELN": {
+				"type": "string",
+				"defaultValue": "VBELN"
+			},
+			"POSNR": {
+				"type": "string",
+				"defaultValue": "POSNR"
+			},
+			"RUECK": {
+				"type": "string",
+				"defaultValue": "RUECK"
+			},
+			"RMZHL": {
+				"type": "string",
+				"defaultValue": "RMZHL"
+			},
+			"REV_RUECK": {
+				"type": "string",
+				"defaultValue": "REV_RUECK"
+			},
+			"REV_RMZHL": {
+				"type": "string",
+				"defaultValue": "REV_RMZHL"
+			},
+			"ZBC_HEAT_NO": {
+				"type": "string",
+				"defaultValue": "ZBC_HEAT_NO"
+			},
+			"ZBC_THEO_WT": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"ZBC_SHIFT": {
+				"type": "string",
+				"defaultValue": "ZBC_SHIFT"
+			},
+			"PROD_DATE": {
+				"type": "string",
+				"defaultValue": "PROD_DATE"
+			},
+			"ZBC_MILL_SOURCE": {
+				"type": "string",
+				"defaultValue": "ZBC_MILL_SOURCE"
+			},
+			"ZBC_LENGTH": {
+				"type": "string",
+				"defaultValue": "ZBC_LENGTH"
+			},
+			"ZBC_STANDARD": {
+				"type": "string",
+				"defaultValue": "ZBC_STANDARD"
+			},
+			"Z_BAT_LOCATOR_A": {
+				"type": "string",
+				"defaultValue": "Z_BAT_LOCATOR_A"
+			},
+			"Z_BAT_LOCATOR_B": {
+				"type": "string",
+				"defaultValue": "Z_BAT_LOCATOR_B"
+			},
+			"Z_BAT_LOCATOR_C": {
+				"type": "string",
+				"defaultValue": "Z_BAT_LOCATOR_C"
+			},
+			"ZBC_PCS_PER_HEAT": {
+				"type": "string",
+				"defaultValue": "ZBC_PCS_PER_HEAT"
+			},
+			"ZBC_WT_PER_BLD": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"ZBC_PCS_PER_BLD": {
+				"type": "string",
+				"defaultValue": "ZBC_PCS_PER_BLD"
+			},
+			"ZBC_WT_PER_PCS": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"ZBC_WT_PER_COIL": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"ZBC_ACT_COI_WT": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"Z_MAC_NO": {
+				"type": "string",
+				"defaultValue": "Z_MAC_NO"
+			},
+			"Z_COIL_NO": {
+				"type": "string",
+				"defaultValue": "Z_COIL_NO"
+			},
+			"Z_TOTAL_CUT": {
+				"type": "string",
+				"defaultValue": "Z_TOTAL_CUT"
+			},
+			"Z_TOTAL_BEND": {
+				"type": "string",
+				"defaultValue": "Z_TOTAL_BEND"
+			},
+			"Z_TOTAL_LINK": {
+				"type": "string",
+				"defaultValue": "Z_TOTAL_LINK"
+			},
+			"CUT_PER_TON": {
+				"type": "string",
+				"defaultValue": "CUT_PER_TON"
+			},
+			"BEND_PER_TON": {
+				"type": "string",
+				"defaultValue": "BEND_PER_TON"
+			},
+			"LINK_PER_TON": {
+				"type": "string",
+				"defaultValue": "LINK_PER_TON"
+			},
+			"Z_COU_GRA": {
+				"type": "string",
+				"defaultValue": "Z_COU_GRA"
+			},
+			"Z_COU_REF": {
+				"type": "string",
+				"defaultValue": "Z_COU_REF"
+			},
+			"Z_NO_OF_END": {
+				"type": "string",
+				"defaultValue": "Z_NO_OF_END"
+			},
+			"STATUS": {
+				"type": "string",
+				"defaultValue": "STATUS"
+			},
+			"USERID": {
+				"type": "string",
+				"defaultValue": "BGDJOBS"
+			}
+		},
+		"variables": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T05:23:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

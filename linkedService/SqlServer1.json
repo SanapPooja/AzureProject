@@ -1,0 +1,16 @@
+{
+	"name": "SqlServer1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB2;initial catalog=sts;user id=stsapp",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NzAyZmRmZS00ZjgwLTQyMTAtOGJiNi0xOTNhZDkzZjU1ODEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NSHQA",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

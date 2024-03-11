@@ -1,0 +1,47 @@
+{
+	"name": "MaterialNo_check",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "STS_QA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Matl_No",
+				"type": "char"
+			},
+			{
+				"name": "Matl_Description",
+				"type": "char"
+			},
+			{
+				"name": "Matl_Grade",
+				"type": "char"
+			},
+			{
+				"name": "Matl_Group",
+				"type": "varchar"
+			},
+			{
+				"name": "WorkCtrID",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ID_Message",
+				"type": "char"
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Mast_MaterialNo"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

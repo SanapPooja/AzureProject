@@ -1,0 +1,6 @@
+{
+	"name": "MESQARuntime",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

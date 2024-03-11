@@ -1,0 +1,438 @@
+{
+	"name": "T_GR_T",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MANDT",
+				"type": "varchar"
+			},
+			{
+				"name": "CHARG",
+				"type": "varchar"
+			},
+			{
+				"name": "MATNR_AIM",
+				"type": "varchar"
+			},
+			{
+				"name": "TIMESTAMP",
+				"type": "varchar"
+			},
+			{
+				"name": "MATNR_ACH",
+				"type": "varchar"
+			},
+			{
+				"name": "QUANTITY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "MEINS",
+				"type": "varchar"
+			},
+			{
+				"name": "AUART",
+				"type": "varchar"
+			},
+			{
+				"name": "AUFNR",
+				"type": "varchar"
+			},
+			{
+				"name": "BLDAT",
+				"type": "varchar"
+			},
+			{
+				"name": "BUDAT",
+				"type": "varchar"
+			},
+			{
+				"name": "PCODE",
+				"type": "varchar"
+			},
+			{
+				"name": "PLANT",
+				"type": "varchar"
+			},
+			{
+				"name": "LGORT",
+				"type": "varchar"
+			},
+			{
+				"name": "NO_OF_GI_REC",
+				"type": "varchar"
+			},
+			{
+				"name": "VBELN",
+				"type": "varchar"
+			},
+			{
+				"name": "POSNR",
+				"type": "varchar"
+			},
+			{
+				"name": "MBLNR",
+				"type": "varchar"
+			},
+			{
+				"name": "MJAHR",
+				"type": "varchar"
+			},
+			{
+				"name": "RUECK",
+				"type": "varchar"
+			},
+			{
+				"name": "RMZHL",
+				"type": "varchar"
+			},
+			{
+				"name": "REV_RUECK",
+				"type": "varchar"
+			},
+			{
+				"name": "REV_RMZHL",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_HEAT_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_THEO_WT",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_SHIFT",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_PROD_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_MILL_SOURCE",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_LENGTH",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_STANDARD",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_BAT_LOCATOR_A",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_BAT_LOCATOR_B",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_BAT_LOCATOR_C",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_PCS_PER_HEAT",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_KG_PER_BLD",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_PCS_PER_BLD",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_KG_PER_PCS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_KG_PER_COIL",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_ACT_COI_WT",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_MAC_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_COIL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_TOTAL_CUT",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_TOTAL_BEND",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_TOTAL_LINK",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_CUT_PER_TON",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_BEND_PER_TON",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_LINK_PER_TON",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_COU_GRA",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_COU_REF",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_NO_OF_END",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_COU_DIA_1",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_COU_DIA_2",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_COU_TYPE_1",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_COU_TYPE_2",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_NO_OF_PNT",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_TAG_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_MAC_TPL",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_NO_OF_STR",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_AREA_PER_PC",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_WT_PER_PC",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Z_CON_MAT",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_CONSUME_BATCHE",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_SHAPE_CODE",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_INV_LEN",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_WBS1",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_WBS2",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_WBS3",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_BBSNO",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_PROD_MARK",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_MW_SPA",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_CW_SPA",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Z_MW_LEN",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_CW_LEN",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_PIECES",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_CW_OVR_HANG1",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_CW_OVR_HANG2",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_MW_OVR_HANG1",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_MW_OVR_HANG2",
+				"type": "varchar"
+			},
+			{
+				"name": "Z_BBS_DESC",
+				"type": "varchar"
+			},
+			{
+				"name": "PLANT_D",
+				"type": "varchar"
+			},
+			{
+				"name": "LGORT_D",
+				"type": "varchar"
+			},
+			{
+				"name": "MATNR_D",
+				"type": "varchar"
+			},
+			{
+				"name": "QUANTITY_D",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "CHARG_D",
+				"type": "varchar"
+			},
+			{
+				"name": "SHIFT",
+				"type": "varchar"
+			},
+			{
+				"name": "REV_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "PROD_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "varchar"
+			},
+			{
+				"name": "INTER_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "UDATE",
+				"type": "varchar"
+			},
+			{
+				"name": "UTIME",
+				"type": "varchar"
+			},
+			{
+				"name": "USERID",
+				"type": "varchar"
+			},
+			{
+				"name": "NDS_SALE_ORDER",
+				"type": "varchar"
+			},
+			{
+				"name": "ORDER_ITEM",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_GR_T"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

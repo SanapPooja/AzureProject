@@ -1,0 +1,127 @@
+{
+	"name": "NSH_INT010_SAPY_DirectSONumber_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Select_SAPY_to_QUEUE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "TM_ACCESS",
+								"value": "N"
+							},
+							{
+								"name": "inserted_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "SALES_ORDER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SALES_ORDER"
+								}
+							},
+							{
+								"source": {
+									"name": "TM_ACCESS"
+								},
+								"sink": {
+									"path": "$['$TM_ACCESS']"
+								}
+							},
+							{
+								"source": {
+									"name": "inserted_date"
+								},
+								"sink": {
+									"path": "$['$inserted_date']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT010_YESB_SOR_SO",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT010_QUEUE_MESSAGE",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Execute INT010 Sub",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Select_SAPY_to_QUEUE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT010_ODOS_DirectSONumber_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-02-16T09:41:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

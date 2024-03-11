@@ -1,0 +1,135 @@
+{
+	"name": "tbl_sts_scm_operation_feedback",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "STS_QA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "REF_ID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PRODN_ORDER_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SEQ_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SAP_PRODN_ORDER_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "PHYSICAL_RESOURCE",
+				"type": "varchar"
+			},
+			{
+				"name": "SAP_ORD_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SAP_ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PRODN_START",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_END",
+				"type": "varchar"
+			},
+			{
+				"name": "CUM_PRODN_QTY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "OPEN_QTY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "UOM",
+				"type": "varchar"
+			},
+			{
+				"name": "CUM_PRODN_PIECES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OPEN_PIECES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "REMARKS",
+				"type": "varchar"
+			},
+			{
+				"name": "TIME_STAMP",
+				"type": "varchar"
+			},
+			{
+				"name": "IS_CLOSED_IND",
+				"type": "char"
+			},
+			{
+				"name": "UPDATE_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MODIFY_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "REQ_TECO_IND",
+				"type": "char"
+			},
+			{
+				"name": "PRODN_ORDER_NO_US",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_scm_operation_feedback"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

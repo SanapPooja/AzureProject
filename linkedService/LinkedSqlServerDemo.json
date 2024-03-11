@@ -1,0 +1,16 @@
+{
+	"name": "LinkedSqlServerDemo",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB5.natsteel.corp;initial catalog=ODOS;user id=ndswebapps",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlNzYwZDQ4Yi0yOTNlLTQ0MTAtYmRjNC0xY2U1ZTcxNjk3ZDQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

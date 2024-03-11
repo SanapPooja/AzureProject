@@ -1,0 +1,245 @@
+{
+	"name": "ScrapGrade_CancelledTickets_DB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ScrapGradeConnection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TICKET_YEAR_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "PROCESS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BUKRS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TICKET_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TICKET_YR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IC_REF_TNO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IC_REF_TYR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VEHICLE_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GROSS_WT",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "DT_OF_ENTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIME_OF_ENTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REPL_TKT_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REPL_TKT_YR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WT_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CREATED_BY_SAP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NAME1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EBELN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VEHICLE_STATUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LIFNR_MATL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SCRAP_SUPL_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TARE_WT",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "NET_WT",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "STATUS_SAP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WEIGH_START_DT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WEIGH_START_TIME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPPLIER_WT",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "INFO1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INFO2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INFO3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTAINER_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INST_WEIGHER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZZONE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DRIVER_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ACT_FRT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NAME2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "QI_REMARK",
+				"type": "varchar"
+			},
+			{
+				"name": "ESCLATION_STATUS",
+				"type": "bit"
+			},
+			{
+				"name": "REJECTION_STATUS",
+				"type": "bit"
+			},
+			{
+				"name": "SL_ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CREATED_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATED_DATE_TIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MODIFIED_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFIED_DATE_TIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "COM_Status",
+				"type": "char"
+			},
+			{
+				"name": "COM_Remarks",
+				"type": "varchar"
+			},
+			{
+				"name": "Com_User",
+				"type": "varchar"
+			},
+			{
+				"name": "COM_DATE_TIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DEDUCTION_EXTERNAL_ITEM_HEADER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

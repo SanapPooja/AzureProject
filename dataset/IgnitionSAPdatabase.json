@@ -1,0 +1,17 @@
+{
+	"name": "IgnitionSAPdatabase",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMPCT_UPST_ORDER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

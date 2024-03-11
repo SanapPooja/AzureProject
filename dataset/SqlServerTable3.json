@@ -1,0 +1,66 @@
+{
+	"name": "SqlServerTable3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "PO_ID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PO",
+				"type": "char"
+			},
+			{
+				"name": "WorkCtrID",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "BSC_FINISH_DT",
+				"type": "char"
+			},
+			{
+				"name": "SCHD_FINISH_DT",
+				"type": "char"
+			},
+			{
+				"name": "Matl_No",
+				"type": "char"
+			},
+			{
+				"name": "FG_Qty",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "ID_Message",
+				"type": "char"
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "VORNR",
+				"type": "varchar"
+			},
+			{
+				"name": "ABLAD",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "UPS_ProdOrder"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

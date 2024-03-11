@@ -1,0 +1,45 @@
+{
+	"name": "Lookup",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderStoredProcedureName": "[dbo].[sp_getColumnMapping]",
+						"storedProcedureParameters": {
+							"schema_name": {
+								"type": "String",
+								"value": "DBO"
+							},
+							"table_name": {
+								"type": "String",
+								"value": "SB_NSA_GR"
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "SB_GR_Table",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-09-09T15:10:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

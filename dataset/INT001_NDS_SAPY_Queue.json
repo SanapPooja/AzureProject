@@ -1,0 +1,13 @@
+{
+	"name": "INT001_NDS_SAPY_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT001_NDS_SAPY_OrderItem",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

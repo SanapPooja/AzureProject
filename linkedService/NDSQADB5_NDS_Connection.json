@@ -1,0 +1,16 @@
+{
+	"name": "NDSQADB5_NDS_Connection",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB5.natsteel.corp;initial catalog=ODOS;user id=ndswebapps",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJhMGJkNTU5Yi04MWNiLTRmY2UtYWFiNy02MjY1ZjQ2OTQ5MmYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

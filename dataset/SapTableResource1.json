@@ -1,0 +1,30 @@
+{
+	"name": "SapTableResource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SapConnection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"I_VAL_MATNR": {
+				"type": "string",
+				"defaultValue": "FHH_500L_D0500"
+			},
+			"I_VAL_WERKS": {
+				"type": "string",
+				"defaultValue": "6400"
+			},
+			"I_VAL_CHARGE": {
+				"type": "string",
+				"defaultValue": "H13F000755"
+			}
+		},
+		"annotations": [],
+		"type": "SapTableResource",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "YMQMFM_QC01_BATCH_VALUES_READ"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
