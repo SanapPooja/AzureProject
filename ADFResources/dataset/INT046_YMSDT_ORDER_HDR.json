@@ -7,10 +7,6 @@
 		},
 		"annotations": [],
 		"type": "OracleTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "SAPSR3",
-			"table": "YMSDT_ORDER_HDR"
-		}
+		"schema": []
 	}
 }

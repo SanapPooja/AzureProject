@@ -101,7 +101,7 @@
 								"value": "''"
 							}
 						],
-						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=3",
+						"oracleReaderQuery": "\nSELECT \n    YMSDT_ORDER_HDR.MANDT,\n    YMSDT_ORDER_HDR.ORDER_REQUEST_NO,\n    YMSDT_ORDER_HDR.SALES_ORDER,\n    YMSDT_ORDER_HDR.KUNAG,\n    YMSDT_ORDER_HDR.NAME_AG,\n    YMSDT_ORDER_HDR.CONTRACT,\n    YMSDT_ORDER_HDR.KUNNR,\n    YMSDT_ORDER_HDR.NAME_WE,\n    YMSDT_ORDER_HDR.PO_NUMBER,\n    YMSDT_ORDER_HDR.REQ_DAT_FRM,\n    YMSDT_ORDER_HDR.REQ_DAT_TO,\n    YMSDT_ORDER_HDR.PRJ_CST_DAT,\n    YMSDT_ORDER_HDR.YORD_TYPE,\n    YMSDT_ORDER_HDR.VEHICLE_TYPE,\n    YMSDT_ORDER_HDR.YMAT_SOURCE,\n    YMSDT_ORDER_HDR.PRM_SVC_IND,\n    YMSDT_ORDER_HDR.CRN_BKD_IND,\n    YMSDT_ORDER_HDR.BRG_BKD_IND,\n    YMSDT_ORDER_HDR.POL_ESC_IND,\n    YMSDT_ORDER_HDR.NO_ITEM,\n    YMSDT_ORDER_HDR.INT_REMARK,\n    YMSDT_ORDER_HDR.EXT_REMARK,\n    YMSDT_ORDER_HDR.UDATE,\n    YMSDT_ORDER_HDR.UTIME,\n    YMSDT_ORDER_HDR.ORDER_GROUP_ID,\n    YMSDT_ORDER_HDR.LOW_BED_VEH_IND,\n    YMSDT_ORDER_HDR.TON50_VEH_IND,\n    YMSDT_ORDER_HDR.UNIT_MODE_IND,\n    YMSDT_ORDER_HDR.MUST_HAVE_DAT,\n    KNA1.BRAN1,\n    KNA1.BRAN2,\n    KNA1.BRAN3,\n    KNA1.REGIO,\n    VBPA.KUNNR AS KUNNR1,\n    YMSDT_ORDER_ITEM.PRODUCT_TYPE\nFROM \n    SAPSR3.YMSDT_ORDER_HDR YMSDT_ORDER_HDR\nINNER JOIN \n    SAPSR3.KNA1 KNA1 ON YMSDT_ORDER_HDR.MANDT = KNA1.MANDT\nINNER JOIN \n    SAPSR3.VBPA VBPA ON YMSDT_ORDER_HDR.MANDT = VBPA.MANDT\nINNER JOIN \n    SAPSR3.YMSDT_ORDER_ITEM YMSDT_ORDER_ITEM ON YMSDT_ORDER_HDR.MANDT = YMSDT_ORDER_ITEM.MANDT\nWHERE ROWNUM<=10;",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -529,6 +529,54 @@
 								},
 								"sink": {
 									"path": "$['$cust_order_date']"
+								}
+							},
+							{
+								"source": {
+									"name": "BRAN1"
+								},
+								"sink": {
+									"path": "$['cust_class']"
+								}
+							},
+							{
+								"source": {
+									"name": "BRAN2"
+								},
+								"sink": {
+									"path": "$['proj_segment']"
+								}
+							},
+							{
+								"source": {
+									"name": "BRAN3"
+								},
+								"sink": {
+									"path": "$['proj_sub_segment']"
+								}
+							},
+							{
+								"source": {
+									"name": "REGIO"
+								},
+								"sink": {
+									"path": "$['job_site_location']"
+								}
+							},
+							{
+								"source": {
+									"name": "KUNNR1"
+								},
+								"sink": {
+									"path": "$['kunnr1']"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_TYPE"
+								},
+								"sink": {
+									"path": "$['product_type']"
 								}
 							}
 						]
