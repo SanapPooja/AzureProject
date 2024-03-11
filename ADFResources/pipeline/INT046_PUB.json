@@ -536,7 +536,7 @@
 									"name": "BRAN1"
 								},
 								"sink": {
-									"path": "$['cust_class']"
+									"path": "$['$cust_class']"
 								}
 							},
 							{
@@ -544,7 +544,7 @@
 									"name": "BRAN2"
 								},
 								"sink": {
-									"path": "$['proj_segment']"
+									"path": "$['$proj_segment']"
 								}
 							},
 							{
@@ -552,7 +552,7 @@
 									"name": "BRAN3"
 								},
 								"sink": {
-									"path": "$['proj_sub_segment']"
+									"path": "$['$proj_sub_segment']"
 								}
 							},
 							{
@@ -560,7 +560,7 @@
 									"name": "REGIO"
 								},
 								"sink": {
-									"path": "$['job_site_location']"
+									"path": "$['$job_site_location']"
 								}
 							},
 							{
@@ -568,7 +568,7 @@
 									"name": "KUNNR1"
 								},
 								"sink": {
-									"path": "$['kunnr1']"
+									"path": "$['$kunnr1']"
 								}
 							},
 							{
@@ -576,7 +576,7 @@
 									"name": "PRODUCT_TYPE"
 								},
 								"sink": {
-									"path": "$['product_type']"
+									"path": "$['$product_type']"
 								}
 							}
 						]
