@@ -99,8 +99,11 @@
 								"value": "''"
 							},
 							{
-								"name": "cust_order_date",
-								"value": "''"
+								"name": "CUST_ORDER_DATE",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
 							}
 						],
 						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=1000",
