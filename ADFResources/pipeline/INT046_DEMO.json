@@ -103,7 +103,7 @@
 								"value": "''"
 							}
 						],
-						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=3",
+						"oracleReaderQuery": "\nSELECT * FROM SAPSR3.YMSDT_ORDER_HDR WHERE ROWNUM<=1000",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
