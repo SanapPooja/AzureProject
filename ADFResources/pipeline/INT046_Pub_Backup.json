@@ -1,0 +1,338 @@
+{
+	"name": "NSH_IN046_SAPY_OrderHeader_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT MANDT,ORDER_REQUEST_NO, CONTRACT, PO_NUMBER, CUST_ORDER_DATE, ORDER_TYPE, SALES_ORDER , STATUS, UDATE,UTIME,SALES_ORG, KUNNR, NAME_WE, KUNAG, NAME_AG, YMAT_SOURCE, YCAB_TYPE, VEHICLE_TYPE, INT_REMARK, EXT_REMARK, NO_ITEM, NDS_SALE_ORDER, PROCESS_STATUS, URG_ORD_IND, PRM_SVC_IND, CRN_BKD_IND, BRG_BKD_IND, POL_ESC_IND,REQ_DAT_FRM, REQ_DAT_TO, PRJ_CST_DAT, ORDER_GROUP_ID, LOW_BED_VEH_IND, TON50_VEH_IND, UNIT_MODE_IND,MUST_HAVE_DAT, REF_ORD_REQ_NO, YORD_TYPE FROM SAPSR3.YMSDT_ORDER_HDR WHERE ORDER_REQUEST_NO = @{pipeline().parameters.ORDER_REQUEST_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT NAME1 FROM SAPSR3.KNA1 WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR IN (SELECT KUNNR FROM SAPSR3.VBPA WHERE MANDT = @{pipeline().parameters.MANDT} AND VBELN =@{pipeline().parameters.VBELN} AND PARVW = 'Z1')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT NAME1 FROM SAPSR3.KNA1 WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR IN (SELECT KUNNR FROM SAPSR3.VBPA WHERE MANDT = @{pipeline().parameters.MANDT} AND VBELN =@{pipeline().parameters.VBELN} AND PARVW = 'Z2')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT NAME1 FROM SAPSR3.KNA1 WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR IN (SELECT KUNNR FROM SAPSR3.VBPA WHERE MANDT = @{pipeline().parameters.MANDT} AND VBELN =@{pipeline().parameters.VBELN} AND PARVW = 'Z3')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT PROD_GRP FROM SAPSR3.YMSDT_ORDER_ITEM WHERE MANDT = @{pipeline().parameters.MANDT} and ORDER_REQUEST_NO = @{pipeline().parameters.ORDER_REQUEST_NO} AND ORDER_ITEM = '000010'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script6",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "select max (k.kunnr) AS Physical_delivery_proj_no from SAPSR3.kna1 k  , SAPSR3.knvp v,SAPSR3.KNA1 a\nwhere v.kunnr=a.kunnr and v.mandt =a.mandt and k.kunnr=v.kunn2 and parvw='PD' and a.ktokd in ('Y001','Y007','Y008')\nand a.mandt='${MANDT}'\nand a.kunnr='${KUNNR}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script7",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": " select max (k.kunnr) AS Physical_delivery_proj_no from SAPSR3.kna1 k  , SAPSR3.knvp v,SAPSR3.KNA1 a\nwhere v.kunnr=a.kunnr and v.mandt =a.mandt and k.kunnr=v.kunn2 and parvw='PP' and a.ktokd in ('Y001','Y007','Y008')\nand a.mandt='${MANDT}'\nand a.kunnr='${KUNNR}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script8",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": " select max (k.kunnr) AS Physical_delivery_proj_no from SAPSR3.kna1 k  , SAPSR3.knvp v,SAPSR3.KNA1 a\nwhere v.kunnr=a.kunnr and v.mandt =a.mandt and k.kunnr=v.kunn2 and parvw= 'PP' and a.ktokd in ('Y001','Y007','Y008')\nand a.mandt='${MANDT}'\nand a.kunnr='${KUNNR}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script9",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Select count(*) from SAPSR3.YMSDT_ORDER_HDR WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR = @{pipeline().parameters.KUNNR} AND ORDER_GROUP_ID = @{pipeline().parameters.ORDER_GROUP_ID} AND ON_HOLD_IND = 'Y' AND STATUS = 'X'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_REQUEST_NO": {
+				"type": "String",
+				"defaultValue": "ORDER_REQUEST_NO"
+			},
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "MANDT"
+			},
+			"VBELN": {
+				"type": "String",
+				"defaultValue": "VBELN"
+			},
+			"ORDER_GROUP_ID": {
+				"type": "String",
+				"defaultValue": "ORDER_GROUP_ID"
+			},
+			"KUNNR": {
+				"type": "String",
+				"defaultValue": "KUNNR"
+			}
+		},
+		"annotations": []
+	}
+}
