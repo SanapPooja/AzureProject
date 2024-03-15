@@ -1,0 +1,12 @@
+{
+	"name": "INT046_SAP_ODOS_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT046_SAPY_ODOS_OrderHeader_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
