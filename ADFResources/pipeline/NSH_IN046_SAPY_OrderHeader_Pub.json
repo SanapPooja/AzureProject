@@ -19,13 +19,6 @@
 						"type": "OracleSource",
 						"additionalColumns": [
 							{
-								"name": "id_message",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
-							},
-							{
 								"name": "actual_del_date",
 								"value": "''"
 							},
@@ -60,13 +53,6 @@
 							{
 								"name": "allow_partial_delivery_ind",
 								"value": "''"
-							},
-							{
-								"name": "time_stamp",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
 							},
 							{
 								"name": "transfer_idref",
@@ -131,13 +117,6 @@
 							{
 								"name": "forecast_order_ind",
 								"value": "N"
-							},
-							{
-								"name": "create_date",
-								"value": {
-									"value": "@formatDateTime(utcnow(),'yyyyMMddHHmmssfff')",
-									"type": "Expression"
-								}
 							}
 						],
 						"oracleReaderQuery": "SELECT \n    YMSDT_ORDER_HDR.MANDT,\n    YMSDT_ORDER_HDR.ORDER_REQUEST_NO,\n    YMSDT_ORDER_HDR.SALES_ORDER,\n    YMSDT_ORDER_HDR.KUNAG,\n    YMSDT_ORDER_HDR.NAME_AG,\n    YMSDT_ORDER_HDR.CONTRACT,\n    YMSDT_ORDER_HDR.KUNNR,\n    YMSDT_ORDER_HDR.NAME_WE,\n    YMSDT_ORDER_HDR.PO_NUMBER,\n    YMSDT_ORDER_HDR.REQ_DAT_FRM,\n    YMSDT_ORDER_HDR.REQ_DAT_TO,\n    YMSDT_ORDER_HDR.PRJ_CST_DAT,\n    YMSDT_ORDER_HDR.YORD_TYPE,\n    YMSDT_ORDER_HDR.VEHICLE_TYPE,\n    YMSDT_ORDER_HDR.YMAT_SOURCE,\n    YMSDT_ORDER_HDR.PRM_SVC_IND,\n    YMSDT_ORDER_HDR.CRN_BKD_IND,\n    YMSDT_ORDER_HDR.BRG_BKD_IND,\n    YMSDT_ORDER_HDR.POL_ESC_IND,\n    YMSDT_ORDER_HDR.NO_ITEM,\n    YMSDT_ORDER_HDR.INT_REMARK,\n    YMSDT_ORDER_HDR.EXT_REMARK,\n    YMSDT_ORDER_HDR.UDATE,\n    YMSDT_ORDER_HDR.UTIME,\n    YMSDT_ORDER_HDR.ORDER_GROUP_ID,\n    YMSDT_ORDER_HDR.LOW_BED_VEH_IND,\n    YMSDT_ORDER_HDR.TON50_VEH_IND,\n    YMSDT_ORDER_HDR.UNIT_MODE_IND,\n    YMSDT_ORDER_HDR.MUST_HAVE_DAT,\n    YMSDT_ORDER_HDR.YCAB_TYPE,\n    KNA1.BRAN1,\n    KNA1.BRAN2,\n    KNA1.BRAN3,\n    KNA1.REGIO,\n    VBPA1.NAME1 AS account_mgr,\n    VBPA2.NAME1 AS segment_mgr,\n    VBPA3.NAME1 AS proj_coordinator,\n     YMSDT_ORDER_ITEM.PRODUCT_TYPE\nFROM\n    SAPSR3.YMSDT_ORDER_HDR YMSDT_ORDER_HDR\nLEFT JOIN\n    SAPSR3.KNA1 KNA1 ON YMSDT_ORDER_HDR.MANDT = KNA1.MANDT\nLEFT JOIN\n    SAPSR3.KNA1 VBPA1 ON YMSDT_ORDER_HDR.MANDT = VBPA1.MANDT AND\n        KNA1.KUNNR = (\n            SELECT KUNNR\n            FROM SAPSR3.VBPA\n            WHERE MANDT ='110' AND VBELN ='1020000125' AND PARVW = 'Z1'\n        )\nLEFT JOIN\n    SAPSR3.KNA1 VBPA2 ON YMSDT_ORDER_HDR.MANDT = VBPA2.MANDT AND\n        KNA1.KUNNR = (\n            SELECT KUNNR\n            FROM SAPSR3.VBPA\n            WHERE MANDT ='110' AND VBELN ='1020000125' AND PARVW = 'Z2'\n        )\nLEFT JOIN\n    SAPSR3.KNA1 VBPA3 ON YMSDT_ORDER_HDR.MANDT = VBPA3.MANDT AND\n        KNA1.KUNNR = (\n            SELECT KUNNR\n            FROM SAPSR3.VBPA\n            WHERE MANDT ='110' AND VBELN ='1020000125' AND PARVW = 'Z3'\n        )\nLEFT JOIN\n    SAPSR3.YMSDT_ORDER_ITEM YMSDT_ORDER_ITEM ON YMSDT_ORDER_HDR.MANDT = YMSDT_ORDER_ITEM.MANDT\n    FETCH FIRST 3 ROWS ONLY;",
@@ -420,14 +399,6 @@
 							},
 							{
 								"source": {
-									"name": "id_message"
-								},
-								"sink": {
-									"path": "$id_message"
-								}
-							},
-							{
-								"source": {
 									"name": "actual_del_date"
 								},
 								"sink": {
@@ -496,14 +467,6 @@
 								},
 								"sink": {
 									"path": "$['$allow_partial_delivery_ind']"
-								}
-							},
-							{
-								"source": {
-									"name": "time_stamp"
-								},
-								"sink": {
-									"path": "$['$time_stamp']"
 								}
 							},
 							{
@@ -680,14 +643,6 @@
 								},
 								"sink": {
 									"path": "$['$forecast_order_ind']"
-								}
-							},
-							{
-								"source": {
-									"name": "create_date"
-								},
-								"sink": {
-									"path": "$['$create_date']"
 								}
 							}
 						]
