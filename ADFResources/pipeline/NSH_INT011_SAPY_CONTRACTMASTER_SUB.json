@@ -41,15 +41,231 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$intContractNo"
+									"path": "$['$intContractNo']"
 								},
 								"sink": {
 									"name": "intContractNo",
 									"type": "Int32"
 								}
 							},
-							null
-						]
+							{
+								"source": {
+									"path": "$['$vchContractCode']"
+								},
+								"sink": {
+									"name": "vchContractCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$vchDescription']"
+								},
+								"sink": {
+									"name": "vchDescription",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INTERFACE_ID']"
+								},
+								"sink": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MANDT']"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_ID']"
+								},
+								"sink": {
+									"name": "CUST_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MARKET_SEG']"
+								},
+								"sink": {
+									"name": "MARKET_SEG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NAME1_GP']"
+								},
+								"sink": {
+									"name": "NAME1_GP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NAME2_GP']"
+								},
+								"sink": {
+									"name": "NAME2_GP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$START_DATE']"
+								},
+								"sink": {
+									"name": "START_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$END_DATE']"
+								},
+								"sink": {
+									"name": "END_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_FORMER_TYPE']"
+								},
+								"sink": {
+									"name": "CAB_FORMER_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SEG_MANAGER']"
+								},
+								"sink": {
+									"name": "SEG_MANAGER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ACC_MANAGER']"
+								},
+								"sink": {
+									"name": "ACC_MANAGER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrMeshInd']"
+								},
+								"sink": {
+									"name": "chrMeshInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrWireRodInd']"
+								},
+								"sink": {
+									"name": "chrWireRodInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrRebarInd']"
+								},
+								"sink": {
+									"name": "chrRebarInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrCABInd']"
+								},
+								"sink": {
+									"name": "chrCABInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPrecage']"
+								},
+								"sink": {
+									"name": "chrPrecage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrBPCInd']"
+								},
+								"sink": {
+									"name": "chrBPCInd",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
