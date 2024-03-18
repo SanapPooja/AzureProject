@@ -41,11 +41,11 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$intContractNo']"
+									"path": "$['$MANDT']"
 								},
 								"sink": {
-									"name": "intContractNo",
-									"type": "Int32"
+									"name": "MANDT",
+									"type": "String"
 								}
 							},
 							{
@@ -59,37 +59,10 @@
 							},
 							{
 								"source": {
-									"path": "$['$vchDescription']"
+									"path": "$['$MARKET_SEG']"
 								},
 								"sink": {
-									"name": "vchDescription",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$INTERFACE_ID']"
-								},
-								"sink": {
-									"name": "INTERFACE_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$MANDT']"
-								},
-								"sink": {
-									"name": "MANDT",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ID_MESSAGE']"
-								},
-								"sink": {
-									"name": "ID_MESSAGE",
+									"name": "MARKET_SEG",
 									"type": "String"
 								}
 							},
@@ -99,15 +72,6 @@
 								},
 								"sink": {
 									"name": "CUST_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$MARKET_SEG']"
-								},
-								"sink": {
-									"name": "MARKET_SEG",
 									"type": "String"
 								}
 							},
@@ -176,28 +140,10 @@
 							},
 							{
 								"source": {
-									"path": "$['$STATUS']"
+									"path": "$['$INTERFACE_ID']"
 								},
 								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ERROR_CD']"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$PROC_TS']"
-								},
-								"sink": {
-									"name": "PROC_TS",
+									"name": "INTERFACE_ID",
 									"type": "String"
 								}
 							},
@@ -207,15 +153,6 @@
 								},
 								"sink": {
 									"name": "REC_TYPE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$chrMeshInd']"
-								},
-								"sink": {
-									"name": "chrMeshInd",
 									"type": "String"
 								}
 							},
@@ -248,6 +185,15 @@
 							},
 							{
 								"source": {
+									"path": "$['$chrMeshInd']"
+								},
+								"sink": {
+									"name": "chrMeshInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$['$chrPrecage']"
 								},
 								"sink": {
@@ -263,9 +209,71 @@
 									"name": "chrBPCInd",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPCSTrand']"
+								},
+								"sink": {
+									"name": "chrPCSTrand",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrColdRollWire']"
+								},
+								"sink": {
+									"name": "chrColdRollWire",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPreCutWire']"
+								},
+								"sink": {
+									"name": "chrPreCutWire",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$vchDescription']"
+								},
+								"sink": {
+									"name": "vchDescription",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								}
 							}
-						],
-						"collectionReference": ""
+						]
 					}
 				},
 				"inputs": [
