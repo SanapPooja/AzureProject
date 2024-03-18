@@ -1,0 +1,12 @@
+{
+	"name": "INT011_queue_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT011_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

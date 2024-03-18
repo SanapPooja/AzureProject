@@ -1,0 +1,142 @@
+{
+	"name": "NSH_SAP_CONTRACT_MASTER_DESTINATION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB5_ODOS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "intContractNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "vchContractCode",
+				"type": "varchar"
+			},
+			{
+				"name": "vchDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "CUST_ID",
+				"type": "char"
+			},
+			{
+				"name": "MARKET_SEG",
+				"type": "char"
+			},
+			{
+				"name": "NAME1_GP",
+				"type": "char"
+			},
+			{
+				"name": "NAME2_GP",
+				"type": "char"
+			},
+			{
+				"name": "START_DATE",
+				"type": "char"
+			},
+			{
+				"name": "END_DATE",
+				"type": "char"
+			},
+			{
+				"name": "CAB_FORMER_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "SEG_MANAGER",
+				"type": "char"
+			},
+			{
+				"name": "ACC_MANAGER",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "char"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "char"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "chrMeshInd",
+				"type": "char"
+			},
+			{
+				"name": "chrWireRodInd",
+				"type": "char"
+			},
+			{
+				"name": "chrRebarInd",
+				"type": "char"
+			},
+			{
+				"name": "chrCABInd",
+				"type": "char"
+			},
+			{
+				"name": "chrPrecage",
+				"type": "char"
+			},
+			{
+				"name": "chrBPCInd",
+				"type": "char"
+			},
+			{
+				"name": "chrPCSTrand",
+				"type": "char"
+			},
+			{
+				"name": "chrColdRollWire",
+				"type": "char"
+			},
+			{
+				"name": "chrPreCutWire",
+				"type": "char"
+			},
+			{
+				"name": "chrCarInd",
+				"type": "varchar"
+			},
+			{
+				"name": "chrPRCMeshInd",
+				"type": "char"
+			},
+			{
+				"name": "UpdateStatus",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAPContractMaster"
+		}
+	}
+}
