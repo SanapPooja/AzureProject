@@ -387,24 +387,15 @@
 									"additionalColumns": [
 										{
 											"name": "vchDescription",
-											"value": {
-												"value": "NULL",
-												"type": "Expression"
-											}
+											"value": "NULL"
 										},
 										{
 											"name": "PROC_TS",
-											"value": {
-												"value": "NULL",
-												"type": "Expression"
-											}
+											"value": "NULL"
 										},
 										{
 											"name": "ERROR_CD",
-											"value": {
-												"value": "NULL",
-												"type": "Expression"
-											}
+											"value": "NULL"
 										},
 										{
 											"name": "ID_MESSAGE",
