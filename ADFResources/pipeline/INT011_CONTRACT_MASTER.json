@@ -36,14 +36,7 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -55,6 +48,36 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "vchDescription",
+								"value": {
+									"value": "NULL",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "PROC_TS",
+								"value": {
+									"value": "NULL",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ERROR_CD",
+								"value": {
+									"value": "NULL",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ID_MESSAGE",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -100,6 +123,15 @@
 							},
 							{
 								"source": {
+									"name": "CUST_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_ID"
+								}
+							},
+							{
+								"source": {
 									"name": "NAME",
 									"type": "String"
 								},
@@ -138,25 +170,171 @@
 								"source": {
 									"name": "CAB_FORMER_TYPE",
 									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_FORMER_TYPE"
 								}
 							},
 							{
 								"source": {
 									"name": "SEG_MANAGER",
 									"type": "String"
+								},
+								"sink": {
+									"path": "$SEG_MANAGER"
 								}
 							},
 							{
 								"source": {
 									"name": "ACC_MANAGER",
 									"type": "String"
+								},
+								"sink": {
+									"path": "$ACC_MANAGER"
 								}
 							},
-							null,
-							null,
-							null,
-							null,
-							null
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "INTER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTERFACE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "YWIREROD_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrWireRodInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YREBAR_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrRebarInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YCAB_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrCABInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YMESH_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrMeshInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YPRECAGE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrPrecage"
+								}
+							},
+							{
+								"source": {
+									"name": "YBPC_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrBPCInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YPCSTRAND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrPCSTrand"
+								}
+							},
+							{
+								"source": {
+									"name": "YCOLD_ROLL_WIRE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrColdRollWire"
+								}
+							},
+							{
+								"source": {
+									"name": "YPRE_CUT_WIRE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrPreCutWire"
+								}
+							},
+							{
+								"source": {
+									"name": "vchDescription"
+								},
+								"sink": {
+									"path": "$['$vchDescription']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROC_TS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROC_TS']"
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$ERROR_CD']"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_MESSAGE"
+								},
+								"sink": {
+									"path": "$['$ID_MESSAGE']"
+								}
+							}
 						]
 					}
 				},
@@ -172,6 +350,40 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Lookup2",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": []
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
