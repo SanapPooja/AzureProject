@@ -1,0 +1,12 @@
+{
+	"name": "int011_contract_master_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int011_contract_master_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

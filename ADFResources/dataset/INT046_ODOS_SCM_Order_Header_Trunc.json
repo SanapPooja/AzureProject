@@ -1,0 +1,298 @@
+{
+	"name": "INT046_ODOS_SCM_Order_Header_Trunc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NDSQADB5_NDS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "mandt",
+				"type": "char"
+			},
+			{
+				"name": "id_message",
+				"type": "char"
+			},
+			{
+				"name": "order_request_no",
+				"type": "char"
+			},
+			{
+				"name": "order_no",
+				"type": "char"
+			},
+			{
+				"name": "cust_code",
+				"type": "char"
+			},
+			{
+				"name": "cust_name",
+				"type": "varchar"
+			},
+			{
+				"name": "contract_no",
+				"type": "char"
+			},
+			{
+				"name": "proj_no",
+				"type": "char"
+			},
+			{
+				"name": "proj_name",
+				"type": "varchar"
+			},
+			{
+				"name": "cust_po_no",
+				"type": "varchar"
+			},
+			{
+				"name": "cust_order_date",
+				"type": "char"
+			},
+			{
+				"name": "req_del_date_fr",
+				"type": "char"
+			},
+			{
+				"name": "req_del_date_to",
+				"type": "char"
+			},
+			{
+				"name": "projected_casting_date",
+				"type": "char"
+			},
+			{
+				"name": "actual_del_date",
+				"type": "char"
+			},
+			{
+				"name": "planning_strategy",
+				"type": "char"
+			},
+			{
+				"name": "order_type",
+				"type": "char"
+			},
+			{
+				"name": "cust_class",
+				"type": "char"
+			},
+			{
+				"name": "proj_segment",
+				"type": "char"
+			},
+			{
+				"name": "proj_sub_segment",
+				"type": "char"
+			},
+			{
+				"name": "job_site_location",
+				"type": "char"
+			},
+			{
+				"name": "forecast_order_no",
+				"type": "char"
+			},
+			{
+				"name": "account_mgr",
+				"type": "char"
+			},
+			{
+				"name": "segment_mgr",
+				"type": "char"
+			},
+			{
+				"name": "proj_coordinator",
+				"type": "char"
+			},
+			{
+				"name": "product_type",
+				"type": "char"
+			},
+			{
+				"name": "cab_former_type",
+				"type": "char"
+			},
+			{
+				"name": "vehicle_type",
+				"type": "char"
+			},
+			{
+				"name": "order_pieces",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "delivered_pieces",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "credit_status",
+				"type": "char"
+			},
+			{
+				"name": "approval_status",
+				"type": "char"
+			},
+			{
+				"name": "delivery_status",
+				"type": "char"
+			},
+			{
+				"name": "cancellation_status",
+				"type": "char"
+			},
+			{
+				"name": "mat_source_ind",
+				"type": "char"
+			},
+			{
+				"name": "urgent_order_ind",
+				"type": "char"
+			},
+			{
+				"name": "allow_partial_delivery_ind",
+				"type": "char"
+			},
+			{
+				"name": "forecast_order_ind",
+				"type": "char"
+			},
+			{
+				"name": "local_order_ind",
+				"type": "char"
+			},
+			{
+				"name": "mto_ind",
+				"type": "char"
+			},
+			{
+				"name": "self_collect_ind",
+				"type": "char"
+			},
+			{
+				"name": "premium_service_ind",
+				"type": "char"
+			},
+			{
+				"name": "crane_booked_ind",
+				"type": "char"
+			},
+			{
+				"name": "barge_booked_ind",
+				"type": "char"
+			},
+			{
+				"name": "police_escort_ind",
+				"type": "char"
+			},
+			{
+				"name": "company_code",
+				"type": "char"
+			},
+			{
+				"name": "no_of_items",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "int_remark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ext_remark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "time_stamp",
+				"type": "char"
+			},
+			{
+				"name": "remarks",
+				"type": "nvarchar"
+			},
+			{
+				"name": "process_status",
+				"type": "char"
+			},
+			{
+				"name": "order_udate",
+				"type": "char"
+			},
+			{
+				"name": "order_utime",
+				"type": "char"
+			},
+			{
+				"name": "transfer_idref",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "transfer_status",
+				"type": "char"
+			},
+			{
+				"name": "create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "update_by",
+				"type": "varchar"
+			},
+			{
+				"name": "update_date",
+				"type": "varchar"
+			},
+			{
+				"name": "QA_transfer_status",
+				"type": "char"
+			},
+			{
+				"name": "order_group_id",
+				"type": "char"
+			},
+			{
+				"name": "group_member_count",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LOW_BED_VEHICLE_ALLOWED",
+				"type": "char"
+			},
+			{
+				"name": "FIFTYTON_VEHICLE_ALLOWED",
+				"type": "char"
+			},
+			{
+				"name": "UNIT_TAG_MODE_IND",
+				"type": "char"
+			},
+			{
+				"name": "MUST_HAVE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "PHYSICAL_PROJ_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "PHYSICAL_DELIVERY_PROJ_NO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SCM_Order_Header_Trunc"
+		}
+	}
+}

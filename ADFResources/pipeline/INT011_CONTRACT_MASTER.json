@@ -1,10 +1,12 @@
 {
-	"name": "StoreProcedureFuntion",
+	"name": "INT011_CONTRACT_MASTER",
 	"properties": {
 		"activities": [
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -30,6 +32,146 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": "100",
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTR_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$vchContractCode"
+								}
+							},
+							{
+								"source": {
+									"name": "MARKET_SEGMENT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MARKET_SEG"
+								}
+							},
+							{
+								"source": {
+									"name": "NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NAME1_GP"
+								}
+							},
+							{
+								"source": {
+									"name": "NAME1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NAME2_GP"
+								}
+							},
+							{
+								"source": {
+									"name": "START_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$START_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "END_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$END_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "CAB_FORMER_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SEG_MANAGER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ACC_MANAGER",
+									"type": "String"
+								}
+							},
+							null,
+							null,
+							null,
+							null,
+							null
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT011_YESB_CONTRACT_M",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT011_CONTRACT_MASTER",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
