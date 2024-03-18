@@ -263,15 +263,6 @@
 									"name": "ERROR_CD",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['$ID_MESSAGE']"
-								},
-								"sink": {
-									"name": "ID_MESSAGE",
-									"type": "String"
-								}
 							}
 						]
 					}

@@ -396,13 +396,6 @@
 										{
 											"name": "ERROR_CD",
 											"value": "NULL"
-										},
-										{
-											"name": "ID_MESSAGE",
-											"value": {
-												"value": "@utcnow()",
-												"type": "Expression"
-											}
 										}
 									],
 									"oracleReaderQuery": {
