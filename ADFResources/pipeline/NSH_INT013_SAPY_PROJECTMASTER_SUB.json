@@ -185,10 +185,7 @@
 									"name": "vchDescription",
 									"type": "String"
 								}
-							},
-							null,
-							null,
-							null
+							}
 						]
 					}
 				},
