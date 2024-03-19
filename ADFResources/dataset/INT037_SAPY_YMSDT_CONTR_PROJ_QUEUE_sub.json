@@ -1,0 +1,12 @@
+{
+	"name": "INT037_SAPY_YMSDT_CONTR_PROJ_QUEUE_sub",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT037_SAPY_YMSDT_CONTR_PROJ_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

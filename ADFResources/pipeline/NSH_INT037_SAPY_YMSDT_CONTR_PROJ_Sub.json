@@ -1,0 +1,210 @@
+{
+	"name": "NSH_INT037_SAPY_YMSDT_CONTR_PROJ_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "ID_MESSAGE",
+								"value": {
+									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"vchProjectCode",
+								"PROJ_ID"
+							]
+						},
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CONTR_NO"
+								},
+								"sink": {
+									"name": "CONTR_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJECT_ID"
+								},
+								"sink": {
+									"name": "vchProjectCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJ_SUB_SECTOR"
+								},
+								"sink": {
+									"name": "PROJ_SUB_SECTOR"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJ_COORD_NAME"
+								},
+								"sink": {
+									"name": "PROJ_COORD_NAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJ_SITE_ADDR"
+								},
+								"sink": {
+									"name": "PROJ_SITE_ADDR"
+								}
+							},
+							{
+								"source": {
+									"path": "$GEO_FENCE_ID"
+								},
+								"sink": {
+									"name": "GEO_FENCE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJ_START_DATE"
+								},
+								"sink": {
+									"name": "PROJ_START_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROJ_END_DATE"
+								},
+								"sink": {
+									"name": "PROJ_END_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$INTER_ID"
+								},
+								"sink": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "ID_MESSAGE"
+								},
+								"sink": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT037_SAPY_YMSDT_CONTR_PROJ_QUEUE_sub",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT_037_PROJECT_MASTER",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_037_contract_project/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"annotations": []
+	}
+}

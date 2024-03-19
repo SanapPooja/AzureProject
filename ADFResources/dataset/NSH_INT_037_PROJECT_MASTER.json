@@ -1,0 +1,130 @@
+{
+	"name": "NSH_INT_037_PROJECT_MASTER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB5_ODOS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "intProjectId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "vchProjectCode",
+				"type": "varchar"
+			},
+			{
+				"name": "vchDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "PROJ_DESC1",
+				"type": "char"
+			},
+			{
+				"name": "PROJ_DESC2",
+				"type": "char"
+			},
+			{
+				"name": "SITE_ADDRS",
+				"type": "char"
+			},
+			{
+				"name": "PROJ_COORD_NAME",
+				"type": "char"
+			},
+			{
+				"name": "SITE_CONT_NAME1",
+				"type": "char"
+			},
+			{
+				"name": "SITE_CONT_TELE1",
+				"type": "char"
+			},
+			{
+				"name": "SITE_CONT_NAME2",
+				"type": "char"
+			},
+			{
+				"name": "SITE_CONT_TELE2",
+				"type": "char"
+			},
+			{
+				"name": "GEO_FENCE_ID",
+				"type": "char"
+			},
+			{
+				"name": "CONTRY_KEY",
+				"type": "char"
+			},
+			{
+				"name": "CITY",
+				"type": "char"
+			},
+			{
+				"name": "POST_CODE",
+				"type": "char"
+			},
+			{
+				"name": "REGION",
+				"type": "char"
+			},
+			{
+				"name": "SORT_FIELD",
+				"type": "char"
+			},
+			{
+				"name": "TELE_NO",
+				"type": "char"
+			},
+			{
+				"name": "FAX_NO",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "char"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "char"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "BRAN5",
+				"type": "varchar"
+			},
+			{
+				"name": "UpdateStatus",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAPProjectMaster"
+		}
+	}
+}

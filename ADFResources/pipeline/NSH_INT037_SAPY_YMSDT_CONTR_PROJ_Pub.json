@@ -1,0 +1,254 @@
+{
+	"name": "NSH_INT037_SAPY_YMSDT_CONTR_PROJ_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT sapsr3.INT037_Interface() AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT037_YMSDT_CONTR_PROJ",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Web1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_037_contract_project/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT037_SAPY_YMSDT_CONTR_PROJ_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT MANDT,\n  CONTR_NO,\n  PROJECT_ID,\n  PROJ_SUB_SECTOR,\n  PROJ_COORD_NAME,\n  PROJ_SITE_ADDR,\n  GEO_FENCE_ID,\n  PROJ_START_DATE,\n  PROJ_END_DATE,\n  INTER_ID,\n  PHYS_PROJ_ID\nFROM\n  (SELECT MANDT,\n    CONTR_NO,\n    PROJECT_ID,\n    PROJ_SUB_SECTOR,\n    PROJ_COORD_NAME,\n    PROJ_SITE_ADDR,\n    GEO_FENCE_ID,\n    PROJ_START_DATE,\n    PROJ_END_DATE,\n    INTER_ID,\n\tPHYS_PROJ_ID\n  FROM SAPSR3.YMSDT_CONTR_PROJ\n  WHERE MANDT='110'\n  MINUS\n  SELECT MANDT,\n    CONTR_NO,\n    PROJECT_ID,\n    PROJ_SUB_SECTOR,\n    PROJ_COORD_NAME,\n    PROJ_SITE_ADDR,\n    GEO_FENCE_ID,\n    PROJ_START_DATE,\n    PROJ_END_DATE,\n    INTER_ID,\n\tPHYS_PROJ_ID\n  FROM SAPSR3.YESB_CONTR_PROJ\n  WHERE MANDT='110'\n  )\nWHERE rownum < 5000",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTR_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONTR_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJECT_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJECT_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_SUB_SECTOR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SUB_SECTOR"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_COORD_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_COORD_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_SITE_ADDR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SITE_ADDR"
+								}
+							},
+							{
+								"source": {
+									"name": "GEO_FENCE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GEO_FENCE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_START_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_START_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_END_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_END_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "INTER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PHYS_PROJ_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PHYS_PROJ_ID"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT037_YMSDT_CONTR_PROJ",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_QUEUE_INT_037",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

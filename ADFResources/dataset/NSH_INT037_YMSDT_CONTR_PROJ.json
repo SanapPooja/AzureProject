@@ -1,0 +1,16 @@
+{
+	"name": "NSH_INT037_YMSDT_CONTR_PROJ",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMSDT_CONTR_PROJ"
+		}
+	}
+}
