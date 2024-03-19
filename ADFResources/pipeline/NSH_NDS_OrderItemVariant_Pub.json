@@ -781,6 +781,236 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "\r\nselect * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\n  FROM dbo.SAP_ORDER_VARIANT where (status = 'A' or status = 'T') and ord_req_no = '8000822044') AS Order_Variant\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Row",
+									"type": "Int64"
+								},
+								"sink": {
+									"path": "$Row"
+								}
+							},
+							{
+								"source": {
+									"name": "IDENTITY_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$IDENTITY_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTERFACE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ID_MESSAGE"
+								}
+							},
+							{
+								"source": {
+									"name": "ORD_REQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORD_REQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CHRSTICS"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS_VAL",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CHRSTICS_VAL"
+								}
+							},
+							{
+								"source": {
+									"name": "BASE_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"name": "PROC_TS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "WBSELEMENTID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBSELEMENTID"
+								}
+							},
+							{
+								"source": {
+									"name": "SAP_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_STATUS"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT002_ODOS_SAPY_Queue",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Execute Pipeline2",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT002_SAPY_OrderVariant_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"parameters": {
