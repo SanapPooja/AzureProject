@@ -621,8 +621,6 @@
 			{
 				"name": "DeleteServiceBusMessage",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
