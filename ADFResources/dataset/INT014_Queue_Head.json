@@ -1,0 +1,12 @@
+{
+	"name": "INT014_Queue_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT013_Project_Master_Destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
