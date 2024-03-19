@@ -297,7 +297,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$id_message']"
+									"path": "$['id_message']"
 								},
 								"sink": {
 									"name": "id_message",
