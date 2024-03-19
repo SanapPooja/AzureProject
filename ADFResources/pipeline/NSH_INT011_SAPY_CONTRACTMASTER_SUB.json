@@ -1,0 +1,348 @@
+{
+	"name": "NSH_INT011_SAPY_CONTRACTMASTER_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "ID_MESSAGE",
+								"value": {
+									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"vchContractCode"
+							]
+						},
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$MANDT']"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$vchContractCode']"
+								},
+								"sink": {
+									"name": "vchContractCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MARKET_SEG']"
+								},
+								"sink": {
+									"name": "MARKET_SEG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_ID']"
+								},
+								"sink": {
+									"name": "CUST_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NAME1_GP']"
+								},
+								"sink": {
+									"name": "NAME1_GP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NAME2_GP']"
+								},
+								"sink": {
+									"name": "NAME2_GP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$START_DATE']"
+								},
+								"sink": {
+									"name": "START_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$END_DATE']"
+								},
+								"sink": {
+									"name": "END_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_FORMER_TYPE']"
+								},
+								"sink": {
+									"name": "CAB_FORMER_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SEG_MANAGER']"
+								},
+								"sink": {
+									"name": "SEG_MANAGER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ACC_MANAGER']"
+								},
+								"sink": {
+									"name": "ACC_MANAGER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INTERFACE_ID']"
+								},
+								"sink": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrWireRodInd']"
+								},
+								"sink": {
+									"name": "chrWireRodInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrRebarInd']"
+								},
+								"sink": {
+									"name": "chrRebarInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrCABInd']"
+								},
+								"sink": {
+									"name": "chrCABInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrMeshInd']"
+								},
+								"sink": {
+									"name": "chrMeshInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPrecage']"
+								},
+								"sink": {
+									"name": "chrPrecage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrBPCInd']"
+								},
+								"sink": {
+									"name": "chrBPCInd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPCSTrand']"
+								},
+								"sink": {
+									"name": "chrPCSTrand",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrColdRollWire']"
+								},
+								"sink": {
+									"name": "chrColdRollWire",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$chrPreCutWire']"
+								},
+								"sink": {
+									"name": "chrPreCutWire",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$vchDescription']"
+								},
+								"sink": {
+									"name": "vchDescription",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "ID_MESSAGE"
+								}
+							}
+						],
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT011_queue_head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_SAP_CONTRACT_MASTER_DESTINATION",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int011_contract_master/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			}
+		],
+		"annotations": []
+	}
+}
