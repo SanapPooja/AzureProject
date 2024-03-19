@@ -65,14 +65,32 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "SELECT \n    MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, \n    SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, \n    GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, \n    TELE_NO, FAX_NO, INTER_ID, REC_TYPE, STATUS  \nFROM \n    SAPSR3.YMSDT_PRO_HDR \nWHERE \n    MANDT = '110'\nMINUS \nSELECT \n    MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, \n    SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, \n    GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, \n    TELE_NO, FAX_NO, INTER_ID, REC_TYPE, STATUS  \nFROM \n    SAPSR3.YESB_PRO_HDR \nWHERE \n    MANDT = '110'\n",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
 								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "INT013_YESB_PRO_HDR",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT013_PROJECT_MASTER",
 									"type": "DatasetReference"
 								}
 							]
@@ -98,7 +116,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "INT013_NDS_SAP_PRODUCT_MASTER",
+									"referenceName": "INT013_NDS_SAP_PRODUCT_MASTER_DESTINATION",
 									"type": "DatasetReference"
 								}
 							}

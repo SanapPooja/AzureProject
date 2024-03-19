@@ -1,5 +1,5 @@
 {
-	"name": "INT013_NDS_SAP_PRODUCT_MASTER",
+	"name": "INT013_NDS_SAP_PRODUCT_MASTER_DESTINATION",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB5_ODOS_Connection",
