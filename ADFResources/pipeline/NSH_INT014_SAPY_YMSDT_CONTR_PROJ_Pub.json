@@ -1,0 +1,213 @@
+{
+	"name": "NSH_INT014_SAPY_YMSDT_CONTR_PROJ_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT sapsr3.INT014_Interface() AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT_014_YMSDT_CUST_MASTR",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT  mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type\n          FROM\n              sapsr3.ymsdt_cust_mastr\n          WHERE\n              mandt = '110'\n          MINUS\n          SELECT\n              mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type\n          FROM\n              sapsr3.yesb_cust_mastr\n          WHERE\n              mandt = '110'",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTR_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONTR_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJECT_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJECT_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_SUB_SECTOR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SUB_SECTOR"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_COORD_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_COORD_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_SITE_ADDR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SITE_ADDR"
+								}
+							},
+							{
+								"source": {
+									"name": "GEO_FENCE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GEO_FENCE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_START_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_START_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_END_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_END_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "INTER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "PHYS_PROJ_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PHYS_PROJ_ID"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT_014_YMSDT_CUST_MASTR",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_QUEUE_INT_037",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

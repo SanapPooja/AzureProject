@@ -1,0 +1,16 @@
+{
+	"name": "NSH_INT_014_YMSDT_CUST_MASTR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMSDT_CUST_MASTR"
+		}
+	}
+}
