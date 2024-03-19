@@ -40,7 +40,7 @@
 							"useTempDB": true,
 							"keys": [
 								"vchProjectCode",
-								"PROJ_ID"
+								"CONTR_NO"
 							]
 						},
 						"sqlWriterUseTableLock": false
