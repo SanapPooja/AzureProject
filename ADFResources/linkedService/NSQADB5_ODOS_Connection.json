@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=NSQADB5;initial catalog=ODOS;user id=ndswebapps",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwYjgwZTRlMS04OTQwLTQyMzEtOTI3Ni1iZGM2MWVhNmI3NDIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "integrated security=False;data source=NSQADB5\\MSSQL2022;initial catalog=ODOS;user id=ndswebapps",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyODI2ZjMzOS1hMTNmLTQwOTMtODg0Zi1kNDE5ZjkyZWM4N2UiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "MESQARuntime",
