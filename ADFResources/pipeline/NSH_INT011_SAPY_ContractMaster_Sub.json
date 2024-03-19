@@ -1,9 +1,9 @@
 {
-	"name": "NSH_INT011_SAPY_CONTRACTMASTER_SUB",
+	"name": "NSH_INT011_SAPY_ContractMaster_Sub",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyDataFrom_QueueToContractMaster",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -275,7 +275,7 @@
 							},
 							{
 								"source": {
-									"path": "$['ID_MESSAGE']"
+									"path": "$['$ID_MESSAGE']"
 								},
 								"sink": {
 									"name": "ID_MESSAGE"
@@ -299,11 +299,11 @@
 				]
 			},
 			{
-				"name": "Web1",
+				"name": "DeleteDataFrom_Queue",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -327,11 +327,11 @@
 				}
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyDataFrom_QueueToContractMaster",
 						"dependencyConditions": [
 							"Succeeded"
 						]

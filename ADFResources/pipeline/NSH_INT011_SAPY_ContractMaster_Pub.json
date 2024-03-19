@@ -1,9 +1,9 @@
 {
-	"name": "INT011_CONTRACT_MASTER",
+	"name": "NSH_INT011_SAPY_ContractMaster_Pub",
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "Function_Retreving",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -352,11 +352,11 @@
 				]
 			},
 			{
-				"name": "If Condition1",
+				"name": "Funtion_YorN_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Function_Retreving",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -370,7 +370,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1_copy1",
+							"name": "CopyDataFrom_SAPToQueue",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -659,11 +659,11 @@
 							]
 						},
 						{
-							"name": "Execute Pipeline1",
+							"name": "NSH_INT011_SAPY_ContractMaster_Sub",
 							"type": "ExecutePipeline",
 							"dependsOn": [
 								{
-									"activity": "Copy data1_copy1",
+									"activity": "CopyDataFrom_SAPToQueue",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -675,7 +675,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT011_SAPY_CONTRACTMASTER_SUB",
+									"referenceName": "NSH_INT011_SAPY_ContractMaster_Sub",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
