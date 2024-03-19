@@ -153,7 +153,7 @@
 							},
 							{
 								"source": {
-									"path": "$[']]"
+									"path": "vehicle_type"
 								},
 								"sink": {
 									"name": "vehicle_type",
