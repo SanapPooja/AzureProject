@@ -26,16 +26,8 @@
 								}
 							},
 							{
-								"name": "ERROR_CD",
-								"value": "NULL"
-							},
-							{
-								"name": "PROC_TS",
-								"value": "NULL"
-							},
-							{
-								"name": "REC_TYPE",
-								"value": "NULL"
+								"name": "STATUS",
+								"value": "A"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -51,8 +43,9 @@
 						"upsertSettings": {
 							"useTempDB": true,
 							"keys": [
-								"vchProjectCode",
-								"CONTR_NO"
+								"CONTR_NO",
+								"PROJ_ID",
+								"MANDT"
 							]
 						},
 						"sqlWriterUseTableLock": false
@@ -75,7 +68,8 @@
 									"path": "$CONTR_NO"
 								},
 								"sink": {
-									"name": "CONTR_NO"
+									"name": "CONTR_NO",
+									"type": "String"
 								}
 							},
 							{
@@ -83,7 +77,7 @@
 									"path": "$PROJECT_ID"
 								},
 								"sink": {
-									"name": "vchProjectCode",
+									"name": "PROJ_ID",
 									"type": "String"
 								}
 							},
@@ -92,7 +86,8 @@
 									"path": "$PROJ_SUB_SECTOR"
 								},
 								"sink": {
-									"name": "PROJ_SUB_SECTOR"
+									"name": "PROJ_SUB_SECTOR",
+									"type": "String"
 								}
 							},
 							{
@@ -109,7 +104,8 @@
 									"path": "$PROJ_SITE_ADDR"
 								},
 								"sink": {
-									"name": "PROJ_SITE_ADDR"
+									"name": "PROJ_SITE_ADDR",
+									"type": "String"
 								}
 							},
 							{
@@ -126,7 +122,8 @@
 									"path": "$PROJ_START_DATE"
 								},
 								"sink": {
-									"name": "PROJ_START_DATE"
+									"name": "PROJ_START_DATE",
+									"type": "String"
 								}
 							},
 							{
@@ -134,7 +131,8 @@
 									"path": "$PROJ_END_DATE"
 								},
 								"sink": {
-									"name": "PROJ_END_DATE"
+									"name": "PROJ_END_DATE",
+									"type": "String"
 								}
 							},
 							{
@@ -148,34 +146,19 @@
 							},
 							{
 								"source": {
-									"path": "$['ERROR_CD']"
-								},
-								"sink": {
-									"name": "ERROR_CD"
-								}
-							},
-							{
-								"source": {
-									"path": "$['PROC_TS']"
-								},
-								"sink": {
-									"name": "PROC_TS"
-								}
-							},
-							{
-								"source": {
-									"path": "$['REC_TYPE']"
-								},
-								"sink": {
-									"name": "REC_TYPE"
-								}
-							},
-							{
-								"source": {
-									"path": "$['ID_MESSAGE']"
+									"path": "ID_MESSAGE"
 								},
 								"sink": {
 									"name": "ID_MESSAGE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
 									"type": "String"
 								}
 							}

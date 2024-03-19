@@ -124,7 +124,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "SAPProjectMaster"
+			"table": "SAP_CONTRACT_PROJECT"
 		}
 	}
 }
