@@ -21,7 +21,7 @@
 							{
 								"name": "ID_MESSAGE",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
 									"type": "Expression"
 								}
 							}
@@ -281,7 +281,8 @@
 									"name": "ID_MESSAGE"
 								}
 							}
-						]
+						],
+						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [
