@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Function_Retreving",
+				"name": "Lookup1",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -356,7 +356,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Function_Retreving",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
