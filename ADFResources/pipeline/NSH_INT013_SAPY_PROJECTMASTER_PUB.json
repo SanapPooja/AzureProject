@@ -331,6 +331,29 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT013_SAPY_PROJECTMASTER_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}

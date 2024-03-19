@@ -24,11 +24,28 @@
 							"supportRFC5988": "true"
 						}
 					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"vchProjectCode"
+							]
+						},
+						"sqlWriterUseTableLock": false
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "INT014_Queue_Head",
+						"referenceName": "INT013_Queue_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT013_NDS_SAP_PRODUCT_MASTER_DESTINATION",
 						"type": "DatasetReference"
 					}
 				]
