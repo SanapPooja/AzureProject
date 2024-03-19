@@ -46,7 +46,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
+						"value": "@equals(activity('Lookup1').output.value[0].RESULT, 'Y')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -95,6 +95,7 @@
 									"type": "RestSink",
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
+									"requestMethod": "POST",
 									"writeBatchSize": "100",
 									"httpCompressionType": "none"
 								},
@@ -330,32 +331,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Lookup2",
-							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "INT013_NDS_SAP_PRODUCT_MASTER_DESTINATION",
-									"type": "DatasetReference"
-								}
-							}
 						}
 					]
 				}
