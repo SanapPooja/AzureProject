@@ -266,7 +266,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "vehicle_type"
+									"path": "$vehicle_type"
 								}
 							},
 							{
