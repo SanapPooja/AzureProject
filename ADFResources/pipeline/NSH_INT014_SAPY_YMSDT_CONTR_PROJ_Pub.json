@@ -73,7 +73,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT  mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type\n          FROM\n              sapsr3.ymsdt_cust_mastr\n          WHERE\n              mandt = '110'\n          MINUS\n          SELECT\n              mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type\n          FROM\n              sapsr3.yesb_cust_mastr\n          WHERE\n              mandt = '110'",
+							"value": "SELECT *\nFROM (\n   SELECT  mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type,\n              UDATE\n          FROM\n              sapsr3.ymsdt_cust_mastr\n          WHERE\n              mandt = '110'\n          MINUS\n          SELECT\n              mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type,\n              UDATE\n          FROM\n              sapsr3.yesb_cust_mastr\n          WHERE\n              mandt = '110'\n              ORDER BY UDATE DESC\n)\nWHERE ROWNUM <= 5;",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -103,74 +103,92 @@
 							},
 							{
 								"source": {
-									"name": "CONTR_NO",
+									"name": "CUST_ID",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$CONTR_NO"
+									"path": "$CUST_ID"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJECT_ID",
+									"name": "CONTRY_KEY",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJECT_ID"
+									"path": "$CONTRY_KEY"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJ_SUB_SECTOR",
+									"name": "NAME1",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJ_SUB_SECTOR"
+									"path": "$NAME1"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJ_COORD_NAME",
+									"name": "CITY",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJ_COORD_NAME"
+									"path": "$CITY"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJ_SITE_ADDR",
+									"name": "POST_CODE",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJ_SITE_ADDR"
+									"path": "$POST_CODE"
 								}
 							},
 							{
 								"source": {
-									"name": "GEO_FENCE_ID",
+									"name": "REGION",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$GEO_FENCE_ID"
+									"path": "$REGION"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJ_START_DATE",
+									"name": "SORT_FIELD",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJ_START_DATE"
+									"path": "$SORT_FIELD"
 								}
 							},
 							{
 								"source": {
-									"name": "PROJ_END_DATE",
+									"name": "HSE_STRT",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PROJ_END_DATE"
+									"path": "$HSE_STRT"
+								}
+							},
+							{
+								"source": {
+									"name": "TELE_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TELE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FAX_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FAX_NO"
 								}
 							},
 							{
@@ -184,11 +202,11 @@
 							},
 							{
 								"source": {
-									"name": "PHYS_PROJ_ID",
+									"name": "REC_TYPE",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$PHYS_PROJ_ID"
+									"path": "$REC_TYPE"
 								}
 							}
 						]
@@ -202,7 +220,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "NSH_QUEUE_INT_037",
+						"referenceName": "NSH_INT014_QUEUE",
 						"type": "DatasetReference"
 					}
 				]

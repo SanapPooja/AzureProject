@@ -1,0 +1,95 @@
+{
+	"name": "NSH_INT014_CUSTOMER_MASTER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB5_ODOS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "intCustomerCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "vchCustomername",
+				"type": "varchar"
+			},
+			{
+				"name": "vchCustomerNo",
+				"type": "varchar"
+			},
+			{
+				"name": "tntStatusId",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "char"
+			},
+			{
+				"name": "CONTRY_KEY",
+				"type": "char"
+			},
+			{
+				"name": "CITY",
+				"type": "char"
+			},
+			{
+				"name": "POST_CODE",
+				"type": "char"
+			},
+			{
+				"name": "REGION",
+				"type": "char"
+			},
+			{
+				"name": "SORT_FIELD",
+				"type": "char"
+			},
+			{
+				"name": "HSE_STRT",
+				"type": "char"
+			},
+			{
+				"name": "TELE_NO",
+				"type": "char"
+			},
+			{
+				"name": "FAX_NO",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "char"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "char"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CustomerMaster"
+		}
+	}
+}
