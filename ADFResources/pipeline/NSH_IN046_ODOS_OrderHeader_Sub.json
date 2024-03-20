@@ -17,6 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "id_message",
+								"value": {
+									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"type": "Expression"
+								}
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -30,7 +39,7 @@
 						"sqlWriterUseTableLock": false
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": false,
+					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
@@ -153,15 +162,6 @@
 							},
 							{
 								"source": {
-									"path": "$vehicle_type"
-								},
-								"sink": {
-									"name": "vehicle_type",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$['$mat_source_ind']"
 								},
 								"sink": {
@@ -274,15 +274,6 @@
 								},
 								"sink": {
 									"name": "FIFTYTON_VEHICLE_ALLOWED",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$unit_tag_mode_ind']"
-								},
-								"sink": {
-									"name": "UNIT_TAG_MODE_IND",
 									"type": "String"
 								}
 							},
@@ -653,8 +644,6 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
