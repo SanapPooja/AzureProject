@@ -56,6 +56,29 @@
 						"value": "@equals(activity('Lookup1').output.value[0].RESULT, 'Y')",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Web1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/project_master/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Execute Pipeline1",
@@ -340,14 +363,6 @@
 								},
 								"sink": {
 									"path": "$['$ERROR_CD']"
-								}
-							},
-							{
-								"source": {
-									"name": "BRAN5"
-								},
-								"sink": {
-									"path": "$['$BRAN5']"
 								}
 							}
 						]

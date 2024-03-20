@@ -272,15 +272,6 @@
 									"name": "STATUS",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$BRAN5"
-								},
-								"sink": {
-									"name": "BRAN5",
-									"type": "String"
-								}
 							}
 						]
 					}
@@ -301,6 +292,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -317,6 +310,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
