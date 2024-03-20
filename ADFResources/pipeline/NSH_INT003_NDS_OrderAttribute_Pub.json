@@ -667,13 +667,11 @@
 				]
 			},
 			{
-				"name": "NSH_INT003_STS_OrderAttribute_Sub",
+				"name": "Subscriber",
 				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_60_sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -694,11 +692,9 @@
 			{
 				"name": "Update_StatusTo_T",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "NSH_INT003_STS_OrderAttribute_Sub",
+						"activity": "Subscriber",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -730,7 +726,7 @@
 				}
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_60_sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
