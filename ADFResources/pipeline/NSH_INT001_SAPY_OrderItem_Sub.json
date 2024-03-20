@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Queue_To_YMSDT_ORDER_ITEM",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -692,11 +692,11 @@
 				]
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_60_sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Queue_To_YMSDT_ORDER_ITEM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -712,7 +712,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_60_sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -738,8 +738,89 @@
 						"resource": "https://servicebus.azure.net/"
 					}
 				}
+			},
+			{
+				"name": "update_SAP_ORDER_ITEM_STATUS_T",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "DeleteServiceBusMessage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "update_SAP_WBS_SOR_STATUS_T",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "update_SAP_ORDER_ITEM_STATUS_T",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"ORD_REQ_NO": {
+				"type": "String",
+				"defaultValue": "ORD_REQ_NO"
+			},
+			"ITEM_NO": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2024-02-21T12:39:41Z"
 	},

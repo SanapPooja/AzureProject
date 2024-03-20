@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Script1",
+				"name": "Select_SAP_ORDER_ITEM",
 				"type": "Script",
 				"dependsOn": [],
 				"policy": {
@@ -40,11 +40,11 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Order_Item_Data__To_Queue",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Select_SAP_ORDER_ITEM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -688,11 +688,11 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline1",
+				"name": "Subscriber_Order_item",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Order_Item_Data__To_Queue",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -711,11 +711,11 @@
 				}
 			},
 			{
-				"name": "Script2",
+				"name": "update_SAP_WBS_SOR_STATUS_T_Item",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Execute Pipeline1",
+						"activity": "Subscriber_Order_item",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -747,11 +747,11 @@
 				}
 			},
 			{
-				"name": "Script3",
+				"name": "update_SAP_ORDER_ITEM_STATUS_T",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script2",
+						"activity": "update_SAP_WBS_SOR_STATUS_T_Item",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -783,11 +783,11 @@
 				}
 			},
 			{
-				"name": "Copy data2",
+				"name": "Order_Variant_Data_To_Queue",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Select_SAP_ORDER_ITEM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -990,11 +990,11 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline2",
+				"name": "Subscriber_order_variant",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "Order_Variant_Data_To_Queue",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1013,11 +1013,11 @@
 				}
 			},
 			{
-				"name": "Script4",
+				"name": "update_SAP_WBS_SOR_STATUS_T_variant",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Execute Pipeline2",
+						"activity": "Subscriber_order_variant",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1049,11 +1049,11 @@
 				}
 			},
 			{
-				"name": "Script5",
+				"name": "update_SAP_ORDER_VARIANT_STATUS_T",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script4",
+						"activity": "update_SAP_WBS_SOR_STATUS_T_variant",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1076,7 +1076,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"value": "update dbo.SAP_ORDER_VARIANT SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
 								"type": "Expression"
 							}
 						}
