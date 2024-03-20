@@ -7,7 +7,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyData_FromSAPToQueue",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -40,7 +40,7 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "Funtion_YorN_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -58,7 +58,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Web1",
+							"name": "DeleteData_FromQueue",
 							"type": "WebActivity",
 							"dependsOn": [],
 							"policy": {
@@ -81,7 +81,7 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "NSH_INT013_SAPY_PROJECTMASTER_SUB",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -100,7 +100,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "CopyData_FromSAPToQueue",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

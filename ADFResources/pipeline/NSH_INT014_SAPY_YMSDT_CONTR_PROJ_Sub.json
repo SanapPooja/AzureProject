@@ -205,11 +205,11 @@
 				]
 			},
 			{
-				"name": "Web1",
+				"name": "DeleteData_FromQueue",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -233,7 +233,7 @@
 				}
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60Sec",
 				"type": "Wait",
 				"dependsOn": [
 					{

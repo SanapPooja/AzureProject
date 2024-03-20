@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyData_FromQueueToProjectMaster",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -290,13 +290,11 @@
 				]
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60Sec",
 				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyData_FromQueueToProjectMaster",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -308,13 +306,11 @@
 				}
 			},
 			{
-				"name": "Web1",
+				"name": "DeleteData_FromQueue",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]

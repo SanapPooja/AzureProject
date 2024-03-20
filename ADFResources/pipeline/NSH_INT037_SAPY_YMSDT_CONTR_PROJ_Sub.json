@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyData_FromQueueToContractProject",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -180,11 +180,11 @@
 				]
 			},
 			{
-				"name": "Web1",
+				"name": "DeleteData_FromQueue",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -208,11 +208,11 @@
 				}
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60Sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyData_FromQueueToContractProject",
 						"dependencyConditions": [
 							"Succeeded"
 						]
