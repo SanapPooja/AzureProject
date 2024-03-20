@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyData_FromQueueToScmOrderHeader",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -614,7 +614,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_For_60sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -642,11 +642,11 @@
 				}
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_For_60sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyData_FromQueueToScmOrderHeader",
 						"dependencyConditions": [
 							"Succeeded"
 						]
