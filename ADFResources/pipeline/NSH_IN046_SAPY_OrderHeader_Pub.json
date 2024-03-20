@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1_copy1",
+				"name": "CopyData_FromSapToQueue",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -662,11 +662,11 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline1",
+				"name": "NSH_IN046_ODOS_OrderHeader_Sub",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Copy data1_copy1",
+						"activity": "CopyData_FromSapToQueue",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -681,7 +681,7 @@
 						"referenceName": "NSH_IN046_ODOS_OrderHeader_Sub",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			}
 		],
