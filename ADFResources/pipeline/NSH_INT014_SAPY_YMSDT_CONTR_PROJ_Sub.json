@@ -55,7 +55,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$$MANDT"
+									"path": "$MANDT"
 								},
 								"sink": {
 									"name": "MANDT",
