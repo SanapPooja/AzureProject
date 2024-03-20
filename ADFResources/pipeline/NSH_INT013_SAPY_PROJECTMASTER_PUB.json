@@ -5,7 +5,14 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -51,306 +58,9 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"additionalColumns": [
-										{
-											"name": "vchDescription",
-											"value": "NULL"
-										},
-										{
-											"name": "PROC_TS",
-											"value": "NULL"
-										},
-										{
-											"name": "ERROR_CD",
-											"value": "NULL"
-										},
-										{
-											"name": "STATUS",
-											"value": "A"
-										}
-									],
-									"oracleReaderQuery": {
-										"value": "SELECT \n    MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, \n    SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, \n    GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, \n    TELE_NO, FAX_NO, INTER_ID, REC_TYPE  \nFROM \n    SAPSR3.YMSDT_PRO_HDR \nWHERE \n    MANDT = '110'\nMINUS \nSELECT \n    MANDT, PROJ_ID, PROJ_DESC1, PROJ_DESC2, SITE_ADRRS, PROJ_COORD, \n    SITE_CONT_NAME1, SITE_CONT_TEL1, SITE_CONT_NAME2, SITE_CONT_TEL2, \n    GEO_FENCE_ID, CONTRY_KEY, CITY, POST_CODE, REGION, SORT_FIELD, \n    TELE_NO, FAX_NO, INTER_ID, REC_TYPE\nFROM \n    SAPSR3.YESB_PRO_HDR \nWHERE \n    MANDT = '110'\n",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"sink": {
-									"type": "RestSink",
-									"httpRequestTimeout": "00:05:00",
-									"requestInterval": 10,
-									"requestMethod": "POST",
-									"writeBatchSize": "100",
-									"httpCompressionType": "none"
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"mappings": [
-										{
-											"source": {
-												"name": "MANDT",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$MANDT']"
-											}
-										},
-										{
-											"source": {
-												"name": "PROJ_ID",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$vchProjectCode']"
-											}
-										},
-										{
-											"source": {
-												"name": "PROJ_DESC1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$PROJ_DESC1']"
-											}
-										},
-										{
-											"source": {
-												"name": "PROJ_DESC2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$PROJ_DESC2']"
-											}
-										},
-										{
-											"source": {
-												"name": "SITE_ADRRS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SITE_ADRRS']"
-											}
-										},
-										{
-											"source": {
-												"name": "PROJ_COORD",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$PROJ_COORD_NAME']"
-											}
-										},
-										{
-											"source": {
-												"name": "SITE_CONT_NAME1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SITE_CONT_NAME1']"
-											}
-										},
-										{
-											"source": {
-												"name": "SITE_CONT_TEL1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SITE_CONT_TELE1']"
-											}
-										},
-										{
-											"source": {
-												"name": "SITE_CONT_NAME2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SITE_CONT_NAME2']"
-											}
-										},
-										{
-											"source": {
-												"name": "SITE_CONT_TEL2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SITE_CONT_TELE2']"
-											}
-										},
-										{
-											"source": {
-												"name": "GEO_FENCE_ID",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$GEO_FENCE_ID']"
-											}
-										},
-										{
-											"source": {
-												"name": "CONTRY_KEY",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$CONTRY_KEY']"
-											}
-										},
-										{
-											"source": {
-												"name": "CITY",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$CITY']"
-											}
-										},
-										{
-											"source": {
-												"name": "POST_CODE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$POST_CODE']"
-											}
-										},
-										{
-											"source": {
-												"name": "REGION",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$REGION']"
-											}
-										},
-										{
-											"source": {
-												"name": "SORT_FIELD",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$SORT_FIELD']"
-											}
-										},
-										{
-											"source": {
-												"name": "TELE_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$TELE_NO']"
-											}
-										},
-										{
-											"source": {
-												"name": "FAX_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$FAX_NO']"
-											}
-										},
-										{
-											"source": {
-												"name": "INTER_ID",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$INTERFACE_ID']"
-											}
-										},
-										{
-											"source": {
-												"name": "REC_TYPE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$REC_TYPE']"
-											}
-										},
-										{
-											"source": {
-												"name": "STATUS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$['$STATUS']"
-											}
-										},
-										{
-											"source": {
-												"name": "vchDescription"
-											},
-											"sink": {
-												"path": "$['$vchDescription']"
-											}
-										},
-										{
-											"source": {
-												"name": "PROC_TS"
-											},
-											"sink": {
-												"path": "$['$PROC_TS']"
-											}
-										},
-										{
-											"source": {
-												"name": "ERROR_CD"
-											},
-											"sink": {
-												"path": "$['$ERROR_CD']"
-											}
-										},
-										{
-											"source": {
-												"name": "BRAN5"
-											},
-											"sink": {
-												"path": "$['$BRAN5']"
-											}
-										}
-									]
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "INT013_YESB_PRO_HDR",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "INT013_PROJECT_MASTER",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
 							"name": "Execute Pipeline1",
 							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureInput": false
 							},
@@ -365,6 +75,296 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "vchDescription",
+								"value": "NULL"
+							},
+							{
+								"name": "PROC_TS",
+								"value": "NULL"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "NULL"
+							},
+							{
+								"name": "STATUS",
+								"value": "A"
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "SELECT *\nFROM (\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type,\n        udate\n    FROM\n        sapsr3.ymsdt_pro_hdr\n    WHERE\n        mandt = '110'\n    MINUS\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type,\n        udate\n    FROM\n        sapsr3.yesb_pro_hdr\n    ORDER BY udate DESC\n)\nWHERE ROWNUM <= 5;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": "100",
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$MANDT']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$vchProjectCode']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_DESC1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROJ_DESC1']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_DESC2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROJ_DESC2']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_ADRRS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_ADRRS']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_COORD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PROJ_COORD_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_NAME1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_CONT_NAME1']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_TEL1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_CONT_TELE1']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_NAME2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_CONT_NAME2']"
+								}
+							},
+							{
+								"source": {
+									"name": "SITE_CONT_TEL2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SITE_CONT_TELE2']"
+								}
+							},
+							{
+								"source": {
+									"name": "GEO_FENCE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$GEO_FENCE_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRY_KEY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$CONTRY_KEY']"
+								}
+							},
+							{
+								"source": {
+									"name": "CITY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$CITY']"
+								}
+							},
+							{
+								"source": {
+									"name": "POST_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$POST_CODE']"
+								}
+							},
+							{
+								"source": {
+									"name": "REGION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$REGION']"
+								}
+							},
+							{
+								"source": {
+									"name": "SORT_FIELD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SORT_FIELD']"
+								}
+							},
+							{
+								"source": {
+									"name": "TELE_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$TELE_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "FAX_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$FAX_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "INTER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$INTERFACE_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$REC_TYPE']"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$STATUS']"
+								}
+							},
+							{
+								"source": {
+									"name": "vchDescription"
+								},
+								"sink": {
+									"path": "$['$vchDescription']"
+								}
+							},
+							{
+								"source": {
+									"name": "PROC_TS"
+								},
+								"sink": {
+									"path": "$['$PROC_TS']"
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CD"
+								},
+								"sink": {
+									"path": "$['$ERROR_CD']"
+								}
+							},
+							{
+								"source": {
+									"name": "BRAN5"
+								},
+								"sink": {
+									"path": "$['$BRAN5']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT013_YESB_PRO_HDR",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT013_PROJECT_MASTER",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
