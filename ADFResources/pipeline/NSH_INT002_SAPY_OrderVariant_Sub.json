@@ -7,7 +7,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "Wait_60_sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -35,7 +35,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Queue_To_YMSDT_OR_VARIANT",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -270,11 +270,11 @@
 				]
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait_60_sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Queue_To_YMSDT_OR_VARIANT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -286,10 +286,8 @@
 				}
 			},
 			{
-				"name": "Script1",
+				"name": "update_SAP_ORDER_VARIANT_STATUS_T",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DeleteServiceBusMessage",
@@ -315,7 +313,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T' from dbo.SAP_ORDER_VARIANT where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T'where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
 								"type": "Expression"
 							}
 						}
@@ -324,13 +322,11 @@
 				}
 			},
 			{
-				"name": "Script1_copy1",
+				"name": "update_SAP_WBS_SOR_STATUS_T",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "update_SAP_ORDER_VARIANT_STATUS_T",
 						"dependencyConditions": [
 							"Succeeded"
 						]
