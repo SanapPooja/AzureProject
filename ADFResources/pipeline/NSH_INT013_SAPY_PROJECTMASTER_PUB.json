@@ -315,6 +315,14 @@
 											"sink": {
 												"path": "$['$ERROR_CD']"
 											}
+										},
+										{
+											"source": {
+												"name": "BRAN5"
+											},
+											"sink": {
+												"path": "$['$BRAN5']"
+											}
 										}
 									]
 								}

@@ -21,7 +21,7 @@
 							{
 								"name": "ID_MESSAGE",
 								"value": {
-									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"value": "@concat(formatDateTime(utcNow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
 									"type": "Expression"
 								}
 							}
