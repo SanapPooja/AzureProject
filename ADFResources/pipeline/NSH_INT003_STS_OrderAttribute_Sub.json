@@ -975,7 +975,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1007,7 +1007,7 @@
 				}
 			},
 			{
-				"name": "Wait",
+				"name": "Wait_For_60Sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
@@ -1029,7 +1029,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -1065,7 +1065,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait",
+						"activity": "Wait_For_60Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
