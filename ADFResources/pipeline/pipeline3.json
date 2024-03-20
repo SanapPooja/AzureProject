@@ -72,8 +72,6 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -85,7 +83,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "",
+						"value": "@activity('Copy data3').output",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -165,7 +163,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "",
+						"value": "@activity('Copy').output",
 						"type": "Expression"
 					},
 					"activities": [
@@ -175,6 +173,10 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
+								"expression": {
+									"value": "@item()",
+									"type": "Expression"
+								},
 								"ifTrueActivities": [
 									{
 										"name": "Lookup3",
@@ -289,6 +291,10 @@
 							],
 							"userProperties": [],
 							"typeProperties": {
+								"expression": {
+									"value": "@item()",
+									"type": "Expression"
+								},
 								"ifFalseActivities": [
 									{
 										"name": "Copy1_1",
