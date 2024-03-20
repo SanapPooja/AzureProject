@@ -24,7 +24,10 @@
 							},
 							{
 								"name": "ID_MESSAGE",
-								"value": "$$COLUMN:"
+								"value": {
+									"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"type": "Expression"
+								}
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -169,11 +172,19 @@
 							},
 							{
 								"source": {
-									"path": "STATUS"
+									"path": "$['STATUS']"
 								},
 								"sink": {
 									"name": "STATUS",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "ID_MESSAGE"
 								}
 							}
 						],
