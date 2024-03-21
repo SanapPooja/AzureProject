@@ -89,7 +89,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT037_SAPY_YMSDT_CONTR_PROJ_Sub",
+									"referenceName": "NSH_INT037_ODOS_YMSDT_CONTR_PROJ_Sub",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": false

@@ -90,7 +90,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT013_SAPY_PROJECTMASTER_SUB",
+									"referenceName": "NSH_INT013_ODOS_PROJECTMASTER_SUB",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true

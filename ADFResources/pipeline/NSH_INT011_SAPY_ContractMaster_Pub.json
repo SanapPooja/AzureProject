@@ -416,7 +416,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT011_SAPY_ContractMaster_Sub",
+									"referenceName": "NSH_INT011_ODOS_ContractMaster_Sub",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
