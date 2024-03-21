@@ -40,15 +40,21 @@
 							},
 							{
 								"name": "USERID",
-								"value": ""
+								"value": "BGDJOBS"
 							},
 							{
 								"name": "UDATE",
-								"value": "000000"
+								"value": {
+									"value": "@formatDateTime(utcnow(), 'yyyyMMdd')\r\n",
+									"type": "Expression"
+								}
 							},
 							{
 								"name": "UTIME",
-								"value": "000000"
+								"value": {
+									"value": "@formatDateTime(utcnow(), 'HHmmss')\n",
+									"type": "Expression"
+								}
 							},
 							{
 								"name": "NET_WT",
