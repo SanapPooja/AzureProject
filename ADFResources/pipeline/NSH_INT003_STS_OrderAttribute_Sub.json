@@ -971,8 +971,6 @@
 			{
 				"name": "Update_StatusTo_Q",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait_For_60Sec",
@@ -1025,8 +1023,6 @@
 			{
 				"name": "Update_SatusTo_T",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait_For_60Sec",
