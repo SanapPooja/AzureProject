@@ -356,6 +356,324 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Order_Variant_Data_To_Queue",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "update_SAP_WBS_SOR_STATUS_T",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\n  FROM dbo.SAP_ORDER_VARIANT where ord_req_no = @{pipeline().parameters.ORD_REQ_NO} and (status = 'T' or status = 'R') and sap_status = 'A' ) AS Order_Variant\n\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Row",
+									"type": "Int64"
+								},
+								"sink": {
+									"path": "$Row"
+								}
+							},
+							{
+								"source": {
+									"name": "IDENTITY_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$IDENTITY_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTERFACE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ID_MESSAGE"
+								}
+							},
+							{
+								"source": {
+									"name": "ORD_REQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORD_REQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CHRSTICS"
+								}
+							},
+							{
+								"source": {
+									"name": "CHRSTICS_VAL",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CHRSTICS_VAL"
+								}
+							},
+							{
+								"source": {
+									"name": "BASE_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"name": "PROC_TS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "WBSELEMENTID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBSELEMENTID"
+								}
+							},
+							{
+								"source": {
+									"name": "SAP_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_STATUS"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT002_ODOS_SAPY_Queue",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Update_Status_R",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Order_Variant_Data_To_Queue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update dbo.SAP_ORDER_VARIANT Set STATUS = 'R' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO} and CHRSTICS = @{pipeline().parameters.CHRSTICS}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "update_SAP_WBS_SOR_STATUS_T_variant",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Update_Status_R",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' WHERE ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}\n\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "update_SAP_ORDER_VARIANT_STATUS_T_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "update_SAP_WBS_SOR_STATUS_T_variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.SAP_ORDER_VARIANT SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
@@ -366,6 +684,10 @@
 			"ITEM_NO": {
 				"type": "String",
 				"defaultValue": "ITEM_NO"
+			},
+			"CHRSTICS": {
+				"type": "String",
+				"defaultValue": "CHRSTICS"
 			}
 		},
 		"annotations": []
