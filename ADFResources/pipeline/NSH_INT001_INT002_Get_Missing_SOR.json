@@ -1,0 +1,116 @@
+{
+	"name": "NSH_INT001_INT002_Get_Missing_SOR",
+	"properties": {
+		"activities": [
+			{
+				"name": "get_Missing_SOR",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT ord_req_no FROM sap_wbs_sor\nWHERE inserted_date BETWEEN GETDATE()-1 AND GETDATE()-0.25\nAND ord_req_no NOT IN\n  (SELECT sor_number AS ord_req_no\n  FROM [DBO].[SAP_SO_SOR]\n  WHERE SOR_NUMBER IN\n    (SELECT ord_req_no\n    FROM sap_wbs_sor\n    WHERE inserted_date BETWEEN GETDATE()-1 AND GETDATE()-0.25\n    )\n  )\nAND STATUS = 'Q'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "count_sap_order_item",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "get_Missing_SOR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select count(*) itemcount from sap_order_item where ord_req_no = @{pipeline().parameters.ORD_REQ_NO}\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "get_Missing_SOR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select count(*) SAPItemCount from SAPSR3.YMSDT_ORDER_ITEM where ORDER_REQUEST_NO = @{pipeline().parameters.ORDER_REQUEST_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORD_REQ_NO": {
+				"type": "String",
+				"defaultValue": "ORD_REQ_NO"
+			},
+			"ORDER_REQUEST_NO": {
+				"type": "String",
+				"defaultValue": "ORDER_REQUEST_NO"
+			}
+		},
+		"annotations": []
+	}
+}
