@@ -6,10 +6,10 @@
 		"type": "SqlServer",
 		"typeProperties": {
 			"connectionString": "integrated security=False;data source=NSDEVESBAPP02;initial catalog=ESBDB;user id=WEBM_INTERNAL",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmY2ZmODNhYi0zMGE4LTQ2NmQtOTNlMy0xNzhhOTg1YjM1ZWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3ODA4OTc5NC1hNGExLTQzYmMtODY5MS0zMTRmNzc4NGVhNGYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "NSHQA",
+			"referenceName": "MESQARuntime",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
