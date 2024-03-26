@@ -663,6 +663,42 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Update_SatusTo_T",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Send_DataFrom_NDS_To_Queue",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NDSQADB5_NDS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update TBL_DSS_STS_DNS_VAR_TRK Set FLD_TRK_STATUS = 'T' where FLD_TRK_SOR_NO = @{pipeline().parameters.fld_trk_sor_no}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
