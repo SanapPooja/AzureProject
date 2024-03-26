@@ -1,0 +1,62 @@
+{
+	"name": "LOOKUP_Transaction_Audit",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LookupTable",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SEQ_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INT_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "FILE_NAME",
+				"type": "varchar"
+			},
+			{
+				"name": "KEY1",
+				"type": "varchar"
+			},
+			{
+				"name": "KEY2",
+				"type": "varchar"
+			},
+			{
+				"name": "KEY3",
+				"type": "varchar"
+			},
+			{
+				"name": "PUB_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "PUB_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "SUB_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "SUB_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "REMARKS",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "WEBM_CUSTOM",
+			"table": "TRANSACTION_AUDIT"
+		}
+	}
+}

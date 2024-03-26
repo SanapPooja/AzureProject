@@ -99,6 +99,215 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select STATUS from SAPSR3.YMSDT_ORDER_HDR where ORDER_REQUEST_NO = @{pipeline().parameters.ORDER_REQUEST_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update SAP_WBS_SOR SET STATUS = 'Q' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "INT_ID",
+								"value": "INT001"
+							},
+							{
+								"name": "FILE_NAME",
+								"value": "Reprocess Missing SOR"
+							},
+							{
+								"name": "PUB_TIME",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "SUB_TIME",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "REMARKS",
+								"value": "ESB Reprocessing"
+							}
+						],
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "INT_ID"
+								},
+								"sink": {
+									"name": "INT_ID",
+									"type": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FILE_NAME"
+								},
+								"sink": {
+									"name": "FILE_NAME",
+									"type": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_REQUEST_NO"
+								},
+								"sink": {
+									"name": "KEY1",
+									"type": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PUB_TIME"
+								},
+								"sink": {
+									"name": "PUB_TIME",
+									"type": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SUB_TIME"
+								},
+								"sink": {
+									"name": "SUB_TIME",
+									"type": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "REMARKS"
+								},
+								"sink": {
+									"name": "REMARKS",
+									"type": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT001_YMSDT_ORDER_ITEM",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "LOOKUP_Transaction_Audit",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
