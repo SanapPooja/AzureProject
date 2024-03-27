@@ -1,5 +1,5 @@
 {
-	"name": "NSH_Ignition_GR_Pub",
+	"name": "NSH_INT124_Ignition_GR_Pub",
 	"properties": {
 		"activities": [
 			{
@@ -966,7 +966,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_SAP_GR_Sub",
+						"referenceName": "NSH_INT124_SAPY_GR_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
