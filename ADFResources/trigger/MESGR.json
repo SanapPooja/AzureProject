@@ -7,7 +7,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "NSH_SAP_ACTY_Sub",
+					"referenceName": "NSH_INT123_SAPY_ACTY_Sub",
 					"type": "PipelineReference"
 				}
 			}
