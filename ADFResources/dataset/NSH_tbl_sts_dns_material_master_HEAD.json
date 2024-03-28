@@ -1,0 +1,12 @@
+{
+	"name": "NSH_tbl_sts_dns_material_master_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_tbl_sts_dns_material_master_HEAD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

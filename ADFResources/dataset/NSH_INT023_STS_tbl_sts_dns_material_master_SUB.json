@@ -1,0 +1,98 @@
+{
+	"name": "NSH_INT023_STS_tbl_sts_dns_material_master_SUB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "STS_QA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_mm_matl_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fld_mm_message_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_mm_matl_no",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_matl_desc",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_matl_pcode",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_mm_base_uom",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_matl_grp",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_order_unit",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_old_matl_no",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_create_date",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_create_by",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_modify_date",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_modify_by",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_rec_type",
+				"type": "char"
+			},
+			{
+				"name": "fld_mm_kg_per_pc",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_mm_grade",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_mm_prod_sch",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fld_mm_prodH",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_mm_dia",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_dns_material_master"
+		}
+	}
+}
