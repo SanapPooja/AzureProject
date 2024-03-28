@@ -1,0 +1,13 @@
+{
+	"name": "NSH_INT023_tbl_sts_dns_material_master_QUEUE",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int023_tbl_sts_dns_material_master/MESSAGES",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
