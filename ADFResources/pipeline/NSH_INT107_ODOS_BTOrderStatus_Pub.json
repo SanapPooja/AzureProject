@@ -1,0 +1,157 @@
+{
+	"name": "NSH_INT107_ODOS_BTOrderStatus_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "S"
+							},
+							{
+								"name": "ESBDATE",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": "SELECT TRACKNO,  POSNR, VBELN, CHARG, SOSTATUS, BTSTATUS From SAPSR3.ZSD_SOBTDATA \nWHERE (TRACKNO, POSNR) IN\n(\n\tSELECT TRACKNO, POSNR FROM SAPSR3.ZSD_SOBTDATA WHERE BTSTATUS='C' AND \n\t\tCRDATE > (\n\t\t\tselect TO_CHAR(SYSDATE-30, 'YYYYMMDD') FROM dual\n\t\t\t\t)\nMinus \nSELECT TRACKNO, POSNR FROM SAPSR3.YESB_SOBTDATA)  AND ROWNUM <='1000'",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 200
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "TRACKNO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TRACKNO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "POSNR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "POSNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBDATE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBDATE",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "OracleTable2",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "YESB_SOBTDATA",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "YESB_SOBTDATA",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "orderbt_status",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

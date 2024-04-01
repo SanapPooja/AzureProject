@@ -1,0 +1,12 @@
+{
+	"name": "orderbt_status",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT108_OrderBT_status",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
