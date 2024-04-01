@@ -5,7 +5,14 @@
 			{
 				"name": "SendtoQueue",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -17,7 +24,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select * from T_NSA_GR",
+						"sqlReaderQuery": {
+							"value": "@activity('Lookup1').output.value",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -874,7 +884,7 @@
 		],
 		"variables": {
 			"var_charg": {
-				"type": "Array"
+				"type": "String"
 			}
 		},
 		"annotations": []

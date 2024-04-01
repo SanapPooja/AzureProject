@@ -136,7 +136,48 @@
 						"writeBatchSize": 10000,
 						"httpCompressionType": "none"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "TRACKNO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TRACKNO"
+								}
+							},
+							{
+								"source": {
+									"name": "POSNR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$POSNR"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBDATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBDATE"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
