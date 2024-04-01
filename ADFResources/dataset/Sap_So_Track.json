@@ -1,0 +1,50 @@
+{
+	"name": "Sap_So_Track",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NDSQADB5_NDS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Identity_No",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TRACK_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SO_Number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BATCH_NUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SO_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "BT_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "Inserted_date",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAP_SO_TRACK"
+		}
+	}
+}

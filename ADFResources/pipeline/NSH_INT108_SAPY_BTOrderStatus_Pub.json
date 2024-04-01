@@ -1,9 +1,9 @@
 {
-	"name": "NSH_INT108_ODOS_BTOrderStatus_Pub",
+	"name": "NSH_INT108_SAPY_BTOrderStatus_Pub",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyData_FromSourceToStaging",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -104,11 +104,11 @@
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "CopyData_FromStagingToQueue",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyData_FromSourceToStaging",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -191,8 +191,73 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CopyData_FromStagingToQueue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT108_ODOS_BTOrderStatus_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "CopyData_FromStagingToQueue",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update SAPSR3.YESB_SOBTDATA Set ESBSTATUS = 'E' where ESBDATE=@{pipeline().parameters.ESBDATE}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"ESBDATE": {
+				"type": "string",
+				"defaultValue": "ESBDATE"
+			}
+		},
 		"annotations": []
 	}
 }
