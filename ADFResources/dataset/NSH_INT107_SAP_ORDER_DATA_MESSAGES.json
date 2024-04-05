@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT107_SAP_ORDER_DATA_MESSAGES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT107_SAP_ORDER_DATA_MESSAGE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

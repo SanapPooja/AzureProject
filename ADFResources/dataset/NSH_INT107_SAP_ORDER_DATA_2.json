@@ -1,0 +1,624 @@
+{
+	"name": "NSH_INT107_SAP_ORDER_DATA_2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB5_ODOS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "TRACKNO",
+				"type": "char"
+			},
+			{
+				"name": "Z_ITEM_NO",
+				"type": "char"
+			},
+			{
+				"name": "Creation_Date",
+				"type": "char"
+			},
+			{
+				"name": "CREATED_BY",
+				"type": "char"
+			},
+			{
+				"name": "ORDER_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "CONTRACT_NO",
+				"type": "char"
+			},
+			{
+				"name": "PROJ_ID",
+				"type": "char"
+			},
+			{
+				"name": "CUSTOMER_ID",
+				"type": "char"
+			},
+			{
+				"name": "PO_NUM",
+				"type": "char"
+			},
+			{
+				"name": "PO_Date",
+				"type": "char"
+			},
+			{
+				"name": "REQ_DELI_DATE",
+				"type": "char"
+			},
+			{
+				"name": "OVER_DELIVERY_TOLERANCE",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 1
+			},
+			{
+				"name": "UUNDER_DELIVERY_TOLERANCE",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 1
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "char"
+			},
+			{
+				"name": "MATL_NO",
+				"type": "char"
+			},
+			{
+				"name": "ORD_QTY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "SALES_UOM",
+				"type": "char"
+			},
+			{
+				"name": "NUMERATOR",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "UOM_1",
+				"type": "char"
+			},
+			{
+				"name": "DENOMINATOR",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "UOM_2",
+				"type": "char"
+			},
+			{
+				"name": "HG_ITEM_NO",
+				"type": "char"
+			},
+			{
+				"name": "VALUATION_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "SO_NO",
+				"type": "char"
+			},
+			{
+				"name": "BATCH_NO",
+				"type": "char"
+			},
+			{
+				"name": "SO_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "BT_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "BBS_NO",
+				"type": "char"
+			},
+			{
+				"name": "BBS_DESC",
+				"type": "char"
+			},
+			{
+				"name": "SHAPE_CODE",
+				"type": "char"
+			},
+			{
+				"name": "Z_SHAPE_SURCHARG",
+				"type": "char"
+			},
+			{
+				"name": "Z_PROD_DATE",
+				"type": "char"
+			},
+			{
+				"name": "INVOICE_LENGTH",
+				"type": "char"
+			},
+			{
+				"name": "NO_OF_BEND_PC",
+				"type": "char"
+			},
+			{
+				"name": "NO_OF_CUT_PC",
+				"type": "char"
+			},
+			{
+				"name": "NO_ROLLING_PC",
+				"type": "char"
+			},
+			{
+				"name": "Z_PIECES",
+				"type": "char"
+			},
+			{
+				"name": "LOCATION",
+				"type": "char"
+			},
+			{
+				"name": "REMARKS",
+				"type": "char"
+			},
+			{
+				"name": "SITE_CONTACT_PERSON",
+				"type": "char"
+			},
+			{
+				"name": "Z_CW_DIA",
+				"type": "char"
+			},
+			{
+				"name": "Z_CW_LEN",
+				"type": "char"
+			},
+			{
+				"name": "Z_CW_OVR_HANG1",
+				"type": "char"
+			},
+			{
+				"name": "Z_CW_OVR_HANG2",
+				"type": "char"
+			},
+			{
+				"name": "Z_CW_SPA",
+				"type": "char"
+			},
+			{
+				"name": "Z_ELEM_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "Z_MW_DIA",
+				"type": "char"
+			},
+			{
+				"name": "Z_MW_LEN",
+				"type": "char"
+			},
+			{
+				"name": "Z_MW_OVR_HANG1",
+				"type": "char"
+			},
+			{
+				"name": "Z_MW_OVR_HANG2",
+				"type": "char"
+			},
+			{
+				"name": "Z_MW_SPA",
+				"type": "char"
+			},
+			{
+				"name": "PROD_MARKG",
+				"type": "char"
+			},
+			{
+				"name": "WBS1",
+				"type": "char"
+			},
+			{
+				"name": "WBS2",
+				"type": "char"
+			},
+			{
+				"name": "WBS3",
+				"type": "char"
+			},
+			{
+				"name": "WBS4",
+				"type": "char"
+			},
+			{
+				"name": "WBS5",
+				"type": "char"
+			},
+			{
+				"name": "Z_MAC_NO",
+				"type": "char"
+			},
+			{
+				"name": "Z_NO_OF_PNT",
+				"type": "char"
+			},
+			{
+				"name": "Z_NO_OF_STR",
+				"type": "char"
+			},
+			{
+				"name": "Z_TOTAL_BEND",
+				"type": "char"
+			},
+			{
+				"name": "Z_TOTAL_CUT",
+				"type": "char"
+			},
+			{
+				"name": "BAR_MARK",
+				"type": "char"
+			},
+			{
+				"name": "NO_MW_PC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NO_CW_PC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ACT_MW_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ACT_CW_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PRODUCT_CODE",
+				"type": "char"
+			},
+			{
+				"name": "SLOPE",
+				"type": "char"
+			},
+			{
+				"name": "PIN_DIAMETER",
+				"type": "char"
+			},
+			{
+				"name": "SEG_A",
+				"type": "char"
+			},
+			{
+				"name": "SEG_B",
+				"type": "char"
+			},
+			{
+				"name": "SEG_C",
+				"type": "char"
+			},
+			{
+				"name": "SEG_D",
+				"type": "char"
+			},
+			{
+				"name": "SEG_E",
+				"type": "char"
+			},
+			{
+				"name": "SEG_F",
+				"type": "char"
+			},
+			{
+				"name": "SEG_G",
+				"type": "char"
+			},
+			{
+				"name": "SEG_H",
+				"type": "char"
+			},
+			{
+				"name": "SEG_I",
+				"type": "char"
+			},
+			{
+				"name": "SEG_J",
+				"type": "char"
+			},
+			{
+				"name": "SEG_K",
+				"type": "char"
+			},
+			{
+				"name": "SEG_L",
+				"type": "char"
+			},
+			{
+				"name": "SEG_M",
+				"type": "char"
+			},
+			{
+				"name": "SEG_N",
+				"type": "char"
+			},
+			{
+				"name": "SEG_O",
+				"type": "char"
+			},
+			{
+				"name": "SEG_R",
+				"type": "char"
+			},
+			{
+				"name": "SEG_S",
+				"type": "char"
+			},
+			{
+				"name": "SEG_T",
+				"type": "char"
+			},
+			{
+				"name": "HT_H",
+				"type": "char"
+			},
+			{
+				"name": "AN_P",
+				"type": "char"
+			},
+			{
+				"name": "AN_Q",
+				"type": "char"
+			},
+			{
+				"name": "AN_R",
+				"type": "char"
+			},
+			{
+				"name": "AN_S",
+				"type": "char"
+			},
+			{
+				"name": "AN_T",
+				"type": "char"
+			},
+			{
+				"name": "AN_U",
+				"type": "char"
+			},
+			{
+				"name": "AN_V",
+				"type": "char"
+			},
+			{
+				"name": "AN_W",
+				"type": "char"
+			},
+			{
+				"name": "HT_B",
+				"type": "char"
+			},
+			{
+				"name": "HT_C",
+				"type": "char"
+			},
+			{
+				"name": "HT_D",
+				"type": "char"
+			},
+			{
+				"name": "LEG",
+				"type": "char"
+			},
+			{
+				"name": "HOOK",
+				"type": "char"
+			},
+			{
+				"name": "MW_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "CW_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "T_THEO_KG",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "T_NET_KG",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "T_BOM",
+				"type": "char"
+			},
+			{
+				"name": "T_MWOH1",
+				"type": "char"
+			},
+			{
+				"name": "T_MWSP",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "T_MWPC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "T_CWPC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "T_CWSP",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "T_MHOH2",
+				"type": "char"
+			},
+			{
+				"name": "T_CWOH1",
+				"type": "char"
+			},
+			{
+				"name": "T_CWOH2",
+				"type": "char"
+			},
+			{
+				"name": "T_REVERSE",
+				"type": "char"
+			},
+			{
+				"name": "T_COMBINE",
+				"type": "char"
+			},
+			{
+				"name": "T_FORCE",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM01",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM02",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM03",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM04",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM05",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM06",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM07",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM08",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM09",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCM10",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC01",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC02",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC03",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC04",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC05",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC06",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC07",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC08",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC09",
+				"type": "char"
+			},
+			{
+				"name": "T_PTCC10",
+				"type": "char"
+			},
+			{
+				"name": "T_DEL_DIR",
+				"type": "char"
+			},
+			{
+				"name": "T_DEL_DIS",
+				"type": "char"
+			},
+			{
+				"name": "T_DEL_TIME",
+				"type": "char"
+			},
+			{
+				"name": "T_CAB_PROD_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "T_CUT_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "T_BEND_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "T_STK_TIME",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAP_ORDER_DATA"
+		}
+	}
+}

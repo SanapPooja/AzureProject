@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy data2",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -17,53 +17,142 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": {
-							"value": "SELECT MANDT, TRACKNO, Z_ITEM_NO, Creation_Date, CREATED_BY, ORDER_TYPE, CONTRACT_NO, PROJ_ID, CUSTOMER_ID, PO_NUM, PO_Date, REQ_DELI_DATE, OVER_DELIVERY_TOLERANCE, UUNDER_DELIVERY_TOLERANCE,ITEM_NO, MATL_NO,\t\t\t\t\t\nORD_QTY, SALES_UOM, NUMERATOR, UOM_1, DENOMINATOR, UOM_2, HG_ITEM_NO, VALUATION_TYPE, SO_NO, BATCH_NO,\t\t\t\t\t\nSO_STATUS, BT_STATUS, BBS_NO, BBS_DESC, SHAPE_CODE, Z_SHAPE_SURCHARG, Z_PROD_DATE, INVOICE_LENGTH, NO_OF_BEND_PC, NO_OF_CUT_PC, NO_ROLLING_PC, Z_PIECES, LOCATION, REMARKS, SITE_CONTACT_PERSON, Z_CW_DIA, \t\t\t\t\t\nZ_CW_LEN, Z_CW_OVR_HANG1, Z_CW_OVR_HANG2, Z_CW_SPA, Z_ELEM_TYPE, Z_MW_DIA, Z_MW_LEN, Z_MW_OVR_HANG1, Z_MW_OVR_HANG2, Z_MW_SPA,PROD_MARKG, WBS1, WBS2, WBS3, WBS4, WBS5, Z_MAC_NO, Z_NO_OF_PNT, Z_NO_OF_STR, Z_TOTAL_BEND, Z_TOTAL_CUT, BAR_MARK, NO_MW_PC, NO_CW_PC, ACT_MW_LEN, SLOPE, PIN_DIAMETER, SEG_A, SEG_B, \t\t\t\t\t\nSEG_C, SEG_D, SEG_E, SEG_F, SEG_G, SEG_H, SEG_I, SEG_J, SEG_K, SEG_L, SEG_M, SEG_N,SEG_O, SEG_R, SEG_S, \t\t\t\t\t\nSEG_T, HT_H, AN_P, AN_Q, AN_R, AN_S, AN_T, AN_U, AN_V, AN_W, HT_B, HT_C, HT_D, LEG, HOOK, MW_TYPE, CW_TYPE, T_THEO_KG, T_NET_KG, T_BOM, T_MWOH1, T_MWSP, T_MWPC, T_CWPC, T_CWSP, T_MHOH2, T_CWOH1, T_CWOH2, T_REVERSE, T_COMBINE, T_FORCE, T_PTCM01, T_PTCM02, T_PTCM03, T_PTCM04, T_PTCM05, T_PTCM06, T_PTCM07, T_PTCM08, T_PTCM09, T_PTCM10, T_PTCC01, T_PTCC02, T_PTCC03, T_PTCC04, T_PTCC05, T_PTCC06, T_PTCC07, T_PTCC08, T_PTCC09, T_PTCC10,\t\t\t\t\t\nT_DEL_DIR, T_DEL_DIS, T_DEL_TIME, T_CAB_PROD_LEN, T_CUT_TIME, T_BEND_TIME, T_STK_TIME from dbo.SAP_ORDER_DATA WHERE TRACKNO = @{pipeline().parameters.TRACKNO}\n",
-							"type": "Expression"
-						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "FileServerWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "TRACKNO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TRACKNO"
+								}
+							},
+							{
+								"source": {
+									"name": "Creation_Date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CRDATE"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATED_BY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CREATED_BY"
+								}
+							},
+							{
+								"source": {
+									"name": "PO_NUM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ZPOSNR"
+								}
+							},
+							{
+								"source": {
+									"name": "MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATNR"
+								}
+							},
+							{
+								"source": {
+									"name": "SO_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SOSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "BT_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BTSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$Z_BBSNO"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$Z_BBS_DEC"
+								}
+							},
+							{
+								"source": {
+									"name": "Z_SHAPE_SURCHARG",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$Z_SHAPE_CODE"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT107_SAP_ORDER_DATA",
+						"referenceName": "NSH_INT107_SAP_ORDER_DATA_2",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "CopyTxtFile",
+						"referenceName": "NSH_INT107_SAP_ORDER_DATA_MESSAGES",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Script1",
+				"name": "Script2",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Copy data2",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -86,7 +175,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "UPDATE dbo.ESM_SAP_TRACK SET ESB_STATUS = 'E' and STATUS_DATE = GETDATE() where TRACK_NO = {pipeline().parameters.TRACKNO} and STATUS = 'Q'",
+								"value": "UPDATE dbo.ESM_SAP_TRACK SET ESB_STATUS = 'E' and STATUS_DATE = getdate() where TRACK_NO = {pipeline().parameters.TRACKNO} and STATUS = 'Q'",
 								"type": "Expression"
 							}
 						}
