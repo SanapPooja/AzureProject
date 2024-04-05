@@ -1,0 +1,138 @@
+{
+	"name": "NSH_INT107_SAPY_SOBT_DATA_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRACKNO"
+								},
+								"sink": {
+									"name": "TRACKNO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CRDATE"
+								},
+								"sink": {
+									"name": "CRDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CREATOR"
+								},
+								"sink": {
+									"name": "CREATOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ZPOSNR"
+								},
+								"sink": {
+									"name": "ZPOSNR",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT107_SAP_ORDER_DATA_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT107_SOBTDATA",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": ""
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"TRACK_NO": {
+				"type": "string",
+				"defaultValue": "TRACK_NO"
+			}
+		},
+		"annotations": []
+	}
+}
