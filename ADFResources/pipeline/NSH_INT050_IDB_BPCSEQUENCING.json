@@ -467,67 +467,34 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "FLD_PSCH_ITEM_NO",
-									"type": "String"
+									"name": "FLD_PSCH_PLAN_PROCESS_TIME",
+									"type": "Decimal"
 								},
 								"sink": {
-									"path": "$FLD_PSCH_ITEM_NO"
+									"path": "$"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_PSCH_SAL_ORD_NO",
+									"name": "FLD_PSCH_REC_TYPE_OBSOLETE",
 									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_PSCH_SAL_ORD_NO"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_PSCH_SEQ_NO",
+									"name": "FLD_PSCH_SAL_FG_UOM",
 									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_PSCH_SEQ_NO"
 								}
 							},
-							{
-								"source": {
-									"name": "FLD_PSCH_Q_OPER_TYPE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_PSCH_Q_OPER_TYPE"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_PSCH_Q_PO_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_PSCH_Q_PO_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBSTATUS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ESBSTATUS"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBUPDATETIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ESBUPDATETIME"
-								}
-							}
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null
 						]
 					}
 				},

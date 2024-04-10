@@ -247,7 +247,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "\tupdate SM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' where ESBUPDATETIME = 'current date & time' - yyyy-MM-dd HH:mm:ss.S\t\t\t\t\t\t\t\n",
+								"value": "UPDATE SM_ADMIN.ESB_BPC_BOM SET ESBSTATUS = 'E' WHERE ESBUPDATETIME = TO_TIMESTAMP(:currentDateTime, 'YYYY-MM-DD HH24:MI:SS.FF');",
 								"type": "Expression"
 							}
 						}
