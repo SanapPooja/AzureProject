@@ -5,6 +5,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -140,6 +142,8 @@
 			{
 				"name": "Copy data2",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -258,7 +262,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "Copy data2_copy1",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -288,6 +292,257 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Copy data1_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "S"
+							},
+							{
+								"name": "ESBUPDATETIME",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "WITH FirstQuery AS (\n    SELECT FLD_PSCH_ITEM_NO, FLD_PSCH_SAL_ORD_NO, FLD_PSCH_SEQ_NO, FLD_PSCH_Q_OPER_TYPE, FLD_PSCH_Q_PO_NO\n    FROM (\n        SELECT FLD_PSCH_ITEM_NO, FLD_PSCH_SAL_ORD_NO, FLD_PSCH_SEQ_NO, FLD_PSCH_Q_OPER_TYPE, FLD_PSCH_Q_PO_NO\n        FROM scm_admin.bpcsequencing\n        MINUS\n        SELECT FLD_PSCH_ITEM_NO, FLD_PSCH_SAL_ORD_NO, FLD_PSCH_SEQ_NO, FLD_PSCH_Q_OPER_TYPE, FLD_PSCH_Q_PO_NO\n        FROM scm_admin.esb_bpcsequencing\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT\n    NVL(PSCH.FLD_PSCH_PLAN_PROCESS_TIME, 0) AS FLD_PSCH_PLAN_PROCESS_TIME,\n    NVL(TRIM(PSCH.FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\n    NVL(TRIM(PSCH.FLD_PSCH_SAL_FG_UOM), ' ') AS FLD_PSCH_SAL_FG_UOM,\n    NVL(TRIM(PSCH.FLD_PSCH_MATL_NO), ' ') AS FLD_PSCH_MATL_NO,\n    NVL(PSCH.FLD_PSCH_SEQ_NO, ' ') AS FLD_PSCH_SEQ_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_CUST_DESC), ' ') AS FLD_PSCH_CUST_DESC,\n    NVL(TRIM(PSCH.FLD_PSCH_NXT_WRK_CTR), ' ') AS FLD_PSCH_NXT_WRK_CTR,\n    NVL(TRIM(PSCH.FLD_PSCH_PROD_GROUP), ' ') AS FLD_PSCH_PROD_GROUP,\n    NVL(TRIM(PSCH.FLD_PSCH_ENG_DWG_NO), ' ') AS FLD_PSCH_ENG_DWG_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_DEPNT_REQ_FLAG), ' ') AS FLD_PSCH_DEPNT_REQ_FLAG,\n    NVL(TRIM(PSCH.FLD_PSCH_MSG_ID), ' ') AS FLD_PSCH_MSG_ID,\n    NVL(PSCH.FLD_PSCH_PRODN_QTY_PCS, 0) AS FLD_PSCH_PRODN_QTY_PCS,\n    NVL(TRIM(PSCH.FLD_PSCH_PLAN_PRODN_SHIFT), ' ') AS FLD_PSCH_PLAN_PRODN_SHIFT,\n    NVL(TRIM(PSCH.FLD_PSCH_ITEM_NO), ' ') AS FLD_PSCH_ITEM_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_RUN_NO), ' ') AS FLD_PSCH_RUN_NO,\n    NVL(PSCH.FLD_PSCH_SAL_FG_QTY, 0) AS FLD_PSCH_SAL_FG_QTY,\n    NVL(TRIM(PSCH.FLD_PSCH_PLAN_PRODN_DATE), ' ') AS FLD_PSCH_PLAN_PRODN_DATE,\n    NVL(TRIM(PSCH.FLD_PSCH_SHAPE_CODE_ID), ' ') AS FLD_PSCH_SHAPE_CODE_ID,\n    NVL(PSCH.FLD_PSCH_PLAN_SETUP_TIME, 0) AS FLD_PSCH_PLAN_SETUP_TIME,\n    NVL(TRIM(PSCH.FLD_PSCH_INDEPNT_ITEM), 0) AS FLD_PSCH_INDEPNT_ITEM,\n    NVL(TRIM(PSCH.FLD_PSCH_SAL_ORD_NO), ' ') AS FLD_PSCH_SAL_ORD_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_CUST_ID), ' ') AS FLD_PSCH_CUST_ID,\n    NVL(TRIM(PSCH.FLD_PSCH_INDEPNT_MATL_NO), ' ') AS FLD_PSCH_INDEPNT_MATL_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_SHIP_TO_DESC), ' ') AS FLD_PSCH_SHIP_TO_DESC,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_CREATE_DATE), ' ') AS FLD_PSCH_Q_CREATE_DATE,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_END_TIME), ' ') AS FLD_PSCH_Q_END_TIME,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_ISRELEASE), ' ') AS FLD_PSCH_Q_ISRELEASE,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_MODIFY_DATE), ' ') AS FLD_PSCH_Q_MODIFY_DATE,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_OPER_TYPE), ' ') AS FLD_PSCH_Q_OPER_TYPE,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_RELEASE_DATE), ' ') AS FLD_PSCH_Q_RELEASE_DATE,\n    NVL(TRIM(PSCH.FLD_PSCH_PRODN_ORD_NO), ' ') AS FLD_PSCH_PRODN_ORD_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_PO_NO), ' ') AS FLD_PSCH_Q_PO_NO,\n    NVL(PSCH.FLD_PSCH_Q_SEQ_NO, 0) AS FLD_PSCH_Q_SEQ_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_PLAN_WRK_CTR), ' ') AS FLD_PSCH_PLAN_WRK_CTR,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_START_TIME), ' ') AS FLD_PSCH_Q_START_TIME,\n    NVL(TRIM(PSCH.FLD_PSCH_Q_PRODN_ORD_NO), ' ') AS FLD_PSCH_Q_PRODN_ORD_NO,\n    NVL(TRIM(PSCH.FLD_PSCH_TAG_ID_FROM), ' ') AS FLD_PSCH_TAG_ID_FROM,\n    NVL(TRIM(PSCH.FLD_PSCH_TAG_ID_TO), ' ') AS FLD_PSCH_TAG_ID_TO,\n    NVL(PSCH.FLD_PSCH_UOPQUANTITY, 0) AS FLD_PSCH_UOPQUANTITY,\n    NVL(TRIM(PSCH.FLD_PSCH_UOPQUANTITYUOM), ' ') AS FLD_PSCH_UOPQUANTITYUOM,\n    NVL(PSCH.FLD_PSCH_PU_NR_OF_OPERATION, 0) AS FLD_PSCH_PU_NR_OF_OPERATION,\n    NVL(TRIM(PSCH.FLD_PSCH_RELEASE_CODE), ' ') AS FLD_PSCH_RELEASE_CODE,\n    NVL(TRIM(PSCH.FLD_PSCH_LOADING_START), ' ') AS FLD_PSCH_LOADING_START,\n    NVL(TRIM(PSCH.FLD_PSCH_LOADING_END), ' ') AS FLD_PSCH_LOADING_END,\n    NVL(PSCH.REC_ID, 0) AS REC_ID\nFROM\n    scm_admin.BPCSEQUENCING PSCH\nJOIN \n    FirstQuery FQ ON PSCH.FLD_PSCH_ITEM_NO = FQ.FLD_PSCH_ITEM_NO\n                 AND PSCH.FLD_PSCH_SAL_ORD_NO = FQ.FLD_PSCH_SAL_ORD_NO\n                 AND PSCH.FLD_PSCH_SEQ_NO = FQ.FLD_PSCH_SEQ_NO\n                 AND PSCH.FLD_PSCH_Q_OPER_TYPE = FQ.FLD_PSCH_Q_OPER_TYPE\n                 AND PSCH.FLD_PSCH_Q_PO_NO = FQ.FLD_PSCH_Q_PO_NO\nWHERE\n    LENGTH(PSCH.FLD_PSCH_RELEASE_CODE) > 0\n    AND PSCH.FLD_PSCH_Q_ISRELEASE = 'Y';\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_PSCH_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SAL_ORD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SEQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SEQ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_OPER_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_OPER_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT050_IDB_BPCSEQENCING",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "IDB_ESB_BPCSEQUENCING",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_PSCH_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SEQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_OPER_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_OPER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBUPDATETIME"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT050_IDB_BPCSEQENCING",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "IDB_BpcSeqencing",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
