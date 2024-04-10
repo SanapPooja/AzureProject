@@ -1,0 +1,221 @@
+{
+	"name": "NSH_INT049_IDB_BPC_BOM_PUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_ORD_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_ORD_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ESBUPDATETIME"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ESB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT049_IDB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "S"
+							},
+							{
+								"name": "ESBUPDATETIME",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.BPC_BOM\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.ESB_BPC_BOM) where rownum <= '1000'",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_SBOM_SAL_ORD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_ORD_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_SBOM_ORD_ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_SBOM_SAL_ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "IDB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ESB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

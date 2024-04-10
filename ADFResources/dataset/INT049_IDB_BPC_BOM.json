@@ -1,0 +1,12 @@
+{
+	"name": "INT049_IDB_BPC_BOM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT049_IDB_BPC_BOM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
