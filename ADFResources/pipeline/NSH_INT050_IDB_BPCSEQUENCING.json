@@ -285,7 +285,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": " update SCM_ADMIN.ESB_BPCSEQUENCINGset ESBSTATUS = 'E' where ESBUPDATETIME = 'current date & time' - yyyy-MM-dd HH:mm:ss.S\t\t\t\t\t\t\n",
+								"value": " update SCM_ADMIN.ESB_BPCSEQUENCINGset ESBSTATUS = 'E' where ESBUPDATETIME = @{pipeline().parameters.ESBUPDATETIME}\t\t\t\t\t\n",
 								"type": "Expression"
 							}
 						}
@@ -885,8 +885,43 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT050_STS_BPCSequencing_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ESBUPDATETIME": {
+							"value": "@utcnow()",
+							"type": "Expression"
+						}
+					}
+				}
 			}
 		],
+		"parameters": {
+			"ESBUPDATETIME": {
+				"type": "String",
+				"defaultValue": "@utcnow()"
+			}
+		},
 		"annotations": []
 	}
 }
