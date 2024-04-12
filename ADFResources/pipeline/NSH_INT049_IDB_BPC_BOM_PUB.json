@@ -539,12 +539,41 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT049_STS_BPC_BOM_SUB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ESBUPDATETIME": {
+							"value": "@utcnow()",
+							"type": "Expression"
+						}
+					}
+				}
 			}
 		],
 		"parameters": {
 			"ESBUPDATETIME": {
 				"type": "String",
-				"defaultValue": "@utcnpw()"
+				"defaultValue": "@utcnow()"
 			}
 		},
 		"annotations": []
