@@ -1,0 +1,387 @@
+{
+	"name": "NSH_INT049_STS_BPC_BOM_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "fld_sbom_status_dss",
+								"value": "A"
+							},
+							{
+								"name": "fld_sbom_create_by",
+								"value": "ESB INT049"
+							},
+							{
+								"name": "fld_sbom_create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_sbom_modify_by",
+								"value": "ESB INT049"
+							},
+							{
+								"name": "fld_sbom_modify_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_sbom_rec_type",
+								"value": "Y"
+							},
+							{
+								"name": "fld_sbom_status",
+								"value": "A"
+							},
+							{
+								"name": "fld_sbom_bom_usage",
+								"value": ""
+							},
+							{
+								"name": "fld_sbom_valid_fr_date",
+								"value": ""
+							},
+							{
+								"name": "fld_sbom_item_category",
+								"value": ""
+							},
+							{
+								"name": "fld_sbom_q_rec_type",
+								"value": ""
+							},
+							{
+								"name": "fld_sbom_release_code",
+								"value": ""
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$FLD_SBOM_MSG_ID"
+								},
+								"sink": {
+									"name": "fld_sbom_msg_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_PROD_ORD_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_prod_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_SAL_ORD_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_sal_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_SAL_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_sal_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_ORD_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_ord_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_MATL_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_matl_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_BOM_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_bom_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_MATL_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_matl_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_QTY"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_qty",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_UOM"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_uom",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_BASE_QTY"
+								},
+								"sink": {
+									"name": "fld_sbom_base_qty",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_Q_CREATE_DATE"
+								},
+								"sink": {
+									"name": "fld_sbom_q_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_Q_MODIFY_DATE"
+								},
+								"sink": {
+									"name": "fld_sbom_q_modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_q_prod_ord_no"
+								},
+								"sink": {
+									"name": "fld_sbom_q_prod_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_status_dss"
+								},
+								"sink": {
+									"name": "fld_sbom_status_dss",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_create_by"
+								},
+								"sink": {
+									"name": "fld_sbom_create_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_create_date"
+								},
+								"sink": {
+									"name": "fld_sbom_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_modify_by"
+								},
+								"sink": {
+									"name": "fld_sbom_modify_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_modify_date"
+								},
+								"sink": {
+									"name": "fld_sbom_modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_rec_type"
+								},
+								"sink": {
+									"name": "fld_sbom_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_status"
+								},
+								"sink": {
+									"name": "fld_sbom_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_bom_usage"
+								},
+								"sink": {
+									"name": "fld_sbom_bom_usage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_valid_fr_date"
+								},
+								"sink": {
+									"name": "fld_sbom_valid_fr_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_item_category"
+								},
+								"sink": {
+									"name": "fld_sbom_item_category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_q_rec_type"
+								},
+								"sink": {
+									"name": "fld_sbom_q_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_release_code"
+								},
+								"sink": {
+									"name": "fld_sbom_release_code",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Bpc_Bom_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TBL_dss_STS_DNS_SAL_ORD_BOM",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update SCM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' and ESBUPDATETIME = @{pipeline().parameters.ESBUPDATETIME}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ESBUPDATETIME": {
+				"type": "String",
+				"defaultValue": "@utcnow()"
+			}
+		},
+		"annotations": []
+	}
+}

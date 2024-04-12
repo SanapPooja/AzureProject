@@ -247,7 +247,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "UPDATE SM_ADMIN.ESB_BPC_BOM SET ESBSTATUS = 'E' WHERE ESBUPDATETIME = TO_TIMESTAMP(:currentDateTime, 'YYYY-MM-DD HH24:MI:SS.FF');",
+								"value": "update SCM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' and ESBUPDATETIME = @{pipeline().parameters.ESBUPDATETIME}",
 								"type": "Expression"
 							}
 						}
@@ -521,7 +521,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_Q_CREATE_DATE"
+									"path": "$FLD_SBOM_Q_MODIFY_DATE"
 								}
 							}
 						]
@@ -541,6 +541,12 @@
 				]
 			}
 		],
+		"parameters": {
+			"ESBUPDATETIME": {
+				"type": "String",
+				"defaultValue": "@utcnpw()"
+			}
+		},
 		"annotations": []
 	}
 }

@@ -1,0 +1,12 @@
+{
+	"name": "Bpc_Bom_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Bpc_Bom_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
