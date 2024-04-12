@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT049_IDB_BPC_BOM_PUB",
+	"name": "NSH_INT049_IDB_BPC_BOM_Pub",
 	"properties": {
 		"activities": [
 			{
@@ -557,7 +557,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT049_STS_BPC_BOM_SUB",
+						"referenceName": "NSH_INT049_STS_BPC_BOM_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
