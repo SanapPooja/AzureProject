@@ -471,7 +471,7 @@
 									"type": "Decimal"
 								},
 								"sink": {
-									"path": "FLD_PSCH_PLAN_PROCESS_TIME"
+									"path": "$['$FLD_PSCH_PLAN_PROCESS_TIME']"
 								}
 							},
 							{

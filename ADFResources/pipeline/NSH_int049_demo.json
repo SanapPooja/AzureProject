@@ -1,0 +1,301 @@
+{
+	"name": "NSH_int049_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup_USP_INT049",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT INT_Interface('USP_INT049') AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT023_YMPCT_MAT_DETAIL",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup_USP_INT049",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lookup_USP_INT049').output.firstRow.RESULT, 'Y')",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Web1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int049_idb_bpc_bom/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT049_STS_BPC_BOM_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"ESBUPDATETIME": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Web1_copy1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Lookup_USP_INT049",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int049_idb_bpc_bom/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Copy data2_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_SBOM_MSG_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_MSG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_PROD_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_PROD_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_ORD_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_ORD_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_BOM_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_BOM_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_BASE_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_BASE_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_Q_CREATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_Q_CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_Q_MODIFY_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_Q_MODIFY_DATE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "IDB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT049_IDB_BPC_BOM",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
