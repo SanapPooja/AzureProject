@@ -1,0 +1,12 @@
+{
+	"name": "Int064_Cab_bender",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Int064_Cab_bender",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
