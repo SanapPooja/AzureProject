@@ -134,6 +134,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"method": "DELETE",
 								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
 							}
 						},

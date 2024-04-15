@@ -1,0 +1,138 @@
+{
+	"name": "tbl_scm_sts_rms_cab_shear",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_ref_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_r_run_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_r_prod_type_ref",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_r_start_stock_len",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "fld_r_dia_ref",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "fld_l_comb_no",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fld_l_qty_of_segment",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "fld_l_stock_bars_len",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "fld_d_no_of_cuts",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "fld_d_section_no",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fld_d_bin_number",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_cut_length",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_tag_ref_info",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_straight_bend_flag",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_bbs_bar_mark_info",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_flag_info",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_q_update_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_q_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_d_cutting_seq_no",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "fld_d_offcut_ind",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_rms_cab_shear"
+		}
+	}
+}

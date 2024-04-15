@@ -133,6 +133,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"method": "DELETE",
 								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_064_cab_bender_download/messages/head"
 							}
 						},
