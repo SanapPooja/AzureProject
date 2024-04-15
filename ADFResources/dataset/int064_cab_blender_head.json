@@ -1,0 +1,12 @@
+{
+	"name": "int064_cab_blender_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int064_cab_blender_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
