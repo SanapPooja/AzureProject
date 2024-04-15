@@ -1,0 +1,12 @@
+{
+	"name": "int065_cab_rms_shearline",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int065_cab_rms_shearline",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

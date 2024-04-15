@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT064_IDB_CabBenderDownload",
+	"name": "NSH_INT065_IDB_CAB_RMS_SHEARLINE",
 	"properties": {
 		"activities": [
 			{
@@ -42,19 +42,19 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Cab_bender_download",
+						"referenceName": "cab_rms_shearline",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Int064_Cab_bender",
+						"referenceName": "int065_cab_rms_shearline",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Lookup_USP_INT064",
+				"name": "Lookup_USP_INT065",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -84,9 +84,10 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "Cab_bender_download",
+						"referenceName": "cab_rms_shearline",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -95,7 +96,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup_USP_INT064",
+						"activity": "Lookup_USP_INT065",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -104,7 +105,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup_USP_INT064').output.firstRow.RESULT, 'Y')",
+						"value": "@equals(activity('Lookup_USP_INT065').output.firstRow.RESULT, 'Y')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -128,7 +129,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_064_cab_bender_download/messages/head"
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
 							}
 						},
 						{
@@ -184,13 +185,13 @@
 				}
 			},
 			{
-				"name": "Web1",
+				"name": "Web1_copy1_copy1",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Wait2",
+						"activity": "Lookup_USP_INT065",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
@@ -203,24 +204,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_064_cab_bender_download/messages/head"
-				}
-			},
-			{
-				"name": "Wait2",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Lookup_USP_INT064",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
 				}
 			}
 		],

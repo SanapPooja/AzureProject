@@ -1,0 +1,12 @@
+{
+	"name": "int065_cab_rms_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int065_cab_rms_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
