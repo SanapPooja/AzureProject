@@ -1,0 +1,12 @@
+{
+	"name": "CAB_BOM_QUEUE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT062_CAB_BOM_QUEUE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

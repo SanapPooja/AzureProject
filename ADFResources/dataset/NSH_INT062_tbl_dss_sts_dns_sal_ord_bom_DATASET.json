@@ -1,0 +1,130 @@
+{
+	"name": "NSH_INT062_tbl_dss_sts_dns_sal_ord_bom_DATASET",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_sbom_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_sbom_msg_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_prod_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_sal_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_sal_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_bom_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_comp_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_bom_usage",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_valid_fr_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_item_category",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_comp_qty",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "fld_sbom_comp_uom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_base_qty",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "fld_sbom_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_status_dss",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_ord_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_q_prod_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_q_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_q_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sbom_release_code",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_dss_sts_dns_sal_ord_bom"
+		}
+	}
+}

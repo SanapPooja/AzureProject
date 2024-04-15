@@ -1,0 +1,226 @@
+{
+	"name": "NSH_INT062_SQL_tbl_dss_sts_dns_sal_ord_bom_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$FLD_SBOM_MSG_ID"
+								},
+								"sink": {
+									"name": "fld_sbom_msg_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_PROD_ORD_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_prod_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_SAL_ORD_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_sal_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_SAL_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_sal_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_ORD_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_ord_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_MATL_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_matl_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_BOM_ITEM_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_bom_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_MATL_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_matl_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_QTY"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_qty",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_COMP_UOM"
+								},
+								"sink": {
+									"name": "fld_sbom_comp_uom",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_BASE_QTY"
+								},
+								"sink": {
+									"name": "fld_sbom_base_qty",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_Q_CREATE_DATE"
+								},
+								"sink": {
+									"name": "fld_sbom_q_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_Q_MODIFY_DATE"
+								},
+								"sink": {
+									"name": "fld_sbom_q_modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_SBOM_Q_PRODN_ORD_NO"
+								},
+								"sink": {
+									"name": "fld_sbom_q_prod_ord_no",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "RestResource3",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT062_tbl_dss_sts_dns_sal_ord_bom_DATASET",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Delete Data from queue",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait 60 Sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int062_cab_bom/MESSAGES/HEAD",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait 60 Sec",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			}
+		],
+		"annotations": []
+	}
+}

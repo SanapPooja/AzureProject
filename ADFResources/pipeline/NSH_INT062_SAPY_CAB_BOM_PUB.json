@@ -1,0 +1,329 @@
+{
+	"name": "NSH_INT062_SAPY_CAB_BOM_PUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "CopyDataFrom_SAPToQueue_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT INT_Interface('USP_INT062') AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT062_CAB_BOM_DATASET",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Funtion_YorN_condition",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "DeleteDataFrom_Queue",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int062_cab_bom/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "NSH_INT062_SAPY_CAB_BOM_Sub",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Wait1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT062_SQL_tbl_dss_sts_dns_sal_ord_bom_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						},
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 10
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "CopyDataFrom_SAPToQueue_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "vchDescription",
+								"value": "NULL"
+							},
+							{
+								"name": "PROC_TS",
+								"value": "NULL"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "NULL"
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.cab_bom\t\t\t\t\t\t\nminus\t\t\t\t\t\t\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.esb_cab_bom)\t\t\t\t\t\t\nwhere rownum <= '1000'\t\t\t\t\t\t",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": "100",
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_SBOM_MSG_ID"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_MSG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_PROD_ORD_NO"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_PROD_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_SAL_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_SAL_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_ORD_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_ORD_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_MATL_NO"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_BOM_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_BOM_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_MATL_NO"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_QTY"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_COMP_UOM"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_COMP_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_BASE_QTY"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_BASE_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_Q_CREATE_DATE"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_Q_CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_Q_MODIFY_DATE"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_Q_MODIFY_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SBOM_Q_PRODN_ORD_NO"
+								},
+								"sink": {
+									"path": "$FLD_SBOM_Q_PRODN_ORD_NO"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT062_CAB_BOM_DATASET",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CAB_BOM_QUEUE",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DeleteDataFrom_Queue_copy1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "CopyDataFrom_SAPToQueue_copy1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int062_cab_bom/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
