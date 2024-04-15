@@ -17,6 +17,39 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "cab_bend_id",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "q_rec_type",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "create_by",
+								"value": "INT064"
+							},
+							{
+								"name": "modify_date",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "modify_by",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "rec_type",
+								"value": "Y"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -35,7 +68,299 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$"
+									"path": "$tag_no"
+								},
+								"sink": {
+									"name": "tag_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$tag_qty"
+								},
+								"sink": {
+									"name": "tag_qty",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$productbar"
+								},
+								"sink": {
+									"name": "productbar",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$shapecode"
+								},
+								"sink": {
+									"name": "shapecode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$bbs_no"
+								},
+								"sink": {
+									"name": "bbs_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$barmark"
+								},
+								"sink": {
+									"name": "barmark",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$prodn_tag_wt"
+								},
+								"sink": {
+									"name": "prodn_tag_wt",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$pin_type"
+								},
+								"sink": {
+									"name": "pin_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$pin_size"
+								},
+								"sink": {
+									"name": "pin_size",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$no_of_bending"
+								},
+								"sink": {
+									"name": "no_of_bending",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$run_no"
+								},
+								"sink": {
+									"name": "run_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$planduration"
+								},
+								"sink": {
+									"name": "planduration",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$plan_machine"
+								},
+								"sink": {
+									"name": "plan_machine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$no_of_segments"
+								},
+								"sink": {
+									"name": "no_of_segments",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$shape_bvbs_parameter"
+								},
+								"sink": {
+									"name": "shape_bvbs_parameter",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$q_update_date"
+								},
+								"sink": {
+									"name": "q_update_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$q_create_date"
+								},
+								"sink": {
+									"name": "q_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare1"
+								},
+								"sink": {
+									"name": "spare1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare2"
+								},
+								"sink": {
+									"name": "spare2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare3"
+								},
+								"sink": {
+									"name": "spare3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare4"
+								},
+								"sink": {
+									"name": "spare4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare6"
+								},
+								"sink": {
+									"name": "spare6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare7"
+								},
+								"sink": {
+									"name": "spare7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare8"
+								},
+								"sink": {
+									"name": "spare8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare9"
+								},
+								"sink": {
+									"name": "spare9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$spare12"
+								},
+								"sink": {
+									"name": "spare12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$cab_bend_id"
+								},
+								"sink": {
+									"name": "cab_bend_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$q_rec_type"
+								},
+								"sink": {
+									"name": "q_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$q_create_date"
+								},
+								"sink": {
+									"name": "q_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$create_by"
+								},
+								"sink": {
+									"name": "create_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$modify_date"
+								},
+								"sink": {
+									"name": "modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$modify_by"
+								},
+								"sink": {
+									"name": "modify_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$rec_type"
+								},
+								"sink": {
+									"name": "rec_type",
+									"type": "String"
 								}
 							}
 						]
