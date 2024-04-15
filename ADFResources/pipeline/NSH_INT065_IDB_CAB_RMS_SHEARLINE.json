@@ -17,7 +17,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= ${batchSize}\n)\nSELECT\n    fld_r_run_no,\n    fld_r_prod_type_ref,\n    fld_r_start_stock_len,\n    fld_r_dia_ref,\n    fld_l_comb_no,\n    fld_l_qty_of_segment,\n    fld_d_no_of_cuts,\n    fld_d_section_no,\n    fld_d_bin_number,\n    fld_d_cut_length,\n    fld_d_tag_ref_info,\n    fld_d_straight_bend_flag,\n    fld_d_bbs_bar_mark_info,\n    fld_d_tag_no,\n    fld_d_flag_info,\n    fld_q_create_date,\n    fld_q_update_date,\n    fld_d_cutting_seq_no,\n    fld_d_offcut_ind\nFROM\n    scm_admin.cab_rms_shearline_download\nWHERE\n    (r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no) IN (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM FirstQuery\n    );\n",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
+						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
