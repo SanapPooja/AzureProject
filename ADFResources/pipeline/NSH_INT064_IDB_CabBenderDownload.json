@@ -148,7 +148,17 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"waitOnCompletion": true
+								"pipeline": {
+									"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"esbUpdateTime": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									}
+								}
 							}
 						},
 						{
