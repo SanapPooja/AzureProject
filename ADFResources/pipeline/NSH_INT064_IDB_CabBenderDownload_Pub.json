@@ -212,6 +212,12 @@
 						"dependencyConditions": [
 							"Failed"
 						]
+					},
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
 					}
 				],
 				"userProperties": [],
