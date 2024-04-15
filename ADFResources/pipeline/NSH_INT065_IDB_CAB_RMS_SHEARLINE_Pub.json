@@ -18,7 +18,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= ${batchSize}\n)\nSELECT\n    fld_r_run_no,\n    fld_r_prod_type_ref,\n    fld_r_start_stock_len,\n    fld_r_dia_ref,\n    fld_l_comb_no,\n    fld_l_qty_of_segment,\n    fld_d_no_of_cuts,\n    fld_d_section_no,\n    fld_d_bin_number,\n    fld_d_cut_length,\n    fld_d_tag_ref_info,\n    fld_d_straight_bend_flag,\n    fld_d_bbs_bar_mark_info,\n    fld_d_tag_no,\n    fld_d_flag_info,\n    fld_q_create_date,\n    fld_q_update_date,\n    fld_d_cutting_seq_no,\n    fld_d_offcut_ind\nFROM\n    scm_admin.cab_rms_shearline_download\nWHERE\n    (r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no) IN (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM FirstQuery\n    );\n",
+							"value": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT\n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(r_dia_ref, ' ') AS r_dia_ref,\n    NVL(l_comb_no, ' ') AS l_comb_no,\n    NVL(l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(d_section_no, ' ') AS d_section_no,\n    NVL(d_bin_number, ' ') AS d_bin_number,\n    NVL(d_cut_length, 0) AS d_cut_length,\n    NVL(d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(d_tag_no, ' ') AS d_tag_no,\n    NVL(d_flag_info, ' ') AS d_flag_info,\n    NVL(q_create_date, ' ') AS q_create_date,\n    NVL(q_update_date, ' ') AS q_update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(d_offcut_ind, ' ') AS d_offcut_ind\nFROM\n    scm_admin.cab_rms_shearline_download FQ\nJOIN\n    FirstQuery ON FQ.r_run_no = FirstQuery.r_run_no\n            AND FQ.r_dia_ref = FirstQuery.r_dia_ref\n            AND FQ.l_comb_no = FirstQuery.l_comb_no\n            AND FQ.d_section_no = FirstQuery.d_section_no\n            AND FQ.d_bin_number = FirstQuery.d_bin_number\n            AND FQ.d_cutting_seq_no = FirstQuery.d_cutting_seq_no;\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -203,6 +203,52 @@
 					"method": "DELETE",
 					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
 				}
+			},
+			{
+				"name": "Copy data1_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT * FROM scm_admin.cab_rms_shearline_download;\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "cab_rms_shearline",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "int065_cab_rms_shearline",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
