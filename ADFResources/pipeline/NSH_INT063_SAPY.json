@@ -1,0 +1,423 @@
+{
+	"name": "NSH_INT063_SAPY",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_SEQ_NO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_OPER_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_OPER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_START_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_START_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_END_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_END_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_PROCESS_TIME",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PLAN_PROCESS_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_MSG_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_MSG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_CUST_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_CUST_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_CUST_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_CUST_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SHIP_TO_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SHIP_TO_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PRODN_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_PRODN_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PRODN_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PRODN_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SAL_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PROD_GROUP",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PROD_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SHAPE_CODE_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SHAPE_CODE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SAL_FG_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SAL_FG_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SAL_FG_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SAL_FG_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PRODN_QTY_PCS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PRODN_QTY_PCS"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_PRODN_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PLAN_PRODN_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_PRODN_SHIFT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PLAN_PRODN_SHIFT"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_TAG_ID_FROM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_TAG_ID_FROM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_DEPNT_REQ_FLAG",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_DEPNT_REQ_FLAG"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_INDEPNT_ITEM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_INDEPNT_ITEM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_INDEPNT_MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_INDEPNT_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_ENG_DWG_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_ENG_DWG_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_WRK_CTR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PLAN_WRK_CTR"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_SETUP_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PLAN_SETUP_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_SEQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_NXT_WRK_CTR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_NXT_WRK_CTR"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_ISRELEASE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_ISRELEASE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_RELEASE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_RELEASE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_CREATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_MODIFY_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_Q_MODIFY_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_TAG_ID_TO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_TAG_ID_TO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_UOPQUANTITY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_UOPQUANTITY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_UOPQUANTITYUOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_UOPQUANTITYUOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_RELEASE_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_RELEASE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PU_NR_OF_OPERATION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_PSCH_PU_NR_OF_OPERATION"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT063_cabsequencing_DATASET",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "cabsequencing_queue",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
