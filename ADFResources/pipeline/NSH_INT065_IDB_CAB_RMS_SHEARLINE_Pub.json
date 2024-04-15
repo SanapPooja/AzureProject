@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT065_IDB_CAB_RMS_SHEARLINE",
+	"name": "NSH_INT065_IDB_CAB_RMS_SHEARLINE_Pub",
 	"properties": {
 		"activities": [
 			{
@@ -156,7 +156,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download",
+									"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true,
