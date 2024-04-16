@@ -1,0 +1,12 @@
+{
+	"name": "int_view_print_tag_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int_view_print_tag_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

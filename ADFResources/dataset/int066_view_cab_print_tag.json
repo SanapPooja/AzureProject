@@ -1,0 +1,12 @@
+{
+	"name": "int066_view_cab_print_tag",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int066_view_cab_print_tag",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

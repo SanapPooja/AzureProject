@@ -1,0 +1,12 @@
+{
+	"name": "OracleTable3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": []
+	}
+}
