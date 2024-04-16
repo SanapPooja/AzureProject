@@ -38,8 +38,1308 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
+								"source": {
+									"name": "BBS_NO",
+									"type": "String"
+								},
 								"sink": {
-									"path": "$"
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_MARKING",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROD_MARKING"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOAD_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPECODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPECODE"
+								}
+							},
+							{
+								"source": {
+									"name": "WEIGHT",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$WEIGHT"
+								}
+							},
+							{
+								"source": {
+									"name": "PIN_SIZE",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PIN_SIZE"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_QTY",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TAG_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_TOTAL_QTY",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$ITEM_TOTAL_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "INV_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "GRADE_DIA",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GRADE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "WORKCENTER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WORKCENTER"
+								}
+							},
+							{
+								"source": {
+									"name": "Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TAG_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "BENDING_SEQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BENDING_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_1"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_1"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_1"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_1"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_1"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_2"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_2"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_2"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_2"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_2"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_3"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_3"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_3"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_3"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_3"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_4"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_4"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_4"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_4"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_4"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_5"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_5"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_5"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_5"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_5"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_6"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_6"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_6"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_6"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_6"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_7"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_7"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_7"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_7"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_7"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_8"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_8"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_8"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_8"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_8"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_9"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_9"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_9"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_9"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_9"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_10"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_10"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_10"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_10"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_10"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_11"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_11"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "PARAM_IND_11"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_11"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_11"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_12"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_12"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_12"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_12"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_12"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_13"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_13"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_13"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_13"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_13"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_14"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_14"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_14"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_14"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_14"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_15"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_15"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_15"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_15"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_15"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_16"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_16"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_16"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_16"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_16"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_17"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_17"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_17"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_17"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_17"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_18"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_18"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_18"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_18"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_18"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_19"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_19"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_19"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_19"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_19"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_20"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_20"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_20"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_20"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_20"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOAD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "TIME_STAMP_CREATION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_CREATION"
+								}
+							},
+							{
+								"source": {
+									"name": "TIME_STAMP_UPDATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_UPDATE"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "DELIVERY_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DELIVERY_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "BEND_HR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BEND_HR"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "MAT_SOURCE_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAT_SOURCE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "RELEASE_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$RELEASE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "URGENT_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$URGENT_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "CONQUAS_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONQUAS_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "BVBS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "MAT_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAT_SOURCE"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_COUNTER",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TAG_COUNTER"
+								}
+							},
+							{
+								"source": {
+									"name": "TOTAL_TAGS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TOTAL_TAGS"
+								}
+							},
+							{
+								"source": {
+									"name": "CUST_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_PAGE_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_PAGE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_COLORCODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_COLORCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_TOTAL_TAGS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_TOTAL_TAGS"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGE_MARK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGE_MARK"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGE_PIECES",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$CAGE_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_WC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGING_WC"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_PLANNED_STARTTIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGING_PLANNED_STARTTIME"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_SEQ",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$CAGING_SEQ"
 								}
 							}
 						]
