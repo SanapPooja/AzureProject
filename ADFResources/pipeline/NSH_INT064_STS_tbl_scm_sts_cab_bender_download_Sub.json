@@ -203,19 +203,19 @@
 							},
 							{
 								"source": {
-									"path": "$UPDATE_DATE"
+									"path": "$CREATE_DATE"
 								},
 								"sink": {
-									"name": "q_update_date",
+									"name": "q_create_date",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$CREATE_DATE"
+									"path": "$UPDATE_DATE"
 								},
 								"sink": {
-									"name": "q_create_date",
+									"name": "q_update_date",
 									"type": "String"
 								}
 							},
@@ -252,6 +252,15 @@
 								},
 								"sink": {
 									"name": "spare4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SPARE5"
+								},
+								"sink": {
+									"name": "spare5",
 									"type": "String"
 								}
 							},
@@ -302,6 +311,24 @@
 							},
 							{
 								"source": {
+									"path": "$PRODN_LEN"
+								},
+								"sink": {
+									"name": "prodn_len",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$BVBS_LEN"
+								},
+								"sink": {
+									"name": "bvbs_len",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
 									"path": "$cab_bend_id"
 								},
 								"sink": {
@@ -320,10 +347,10 @@
 							},
 							{
 								"source": {
-									"path": "$q_create_date"
+									"path": "$create_date"
 								},
 								"sink": {
-									"name": "q_create_date",
+									"name": "create_date",
 									"type": "String"
 								}
 							},
@@ -361,16 +388,6 @@
 								"sink": {
 									"name": "rec_type",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['Column_1']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['Column_2']"
 								}
 							}
 						]
