@@ -1,0 +1,51 @@
+{
+	"name": "tbl_scm_sts_cab_bbs_run",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "bbs_run_no",
+				"type": "varchar"
+			},
+			{
+				"name": "hall_period_start",
+				"type": "varchar"
+			},
+			{
+				"name": "seq_no",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "planned_start",
+				"type": "varchar"
+			},
+			{
+				"name": "planned_end",
+				"type": "varchar"
+			},
+			{
+				"name": "planned_order_kg",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "planned_prodn_kg",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_cab_bbs_run"
+		}
+	}
+}

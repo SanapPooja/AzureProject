@@ -1,0 +1,291 @@
+{
+	"name": "NSH_INT067_IDB_CAB_Bbs_Run_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "WITH CABBBSRuns AS (\n    SELECT C.BBS_RUN_NO \n    FROM SCM_ADMIN.CAB_BBS_RUN C\n    LEFT JOIN SCM_ADMIN.ESB_CAB_BBS_RUN E ON C.BBS_RUN_NO = E.BBS_RUN_NO\n    WHERE E.BBS_RUN_NO IS NULL\n    AND ROWNUM <= 1000\n)\nSELECT \n    NVL(B.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\n    NVL(B.HALL_PERIOD_START, ' ') AS HALL_PERIOD_START,\n    NVL(B.SEQ_NO, 0) AS SEQ_NO,\n    NVL(B.PLANNED_START, ' ') AS PLANNED_START,\n    NVL(B.PLANNED_END, ' ') AS PLANNED_END,\n    NVL(B.PLANNED_ORDER_KG, 0) AS PLANNED_ORDER_KG,\n    NVL(B.PLANNED_PRODN_KG, 0) AS PLANNED_PRODN_KG\nFROM \n    SCM_ADMIN.CAB_BBS_RUN B\nJOIN \n    CABBBSRuns M ON B.BBS_RUN_NO = M.BBS_RUN_NO\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "BBS_RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "HALL_PERIOD_START",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$HALL_PERIOD_START"
+								}
+							},
+							{
+								"source": {
+									"name": "SEQ_NO",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_START",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANNED_START"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_END",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANNED_END"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_ORDER_KG",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PLANNED_ORDER_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_PRODN_KG",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PLANNED_PRODN_KG"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "cab_bbs_run",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "int067_cab_bbs_runs",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "S"
+							},
+							{
+								"name": "ESBUPDATETIME",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "select BBS_RUN_NO from (select BBS_RUN_NO from SCM_ADMIN.CAB_BBS_RUN\t\t\t\t\t\nminus\t\t\t\t\t\nselect BBS_RUN_NO from SCM_ADMIN.ESB_CAB_BBS_RUN)\t\t\t\t\t\nwhere rownum <= 1000\t\t\t\t\t",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "BBS_RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "BBS_RUN_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "cab_bbs_run",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ESB_CAB_BBS_RUN",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int067_cab_bbs_runs/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT067_STS_CAB_Bbs_Run_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}

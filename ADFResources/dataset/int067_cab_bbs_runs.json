@@ -1,0 +1,12 @@
+{
+	"name": "int067_cab_bbs_runs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int067_cab_bbs_runs",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

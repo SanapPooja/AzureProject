@@ -1,0 +1,16 @@
+{
+	"name": "ESB_CAB_BBS_RUN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ESB_CAB_BBS_RUN"
+		}
+	}
+}
