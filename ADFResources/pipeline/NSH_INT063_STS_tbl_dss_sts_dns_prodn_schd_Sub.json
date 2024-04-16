@@ -1,0 +1,465 @@
+{
+	"name": "NSH_INT063_STS_tbl_dss_sts_dns_prodn_schd_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_PO_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_SEQ_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_OPER_TYPE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_OPER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_START_TIME"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_START_TIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_END_TIME"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_END_TIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PLAN_PROCESS_TIME"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_PROCESS_TIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_MSG_ID"
+								},
+								"sink": {
+									"name": "FLD_PSCH_MSG_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_CUST_ID"
+								},
+								"sink": {
+									"name": "FLD_PSCH_CUST_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_CUST_DESC"
+								},
+								"sink": {
+									"name": "FLD_PSCH_CUST_DESC"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SHIP_TO_DESC"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SHIP_TO_DESC"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_PRODN_ORD_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_PRODN_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PRODN_ORD_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PRODN_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SAL_ORD_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SAL_ORD_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_ITEM_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_MATL_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PROD_GROUP"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PROD_GROUP"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SHAPE_CODE_ID"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SHAPE_CODE_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SAL_FG_QTY"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SAL_FG_QTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SAL_FG_UOM"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SAL_FG_UOM"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PRODN_QTY_PCS"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PRODN_QTY_PCS"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PLAN_PRODN_DATE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_PRODN_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PLAN_PRODN_SHIFT"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_PRODN_SHIFT"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_RUN_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_TAG_ID_FROM"
+								},
+								"sink": {
+									"name": "FLD_PSCH_TAG_ID_FROM"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_DEPNT_REQ_FLAG"
+								},
+								"sink": {
+									"name": "FLD_PSCH_DEPNT_REQ_FLAG"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_INDEPNT_ITEM"
+								},
+								"sink": {
+									"name": "FLD_PSCH_INDEPNT_ITEM"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_INDEPNT_MATL_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_INDEPNT_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_ENG_DWG_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_ENG_DWG_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PLAN_WRK_CTR"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_WRK_CTR"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PLAN_SETUP_TIME"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_SETUP_TIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_SEQ_NO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_NXT_WRK_CTR"
+								},
+								"sink": {
+									"name": "FLD_PSCH_NXT_WRK_CTR"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_ISRELEASE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_ISRELEASE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_RELEASE_DATE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_RELEASE_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_CREATE_DATE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_Q_MODIFY_DATE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_MODIFY_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_TAG_ID_TO"
+								},
+								"sink": {
+									"name": "FLD_PSCH_TAG_ID_TO"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_UOPQUANTITY"
+								},
+								"sink": {
+									"name": "FLD_PSCH_UOPQUANTITY"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_UOPQUANTITYUOM"
+								},
+								"sink": {
+									"name": "FLD_PSCH_UOPQUANTITYUOM"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_RELEASE_CODE"
+								},
+								"sink": {
+									"name": "FLD_PSCH_RELEASE_CODE"
+								}
+							},
+							{
+								"source": {
+									"path": "$FLD_PSCH_PU_NR_OF_OPERATION"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PU_NR_OF_OPERATION"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_Dataset",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Delete Data from queue",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait 60 Sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/MESSAGES/HEAD",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait 60 Sec",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update SCM_ADMIN.ESB_CABSEQUENCING set STATUS = 'E' where ESBUPDATETIME = 'CurrentDate'\t\t\t\t\t\t",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

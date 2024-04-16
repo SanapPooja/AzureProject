@@ -1,0 +1,254 @@
+{
+	"name": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_psch_prodn_schd_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_psch_msg_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_cust_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_cust_desc",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_ship_tp_desc",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_prodn_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_sal_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_prod_group",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_shape_code_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_sal_fg_qty",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_psch_sal_fg_uom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_prodn_qty_pcs",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_psch_plan_prodn_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_plan_prodn_shift",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_run_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_tag_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_batch_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_depnt_req_flag",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_indepnt_item",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_indepnt_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_no_of_depnt",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_eng_dwg_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_plan_wrk_ctr",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_plan_process_time",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "fld_psch_schd_line_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_seq_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_nxt_wrk_ctr",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_po_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_seq_no",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_q_oper_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_start_time",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_end_time",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_plan_setup_time",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "fld_psch_q_isrelease",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_release_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_q_prodn_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_pu_nr_of_operation",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_release_code",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_combi_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_uopquantity",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_uopquantityuom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_uopquantity2",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "fld_psch_uopquantityuom2",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_dss_sts_dns_prodn_schd"
+		}
+	}
+}
