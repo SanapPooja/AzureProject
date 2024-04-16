@@ -39,128 +39,263 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "FLD_SBOM_MSG_ID",
+									"name": "TAG_NO",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_MSG_ID"
+									"path": "$TAG_NO"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_PROD_ORD_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_PROD_ORD_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_SAL_ORD_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_SAL_ORD_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_SAL_ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_SAL_ITEM_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_ORD_ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_ORD_ITEM_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_MATL_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_MATL_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_BOM_ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_BOM_ITEM_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_COMP_MATL_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_SBOM_COMP_MATL_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FLD_SBOM_COMP_QTY",
+									"name": "TAG_QTY",
 									"type": "Double"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_COMP_QTY"
+									"path": "$TAG_QTY"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_COMP_UOM",
+									"name": "PRODUCTBAR",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_COMP_UOM"
+									"path": "$PRODUCTBAR"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_BASE_QTY",
+									"name": "SHAPECODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPECODE"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "BARMARK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BARMARK"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_TAG_WT",
 									"type": "Double"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_BASE_QTY"
+									"path": "$PRODN_TAG_WT"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_Q_CREATE_DATE",
+									"name": "PIN_TYPE",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_Q_CREATE_DATE"
+									"path": "$PIN_TYPE"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_Q_MODIFY_DATE",
+									"name": "PIN_SIZE",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_Q_MODIFY_DATE"
+									"path": "$PIN_SIZE"
 								}
 							},
 							{
 								"source": {
-									"name": "FLD_SBOM_Q_PRODN_ORD_NO",
+									"name": "NO_OF_BENDING",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$NO_OF_BENDING"
+								}
+							},
+							{
+								"source": {
+									"name": "RUN_NO",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SBOM_Q_PRODN_ORD_NO"
+									"path": "$RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANDURATION",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PLANDURATION"
+								}
+							},
+							{
+								"source": {
+									"name": "PLAN_MACHINE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLAN_MACHINE"
+								}
+							},
+							{
+								"source": {
+									"name": "NO_OF_SEGMENTS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$NO_OF_SEGMENTS"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_BVBS_PARAMETER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_BVBS_PARAMETER"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "UPDATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$UPDATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE1"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE2"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE3"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE4"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE5"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE6"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE7"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE8"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE9"
+								}
+							},
+							{
+								"source": {
+									"name": "SPARE12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SPARE12"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PRODN_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "BVBS_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$BVBS_LEN"
 								}
 							}
 						]
