@@ -1,0 +1,148 @@
+{
+	"name": "SqlServerTable8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_bpc_print_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_bpc_cage_name",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_cust_name",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_proj_name",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_so_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_so_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_prodn_marking",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_prodn_marking_rev_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_drawing_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_drawing_rev",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_pile_seq_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_bbs_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_run_cntr",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_wrk_cntr",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_template",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_prodn_seq",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "fld_bpc_plan_date_shift",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_deliv_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_q_po_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_q_update_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_psch_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_release_code",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_bpc_load_no",
+				"type": "varchar"
+			},
+			{
+				"name": "URGENT_ORDER_IND",
+				"type": "char"
+			},
+			{
+				"name": "CONQUAS_IND",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_bpc_print_tag"
+		}
+	}
+}

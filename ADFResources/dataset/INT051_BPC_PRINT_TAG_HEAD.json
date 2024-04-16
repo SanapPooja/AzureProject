@@ -1,0 +1,12 @@
+{
+	"name": "INT051_BPC_PRINT_TAG_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT051_BPC_PRINT_TAG_HEAD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
