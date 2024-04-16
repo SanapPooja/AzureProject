@@ -326,6 +326,10 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT051_STS_BPC_PRINT_TAG_SUB",
+									"type": "PipelineReference"
+								},
 								"waitOnCompletion": true
 							}
 						}

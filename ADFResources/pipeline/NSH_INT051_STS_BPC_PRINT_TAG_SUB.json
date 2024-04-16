@@ -399,7 +399,11 @@
 				"typeProperties": {
 					"scripts": [
 						{
-							"type": "Query"
+							"type": "Query",
+							"text": {
+								"value": "WITH FirstQuery AS (\n    SELECT \n        tag_no \n    FROM (\n        SELECT   \n            tag_no  \n        FROM scm_admin.view_bpc_print_tag \n        MINUS\n        SELECT   \n            tag_no  \n        FROM scm_admin.esb_bpc_print_tag\n    )\n    WHERE rownum <= '1000'\n)\nSELECT\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\n    NVL(REC_ID, 0) AS REC_ID,\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\nFROM \n    scm_admin.view_bpc_print_tag FSQ\nJOIN \n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
