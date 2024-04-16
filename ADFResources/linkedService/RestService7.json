@@ -1,0 +1,13 @@
+{
+	"name": "RestService7",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/messages/head",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
