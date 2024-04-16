@@ -17,6 +17,62 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "fld_sbom_bom_usage",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_sbom_release_code",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_sbom_valid_fr_date",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_sbom_item_category",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_sbom_status",
+								"value": "A"
+							},
+							{
+								"name": "fld_sbom_status_dss",
+								"value": "A"
+							},
+							{
+								"name": "fld_sbom_create_by",
+								"value": "ESB - INT062"
+							},
+							{
+								"name": "fld_sbom_create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_sbom_modify_by",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_sbom_modify_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_sbom_rec_type",
+								"value": "Y"
+							},
+							{
+								"name": "fld_sbom_q_rec_type",
+								"value": "$$COLUMN:"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
