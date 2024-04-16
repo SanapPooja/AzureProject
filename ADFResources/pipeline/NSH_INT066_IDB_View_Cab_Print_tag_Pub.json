@@ -664,7 +664,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "PARAM_IND_11"
+									"path": "$['$PARAM_IND_11']"
 								}
 							},
 							{
