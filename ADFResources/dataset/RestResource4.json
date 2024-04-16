@@ -1,0 +1,12 @@
+{
+	"name": "RestResource4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT051_BPC_PRINT_TAG",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
