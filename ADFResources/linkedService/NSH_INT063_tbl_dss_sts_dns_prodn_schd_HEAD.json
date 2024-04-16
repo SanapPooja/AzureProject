@@ -1,0 +1,13 @@
+{
+	"name": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_HEAD",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/messages/head",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
