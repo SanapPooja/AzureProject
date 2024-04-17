@@ -36,7 +36,7 @@
 							},
 							{
 								"name": "fld_psch_create_by",
-								"value": "INT063"
+								"value": "ESBINT063"
 							},
 							{
 								"name": "fld_psch_create_date",
@@ -83,7 +83,8 @@
 									"path": "$FLD_PSCH_Q_PO_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_PO_NO"
+									"name": "fld_psch_q_po_no",
+									"type": "String"
 								}
 							},
 							{
@@ -91,7 +92,8 @@
 									"path": "$FLD_PSCH_Q_SEQ_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_SEQ_NO"
+									"name": "fld_psch_q_seq_no",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -99,7 +101,8 @@
 									"path": "$FLD_PSCH_Q_OPER_TYPE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_OPER_TYPE"
+									"name": "fld_psch_q_oper_type",
+									"type": "String"
 								}
 							},
 							{
@@ -107,7 +110,8 @@
 									"path": "$FLD_PSCH_Q_START_TIME"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_START_TIME"
+									"name": "fld_psch_q_start_time",
+									"type": "String"
 								}
 							},
 							{
@@ -115,7 +119,8 @@
 									"path": "$FLD_PSCH_Q_END_TIME"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_END_TIME"
+									"name": "fld_psch_q_end_time",
+									"type": "String"
 								}
 							},
 							{
@@ -123,7 +128,8 @@
 									"path": "$FLD_PSCH_PLAN_PROCESS_TIME"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PLAN_PROCESS_TIME"
+									"name": "fld_psch_plan_process_time",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -131,7 +137,8 @@
 									"path": "$FLD_PSCH_MSG_ID"
 								},
 								"sink": {
-									"name": "FLD_PSCH_MSG_ID"
+									"name": "fld_psch_msg_id",
+									"type": "String"
 								}
 							},
 							{
@@ -139,7 +146,8 @@
 									"path": "$FLD_PSCH_CUST_ID"
 								},
 								"sink": {
-									"name": "FLD_PSCH_CUST_ID"
+									"name": "fld_psch_cust_id",
+									"type": "String"
 								}
 							},
 							{
@@ -147,15 +155,17 @@
 									"path": "$FLD_PSCH_CUST_DESC"
 								},
 								"sink": {
-									"name": "FLD_PSCH_CUST_DESC"
+									"name": "fld_psch_cust_desc",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_SHIP_TO_DESC"
+									"path": "$FLD_PSCH_SHIP_TP_DESC"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SHIP_TO_DESC"
+									"name": "fld_psch_ship_tp_desc",
+									"type": "String"
 								}
 							},
 							{
@@ -163,7 +173,8 @@
 									"path": "$FLD_PSCH_Q_PRODN_ORD_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_PRODN_ORD_NO"
+									"name": "fld_psch_q_prodn_ord_no",
+									"type": "String"
 								}
 							},
 							{
@@ -171,7 +182,8 @@
 									"path": "$FLD_PSCH_PRODN_ORD_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PRODN_ORD_NO"
+									"name": "fld_psch_prodn_ord_no",
+									"type": "String"
 								}
 							},
 							{
@@ -179,7 +191,8 @@
 									"path": "$FLD_PSCH_SAL_ORD_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SAL_ORD_NO"
+									"name": "fld_psch_sal_ord_no",
+									"type": "String"
 								}
 							},
 							{
@@ -187,15 +200,17 @@
 									"path": "$FLD_PSCH_ITEM_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_ITEM_NO"
+									"name": "fld_psch_item_no",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_MATL_NO"
+									"path": "$FLD_PSCH_MATL_MP"
 								},
 								"sink": {
-									"name": "FLD_PSCH_MATL_NO"
+									"name": "fld_psch_matl_no",
+									"type": "String"
 								}
 							},
 							{
@@ -203,7 +218,8 @@
 									"path": "$FLD_PSCH_PROD_GROUP"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PROD_GROUP"
+									"name": "fld_psch_prod_group",
+									"type": "String"
 								}
 							},
 							{
@@ -211,7 +227,8 @@
 									"path": "$FLD_PSCH_SHAPE_CODE_ID"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SHAPE_CODE_ID"
+									"name": "fld_psch_shape_code_id",
+									"type": "String"
 								}
 							},
 							{
@@ -219,7 +236,8 @@
 									"path": "$FLD_PSCH_SAL_FG_QTY"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SAL_FG_QTY"
+									"name": "fld_psch_sal_fg_qty",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -227,7 +245,8 @@
 									"path": "$FLD_PSCH_SAL_FG_UOM"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SAL_FG_UOM"
+									"name": "fld_psch_sal_fg_uom",
+									"type": "String"
 								}
 							},
 							{
@@ -235,7 +254,8 @@
 									"path": "$FLD_PSCH_PRODN_QTY_PCS"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PRODN_QTY_PCS"
+									"name": "fld_psch_prodn_qty_pcs",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -243,7 +263,8 @@
 									"path": "$FLD_PSCH_PLAN_PRODN_DATE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PLAN_PRODN_DATE"
+									"name": "fld_psch_plan_prodn_date",
+									"type": "String"
 								}
 							},
 							{
@@ -251,7 +272,8 @@
 									"path": "$FLD_PSCH_PLAN_PRODN_SHIFT"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PLAN_PRODN_SHIFT"
+									"name": "fld_psch_plan_prodn_shift",
+									"type": "String"
 								}
 							},
 							{
@@ -259,15 +281,17 @@
 									"path": "$FLD_PSCH_RUN_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_RUN_NO"
+									"name": "fld_psch_run_no",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_TAG_ID_FROM"
+									"path": "$FLD_PSCH_TAG_ID"
 								},
 								"sink": {
-									"name": "FLD_PSCH_TAG_ID_FROM"
+									"name": "fld_psch_tag_id",
+									"type": "String"
 								}
 							},
 							{
@@ -275,7 +299,8 @@
 									"path": "$FLD_PSCH_DEPNT_REQ_FLAG"
 								},
 								"sink": {
-									"name": "FLD_PSCH_DEPNT_REQ_FLAG"
+									"name": "fld_psch_depnt_req_flag",
+									"type": "String"
 								}
 							},
 							{
@@ -283,7 +308,8 @@
 									"path": "$FLD_PSCH_INDEPNT_ITEM"
 								},
 								"sink": {
-									"name": "FLD_PSCH_INDEPNT_ITEM"
+									"name": "fld_psch_indepnt_item",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -291,7 +317,8 @@
 									"path": "$FLD_PSCH_INDEPNT_MATL_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_INDEPNT_MATL_NO"
+									"name": "fld_psch_indepnt_matl_no",
+									"type": "String"
 								}
 							},
 							{
@@ -299,15 +326,17 @@
 									"path": "$FLD_PSCH_ENG_DWG_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_ENG_DWG_NO"
+									"name": "fld_psch_eng_dwg_no",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_PLAN_WRK_CTR"
+									"path": "$FLD_PSCH_PLAN_ERK_CTR"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PLAN_WRK_CTR"
+									"name": "fld_psch_plan_wrk_ctr",
+									"type": "String"
 								}
 							},
 							{
@@ -315,7 +344,8 @@
 									"path": "$FLD_PSCH_PLAN_SETUP_TIME"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PLAN_SETUP_TIME"
+									"name": "fld_psch_plan_setup_time",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -323,7 +353,8 @@
 									"path": "$FLD_PSCH_SEQ_NO"
 								},
 								"sink": {
-									"name": "FLD_PSCH_SEQ_NO"
+									"name": "fld_psch_seq_no",
+									"type": "String"
 								}
 							},
 							{
@@ -331,7 +362,8 @@
 									"path": "$FLD_PSCH_NXT_WRK_CTR"
 								},
 								"sink": {
-									"name": "FLD_PSCH_NXT_WRK_CTR"
+									"name": "fld_psch_nxt_wrk_ctr",
+									"type": "String"
 								}
 							},
 							{
@@ -339,7 +371,8 @@
 									"path": "$FLD_PSCH_Q_ISRELEASE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_ISRELEASE"
+									"name": "fld_psch_q_isrelease",
+									"type": "String"
 								}
 							},
 							{
@@ -347,7 +380,8 @@
 									"path": "$FLD_PSCH_Q_RELEASE_DATE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_RELEASE_DATE"
+									"name": "fld_psch_q_release_date",
+									"type": "String"
 								}
 							},
 							{
@@ -355,7 +389,8 @@
 									"path": "$FLD_PSCH_Q_CREATE_DATE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_CREATE_DATE"
+									"name": "fld_psch_q_create_date",
+									"type": "String"
 								}
 							},
 							{
@@ -363,15 +398,8 @@
 									"path": "$FLD_PSCH_Q_MODIFY_DATE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_Q_MODIFY_DATE"
-								}
-							},
-							{
-								"source": {
-									"path": "$FLD_PSCH_TAG_ID_TO"
-								},
-								"sink": {
-									"name": "FLD_PSCH_TAG_ID_TO"
+									"name": "fld_psch_q_modify_date",
+									"type": "String"
 								}
 							},
 							{
@@ -379,7 +407,8 @@
 									"path": "$FLD_PSCH_UOPQUANTITY"
 								},
 								"sink": {
-									"name": "FLD_PSCH_UOPQUANTITY"
+									"name": "fld_psch_uopquantity",
+									"type": "Decimal"
 								}
 							},
 							{
@@ -387,7 +416,8 @@
 									"path": "$FLD_PSCH_UOPQUANTITYUOM"
 								},
 								"sink": {
-									"name": "FLD_PSCH_UOPQUANTITYUOM"
+									"name": "fld_psch_uopquantityuom",
+									"type": "String"
 								}
 							},
 							{
@@ -395,7 +425,8 @@
 									"path": "$FLD_PSCH_RELEASE_CODE"
 								},
 								"sink": {
-									"name": "FLD_PSCH_RELEASE_CODE"
+									"name": "fld_psch_release_code",
+									"type": "String"
 								}
 							},
 							{
@@ -403,12 +434,107 @@
 									"path": "$FLD_PSCH_PU_NR_OF_OPERATION"
 								},
 								"sink": {
-									"name": "FLD_PSCH_PU_NR_OF_OPERATION"
+									"name": "fld_psch_pu_nr_of_operation",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_1']"
+									"path": "$FLD_PSCH_TAG_ID_FROM"
+								},
+								"sink": {
+									"name": "fld_psch_batch_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_no_of_depnt"
+								},
+								"sink": {
+									"name": "fld_psch_no_of_depnt",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_schd_line_no"
+								},
+								"sink": {
+									"name": "fld_psch_schd_line_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_status"
+								},
+								"sink": {
+									"name": "fld_psch_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_rec_type"
+								},
+								"sink": {
+									"name": "fld_psch_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_create_by"
+								},
+								"sink": {
+									"name": "fld_psch_create_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_create_date"
+								},
+								"sink": {
+									"name": "fld_psch_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_modify_by"
+								},
+								"sink": {
+									"name": "fld_psch_modify_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_modify_date"
+								},
+								"sink": {
+									"name": "fld_psch_modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_q_status"
+								},
+								"sink": {
+									"name": "fld_psch_q_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_psch_combi_id"
+								},
+								"sink": {
+									"name": "fld_psch_combi_id",
+									"type": "String"
 								}
 							}
 						],
