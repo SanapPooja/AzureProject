@@ -17,10 +17,36 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no, d_offcut_ind\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no, d_offcut_ind\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no, d_offcut_ind\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= '1000'\n)\nSELECT \n    NVL(FQ.R_RUN_NO , ' ') AS R_RUN_NO,\n    NVL(FQ.R_PROD_TYPE_REF , ' ') AS R_PROD_TYPE_REF,\n    NVL(FQ.R_START_STOCK_LEN , 0) AS R_START_STOCK_LEN,\n    NVL(FQ.R_DIA_REF , 0) AS R_DIA_REF,\n    NVL(FQ.L_COMB_NO, ' ') AS L_COMB_NO,\n    NVL(FQ.L_QTY_OF_SEGMENT , 0) AS L_QTY_OF_SEGMENT,\n    NVL(FQ.L_STOCK_BARS_LEN , 0) AS L_STOCK_BARS_LEN,\n    NVL(FQ.D_NO_OF_CUTS , 0) AS D_NO_OF_CUTS,\n    NVL(FQ.D_SECTION_NO , ' ') AS D_SECTION_NO,\n    NVL(FQ.D_BIN_NUMBER , ' ') AS D_BIN_NUMBER,\n    NVL(FQ.D_CUT_LENGTH, ' ') AS D_CUT_LENGTH,\n    NVL(FQ.D_TAG_REF_INFO, ' ') AS D_TAG_REF_INFO,\n    NVL(FQ.D_STRAIGHT_BEND_FLAG, ' ') AS D_STRAIGHT_BEND_FLAG,\n    NVL(FQ.D_BBS_BAR_MARK_INFO, ' ') AS D_BBS_BAR_MARK_INFO,\n    NVL(FQ.D_TAG_NO, ' ') AS D_TAG_NO,\n    NVL(FQ.D_FLAG_INFO, ' ') AS D_FLAG_INFO,\n    NVL(FQ.CREATE_DATE , ' ') AS CREATE_DATE,\n    NVL(FQ.UPDATE_DATE , ' ') AS UPDATE_DATE,\n    NVL(FQ.D_CUTTING_SEQ_NO, 0) AS D_CUTTING_SEQ_NO,\n    NVL(FQ.D_OFFCUT_IND, ' ') AS D_OFFCUT_IND\nFROM  \n    FirstQuery FQ\nWHERE \n    FQ.R_RUN_NO IN ('${r_run_no}') \n    AND FQ.R_DIA_REF IN ('${r_dia_ref}') \n    AND FQ.L_COMB_NO IN ('${l_comb_no}') \n    AND FQ.D_SECTION_NO IN ('${d_section_no}') \n    AND FQ.D_BIN_NUMBER IN ('${d_bin_number}') \n    AND FQ.D_CUTTING_SEQ_NO IN ('${d_cutting_seq_no}')\n",
-							"type": "Expression"
-						},
+						"additionalColumns": [
+							{
+								"name": "fld_q_rec_type",
+								"value": ""
+							},
+							{
+								"name": "fld_create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_create_by",
+								"value": "ESB INT065"
+							},
+							{
+								"name": "fld_modify_date",
+								"value": ""
+							},
+							{
+								"name": "fld_modify_by",
+								"value": ""
+							},
+							{
+								"name": "fld_rec_type",
+								"value": "Y"
+							}
+						],
+						"oracleReaderQuery": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= '1000'\n)\nSELECT \n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\n    NVL(CRSD.create_date, ' ') AS create_date,\n    NVL(CRSD.update_date, ' ') AS update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\nFROM  \n    FirstQuery FQ\nJOIN\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\n                                             AND FQ.d_section_no = CRSD.d_section_no\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\n",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -33,7 +59,237 @@
 						"writeBatchSize": 10000,
 						"httpCompressionType": "none"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "R_RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$R_RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "R_PROD_TYPE_REF",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$R_PROD_TYPE_REF"
+								}
+							},
+							{
+								"source": {
+									"name": "R_START_STOCK_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$R_START_STOCK_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "R_DIA_REF",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$R_DIA_REF"
+								}
+							},
+							{
+								"source": {
+									"name": "L_COMB_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$L_COMB_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "L_QTY_OF_SEGMENT",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$L_QTY_OF_SEGMENT"
+								}
+							},
+							{
+								"source": {
+									"name": "L_STOCK_BARS_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$L_STOCK_BARS_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "D_NO_OF_CUTS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$D_NO_OF_CUTS"
+								}
+							},
+							{
+								"source": {
+									"name": "D_SECTION_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_SECTION_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "D_BIN_NUMBER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_BIN_NUMBER"
+								}
+							},
+							{
+								"source": {
+									"name": "D_CUT_LENGTH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_CUT_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "D_TAG_REF_INFO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_TAG_REF_INFO"
+								}
+							},
+							{
+								"source": {
+									"name": "D_STRAIGHT_BEND_FLAG",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_STRAIGHT_BEND_FLAG"
+								}
+							},
+							{
+								"source": {
+									"name": "D_BBS_BAR_MARK_INFO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_BBS_BAR_MARK_INFO"
+								}
+							},
+							{
+								"source": {
+									"name": "D_TAG_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_TAG_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "D_FLAG_INFO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_FLAG_INFO"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CREATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "UPDATE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$UPDATE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "D_CUTTING_SEQ_NO",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$D_CUTTING_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "D_OFFCUT_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$D_OFFCUT_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_q_rec_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "fld_q_rec_type"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_create_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "fld_create_date"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_create_by",
+									"type": "String"
+								},
+								"sink": {
+									"path": "fld_create_by"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_modify_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "fld_modify_date"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_modify_by",
+									"type": "String"
+								},
+								"sink": {
+									"path": "fld_modify_by"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
