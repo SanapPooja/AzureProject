@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "copy data1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -118,7 +118,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_SBOM_SAL_ITEM_NO"
+									"path": "$FLD_SBOM_ITEM_NO"
 								},
 								"sink": {
 									"name": "fld_sbom_sal_item_no",
@@ -208,10 +208,118 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_SBOM_Q_PRODN_ORD_NO"
+									"path": "$FLD_SBOM_Q_PROD_ORD_NO"
 								},
 								"sink": {
 									"name": "fld_sbom_q_prod_ord_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_bom_usage"
+								},
+								"sink": {
+									"name": "fld_sbom_bom_usage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_release_code"
+								},
+								"sink": {
+									"name": "fld_sbom_release_code",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_valid_fr_date"
+								},
+								"sink": {
+									"name": "fld_sbom_valid_fr_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_item_category"
+								},
+								"sink": {
+									"name": "fld_sbom_item_category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_status"
+								},
+								"sink": {
+									"name": "fld_sbom_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_status_dss"
+								},
+								"sink": {
+									"name": "fld_sbom_status_dss",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_create_by"
+								},
+								"sink": {
+									"name": "fld_sbom_create_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_create_date"
+								},
+								"sink": {
+									"name": "fld_sbom_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_modify_by"
+								},
+								"sink": {
+									"name": "fld_sbom_modify_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_modify_date"
+								},
+								"sink": {
+									"name": "fld_sbom_modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_rec_type"
+								},
+								"sink": {
+									"name": "fld_sbom_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fld_sbom_q_rec_type"
+								},
+								"sink": {
+									"name": "fld_sbom_q_rec_type",
 									"type": "String"
 								}
 							}
@@ -264,7 +372,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "copy data1",
 						"dependencyConditions": [
 							"Succeeded",
 							"Failed"
@@ -281,7 +389,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "copy data1",
 						"dependencyConditions": [
 							"Failed"
 						]
