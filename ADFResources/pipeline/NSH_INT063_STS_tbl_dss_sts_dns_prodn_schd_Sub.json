@@ -17,6 +17,51 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "fld_psch_no_of_depnt",
+								"value": "0"
+							},
+							{
+								"name": "fld_psch_schd_line_no",
+								"value": ""
+							},
+							{
+								"name": "fld_psch_status",
+								"value": "A"
+							},
+							{
+								"name": "fld_psch_rec_type",
+								"value": ""
+							},
+							{
+								"name": "fld_psch_create_by",
+								"value": "INT063"
+							},
+							{
+								"name": "fld_psch_create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_psch_modify_by",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_psch_modify_date",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_psch_q_status",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "fld_psch_combi_id",
+								"value": "$$COLUMN:"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -359,6 +404,11 @@
 								},
 								"sink": {
 									"name": "FLD_PSCH_PU_NR_OF_OPERATION"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_1']"
 								}
 							}
 						],
