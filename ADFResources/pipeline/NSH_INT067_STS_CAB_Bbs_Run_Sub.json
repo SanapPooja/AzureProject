@@ -36,36 +36,64 @@
 							{
 								"source": {
 									"path": "$['$BBS_RUN_NO']"
+								},
+								"sink": {
+									"name": "bbs_run_no",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$HALL_PERIOD_START']"
+								},
+								"sink": {
+									"name": "hall_period_start",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$SEQ_NO']"
+								},
+								"sink": {
+									"name": "seq_no",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PLANNED_START']"
+								},
+								"sink": {
+									"name": "planned_start",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PLANNED_END']"
+								},
+								"sink": {
+									"name": "planned_end",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PLANNED_ORDER_KG']"
+								},
+								"sink": {
+									"name": "planned_order_kg",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PLANNED_PRODN_KG']"
+								},
+								"sink": {
+									"name": "planned_prodn_kg",
+									"type": "Decimal"
 								}
 							}
 						]
