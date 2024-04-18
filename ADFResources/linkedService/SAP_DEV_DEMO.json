@@ -6,10 +6,10 @@
 		"type": "Oracle",
 		"typeProperties": {
 			"connectionString": "host=172.25.101.6;port=1527;sid=NSD;user id=SAPSR3",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkOTZkN2E0MC04Mzc5LTRjMzAtOTA1MC1lMTIxNzRiNjZiOTIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxMDI0ZTBhMS0xNGJjLTQ0NWYtYmU3Yi1hMzY0ZDQzY2E2MTciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "MESQARuntime",
+			"referenceName": "NSHQA",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
