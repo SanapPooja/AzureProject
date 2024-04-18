@@ -1,0 +1,591 @@
+{
+	"name": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$FEEDMAT_RECORD_ID"
+								},
+								"sink": {
+									"name": "FEEDMAT_RECORD_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PRODN_ORDER_NO"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TAG_ID"
+								},
+								"sink": {
+									"name": "TAG_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BBS_NO"
+								},
+								"sink": {
+									"name": "BBS_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SOR_NO"
+								},
+								"sink": {
+									"name": "SOR_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SALES_ORDER_NO"
+								},
+								"sink": {
+									"name": "SALES_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ITEM_NO"
+								},
+								"sink": {
+									"name": "ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$COMBI_NO"
+								},
+								"sink": {
+									"name": "COMBI_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MATERIAL_NO"
+								},
+								"sink": {
+									"name": "MATERIAL_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BAR_MARK"
+								},
+								"sink": {
+									"name": "BAR_MARK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PIECES"
+								},
+								"sink": {
+									"name": "PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$WEIGHT_KG"
+								},
+								"sink": {
+									"name": "WEIGHT_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$TAG_COMPLETE_IND"
+								},
+								"sink": {
+									"name": "TAG_COMPLETE_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MASTER_BUNDLE_NO"
+								},
+								"sink": {
+									"name": "MASTER_BUNDLE_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MASTER_BUNDLE_LONGEST_LENGTH"
+								},
+								"sink": {
+									"name": "MASTER_BUNDLE_LONGEST_LENGTH",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$MASTER_BUNDLE_COMPLETE_IND"
+								},
+								"sink": {
+									"name": "MASTER_BUNDLE_COMPLETE_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BENDING_IND"
+								},
+								"sink": {
+									"name": "BENDING_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CUTTING_LINE_ID"
+								},
+								"sink": {
+									"name": "CUTTING_LINE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CUTTING_PLANNED_START_TIME"
+								},
+								"sink": {
+									"name": "CUTTING_PLANNED_START_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CUTTING_PLANNED_END_TIME"
+								},
+								"sink": {
+									"name": "CUTTING_PLANNED_END_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BIN_NO"
+								},
+								"sink": {
+									"name": "BIN_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CONQUAS_IND"
+								},
+								"sink": {
+									"name": "CONQUAS_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$URGENT_IND"
+								},
+								"sink": {
+									"name": "URGENT_IND$"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_1"
+								},
+								"sink": {
+									"name": "FREE_FIELD_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_2"
+								},
+								"sink": {
+									"name": "FREE_FIELD_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_3"
+								},
+								"sink": {
+									"name": "FREE_FIELD_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_4"
+								},
+								"sink": {
+									"name": "FREE_FIELD_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_5"
+								},
+								"sink": {
+									"name": "FREE_FIELD_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_6"
+								},
+								"sink": {
+									"name": "FREE_FIELD_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_7"
+								},
+								"sink": {
+									"name": "FREE_FIELD_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_8"
+								},
+								"sink": {
+									"name": "FREE_FIELD_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_9"
+								},
+								"sink": {
+									"name": "FREE_FIELD_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FREE_FIELD_10"
+								},
+								"sink": {
+									"name": "FREE_FIELD_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DBS_ID"
+								},
+								"sink": {
+									"name": "DBS_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BENDING_PLANNED_START_TIME"
+								},
+								"sink": {
+									"name": "BENDING_PLANNED_START_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BENDING_PLANNED_END_TIME"
+								},
+								"sink": {
+									"name": "BENDING_PLANNED_END_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BVBS"
+								},
+								"sink": {
+									"name": "BVBS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CUT_LENGTH"
+								},
+								"sink": {
+									"name": "CUT_LENGTH",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$NUMBER_OF_CUTS"
+								},
+								"sink": {
+									"name": "NUMBER_OF_CUTS",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$COMPARTMENT"
+								},
+								"sink": {
+									"name": "COMPARTMENT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CREATE_DATE"
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$UPDATE_DATE"
+								},
+								"sink": {
+									"name": "UPDATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$OFFCUT_IND"
+								},
+								"sink": {
+									"name": "OFFCUT_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CUTTING_SEQUENCE_NO"
+								},
+								"sink": {
+									"name": "CUTTING_SEQUENCE_NO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$PRODN_SEQUENCE_NO"
+								},
+								"sink": {
+									"name": "PRODN_SEQUENCE_NO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$MASTER_BUNDLE_GROUP_ID"
+								},
+								"sink": {
+									"name": "MASTER_BUNDLE_GROUP_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MASTER_BUNDLE_GRP_LONGEST_LEN"
+								},
+								"sink": {
+									"name": "MASTER_BUNDLE_GRP_LONGEST_LEN"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROUP_TAG_IND"
+								},
+								"sink": {
+									"name": "GROUP_TAG_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROUP_TAG_TOTAL_TAGS"
+								},
+								"sink": {
+									"name": "GROUP_TAG_TOTAL_TAGS",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$EVAC_IND"
+								},
+								"sink": {
+									"name": "EVAC_IND",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT069_QUEUE_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT069_CAB_CUTTING_SCHILT_INFO",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = 'Currentdate'\t\t\t\t\t\t\t\t",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO\nWHERE (PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID) IN (  SELECT PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID\n    FROM SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO\n    MINUS\n    SELECT PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID\n    FROM SCM_ADMIN.CAB_SCHILT_CUTTING_INFO )\n  AND ROWNUM <= '1000';\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

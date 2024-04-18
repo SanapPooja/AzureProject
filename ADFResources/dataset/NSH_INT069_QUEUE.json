@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT069_QUEUE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT069_QUEUE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

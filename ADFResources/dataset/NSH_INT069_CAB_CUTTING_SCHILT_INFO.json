@@ -1,0 +1,288 @@
+{
+	"name": "NSH_INT069_CAB_CUTTING_SCHILT_INFO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "FEEDMAT_RECORD_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_ORDER_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "TAG_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "BBS_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SOR_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SALES_ORDER_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "COMBI_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "MATERIAL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "BAR_MARK",
+				"type": "varchar"
+			},
+			{
+				"name": "PIECES",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "WEIGHT_KG",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "TAG_COMPLETE_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "MASTER_BUNDLE_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "MASTER_BUNDLE_LONGEST_LENGTH",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "MASTER_BUNDLE_COMPLETE_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "BENDING_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "CUTTING_LINE_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "CUTTING_PLANNED_START_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "CUTTING_PLANNED_END_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "BIN_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "CONQUAS_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "URGENT_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_1",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_2",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_3",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_4",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_5",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_6",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_7",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_8",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_9",
+				"type": "varchar"
+			},
+			{
+				"name": "FREE_FIELD_10",
+				"type": "varchar"
+			},
+			{
+				"name": "DBS_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "BENDING_PLANNED_START_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "BENDING_PLANNED_END_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "BVBS",
+				"type": "varchar"
+			},
+			{
+				"name": "CUT_LENGTH",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NUMBER_OF_CUTS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "COMPARTMENT",
+				"type": "varchar"
+			},
+			{
+				"name": "Q_CREATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "UPDATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "OFFCUT_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "CUTTING_SEQUENCE_NO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PRODN_SEQUENCE_NO",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MASTER_BUNDLE_GROUP_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "MASTER_BUNDLE_GROUP_LONGEST_LENGTH",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "GROUP_TAG_TOTAL_TAGS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GROUP_TAG_IND",
+				"type": "char"
+			},
+			{
+				"name": "EVAC_IND",
+				"type": "char"
+			},
+			{
+				"name": "CUTTING_SEQUENCE_NO_REVISED",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PRODN_SEQUENCE_NO_REVISED",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "ERROR_LOG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STATUS_FLAG",
+				"type": "char"
+			},
+			{
+				"name": "ALL_BINS_EVAC_COMBI_SET_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NEW_PSR",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FEEDBACK",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_cab_schilt_cutting_info"
+		}
+	}
+}
