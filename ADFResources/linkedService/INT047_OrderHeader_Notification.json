@@ -1,0 +1,17 @@
+{
+	"name": "INT047_OrderHeader_Notification",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_orderheader_notification/messages",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		},
+		"connectVia": {
+			"referenceName": "MESQARuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
