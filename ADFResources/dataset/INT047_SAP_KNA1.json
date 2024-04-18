@@ -1,0 +1,16 @@
+{
+	"name": "INT047_SAP_KNA1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "KNA1"
+		}
+	}
+}

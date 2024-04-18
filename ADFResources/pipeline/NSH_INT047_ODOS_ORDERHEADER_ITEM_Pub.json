@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Notification order header",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -672,8 +672,50 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Notification order header",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select NAME1, NAME2 from SAPSR3.KNA1 where KUNNR = @{activity('Notification order header').output.cust_code[0]} and MANDT = @{pipeline().parameters.MANDT}",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "110"
+			}
+		},
 		"annotations": []
 	}
 }
