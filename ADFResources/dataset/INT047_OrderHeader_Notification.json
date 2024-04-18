@@ -1,0 +1,12 @@
+{
+	"name": "INT047_OrderHeader_Notification",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT047_OrderHeader_Notification",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

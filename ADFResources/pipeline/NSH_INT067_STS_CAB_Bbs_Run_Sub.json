@@ -29,7 +29,47 @@
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$BBS_RUN_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$HALL_PERIOD_START']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SEQ_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANNED_START']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANNED_END']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANNED_ORDER_KG']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANNED_PRODN_KG']"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
