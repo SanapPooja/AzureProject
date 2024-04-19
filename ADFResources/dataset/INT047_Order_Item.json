@@ -1,0 +1,12 @@
+{
+	"name": "INT047_Order_Item",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT047_Order_item_Queue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

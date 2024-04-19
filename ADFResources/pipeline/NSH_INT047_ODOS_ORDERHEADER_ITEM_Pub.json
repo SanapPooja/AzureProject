@@ -5,6 +5,8 @@
 			{
 				"name": "Notification order header",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -674,16 +676,36 @@
 				]
 			},
 			{
+				"name": "DeleteServiceBusMessage",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"headers": {
+						"CustomHeader-Version": "\"1.0\"",
+						"Content-Type": "application/json"
+					},
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_orderheader_notification/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
 				"name": "Script1",
 				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Notification order header",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -693,7 +715,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
+					"referenceName": "SQL_DEV_DEMO",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -701,7 +723,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select NAME1, NAME2 from SAPSR3.KNA1 where KUNNR = @{activity('Notification order header').output.cust_code[0]} and MANDT = @{pipeline().parameters.MANDT}",
+								"value": "select id_message, order_request_no, item_no, parent_item_no, sap_order_item, material_no, product_hierarchy, order_qty, sales_uom, fg_production_wt_kg, component_production_wt_kg, product_marking, component_prefix, order_pieces, delivered_pieces, actual_del_date, delivery_status,cancellation_status, no_of_points, env_length, env_width, env_height, wbs1, wbs2, wbs3, wbs4, wbs5, proj_stage, bbs_no, bbs_desc, needs_galvanizing_ind, needs_production_ind, cab_spiral_pitch, cab_fleet_pitch, cab_bar_grade, cab_dia, cab_bvbs, cab_cut_length, cab_coupler_end_no, cab_former_size, cab_shape_group, shape_code, cab_cou_end_type1, cab_cou_end_type2, cab_no_of_bend, mesh_lw_cw_reversed_ind, mesh_lw_dia, mesh_lw_length, mesh_lw_mat_type, mesh_lw_mat_type, mesh_lw_spacing, mesh_lw_grade, mesh_lw_oh1, mesh_lw_oh2, mesh_lw_qty, mesh_lw_wt_kg, mesh_lw_twin_ind, mesh_lw_bvbs, mesh_cw_dia, mesh_cw_length, mesh_cw_mat_code, mesh_cw_twin_ind,mesh_cw_mat_type, mesh_cw_spacing, mesh_cw_grade, mesh_cw_oh1, mesh_cw_oh2, mesh_cw_qty, mesh_cw_wt_kg, mesh_cw_bvbs, mesh_no_of_bend, mesh_no_of_cut, mesh_manual_trim_ind, mesh_bom_ind, meshb_wire_line_cross, meshb_wire_seq_no, meshb_wire_mat_code, meshb_wire_length, meshb_wire_dia, meshb_wire_wt_kg, meshb_wire_qty, meshb_wire_spacing, bpc_cage_dia, bpc_cage_length, bpc_cage_set_code, bpc_centralizer_qty, bpc_lap_length, bpc_end_length, bpc_pile_dia, bpc_l2_cage_dia, bpc_no_rings_start, bpc_sleeve_id, bpc_jig_id, bpc_add_jig_id, bpc_pile_seq_no, bpc_micropile_ind, pcg_cage_type, pcg_assembly_ind, remarks, time_stamp, st_element, process_status, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, qty_in_base_uom, base_uom, QA_transfer_status, drawing_no, inv_len_in_mm, grade_dia, bpc_layer, cab_main_bar_angle, sap_product_group, product_marking_rev_no, cab_standard_end_no, drawing_no_rev, cab_former_type, bpc_pile_no, order_no, product_type, cab_extended_end_no, cab_stud_end_no, prc_bpc_layer_no, bbs_page_no, mesh_product_code, mesh_lw_inv_len, mesh_cw_inv_len, mesh_inv_mo1, mesh_inv_mo2, mesh_inv_co1, mesh_inv_co2, mesh_slope_indicator, mesh_num_of_links, meshb_MESH_TYPE, meshb_START_POS, meshb_WIRE_SPEC, meshb_NO_PITCH, meshb_REP_FROM, meshb_REP_TO, meshb_num_of_REPETITION, meshb_WIRE_PROD_CODE, meshb_TWIN_IND, meshb_MACH_WIRE_SPEC, mesh_slope, prc_panel_no, prc_panel_seq_no, IDENTICAL_HASHCODE, SIMILAR_MAINBAR_HASHCODE, SIMILAR_EXTLINK_HASHCODE, COMPLEXITY_IND from dbo.SCM_Order_Item where order_request_no = @{pipeline().parameters.order_request_no}",
 								"type": "Expression"
 							}
 						}
@@ -710,16 +732,9 @@
 				}
 			},
 			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Notification order header",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -728,28 +743,1331 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "select NAME1, NAME2 from SAPSR3.KNA1 where KUNNR = @{activity('Notification order header').output.proj_no[0]} and MANDT = @{pipeline().parameters.MANDT}",
-								"type": "Expression"
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select top (100) id_message, order_request_no, item_no, parent_item_no, sap_order_item, material_no, product_hierarchy, order_qty, sales_uom, fg_production_wt_kg, component_production_wt_kg, product_marking, component_prefix, order_pieces, delivered_pieces, actual_del_date, delivery_status,cancellation_status, no_of_points, env_length, env_width, env_height, wbs1, wbs2, wbs3, wbs4, wbs5, proj_stage, bbs_no, bbs_desc, needs_galvanizing_ind, needs_production_ind, cab_spiral_pitch, cab_fleet_pitch, cab_bar_grade, cab_dia, cab_bvbs, cab_cut_length, cab_coupler_end_no, cab_former_size, cab_shape_group, shape_code, cab_cou_end_type1, cab_cou_end_type2, cab_no_of_bend, mesh_lw_cw_reversed_ind, mesh_lw_dia, mesh_lw_length, mesh_lw_mat_type, mesh_lw_spacing, mesh_lw_grade, mesh_lw_oh1, mesh_lw_oh2, mesh_lw_qty, mesh_lw_wt_kg, mesh_lw_twin_ind, mesh_lw_bvbs, mesh_cw_dia, mesh_cw_length, mesh_cw_mat_code, mesh_cw_twin_ind,mesh_cw_mat_type, mesh_cw_spacing, mesh_cw_grade, mesh_cw_oh1, mesh_cw_oh2, mesh_cw_qty, mesh_cw_wt_kg, mesh_cw_bvbs, mesh_no_of_bend, mesh_no_of_cut, mesh_manual_trim_ind, mesh_bom_ind, meshb_wire_line_cross, meshb_wire_seq_no, meshb_wire_mat_code, meshb_wire_length, meshb_wire_dia, meshb_wire_wt_kg, meshb_wire_qty, meshb_wire_spacing, bpc_cage_dia, bpc_cage_length, bpc_cage_set_code, bpc_centralizer_qty, bpc_lap_length, bpc_end_length, bpc_pile_dia, bpc_l2_cage_dia, bpc_no_rings_start, bpc_sleeve_id, bpc_jig_id, bpc_add_jig_id, bpc_pile_seq_no, bpc_micropile_ind, pcg_cage_type, pcg_assembly_ind, remarks, time_stamp, st_element, process_status, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, qty_in_base_uom, base_uom, QA_transfer_status, drawing_no, inv_len_in_mm, grade_dia, bpc_layer, cab_main_bar_angle, sap_product_group, product_marking_rev_no, cab_standard_end_no, drawing_no_rev, cab_former_type, bpc_pile_no, order_no, product_type, cab_extended_end_no, cab_stud_end_no, prc_bpc_layer_no, bbs_page_no, mesh_product_code, mesh_lw_inv_len, mesh_cw_inv_len, mesh_inv_mo1, mesh_inv_mo2, mesh_inv_co1, mesh_inv_co2, mesh_slope_indicator, mesh_num_of_links, meshb_MESH_TYPE, meshb_START_POS, meshb_WIRE_SPEC, meshb_NO_PITCH, meshb_REP_FROM, meshb_REP_TO, meshb_num_of_REPETITION, meshb_WIRE_PROD_CODE, meshb_TWIN_IND, meshb_MACH_WIRE_SPEC, mesh_slope, prc_panel_no, prc_panel_seq_no, IDENTICAL_HASHCODE, SIMILAR_MAINBAR_HASHCODE, SIMILAR_EXTLINK_HASHCODE, COMPLEXITY_IND from dbo.SCM_Order_Item where order_request_no = @{pipeline().parameters.order_request_no}",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "order_request_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "item_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "parent_item_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARENT_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "sap_order_item",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_ORDER_ITEM"
+								}
+							},
+							{
+								"source": {
+									"name": "material_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATERIAL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "product_hierarchy",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_HIERARCHY"
+								}
+							},
+							{
+								"source": {
+									"name": "order_qty",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ORDER_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "sales_uom",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SALES_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "fg_production_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FG_PRODUCTION_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "component_production_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$COMPONENT_PRODUCTION_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "product_marking",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_MARKING"
+								}
+							},
+							{
+								"source": {
+									"name": "component_prefix",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COMPONENT_PREFIX"
+								}
+							},
+							{
+								"source": {
+									"name": "order_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ORDER_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "delivered_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$DELIVERED_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "actual_del_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTUAL_DEL_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "delivery_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DELIVERY_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "cancellation_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CANCELLATION_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "no_of_points",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$NO_OF_POINTS"
+								}
+							},
+							{
+								"source": {
+									"name": "env_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "env_width",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_WIDTH"
+								}
+							},
+							{
+								"source": {
+									"name": "env_height",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_HEIGHT"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS1"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS2"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS3"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS4"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS5"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_stage",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_STAGE"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_desc",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "needs_galvanizing_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NEEDS_GALVANIZING_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "needs_production_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NEEDS_PRODUCTION_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_spiral_pitch",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_SPIRAL_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_fleet_pitch",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_FLEET_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_bar_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_BAR_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$CAB_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cut_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_CUT_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_coupler_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_COUPLER_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_former_size",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$CAB_FORMER_SIZE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_shape_group",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_SHAPE_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "shape_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cou_end_type1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_COU_END_TYPE1"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cou_end_type2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_COU_END_TYPE2"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_no_of_bend",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_NO_OF_BEND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_cw_reversed_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_CW_REVERSED_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_mat_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_MAT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_oh1",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_OH1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_oh2",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_OH2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_mat_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_MAT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_mat_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_MAT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_oh1",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_OH1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_oh2",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_OH2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_no_of_bend",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_NO_OF_BEND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_no_of_cut",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_NO_OF_CUT"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_manual_trim_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_MANUAL_TRIM_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_bom_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_BOM_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_line_cross",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_LINE_CROSS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_seq_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_mat_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_MAT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_set_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_SET_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_centralizer_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_CENTRALIZER_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_lap_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_LAP_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_end_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_END_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_PILE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_l2_cage_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_L2_CAGE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_no_rings_start",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_NO_RINGS_START"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_sleeve_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_SLEEVE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_jig_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_JIG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_add_jig_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_ADD_JIG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_seq_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_PILE_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_micropile_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_MICROPILE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "pcg_cage_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PCG_CAGE_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "pcg_assembly_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PCG_ASSEMBLY_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "remarks",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REMARKS"
+								}
+							},
+							{
+								"source": {
+									"name": "st_element",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ST_ELEMENT"
+								}
+							},
+							{
+								"source": {
+									"name": "qty_in_base_uom",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$QTY_IN_BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "base_uom",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "drawing_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DRAWING_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "inv_len_in_mm",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"name": "grade_dia",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GRADE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_layer",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_main_bar_angle",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_MAIN_BAR_ANGLE"
+								}
+							},
+							{
+								"source": {
+									"name": "sap_product_group",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_PRODUCT_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "product_marking_rev_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_MARKING_REV_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_standard_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_STANDARD_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_stud_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_STUD_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "drawing_no_rev",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DRAWING_NO_REV"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_former_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_FORMER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_PILE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_bpc_layer_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$PRC_BPC_LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_page_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_PAGE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_product_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_PRODUCT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_inv_len",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_inv_len",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_mo1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_MO1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_mo2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_MO2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_co1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_CO1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_co2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_CO2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_slope_indicator",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_SLOPE_INDICATOR"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_num_of_links",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_NUM_OF_LINKS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_MESH_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_MESH_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_START_POS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_START_POS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_WIRE_SPEC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SPEC"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_NO_PITCH",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_NO_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_REP_FROM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_REP_FROM"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_REP_TO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_REP_TO"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_num_of_REPETITION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_NUM_OF_REPETITION"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_WIRE_PROD_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_PROD_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_TWIN_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_MACH_WIRE_SPEC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_MACH_WIRE_SPEC"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_slope",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_SLOPE"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_panel_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRC_PANEL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_panel_seq_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRC_PANEL_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "IDENTICAL_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$IDENTICAL_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_MAINBAR_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$SIMILAR_MAINBAR_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_EXTLINK_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$SIMILAR_EXTLINK_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "COMPLEXITY_IND",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ COMPLEXITY_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_EXTLINK_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_INSERT_UPDATE"
+								}
 							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT047_SCM_Order_Item",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT047_Order_Item",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
 			"MANDT": {
 				"type": "String",
 				"defaultValue": "110"
+			},
+			"cust_code": {
+				"type": "String"
+			},
+			"order_request_no": {
+				"type": "String",
+				"defaultValue": "order_request_no"
 			}
 		},
 		"annotations": []

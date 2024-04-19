@@ -1,0 +1,12 @@
+{
+	"name": "INT_047_Order_Header_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT_047_Order_Header_Queue",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
