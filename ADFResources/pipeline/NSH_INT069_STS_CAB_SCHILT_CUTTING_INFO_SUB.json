@@ -236,7 +236,7 @@
 									"path": "$URGENT_IND"
 								},
 								"sink": {
-									"name": "URGENT_IND$"
+									"name": "URGENT_IND"
 								}
 							},
 							{
@@ -451,7 +451,7 @@
 									"path": "$MASTER_BUNDLE_GRP_LONGEST_LEN"
 								},
 								"sink": {
-									"name": "MASTER_BUNDLE_GRP_LONGEST_LEN"
+									"name": "MASTER_BUNDLE_GROUP_LONGEST_LENGTH"
 								}
 							},
 							{
@@ -552,6 +552,8 @@
 			{
 				"name": "Script2",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",

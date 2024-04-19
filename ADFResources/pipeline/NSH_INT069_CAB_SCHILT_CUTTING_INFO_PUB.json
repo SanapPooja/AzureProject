@@ -540,7 +540,7 @@
 							{
 								"name": "ESBUPDATETIME",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(utcnow(),\n'yyyyMMddHHmmss'\n))",
 									"type": "Expression"
 								}
 							}
@@ -563,11 +563,31 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "BBS_RUN_NO",
+									"name": "PRODN_ORDER_NO",
 									"type": "String"
 								},
 								"sink": {
-									"name": "BBS_RUN_NO",
+									"name": "PRODN_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TAG_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FEEDMAT_RECORD_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FEEDMAT_RECORD_ID",
 									"type": "String"
 								}
 							},
