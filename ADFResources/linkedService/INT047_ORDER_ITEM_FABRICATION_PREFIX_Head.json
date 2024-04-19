@@ -1,0 +1,13 @@
+{
+	"name": "INT047_ORDER_ITEM_FABRICATION_PREFIX_Head",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item_fabrication_prefix/messages",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
