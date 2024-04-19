@@ -1,0 +1,12 @@
+{
+	"name": "INT047_ORDER_ITEM_FABRICATION_PREFIX_Queue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT047_ORDER_ITEM_FABRICATION_PREFIX_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

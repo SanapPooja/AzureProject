@@ -1,0 +1,51 @@
+{
+	"name": "INT047_ORDER_ITEM_FABRICATION_PREFIX",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NDSQADB5_NDS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Order_request_no",
+				"type": "varchar"
+			},
+			{
+				"name": "parent_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "MB_prefix",
+				"type": "varchar"
+			},
+			{
+				"name": "component_prefix",
+				"type": "varchar"
+			},
+			{
+				"name": "fabrication_pts",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MB_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "component_item_no",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ORDER_ITEM_FABRICATION_PREFIX"
+		}
+	}
+}
