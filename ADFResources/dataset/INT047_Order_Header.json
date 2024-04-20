@@ -1,0 +1,12 @@
+{
+	"name": "INT047_Order_Header",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT047_SCM_Header",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
