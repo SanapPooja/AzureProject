@@ -1,0 +1,12 @@
+{
+	"name": "int068_cab_schilt_feed_material_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int068_cab_schilt_feed_material_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

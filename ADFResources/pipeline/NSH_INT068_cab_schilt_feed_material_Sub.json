@@ -17,6 +17,31 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "rec_type",
+								"value": ""
+							},
+							{
+								"name": "create_date",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "create_by",
+								"value": "ESB INT068"
+							},
+							{
+								"name": "modify_date",
+								"value": ""
+							},
+							{
+								"name": "modify_by",
+								"value": ""
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -35,7 +60,88 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$BBS_RUN_NO']"
+									"path": "$update_date"
+								},
+								"sink": {
+									"name": "update_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$q_create_date"
+								},
+								"sink": {
+									"name": "q_create_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$no_of_bars"
+								},
+								"sink": {
+									"name": "no_of_bars",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$bar_length"
+								},
+								"sink": {
+									"name": "bar_length",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$material_source"
+								},
+								"sink": {
+									"name": "material_source",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$diameter"
+								},
+								"sink": {
+									"name": "diameter",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$grade"
+								},
+								"sink": {
+									"name": "grade",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$material_no"
+								},
+								"sink": {
+									"name": "material_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$feedmat_record_id"
+								},
+								"sink": {
+									"name": "feedmat_record_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$bbs_run_no"
 								},
 								"sink": {
 									"name": "bbs_run_no",
@@ -44,56 +150,65 @@
 							},
 							{
 								"source": {
-									"path": "$['$HALL_PERIOD_START']"
+									"path": "$group_tag_ind"
 								},
 								"sink": {
-									"name": "hall_period_start",
+									"name": "group_tag_ind",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$SEQ_NO']"
+									"path": "$group_tag_total_tags"
 								},
 								"sink": {
-									"name": "seq_no",
-									"type": "Decimal"
+									"name": "group_tag_total_tags",
+									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PLANNED_START']"
+									"path": "rec_type"
 								},
 								"sink": {
-									"name": "planned_start",
+									"name": "rec_type",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PLANNED_END']"
+									"path": "create_date"
 								},
 								"sink": {
-									"name": "planned_end",
+									"name": "create_date",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PLANNED_ORDER_KG']"
+									"path": "create_by"
 								},
 								"sink": {
-									"name": "planned_order_kg",
-									"type": "Decimal"
+									"name": "create_by",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PLANNED_PRODN_KG']"
+									"path": "modify_date"
 								},
 								"sink": {
-									"name": "planned_prodn_kg",
-									"type": "Decimal"
+									"name": "modify_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "modify_by"
+								},
+								"sink": {
+									"name": "modify_by",
+									"type": "String"
 								}
 							}
 						]
@@ -101,13 +216,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int067_cab_bbs_run_head",
+						"referenceName": "int068_cab_schilt_feed_material_head",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "tbl_scm_sts_cab_bbs_run",
+						"referenceName": "tbl_scm_sts_cab_schilt_feed_material",
 						"type": "DatasetReference"
 					}
 				]
@@ -158,7 +273,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "WITH DeletingBBSRuns AS (\n    SELECT E.BBS_RUN_NO \n    FROM SCM_ADMIN.ESB_CAB_BBS_RUN E\n    LEFT JOIN SCM_ADMIN.CAB_BBS_RUN C ON E.BBS_RUN_NO = C.BBS_RUN_NO\n    WHERE C.BBS_RUN_NO IS NULL\n    AND ROWNUM <= '${batchSize}'\n)\nDELETE FROM SCM_ADMIN.ESB_CAB_BBS_RUN \nWHERE BBS_RUN_NO IN (SELECT BBS_RUN_NO FROM DeletingBBSRuns);\n",
+								"value": "DELETE FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL \nWHERE (MATERIAL_NO, FEEDMAT_RECORD_ID) IN (\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM (\n        SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n        FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\n        MINUS\n        SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n        FROM SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\n        WHERE ROWNUM <= 1000\n    )\n);\n",
 								"type": "Expression"
 							}
 						}
@@ -187,7 +302,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int067_cab_bbs_runs/messages/head",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int068_cab_schilt_feed_material/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"

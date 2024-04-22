@@ -1,0 +1,92 @@
+{
+	"name": "tbl_scm_sts_cab_schilt_feed_material",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "update_date",
+				"type": "varchar"
+			},
+			{
+				"name": "q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "no_of_bars",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "bar_length",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "material_source",
+				"type": "varchar"
+			},
+			{
+				"name": "diameter",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "grade",
+				"type": "varchar"
+			},
+			{
+				"name": "material_no",
+				"type": "varchar"
+			},
+			{
+				"name": "feedmat_record_id",
+				"type": "varchar"
+			},
+			{
+				"name": "bbs_run_no",
+				"type": "varchar"
+			},
+			{
+				"name": "rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "group_tag_ind",
+				"type": "char"
+			},
+			{
+				"name": "group_tag_total_tags",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_cab_schilt_feed_material"
+		}
+	}
+}
