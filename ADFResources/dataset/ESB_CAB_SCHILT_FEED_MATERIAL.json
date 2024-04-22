@@ -1,0 +1,16 @@
+{
+	"name": "ESB_CAB_SCHILT_FEED_MATERIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ESB_CAB_SCHILT_FEED_MATERIAL"
+		}
+	}
+}

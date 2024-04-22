@@ -1,0 +1,16 @@
+{
+	"name": "cab_schilt_feed_material",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "CAB_SCHILT_FEED_MATERIAL"
+		}
+	}
+}
