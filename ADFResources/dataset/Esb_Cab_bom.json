@@ -1,0 +1,16 @@
+{
+	"name": "Esb_Cab_bom",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ESB_CAB_BOM"
+		}
+	}
+}
