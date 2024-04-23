@@ -1,5 +1,13 @@
 {
 	"name": "df-esb-dev-sea-001",
+	"properties": {
+		"globalParameters": {
+			"Trackno": {
+				"type": "string",
+				"value": "234"
+			}
+		}
+	},
 	"location": "southeastasia",
 	"identity": {
 		"type": "SystemAssigned",
