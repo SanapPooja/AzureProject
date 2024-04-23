@@ -312,145 +312,13 @@
 				]
 			},
 			{
-				"name": "Lookup_USP_INT065",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT INT_Interface('USP_INT064') AS Result FROM dual;",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "cab_rms_shearline",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "If Condition1",
-				"description": "@equals(activity('Lookup_USP_INT064').output.firstRow.RESULT, 'Y')",
-				"type": "IfCondition",
-				"dependsOn": [
-					{
-						"activity": "Lookup_USP_INT065",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@equals(activity('Lookup_USP_INT065').output.firstRow.RESULT, 'Y')",
-						"type": "Expression"
-					},
-					"ifFalseActivities": [
-						{
-							"name": "Web1_copy1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
-							}
-						},
-						{
-							"name": "Wait3",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 60
-							}
-						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"esbUpdateTime": {
-										"value": "@utcnow()",
-										"type": "Expression"
-									}
-								}
-							}
-						},
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 60
-							}
-						}
-					]
-				}
-			},
-			{
 				"name": "Web1_copy1_copy1",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Lookup_USP_INT065",
+						"activity": "Wait1_copy1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -470,14 +338,7 @@
 			{
 				"name": "Script1",
 				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Lookup_USP_INT065",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -508,9 +369,9 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "If Condition1",
+						"activity": "Execute Pipeline1_copy1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
@@ -531,7 +392,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT  * from SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD where ESBUPDATETIME = variables('ESBUPDATETIME') ",
+								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}
@@ -667,8 +528,94 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Execute Pipeline1_copy1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"esbUpdateTime": {
+							"value": "@utcnow()",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Wait1_copy1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Script1_copy1_copy2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
