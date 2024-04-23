@@ -37,7 +37,383 @@
 						"type": "OracleSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUST_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUST_NAME",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CONTRACT_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJ_NAME",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUST_PO_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUST_ORDER_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "REQ_DEL_DATE_FR",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "REQ_DEL_DATE_TO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJECTED_CASTING_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ACTUAL_DEL_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PLANNING_STRATEGY",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ORDER_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUST_CLASS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJ_SEGMENT",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJ_SUB_SEGMENT",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "JOB_SITE_LOCATION",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FORECAST_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ACCOUNT_MGR",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "SEGMENT_MGR",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PROJ_COORDINATOR",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ORDER_GROUP_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "VEHICLE_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ORDER_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "DELIVERED_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CREDIT_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "APPROVAL_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "DELIVERY_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CANCELLATION_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "MAT_SOURCE_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "URGENT_ORDER_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ALLOW_PARTIAL_DELIVERY_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FORECAST_ORDER_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "LOCAL_ORDER_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "MTO_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "SELF_COLLECT_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PREMIUM_SERVICE_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CRANE_BOOKED_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "BARGE_BOOKED_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "POLICE_ESCORT_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "COMPANY_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "NO_OF_ITEMS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "INT_REMARK",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "EXT_REMARK",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "TIME_STAMP",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "REMARKS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "TIME_STAMP_SO_CREATION",
+									"type": "String"
+								}
+							},
+							null,
+							{
+								"sink": {
+									"name": "ORDER_GROUP_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "GROUP_MEMBER_COUNT",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "LOW_BED_VEHICLE_ALLOWED",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FIFTYTON_VEHICLE_ALLOWED",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "UNIT_TAG_MODE_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "MUST_HAVE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PHYSICAL_PROJ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PHYSICAL_DELIVERY_PROJ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "ON_HOLD_IND",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FIRST_PROMISED_DATE",
+									"type": "String"
+								}
+							},
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -53,6 +429,14 @@
 				]
 			}
 		],
+		"variables": {
+			"ESBUPDATETIME": {
+				"type": "String"
+			},
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

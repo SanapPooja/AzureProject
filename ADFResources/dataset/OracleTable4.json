@@ -2,11 +2,15 @@
 	"name": "OracleTable4",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "OracleTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ORDER_HEADER"
+		}
 	}
 }
