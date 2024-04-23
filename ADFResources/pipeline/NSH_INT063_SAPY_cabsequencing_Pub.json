@@ -5,7 +5,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -423,125 +430,13 @@
 				]
 			},
 			{
-				"name": "Lookup1",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT INT_Interface('USP_INT063') AS Result FROM dual;",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "NSH_INT063_cabsequencing_DATASET",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Funtion_YorN_condition",
-				"type": "IfCondition",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
-						"type": "Expression"
-					},
-					"ifFalseActivities": [
-						{
-							"name": "DeleteDataFrom_Queue",
-							"type": "WebActivity",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "NSH_INT063_SAPY_CAB_BOM_Sub",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT063_STS_tbl_dss_sts_dns_prodn_schd_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 10
-							}
-						}
-					]
-				}
-			},
-			{
 				"name": "DeleteDataFrom_Queue_copy1",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Wait1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -567,7 +462,234 @@
 				"type": "Script",
 				"dependsOn": [
 					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = 'CurrentDate'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
 						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "S"
+							},
+							{
+								"name": "ESBUPDATETIME",
+								"value": {
+									"value": "@variables('CurrentTime')",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": "select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from (select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.cabsequencing\t\t\t\t\t\t\r\nminus\t\t\t\t\t\t\r\nselect FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.esb_cabsequencing)\t\t\t\t\t\t\r\nwhere rownum <=1000\t\t\t\t\t",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_PO_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_SEQ_NO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_SEQ_NO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_Q_PRODN_ORD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_Q_PRODN_ORD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_TAG_ID_FROM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_TAG_ID_FROM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_PSCH_PLAN_WRK_CTR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_WRK_CTR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT063_cabsequencing_DATASET",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Esb_CabSequencing",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "NSH_INT063_SAPY_CAB_BOM_Sub_copy1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT063_STS_tbl_dss_sts_dns_prodn_schd_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Script1_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "NSH_INT063_SAPY_CAB_BOM_Sub_copy1",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -596,6 +718,12 @@
 				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			}
+		},
 		"annotations": []
 	}
 }
