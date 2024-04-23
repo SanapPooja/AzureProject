@@ -1590,7 +1590,8 @@
 		],
 		"variables": {
 			"CurrentTime": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
 		},
 		"annotations": []

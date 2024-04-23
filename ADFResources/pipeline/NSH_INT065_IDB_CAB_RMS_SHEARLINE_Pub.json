@@ -446,6 +446,88 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "R_RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "R_RUN_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "R_DIA_REF",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "R_DIA_REF",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "L_COMB_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "L_COMB_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "D_SECTION_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "D_SECTION_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "D_BIN_NUMBER",
+									"type": "String"
+								},
+								"sink": {
+									"name": "D_BIN_NUMBER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "D_CUTTING_SEQ_NO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "D_CUTTING_SEQ_NO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -613,7 +695,8 @@
 		],
 		"variables": {
 			"CurrentTime": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
 		},
 		"annotations": []
