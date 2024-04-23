@@ -2,7 +2,7 @@
 	"name": "df-esb-dev-sea-001",
 	"properties": {
 		"globalParameters": {
-			"tracknum": {
+			"Trackno": {
 				"type": "string",
 				"value": "123"
 			}
