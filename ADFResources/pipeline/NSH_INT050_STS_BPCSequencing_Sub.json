@@ -477,42 +477,6 @@
 				}
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update SCM_ADMIN.ESB_BPCSEQUENCING set ESBSTATUS = 'E' and ESBUPDATETIME = @{pipeline().parameters.ESBUPDATETIME}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Web1",
 				"type": "WebActivity",
 				"dependsOn": [
@@ -533,7 +497,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int050_bpcseqencing/messages/head"
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int050_bpcseqencing/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			}
 		],
