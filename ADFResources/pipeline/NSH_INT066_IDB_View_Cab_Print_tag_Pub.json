@@ -37,7 +37,7 @@
 						"httpRequestTimeout": "00:05:00",
 						"requestInterval": 10,
 						"requestMethod": "POST",
-						"writeBatchSize": 10000,
+						"writeBatchSize": "10",
 						"httpCompressionType": "none"
 					},
 					"enableStaging": false,
@@ -1470,6 +1470,8 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
 						"activity": "Copy data3",

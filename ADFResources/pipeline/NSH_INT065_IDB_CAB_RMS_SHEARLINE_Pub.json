@@ -363,7 +363,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}
