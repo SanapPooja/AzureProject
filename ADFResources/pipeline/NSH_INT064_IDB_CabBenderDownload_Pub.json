@@ -409,7 +409,7 @@
 				"typeProperties": {
 					"variableName": "CurrentTime",
 					"value": {
-						"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 						"type": "Expression"
 					}
 				}
@@ -537,7 +537,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' and esbUpdateTime = '@{variables('CurrentTime')}'",
+								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' and ESBUPDATETIME = '@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}

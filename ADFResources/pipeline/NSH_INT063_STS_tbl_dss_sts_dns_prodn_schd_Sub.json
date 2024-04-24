@@ -206,7 +206,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_MATL_MP"
+									"path": "$FLD_PSCH_MATL_NO"
 								},
 								"sink": {
 									"name": "fld_psch_matl_no",
@@ -332,7 +332,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_PLAN_ERK_CTR"
+									"path": "$FLD_PSCH_PLAN_WRK_CTR"
 								},
 								"sink": {
 									"name": "fld_psch_plan_wrk_ctr",

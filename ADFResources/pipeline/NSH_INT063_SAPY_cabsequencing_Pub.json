@@ -370,15 +370,6 @@
 							},
 							{
 								"source": {
-									"name": "FLD_PSCH_TAG_ID_TO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FLD_PSCH_TAG_ID_TO"
-								}
-							},
-							{
-								"source": {
 									"name": "FLD_PSCH_UOPQUANTITY",
 									"type": "Decimal"
 								},
@@ -484,7 +475,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = 'CurrentDate'"
+							"text": {
+								"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -640,7 +634,7 @@
 				"typeProperties": {
 					"variableName": "CurrentTime",
 					"value": {
-						"value": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 						"type": "Expression"
 					}
 				}
@@ -711,7 +705,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = 'CurrentDate'"
+							"text": {
+								"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
