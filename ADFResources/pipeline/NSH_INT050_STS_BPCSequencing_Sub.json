@@ -505,12 +505,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"ESBUPDATETIME": {
-				"type": "String",
-				"defaultValue": "@utcnow()"
-			}
-		},
 		"annotations": []
 	}
 }
