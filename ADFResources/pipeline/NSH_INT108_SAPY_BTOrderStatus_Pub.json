@@ -5,7 +5,14 @@
 			{
 				"name": "CopyData_FromSourceToStaging",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "CopyData_FromStagingToQueue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -25,7 +32,7 @@
 							{
 								"name": "ESBDATE",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@variables('CurrentTime')",
 									"type": "Expression"
 								}
 							}
@@ -108,7 +115,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "CopyData_FromSourceToStaging",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -125,6 +132,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT TRACKNO,  POSNR, VBELN, CHARG, SOSTATUS, BTSTATUS From SAPSR3.ZSD_SOBTDATA \r\nWHERE (TRACKNO, POSNR) IN\r\n(\r\n\tSELECT TRACKNO, POSNR FROM SAPSR3.ZSD_SOBTDATA WHERE BTSTATUS='C' AND \r\n\t\tCRDATE > (\r\n\t\t\tselect TO_CHAR(SYSDATE-30, 'YYYYMMDD') FROM dual\r\n\t\t\t\t)\r\nMinus \r\nSELECT TRACKNO, POSNR FROM SAPSR3.YESB_SOBTDATA)  AND ROWNUM <='1000'",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -160,20 +168,38 @@
 							},
 							{
 								"source": {
-									"name": "ESBSTATUS",
+									"name": "VBELN",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ESBSTATUS"
+									"path": "$VBELN"
 								}
 							},
 							{
 								"source": {
-									"name": "ESBDATE",
+									"name": "CHARG",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ESBDATE"
+									"path": "$CHARG"
+								}
+							},
+							{
+								"source": {
+									"name": "SOSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SOSTATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "BTSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "BTSTATUS"
 								}
 							}
 						]
@@ -197,7 +223,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "CopyData_FromStagingToQueue",
+						"activity": "CopyData_FromSourceToStaging",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -220,7 +246,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "CopyData_FromStagingToQueue",
+						"activity": "Execute Pipeline1",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -243,7 +269,60 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update SAPSR3.YESB_SOBTDATA Set ESBSTATUS = 'E' where ESBDATE=@{pipeline().parameters.ESBDATE}",
+								"value": "Update SAPSR3.YESB_SOBTDATA Set ESBSTATUS = 'E' where ESBDATE='@{variables('CurrentTime')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Script1_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "CopyData_FromSourceToStaging",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update SAPSR3.YESB_SOBTDATA Set ESBSTATUS = 'E' where ESBDATE='@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}
@@ -252,10 +331,10 @@
 				}
 			}
 		],
-		"parameters": {
-			"ESBDATE": {
-				"type": "string",
-				"defaultValue": "ESBDATE"
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))"
 			}
 		},
 		"annotations": []

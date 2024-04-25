@@ -38,10 +38,56 @@
 									"path": "$"
 								},
 								"sink": {
+									"name": "Identity_No",
+									"type": "Int32"
+								}
+							},
+							{
+								"sink": {
 									"name": "TRACK_NO",
 									"type": "String"
 								}
-							}
+							},
+							{
+								"sink": {
+									"name": "ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "SO_Number",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "BATCH_NUMBER",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "SO_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "BT_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "Inserted_date",
+									"type": "String"
+								}
+							},
+							null,
+							null,
+							null,
+							null
 						]
 					}
 				},
@@ -101,48 +147,18 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 60
 				}
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NDSQADB5_NDS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update SAPSR3.YESB_SOBTDATA Set ESBSTATUS = 'E' where ESBDATE=@{pipeline().parameters.ESBDATE}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
 			}
 		],
 		"parameters": {
 			"ESBDATE": {
 				"type": "String",
 				"defaultValue": "ESBDATE"
+			}
+		},
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))"
 			}
 		},
 		"annotations": []
