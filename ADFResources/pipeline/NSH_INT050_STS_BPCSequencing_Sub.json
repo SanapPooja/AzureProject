@@ -437,7 +437,7 @@
 							},
 							{
 								"source": {
-									"path": "$STATUS"
+									"path": "STATUS"
 								},
 								"sink": {
 									"name": "STATUS",

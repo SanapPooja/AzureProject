@@ -29,7 +29,7 @@
 							{
 								"name": "fld_bpc_create_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
@@ -40,7 +40,7 @@
 							{
 								"name": "fld_bpc_modify_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
@@ -270,7 +270,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_bpc_rec_type"
+									"path": "fld_bpc_rec_type"
 								},
 								"sink": {
 									"name": "fld_bpc_rec_type",
@@ -279,7 +279,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_bpc_create_by"
+									"path": "fld_bpc_create_by"
 								},
 								"sink": {
 									"name": "fld_bpc_create_by",
@@ -288,7 +288,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_bpc_create_date"
+									"path": "fld_bpc_create_date"
 								},
 								"sink": {
 									"name": "fld_bpc_create_date",
@@ -297,7 +297,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_bpc_modify_by"
+									"path": "fld_bpc_modify_by"
 								},
 								"sink": {
 									"name": "fld_bpc_modify_by",
@@ -306,7 +306,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_bpc_modify_date"
+									"path": "fld_bpc_modify_date"
 								},
 								"sink": {
 									"name": "fld_bpc_modify_date",

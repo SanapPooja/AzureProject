@@ -49,7 +49,7 @@
 							{
 								"name": "fld_sbom_create_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
