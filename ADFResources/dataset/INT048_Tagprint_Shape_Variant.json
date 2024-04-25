@@ -1,0 +1,16 @@
+{
+	"name": "INT048_Tagprint_Shape_Variant",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "TAGPRINT_SHAPE_VARIANT"
+		}
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "INT048_OrderShape_Queue_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT048_OrderShape_Queue_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

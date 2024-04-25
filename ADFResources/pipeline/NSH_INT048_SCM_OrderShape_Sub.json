@@ -5,11 +5,1663 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 60
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "SAP_PRODUCT_GROUP",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "REC_ID",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "LAST_EXPORT_TIMESTAMP",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "SEGMENT_LENGTH_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_2",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_3",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_3",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_3",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_4",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_5",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_6",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_7",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_8",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_9",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_10",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_11",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_12",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_13",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_14",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_15",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_16",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_17",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_18",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_19",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SEGMENT_LENGTH_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHAPE_PARAM_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CRITICAL_IND_20",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PARAM_IND_3",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_X_3",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "COORDINATE_Y_3",
+								"value": "$$COLUMN:"
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$ORDER_NO"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ITEM_NO"
+								},
+								"sink": {
+									"name": "ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PRODUCT_TYPE"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SEGMENT_LENGTH_1"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SHAPE_PARAM_1"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PARAM_IND_1"
+								},
+								"sink": {
+									"name": "PARAM_IND_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$COORDINATE_X_1"
+								},
+								"sink": {
+									"name": "COORDINATE_X_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$COORDINATE_Y_1"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CRITICAL_IND_1"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LAST_EXPORT_TIMESTAMP"
+								},
+								"sink": {
+									"name": "LAST_EXPORT_TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$REC_ID"
+								},
+								"sink": {
+									"name": "REC_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SAP_PRODUCT_GROUP"
+								},
+								"sink": {
+									"name": "SAP_PRODUCT_GROUP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_2"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_2"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_2"
+								},
+								"sink": {
+									"name": "PARAM_IND_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_2"
+								},
+								"sink": {
+									"name": "COORDINATE_X_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_2"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_2"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_3"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_3"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_3"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_4"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_4"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_4"
+								},
+								"sink": {
+									"name": "PARAM_IND_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_4"
+								},
+								"sink": {
+									"name": "COORDINATE_X_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_4"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_4"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_5"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_5"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_5"
+								},
+								"sink": {
+									"name": "PARAM_IND_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_5"
+								},
+								"sink": {
+									"name": "COORDINATE_X_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_5"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_5"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_6"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_6"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_6"
+								},
+								"sink": {
+									"name": "PARAM_IND_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_6"
+								},
+								"sink": {
+									"name": "COORDINATE_X_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_6"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_6"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_6",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_7"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_7"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_7"
+								},
+								"sink": {
+									"name": "PARAM_IND_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_7"
+								},
+								"sink": {
+									"name": "COORDINATE_X_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_7"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_7"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_7",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_8"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_8"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_8"
+								},
+								"sink": {
+									"name": "PARAM_IND_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_8"
+								},
+								"sink": {
+									"name": "COORDINATE_X_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_8"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_8"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_8",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_9"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_9"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_9"
+								},
+								"sink": {
+									"name": "PARAM_IND_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_9"
+								},
+								"sink": {
+									"name": "COORDINATE_X_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_9"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_9"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_9",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_10"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_10"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_10"
+								},
+								"sink": {
+									"name": "PARAM_IND_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_10"
+								},
+								"sink": {
+									"name": "COORDINATE_X_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_10"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_10"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_11"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_11"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_11"
+								},
+								"sink": {
+									"name": "PARAM_IND_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_11"
+								},
+								"sink": {
+									"name": "COORDINATE_X_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_11"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_11"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_11",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_12"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_12"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_12"
+								},
+								"sink": {
+									"name": "PARAM_IND_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_12"
+								},
+								"sink": {
+									"name": "COORDINATE_X_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_12"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_12"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_12",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_13"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_13"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_13"
+								},
+								"sink": {
+									"name": "PARAM_IND_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_13"
+								},
+								"sink": {
+									"name": "COORDINATE_X_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_13"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_13"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_13",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_14"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_14"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_14"
+								},
+								"sink": {
+									"name": "PARAM_IND_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_14"
+								},
+								"sink": {
+									"name": "COORDINATE_X_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_14"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_14"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_14",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_15"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_15"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_15"
+								},
+								"sink": {
+									"name": "PARAM_IND_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_15"
+								},
+								"sink": {
+									"name": "COORDINATE_X_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_15"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_15"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_15",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_16"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_16"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_16"
+								},
+								"sink": {
+									"name": "PARAM_IND_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_16"
+								},
+								"sink": {
+									"name": "COORDINATE_X_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_16"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_16"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_16",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_17"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_17"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_17"
+								},
+								"sink": {
+									"name": "PARAM_IND_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_17"
+								},
+								"sink": {
+									"name": "COORDINATE_X_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_17"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_17"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_17",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_18"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_18"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_18"
+								},
+								"sink": {
+									"name": "PARAM_IND_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_18"
+								},
+								"sink": {
+									"name": "COORDINATE_X_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_18"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_18"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_18",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_19"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_19"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_19"
+								},
+								"sink": {
+									"name": "PARAM_IND_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_19"
+								},
+								"sink": {
+									"name": "COORDINATE_X_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_19"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "CRITICAL_IND_19"
+								},
+								"sink": {
+									"name": "CRITICAL_IND_19",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SEGMENT_LENGTH_20"
+								},
+								"sink": {
+									"name": "SEGMENT_LENGTH_20",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "SHAPE_PARAM_20"
+								},
+								"sink": {
+									"name": "SHAPE_PARAM_20",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_20"
+								},
+								"sink": {
+									"name": "PARAM_IND_20",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_20"
+								},
+								"sink": {
+									"name": "COORDINATE_X_20",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_20"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_20",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "PARAM_IND_3"
+								},
+								"sink": {
+									"name": "PARAM_IND_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_X_3"
+								},
+								"sink": {
+									"name": "COORDINATE_X_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "COORDINATE_Y_3"
+								},
+								"sink": {
+									"name": "COORDINATE_Y_3",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT048_OrderShape_Queue_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT048_Tagprint_Shape_Variant",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
