@@ -17,6 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "inserted_date",
+								"value": {
+									"value": "@variables('CurrentTime')",
+									"type": "Expression"
+								}
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -35,7 +44,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$"
+									"path": "Identity_No"
 								},
 								"sink": {
 									"name": "Identity_No",
@@ -43,42 +52,63 @@
 								}
 							},
 							{
+								"source": {
+									"path": "$TRACKNO"
+								},
 								"sink": {
 									"name": "TRACK_NO",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$POSNR"
+								},
 								"sink": {
 									"name": "ITEM_NO",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$VBELN"
+								},
 								"sink": {
 									"name": "SO_Number",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$CHARG"
+								},
 								"sink": {
 									"name": "BATCH_NUMBER",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$SOSTATUS"
+								},
 								"sink": {
 									"name": "SO_STATUS",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$BTSTATUS"
+								},
 								"sink": {
 									"name": "BT_STATUS",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "inserted_date"
+								},
 								"sink": {
 									"name": "Inserted_date",
 									"type": "String"
