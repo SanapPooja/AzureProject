@@ -199,7 +199,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "BTSTATUS"
+									"path": "$BTSTATUS"
 								}
 							}
 						]
@@ -289,7 +289,7 @@
 				"typeProperties": {
 					"variableName": "CurrentTime",
 					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))\n",
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
 						"type": "Expression"
 					}
 				}
