@@ -127,10 +127,106 @@
 						"type": "RestSink",
 						"httpRequestTimeout": "00:05:00",
 						"requestInterval": 10,
+						"requestMethod": "POST",
 						"writeBatchSize": 10000,
 						"httpCompressionType": "none"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$item_no"
+								}
+							},
+							{
+								"source": {
+									"name": "DIM_CHAR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$param_ind_1"
+								}
+							},
+							{
+								"source": {
+									"name": "DIM_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$shape_param_1"
+								}
+							},
+							{
+								"source": {
+									"name": "DIM_VALUE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$segment_length_1"
+								}
+							},
+							{
+								"source": {
+									"name": "DIM_X",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$coordinate_x_1"
+								}
+							},
+							{
+								"source": {
+									"name": "DIM_Y",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$coordinate_y_1"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITICAL_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$critical_ind_1"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODTYPE_ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$product_type"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$order_no"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_GRP",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_PRODUCT_GROUP"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -144,6 +240,29 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT048_SCM_OrderShape_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"parameters": {
