@@ -1,0 +1,12 @@
+{
+	"name": "int047_order_item_fabrication_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int047_order_item_fabrication_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

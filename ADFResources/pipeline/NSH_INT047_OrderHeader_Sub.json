@@ -343,10 +343,7 @@
 									"name": "TIME_STAMP_SO_CREATION",
 									"type": "String"
 								}
-							},
-							null,
-							null,
-							null
+							}
 						]
 					}
 				},
@@ -359,6 +356,125 @@
 				"outputs": [
 					{
 						"referenceName": "OracleTable4",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$ID"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$Order_request_no"
+								},
+								"sink": {
+									"name": "Order_request_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$parent_item_no"
+								},
+								"sink": {
+									"name": "parent_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MB_prefix"
+								},
+								"sink": {
+									"name": "MB_prefix",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$component_prefix"
+								},
+								"sink": {
+									"name": "component_prefix",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$fabrication_pts"
+								},
+								"sink": {
+									"name": "fabrication_pts",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$MB_item_no"
+								},
+								"sink": {
+									"name": "MB_item_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$component_item_no"
+								},
+								"sink": {
+									"name": "component_item_no",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "int047_order_item_fabrication_head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "order_item_fabrication",
 						"type": "DatasetReference"
 					}
 				]
