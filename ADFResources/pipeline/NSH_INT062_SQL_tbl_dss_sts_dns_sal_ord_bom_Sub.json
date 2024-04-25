@@ -60,7 +60,7 @@
 							{
 								"name": "fld_sbom_modify_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
@@ -217,7 +217,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_bom_usage"
+									"path": "fld_sbom_bom_usage"
 								},
 								"sink": {
 									"name": "fld_sbom_bom_usage",
@@ -226,7 +226,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_release_code"
+									"path": "fld_sbom_release_code"
 								},
 								"sink": {
 									"name": "fld_sbom_release_code",
@@ -235,7 +235,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_valid_fr_date"
+									"path": "fld_sbom_valid_fr_date"
 								},
 								"sink": {
 									"name": "fld_sbom_valid_fr_date",
@@ -244,7 +244,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_item_category"
+									"path": "fld_sbom_item_category"
 								},
 								"sink": {
 									"name": "fld_sbom_item_category",
@@ -253,7 +253,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_status"
+									"path": "fld_sbom_status"
 								},
 								"sink": {
 									"name": "fld_sbom_status",
@@ -262,7 +262,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_status_dss"
+									"path": "fld_sbom_status_dss"
 								},
 								"sink": {
 									"name": "fld_sbom_status_dss",
@@ -271,7 +271,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_create_by"
+									"path": "fld_sbom_create_by"
 								},
 								"sink": {
 									"name": "fld_sbom_create_by",
@@ -280,7 +280,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_create_date"
+									"path": "fld_sbom_create_date"
 								},
 								"sink": {
 									"name": "fld_sbom_create_date",
@@ -289,7 +289,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_modify_by"
+									"path": "fld_sbom_modify_by"
 								},
 								"sink": {
 									"name": "fld_sbom_modify_by",
@@ -298,7 +298,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_modify_date"
+									"path": "fld_sbom_modify_date"
 								},
 								"sink": {
 									"name": "fld_sbom_modify_date",
@@ -307,7 +307,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_rec_type"
+									"path": "fld_sbom_rec_type"
 								},
 								"sink": {
 									"name": "fld_sbom_rec_type",
@@ -316,7 +316,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_sbom_q_rec_type"
+									"path": "fld_sbom_q_rec_type"
 								},
 								"sink": {
 									"name": "fld_sbom_q_rec_type",
@@ -385,6 +385,12 @@
 				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			}
+		},
 		"annotations": []
 	}
 }

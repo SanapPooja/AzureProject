@@ -29,7 +29,7 @@
 							{
 								"name": "create_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
@@ -329,7 +329,7 @@
 							},
 							{
 								"source": {
-									"path": "$cab_bend_id"
+									"path": "cab_bend_id"
 								},
 								"sink": {
 									"name": "cab_bend_id",
@@ -338,7 +338,7 @@
 							},
 							{
 								"source": {
-									"path": "$q_rec_type"
+									"path": "q_rec_type"
 								},
 								"sink": {
 									"name": "q_rec_type",
@@ -347,7 +347,7 @@
 							},
 							{
 								"source": {
-									"path": "$create_date"
+									"path": "create_date"
 								},
 								"sink": {
 									"name": "create_date",
@@ -356,7 +356,7 @@
 							},
 							{
 								"source": {
-									"path": "$create_by"
+									"path": "create_by"
 								},
 								"sink": {
 									"name": "create_by",
@@ -365,7 +365,7 @@
 							},
 							{
 								"source": {
-									"path": "$modify_date"
+									"path": "modify_date"
 								},
 								"sink": {
 									"name": "modify_date",
@@ -374,7 +374,7 @@
 							},
 							{
 								"source": {
-									"path": "$modify_by"
+									"path": "modify_by"
 								},
 								"sink": {
 									"name": "modify_by",
@@ -383,7 +383,7 @@
 							},
 							{
 								"source": {
-									"path": "$rec_type"
+									"path": "rec_type"
 								},
 								"sink": {
 									"name": "rec_type",
@@ -451,10 +451,10 @@
 				}
 			}
 		],
-		"parameters": {
-			"esbUpdateTime": {
+		"variables": {
+			"CurrentTime": {
 				"type": "String",
-				"defaultValue": "@utcnow()"
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
 		},
 		"annotations": []

@@ -498,42 +498,6 @@
 				]
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = 'Currentdate'\t\t\t\t\t\t\t\t",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Wait1",
 				"type": "Wait",
 				"dependsOn": [
@@ -550,58 +514,13 @@
 				}
 			},
 			{
-				"name": "Script2",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "DELETE FROM SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO\nWHERE (PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID) IN (  SELECT PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID\n    FROM SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO\n    MINUS\n    SELECT PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID\n    FROM SCM_ADMIN.CAB_SCHILT_CUTTING_INFO )\n  AND ROWNUM <= '1000';\n",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Web1",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
 						"dependencyConditions": [
-							"Succeeded",
-							"Failed"
-						]
-					},
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -623,6 +542,12 @@
 				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			}
+		},
 		"annotations": []
 	}
 }

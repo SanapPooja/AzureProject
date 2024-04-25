@@ -25,7 +25,7 @@
 							{
 								"name": "fld_create_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
@@ -244,7 +244,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_q_rec_type"
+									"path": "fld_q_rec_type"
 								},
 								"sink": {
 									"name": "fld_q_rec_type",
@@ -253,7 +253,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_create_date"
+									"path": "fld_create_date"
 								},
 								"sink": {
 									"name": "fld_create_date",
@@ -262,7 +262,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_create_by"
+									"path": "fld_create_by"
 								},
 								"sink": {
 									"name": "fld_create_by",
@@ -271,7 +271,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_modify_date"
+									"path": "fld_modify_date"
 								},
 								"sink": {
 									"name": "fld_modify_date",
@@ -280,7 +280,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_modify_by"
+									"path": "fld_modify_by"
 								},
 								"sink": {
 									"name": "fld_modify_by",
@@ -289,7 +289,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_rec_type"
+									"path": "fld_rec_type"
 								},
 								"sink": {
 									"name": "fld_rec_type",

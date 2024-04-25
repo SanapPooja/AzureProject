@@ -634,7 +634,7 @@
 				"typeProperties": {
 					"variableName": "CurrentTime",
 					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n\n",
 						"type": "Expression"
 					}
 				}

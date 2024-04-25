@@ -41,7 +41,7 @@
 							{
 								"name": "fld_psch_create_date",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							},
@@ -449,7 +449,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_no_of_depnt"
+									"path": "$['fld_psch_no_of_depnt']"
 								},
 								"sink": {
 									"name": "fld_psch_no_of_depnt",
@@ -458,7 +458,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_schd_line_no"
+									"path": "fld_psch_schd_line_no"
 								},
 								"sink": {
 									"name": "fld_psch_schd_line_no",
@@ -467,7 +467,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_status"
+									"path": "fld_psch_status"
 								},
 								"sink": {
 									"name": "fld_psch_status",
@@ -476,7 +476,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_rec_type"
+									"path": "fld_psch_rec_type"
 								},
 								"sink": {
 									"name": "fld_psch_rec_type",
@@ -485,7 +485,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_create_by"
+									"path": "fld_psch_create_by"
 								},
 								"sink": {
 									"name": "fld_psch_create_by",
@@ -494,7 +494,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_create_date"
+									"path": "fld_psch_create_date"
 								},
 								"sink": {
 									"name": "fld_psch_create_date",
@@ -503,7 +503,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_modify_by"
+									"path": "fld_psch_modify_by"
 								},
 								"sink": {
 									"name": "fld_psch_modify_by",
@@ -512,7 +512,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_modify_date"
+									"path": "fld_psch_modify_date"
 								},
 								"sink": {
 									"name": "fld_psch_modify_date",
@@ -521,7 +521,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_q_status"
+									"path": "fld_psch_q_status"
 								},
 								"sink": {
 									"name": "fld_psch_q_status",
@@ -530,7 +530,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_psch_combi_id"
+									"path": "fld_psch_combi_id"
 								},
 								"sink": {
 									"name": "fld_psch_combi_id",

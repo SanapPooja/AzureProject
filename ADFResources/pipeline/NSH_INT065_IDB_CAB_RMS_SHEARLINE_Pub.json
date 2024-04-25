@@ -620,7 +620,8 @@
 		],
 		"variables": {
 			"CurrentTime": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
 		},
 		"annotations": []
