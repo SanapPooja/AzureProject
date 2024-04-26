@@ -1,0 +1,12 @@
+{
+	"name": "INT047_orderItem_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT047_orderItem_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
