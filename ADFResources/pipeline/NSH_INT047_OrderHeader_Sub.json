@@ -1566,8 +1566,20 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"type": "Expression"
+							}
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
@@ -1590,8 +1602,20 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"type": "Expression"
+							}
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
@@ -1614,8 +1638,20 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"type": "Expression"
+							}
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
@@ -1736,6 +1772,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"order_request_no": {
+				"type": "string",
+				"defaultValue": "order_request_no"
+			}
+		},
 		"variables": {
 			"ESBUPDATETIME": {
 				"type": "String"
