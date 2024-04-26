@@ -2727,6 +2727,1334 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Order_Item_Records_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT \n    Order_Item.*, \n    WMBnotifySORbjpa512.*\nFROM \n    (SELECT \n        ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO, ITEM_NO) AS Row,\n        ISNULL(NULLIF(LTRIM(RTRIM(IDENTITY_NO)), ''), ' ') AS IDENTITY_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(INTERFACE_ID)), ''), ' ') AS INTERFACE_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(MANDT)), ''), ' ') AS MANDT,\n        ISNULL(NULLIF(LTRIM(RTRIM(ID_MESSAGE)), ''), ' ') AS ID_MESSAGE,\n        ISNULL(NULLIF(RIGHT('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10), ''), ' ') AS ORD_REQ_NO,\n        ISNULL(NULLIF(RIGHT('0' + LTRIM(RTRIM(ITEM_NO)), 6), ''), ' ') AS ITEM_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(CONTR_NO)), ''), ' ') AS CONTR_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(CONTR_ITEM_NO)), ''), ' ') AS CONTR_ITEM_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(MATL_NO)), ''), ' ') AS MATL_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_ITEM_ROWS)), ''), '0') AS NO_ITEM_ROWS,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_VARIANT_ROWS)), ''), '0') AS NO_VARIANT_ROWS,\n        ISNULL(NULLIF(LTRIM(RTRIM(ORD_QTY)), ''), '0') AS ORD_QTY,\n        ISNULL(NULLIF(LTRIM(RTRIM(CONV_RATIO)), ''), ' ') AS CONV_RATIO,\n        ISNULL(NULLIF(LTRIM(RTRIM(SALES_UOM)), ''), ' ') AS SALES_UOM,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_PIECES)), ''), ' ') AS NO_PIECES,\n        ISNULL(NULLIF(LTRIM(RTRIM(THEO_WEIGHT_KG)), ''), '0') AS THEO_WEIGHT_KG,\n        ISNULL(NULLIF(LTRIM(RTRIM(PROD_MARKG)), ''), ' ') AS PROD_MARKG,\n        ISNULL(NULLIF(RIGHT('0' + LTRIM(RTRIM(HG_ITEM_NO)), 6), ''), ' ') AS HG_ITEM_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(PLANT)), ''), ' ') AS PLANT,\n        ISNULL(NULLIF(LTRIM(RTRIM(REQ_DELI_DATE)), ''), ' ') AS REQ_DELI_DATE,\n        ISNULL(NULLIF(LTRIM(RTRIM(NDS_DTL_NO)), ''), ' ') AS NDS_DTL_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(VEHI_TYPE)), ''), ' ') AS VEHI_TYPE,\n        ISNULL(NULLIF(LTRIM(RTRIM(STATUS)), ''), ' ') AS STATUS,\n        ISNULL(NULLIF(LTRIM(RTRIM(ERROR_CD)), ''), ' ') AS ERROR_CD,\n        ISNULL(NULLIF(LTRIM(RTRIM(PROC_TS)), ''), ' ') AS PROC_TS,\n        ISNULL(NULLIF(LTRIM(RTRIM(REC_TYPE)), ''), ' ') AS REC_TYPE,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBSELEMENT_ID)), ''), ' ') AS WBSELEMENT_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(STRUCTUREMARK_ID)), ''), ' ') AS STRUCTUREMARK_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(PRODUCTMARK_ID)), ''), ' ') AS PRODUCTMARK_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(DETAILING_BOM_ID)), ''), ' ') AS DETAILING_BOM_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(PRODUCTION_BOM_ID)), ''), ' ') AS PRODUCTION_BOM_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(SAP_STATUS)), ''), ' ') AS SAP_STATUS,\n        ISNULL(NULLIF(LTRIM(RTRIM(BBS_Number)), ''), ' ') AS BBS_Number,\n        ISNULL(NULLIF(LTRIM(RTRIM(ITEM_GROUP)), ''), ' ') AS ITEM_GROUP,\n        ISNULL(NULLIF(LTRIM(RTRIM(POSTGROUPMARK_ID)), ''), ' ') AS POSTGROUPMARK_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(POSTSTRUCTUREMARK_ID)), ''), ' ') AS POSTSTRUCTUREMARK_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(POSTHEADER_ID)), ''), ' ') AS POSTHEADER_ID,\n        ISNULL(NULLIF(LTRIM(RTRIM(BBS_NO)), ''), ' ') AS BBS_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(BBS_DESC)), ''), ' ') AS BBS_DESC,\n        ISNULL(NULLIF(LTRIM(RTRIM(IND_ITEM_NO)), ''), ' ') AS IND_ITEM_NO,\n        ISNULL(NULLIF(LTRIM(RTRIM(PROD_GRP)), ''), ' ') AS PROD_GRP,\n        ISNULL(NULLIF(LTRIM(RTRIM(ST_ELEMENT_TYPE)), ''), ' ') AS ST_ELEMENT_TYPE,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBS1)), ''), ' ') AS WBS1,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBS2)), ''), ' ') AS WBS2,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBS3)), ''), ' ') AS WBS3,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBS4)), ''), ' ') AS WBS4,\n        ISNULL(NULLIF(LTRIM(RTRIM(WBS5)), ''), ' ') AS WBS5,\n        ISNULL(NULLIF(LTRIM(RTRIM(SHAPE_CODE)), ''), ' ') AS SHAPE_CODE,\n        ISNULL(NULLIF(LTRIM(RTRIM(INVOICE_LENGTH)), ''), ' ') AS INVOICE_LENGTH,\n        ISNULL(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_L)), ''), ' ') AS EXT_DIMENSION_L,\n        ISNULL(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_W)), ''), ' ') AS EXT_DIMENSION_W,\n        ISNULL(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_H)), ''), ' ') AS EXT_DIMENSION_H,\n        ISNULL(NULLIF(LTRIM(RTRIM(Z_SHAPE_SURCHARG)), ''), ' ') AS Z_SHAPE_SURCHARG,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_OF_CUT_PC)), ''), ' ') AS NO_OF_CUT_PC,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_OF_BEND_PC)), ''), ' ') AS NO_OF_BEND_PC,\n        ISNULL(NULLIF(LTRIM(RTRIM(NO_ROLLING)), ''), ' ') AS NO_ROLLING,\n        ISNULL(NULLIF(LTRIM(RTRIM(COU_TYPE_1)), ''), ' ') AS COU_TYPE_1,\n        ISNULL(NULLIF(LTRIM(RTRIM(COU_TYPE_2)), ''), ' ') AS COU_TYPE_2,\n        ISNULL(NULLIF(LTRIM(RTRIM(Z_PIECES)), ''), ' ') AS Z_PIECES\n    FROM \n        dbo.SAP_ORDER_ITEM \n    WHERE \n        status IN ('A', 'T')) AS Order_Item\nJOIN \n    WMBnotifySORbjpa512 ON Order_Item.ORD_REQ_NO = WMBnotifySORbjpa512.ORD_REQ_NO\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "order_request_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "item_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "parent_item_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARENT_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "sap_order_item",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_ORDER_ITEM"
+								}
+							},
+							{
+								"source": {
+									"name": "material_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATERIAL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "product_hierarchy",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_HIERARCHY"
+								}
+							},
+							{
+								"source": {
+									"name": "order_qty",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ORDER_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "sales_uom",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SALES_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "fg_production_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FG_PRODUCTION_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "component_production_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$COMPONENT_PRODUCTION_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "product_marking",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_MARKING"
+								}
+							},
+							{
+								"source": {
+									"name": "component_prefix",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COMPONENT_PREFIX"
+								}
+							},
+							{
+								"source": {
+									"name": "order_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ORDER_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "delivered_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$DELIVERED_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "actual_del_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTUAL_DEL_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "delivery_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DELIVERY_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "cancellation_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CANCELLATION_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "no_of_points",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$NO_OF_POINTS"
+								}
+							},
+							{
+								"source": {
+									"name": "env_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "env_width",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_WIDTH"
+								}
+							},
+							{
+								"source": {
+									"name": "env_height",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ENV_HEIGHT"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS1"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS2"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS3"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS4"
+								}
+							},
+							{
+								"source": {
+									"name": "wbs5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS5"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_stage",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_STAGE"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_desc",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "needs_galvanizing_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NEEDS_GALVANIZING_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "needs_production_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$NEEDS_PRODUCTION_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_spiral_pitch",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_SPIRAL_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_fleet_pitch",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_FLEET_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_bar_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_BAR_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$CAB_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cut_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_CUT_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_coupler_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_COUPLER_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_former_size",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$CAB_FORMER_SIZE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_shape_group",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_SHAPE_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "shape_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cou_end_type1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_COU_END_TYPE1"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_cou_end_type2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_COU_END_TYPE2"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_no_of_bend",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_NO_OF_BEND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_cw_reversed_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_CW_REVERSED_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_mat_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_MAT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_oh1",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_OH1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_oh2",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_OH2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_LW_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_LW_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_mat_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_MAT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_mat_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_MAT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_grade",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_oh1",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_OH1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_oh2",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_OH2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_CW_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_bvbs",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_twin_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_CW_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_no_of_bend",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_NO_OF_BEND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_no_of_cut",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESH_NO_OF_CUT"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_manual_trim_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_MANUAL_TRIM_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_bom_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_BOM_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_line_cross",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_LINE_CROSS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_seq_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_mat_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_MAT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_wt_kg",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_wire_spacing",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SPACING"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_cage_set_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_CAGE_SET_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_centralizer_qty",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_CENTRALIZER_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_lap_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_LAP_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_end_length",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_END_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_PILE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_l2_cage_dia",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BPC_L2_CAGE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_no_rings_start",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_NO_RINGS_START"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_sleeve_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_SLEEVE_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_jig_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_JIG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_add_jig_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_ADD_JIG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_seq_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_PILE_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_micropile_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_MICROPILE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "pcg_cage_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PCG_CAGE_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "pcg_assembly_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PCG_ASSEMBLY_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "remarks",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REMARKS"
+								}
+							},
+							{
+								"source": {
+									"name": "st_element",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ST_ELEMENT"
+								}
+							},
+							{
+								"source": {
+									"name": "qty_in_base_uom",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$QTY_IN_BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "base_uom",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "drawing_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DRAWING_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "inv_len_in_mm",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"name": "grade_dia",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GRADE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_layer",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BPC_LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_main_bar_angle",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_MAIN_BAR_ANGLE"
+								}
+							},
+							{
+								"source": {
+									"name": "sap_product_group",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_PRODUCT_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "product_marking_rev_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_MARKING_REV_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_standard_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_STANDARD_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_stud_end_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$CAB_STUD_END_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "drawing_no_rev",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DRAWING_NO_REV"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_former_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAB_FORMER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_pile_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BPC_PILE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_bpc_layer_no",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$PRC_BPC_LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "bbs_page_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_PAGE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_product_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_PRODUCT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_inv_len",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_LW_INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_cw_inv_len",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_CW_INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_mo1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_MO1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_mo2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_MO2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_co1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_CO1"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_inv_co2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_INV_CO2"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_slope_indicator",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESH_SLOPE_INDICATOR"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_num_of_links",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_NUM_OF_LINKS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_MESH_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_MESH_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_START_POS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_START_POS"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_WIRE_SPEC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_SPEC"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_NO_PITCH",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_NO_PITCH"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_REP_FROM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_REP_FROM"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_REP_TO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_REP_TO"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_num_of_REPETITION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESHB_NUM_OF_REPETITION"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_WIRE_PROD_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_WIRE_PROD_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_TWIN_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_TWIN_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "meshb_MACH_WIRE_SPEC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MESHB_MACH_WIRE_SPEC"
+								}
+							},
+							{
+								"source": {
+									"name": "mesh_slope",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$MESH_SLOPE"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_panel_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRC_PANEL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "prc_panel_seq_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRC_PANEL_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "IDENTICAL_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$IDENTICAL_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_MAINBAR_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$SIMILAR_MAINBAR_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_EXTLINK_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$SIMILAR_EXTLINK_HASHCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "COMPLEXITY_IND",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ COMPLEXITY_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "SIMILAR_EXTLINK_HASHCODE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_INSERT_UPDATE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT047_SCM_Order_Item",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT047_Order_Item",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {

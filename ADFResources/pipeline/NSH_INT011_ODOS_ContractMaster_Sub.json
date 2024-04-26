@@ -21,7 +21,7 @@
 							{
 								"name": "ID_MESSAGE",
 								"value": {
-									"value": "@concat(formatDateTime(utcNow(), 'yyyy-MM-dd-HH.mm.ss.ffffff'), '')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
@@ -275,7 +275,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ID_MESSAGE']"
+									"path": "$['ID_MESSAGE']"
 								},
 								"sink": {
 									"name": "ID_MESSAGE"
