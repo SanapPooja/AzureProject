@@ -44,15 +44,6 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "Identity_No"
-								},
-								"sink": {
-									"name": "Identity_No",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
 									"path": "$TRACKNO"
 								},
 								"sink": {
@@ -107,17 +98,13 @@
 							},
 							{
 								"source": {
-									"path": "inserted_date"
+									"path": "$['inserted_date']"
 								},
 								"sink": {
 									"name": "Inserted_date",
 									"type": "String"
 								}
-							},
-							null,
-							null,
-							null,
-							null
+							}
 						]
 					}
 				},
@@ -179,12 +166,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"ESBDATE": {
-				"type": "String",
-				"defaultValue": "ESBDATE"
-			}
-		},
 		"variables": {
 			"CurrentTime": {
 				"type": "String",
