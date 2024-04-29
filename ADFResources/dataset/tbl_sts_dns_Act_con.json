@@ -1,0 +1,186 @@
+{
+	"name": "tbl_sts_dns_Act_con",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_ACT_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_ACT_id_message",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_GR_batch_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_GR_tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_GR_aim_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_plant",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_doc_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_postg_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_wrk_cnt",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_tot_qty",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_qty_d",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_opr_actv_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_prod_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_sal_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_pcode",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_shift",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no1",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty1",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom1",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no2",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty2",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom2",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no3",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty3",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom3",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no4",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty4",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom4",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no5",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty5",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom5",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_no6",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_qty6",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_act_uom6",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_clbd_item",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_ACT_rec_type",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_dns_Act_con"
+		}
+	}
+}

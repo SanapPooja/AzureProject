@@ -1,0 +1,12 @@
+{
+	"name": "INT007_Activity",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT007_Activity",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
