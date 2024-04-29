@@ -84,7 +84,7 @@
 					},
 					"sink": {
 						"type": "OracleSink",
-						"writeBatchSize": 10000
+						"writeBatchSize": 100
 					},
 					"enableStaging": false,
 					"translator": {
