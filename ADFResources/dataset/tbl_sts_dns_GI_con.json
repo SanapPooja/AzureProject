@@ -1,0 +1,140 @@
+{
+	"name": "tbl_sts_dns_GI_con",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_GI_con_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_GI_id_message",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_GR_batch_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_GR_tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_GR_aim_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_GR_ach_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_batch_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_plant",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_stor_loc",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_doc_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_postg_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_tot_qty",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GI_base_uom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_prod_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_shift",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_sal_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_pcode",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_qty_d",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GI_clbd_item",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_rev_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GI_adj_factor",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_dns_GI_con"
+		}
+	}
+}

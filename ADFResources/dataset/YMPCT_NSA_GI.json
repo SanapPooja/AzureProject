@@ -1,0 +1,16 @@
+{
+	"name": "YMPCT_NSA_GI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMPCT_NSA_GI"
+		}
+	}
+}

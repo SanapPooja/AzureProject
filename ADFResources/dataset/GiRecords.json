@@ -1,0 +1,12 @@
+{
+	"name": "GiRecords",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GiRecords",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
