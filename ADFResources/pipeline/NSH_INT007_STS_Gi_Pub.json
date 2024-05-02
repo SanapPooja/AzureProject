@@ -263,6 +263,58 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT  top 1000 fld_GI_con_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_id_message)),''),' ') AS fld_GI_id_message,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_batch_id)),''),' ')AS fld_GI_GR_batch_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_aim_matl_no)),''),' ')AS fld_GI_GR_aim_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_ach_matl_no)),''),' ')AS fld_GI_GR_ach_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_batch_id)),''),' ')AS fld_GI_batch_id, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_matl_no)),''),' ')AS fld_GI_matl_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_plant)),''),' ')AS fld_GI_plant, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_stor_loc)),''),' ')AS fld_GI_stor_loc, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_doc_date)),''),' ')AS fld_GI_doc_date, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_postg_date)),''), ' ') AS fld_GI_postg_date,\t\t\t\t\t\t\t\r\nISNULL(fld_GI_tot_qty,0) AS fld_GI_tot_qty, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_base_uom)),''),' ')AS fld_GI_base_uom, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_prod_ord_no)),''),' ')AS fld_GI_prod_ord_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_shift)),''),' ')AS fld_GI_shift, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_sal_ord_no)),''), ' ') AS fld_GI_sal_ord_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_item_no)),''),' ')AS fld_GI_item_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_pcode)),''),' ') AS fld_GI_pcode,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_clbd_item)),''),' ')AS fld_GI_clbd_item, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_rev_status)),''),' ')AS fld_GI_rev_status ,\t\t\t\t\t\t\t\r\nfld_GI_rec_type,\t\t\t\t\t\t\t\r\nfld_GI_status,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_qty_d)),''),'0') AS fld_GI_qty_d \t\t\t\t\t\t\t\r\nFROM tbl_sts_dns_GI_con \t\t\t\t\t\t\t\r\nWHERE ( fld_GI_rec_type= 'A'  AND fld_GI_status= 'I')\t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'Q'  AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'H' AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'S'  AND fld_GI_status= 'I')",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"sink": {
+									"path": "$"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "tbl_sts_dns_GI_con",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GiRecords",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
