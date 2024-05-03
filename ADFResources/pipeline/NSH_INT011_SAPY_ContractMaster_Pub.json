@@ -141,6 +141,10 @@
 							{
 								"name": "ERROR_CD",
 								"value": ""
+							},
+							{
+								"name": "STATUS",
+								"value": "A"
 							}
 						],
 						"oracleReaderQuery": {
@@ -385,6 +389,14 @@
 								},
 								"sink": {
 									"path": "$['$ERROR_CD']"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS"
+								},
+								"sink": {
+									"path": "$['$STATUS']"
 								}
 							}
 						]
