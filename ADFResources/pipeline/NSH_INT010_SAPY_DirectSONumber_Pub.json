@@ -25,12 +25,12 @@
 							{
 								"name": "inserted_date",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcNow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
 						],
-						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
+						"oracleReaderQuery": "SELECT order_request_no, sales_order \nFROM sapsr3.YESB_SOR_SO \nWHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL \nAND ROWNUM <= 9;\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},

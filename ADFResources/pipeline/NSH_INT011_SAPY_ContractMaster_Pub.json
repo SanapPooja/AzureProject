@@ -132,19 +132,19 @@
 						"additionalColumns": [
 							{
 								"name": "vchDescription",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "PROC_TS",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "ERROR_CD",
-								"value": "NULL"
+								"value": ""
 							}
 						],
 						"oracleReaderQuery": {
-							"value": "SELECT MANDT, CONTR_NO, MARKET_SEGMENT, CUST_ID, NAME, NAME1, START_DATE, END_DATE, CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID, REC_TYPE, YWIREROD_IND, YREBAR_IND, YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE, YCARPET_IND, YPRCMSH_IND, UDATE \nFROM sapsr3.YMSDT_CONTRACT_M \nWHERE MANDT = '110'\t\t\t\t\t\nMINUS \t\t\t\t\t\t\t\t\nSELECT MANDT, CONTR_NO, MARKET_SEGMENT, CUST_ID, NAME, NAME1, START_DATE, END_DATE, CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID, REC_TYPE, YWIREROD_IND, YREBAR_IND, YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE, YCARPET_IND, YPRCMSH_IND, UDATE \nFROM sapsr3.YESB_CONTRACT_M \nWHERE MANDT = '110'\n",
+							"value": "select MANDT, CONTR_NO,\tMARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE, CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND,YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND from sapsr3.YMSDT_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nminus \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect MANDT, CONTR_NO, MARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE,  CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND, YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND from sapsr3.YESB_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -404,6 +404,12 @@
 				]
 			}
 		],
+		"parameters": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "110"
+			}
+		},
 		"annotations": []
 	}
 }
