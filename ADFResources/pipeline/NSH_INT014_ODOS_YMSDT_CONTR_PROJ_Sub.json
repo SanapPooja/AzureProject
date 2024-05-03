@@ -25,9 +25,13 @@
 							{
 								"name": "ID_MESSAGE",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH-mm-ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 6))\n",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "tntStatusId",
+								"value": "1"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -185,6 +189,14 @@
 								},
 								"sink": {
 									"name": "ID_MESSAGE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['tntStatusId']"
+								},
+								"sink": {
+									"name": "tntStatusId"
 								}
 							}
 						],
