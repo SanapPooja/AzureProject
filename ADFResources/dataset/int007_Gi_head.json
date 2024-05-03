@@ -1,0 +1,12 @@
+{
+	"name": "int007_Gi_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int007_Gi_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

@@ -620,6 +620,15 @@
 						"mappings": [
 							{
 								"source": {
+									"path": "['A']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$GR_CHARG"
 								},
 								"sink": {
@@ -1038,15 +1047,6 @@
 								},
 								"sink": {
 									"name": "REV_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "['A']"
-								},
-								"sink": {
-									"name": "STATUS",
 									"type": "String"
 								}
 							},
