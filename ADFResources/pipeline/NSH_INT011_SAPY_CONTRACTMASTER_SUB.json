@@ -24,6 +24,10 @@
 									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH.mm.ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 6))",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "STATUS",
+								"value": "A"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -283,7 +287,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$STATUS']"
+									"path": "$['STATUS']"
 								},
 								"sink": {
 									"name": "STATUS"
