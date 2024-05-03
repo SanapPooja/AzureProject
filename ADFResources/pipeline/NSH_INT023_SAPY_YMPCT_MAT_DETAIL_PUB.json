@@ -17,8 +17,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YMPCT_MAT_DETAIL where MANDT= '110'\t\t\nminus\t\t\nselect MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YESB_MAT_DETAIL  where MANDT= '110'",
+						"oracleReaderQuery": {
+							"value": "select MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YMPCT_MAT_DETAIL where MANDT=@{pipeline().parameters.MANDT}\nminus\t\t\nselect MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YESB_MAT_DETAIL  where MANDT= @{pipeline().parameters.MANDT}",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
+						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -241,7 +245,14 @@
 						{
 							"name": "DeleteDataFromINT023Queue",
 							"type": "WebActivity",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Wait2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -258,12 +269,23 @@
 									"resource": "https://servicebus.azure.net/"
 								}
 							}
+						},
+						{
+							"name": "Wait2",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 60
+							}
 						}
 					],
 					"ifTrueActivities": [
 						{
 							"name": "Execute Pipeline1",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"policy": {
 								"secureInput": false
@@ -285,9 +307,9 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Lookup_USP_INT023",
+						"activity": "Wait1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -307,8 +329,30 @@
 						"resource": "https://servicebus.azure.net/"
 					}
 				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Lookup_USP_INT023",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
 			}
 		],
+		"parameters": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "110"
+			}
+		},
 		"annotations": []
 	}
 }

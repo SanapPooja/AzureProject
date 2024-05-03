@@ -114,7 +114,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT *\nFROM (\n   SELECT  mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type,\n              UDATE\n          FROM\n              sapsr3.ymsdt_cust_mastr\n          WHERE\n              mandt = '110'\n          MINUS\n          SELECT\n              mandt,\n              cust_id,\n              contry_key,\n              name1,\n              city,\n              post_code,\n              region,\n              sort_field,\n              hse_strt,\n              tele_no,\n              fax_no,\n              inter_id,\n              rec_type,\n              UDATE\n          FROM\n              sapsr3.yesb_cust_mastr\n          WHERE\n              mandt = '110'\n              ORDER BY UDATE DESC\n)\nWHERE ROWNUM <= 5;",
+							"value": "select MANDT, CUST_ID, CONTRY_KEY, NAME1, CITY, POST_CODE, REGION, SORT_FIELD, HSE_STRT, TELE_NO, FAX_NO, INTER_ID, REC_TYPE from SAPSR3.YMSDT_CUST_MASTR where MANDT= @{pipeline().parameters.MANDT} \nminus \nselect MANDT, CUST_ID, CONTRY_KEY, NAME1, CITY, POST_CODE, REGION, SORT_FIELD, HSE_STRT, TELE_NO, FAX_NO, INTER_ID, REC_TYPE from SAPSR3.YESB_CUST_MASTR where MANDT= @{pipeline().parameters.MANDT}",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -267,6 +267,12 @@
 				]
 			}
 		],
+		"parameters": {
+			"MANDT": {
+				"type": "String",
+				"defaultValue": "110"
+			}
+		},
 		"annotations": []
 	}
 }

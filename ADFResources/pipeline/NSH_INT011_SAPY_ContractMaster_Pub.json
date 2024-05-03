@@ -141,14 +141,10 @@
 							{
 								"name": "ERROR_CD",
 								"value": ""
-							},
-							{
-								"name": "STATUS",
-								"value": "A"
 							}
 						],
 						"oracleReaderQuery": {
-							"value": "select MANDT, CONTR_NO,\tMARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE, CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND,YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND from sapsr3.YMSDT_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nminus \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect MANDT, CONTR_NO, MARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE,  CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND, YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND from sapsr3.YESB_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}",
+							"value": "select MANDT, CONTR_NO,\tMARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE, CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND,YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND,STATUS from sapsr3.YMSDT_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nminus \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect MANDT, CONTR_NO, MARKET_SEGMENT,\tCUST_ID, NAME, NAME1, START_DATE, END_DATE,  CAB_FORMER_TYPE, SEG_MANAGER, ACC_MANAGER, INTER_ID,  REC_TYPE, YWIREROD_IND, YREBAR_IND, YCAB_IND, YMESH_IND, YPRECAGE, YBPC_IND, YPCSTRAND, YCOLD_ROLL_WIRE, YPRE_CUT_WIRE,YCARPET_IND,YPRCMSH_IND,STATUS from sapsr3.YESB_CONTRACT_M where MANDT =@{pipeline().parameters.MANDT}",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
