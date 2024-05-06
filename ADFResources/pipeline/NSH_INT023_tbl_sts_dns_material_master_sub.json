@@ -132,7 +132,8 @@
 									"path": "$['$PRODH']"
 								},
 								"sink": {
-									"name": "fld_mm_prodh"
+									"name": "fld_mm_prodH",
+									"type": "String"
 								}
 							},
 							{
@@ -209,7 +210,7 @@
 							},
 							{
 								"source": {
-									"path": "$['TIMESTAMP']"
+									"path": "$['$TIMESTAMP']"
 								},
 								"sink": {
 									"name": "fld_mm_message_id",
