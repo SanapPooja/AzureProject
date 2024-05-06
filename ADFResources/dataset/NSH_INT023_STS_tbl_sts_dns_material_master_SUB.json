@@ -2,7 +2,7 @@
 	"name": "NSH_INT023_STS_tbl_sts_dns_material_master_SUB",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "STS_QA",
+			"referenceName": "NSQADB2Connection",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
