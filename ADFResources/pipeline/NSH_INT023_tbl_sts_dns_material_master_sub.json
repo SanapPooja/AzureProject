@@ -222,15 +222,6 @@
 									"name": "fld_mm_modify_date",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['fld_mm_old_matl_no']"
-								},
-								"sink": {
-									"name": "fld_mm_old_matl_no",
-									"type": "String"
-								}
 							}
 						],
 						"collectionReference": ""
