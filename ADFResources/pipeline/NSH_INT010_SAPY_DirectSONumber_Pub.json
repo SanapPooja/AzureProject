@@ -25,7 +25,7 @@
 							{
 								"name": "inserted_date",
 								"value": {
-									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcNow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
 									"type": "Expression"
 								}
 							}
