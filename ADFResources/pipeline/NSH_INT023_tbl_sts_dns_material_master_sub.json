@@ -30,18 +30,6 @@
 								"value": "STSDNS"
 							},
 							{
-								"name": "fld_mm_modify_by",
-								"value": ""
-							},
-							{
-								"name": "fld_mm_modify_date",
-								"value": ""
-							},
-							{
-								"name": "fld_mm_old_matl_no",
-								"value": ""
-							},
-							{
 								"name": "fld_mm_message_id",
 								"value": {
 									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH-mm-ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 5))",
