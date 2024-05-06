@@ -19,13 +19,6 @@
 						"type": "RestSource",
 						"additionalColumns": [
 							{
-								"name": "fld_mm_message_id",
-								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-									"type": "Expression"
-								}
-							},
-							{
 								"name": "fld_mm_create_date",
 								"value": {
 									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))\n",
@@ -42,6 +35,10 @@
 							},
 							{
 								"name": "fld_mm_modify_date",
+								"value": ""
+							},
+							{
+								"name": "fld_mm_old_matl_no",
 								"value": ""
 							}
 						],
@@ -96,6 +93,15 @@
 							},
 							{
 								"source": {
+									"path": "$['$DIA']"
+								},
+								"sink": {
+									"name": "fld_mm_dia",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
 									"path": "$['$BASE_UOM']"
 								},
 								"sink": {
@@ -131,6 +137,15 @@
 							},
 							{
 								"source": {
+									"path": "$['$MATKL']"
+								},
+								"sink": {
+									"name": "fld_mm_matl_grp",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$['$M_GRADE']"
 								},
 								"sink": {
@@ -154,33 +169,6 @@
 								"sink": {
 									"name": "fld_mm_kg_per_pc",
 									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$MATKL']"
-								},
-								"sink": {
-									"name": "fld_mm_matl_grp",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$DIA']"
-								},
-								"sink": {
-									"name": "fld_mm_dia",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$['fld_mm_message_id']"
-								},
-								"sink": {
-									"name": "fld_mm_message_id",
-									"type": "String"
 								}
 							},
 							{
@@ -218,9 +206,19 @@
 									"name": "fld_mm_modify_date",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['TIMESTAMP']"
+								},
+								"sink": {
+									"name": "fld_mm_message_id",
+									"type": "String"
+								}
 							}
 						],
-						"collectionReference": ""
+						"collectionReference": "",
+						"mapComplexValuesToString": false
 					}
 				},
 				"inputs": [
