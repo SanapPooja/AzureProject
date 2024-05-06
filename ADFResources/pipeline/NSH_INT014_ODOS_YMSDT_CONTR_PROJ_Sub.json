@@ -265,6 +265,9 @@
 		"variables": {
 			"CurrentTime": {
 				"type": "String"
+			},
+			"FLD_SOR_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []

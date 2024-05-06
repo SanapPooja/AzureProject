@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT003_NDS_OrderAttribute_Pub",
+	"name": "NSH_INT003_DEMO",
 	"properties": {
 		"activities": [
 			{
@@ -683,7 +683,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT003_STS_OrderAttribute_Sub",
+						"referenceName": "NSH_INT003_DEMO2",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -750,6 +750,11 @@
 			"fld_trk_sor_no": {
 				"type": "string",
 				"defaultValue": "fld_vattr_sor_no"
+			}
+		},
+		"variables": {
+			"FLD_SOR_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []

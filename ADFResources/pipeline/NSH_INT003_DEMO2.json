@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT003_STS_OrderAttribute_Sub",
+	"name": "NSH_INT003_DEMO2",
 	"properties": {
 		"activities": [
 			{
@@ -1093,6 +1093,11 @@
 			"FLD_TRK_SOR_NO": {
 				"type": "string",
 				"defaultValue": "FLD_VATTR_SOR_NO"
+			}
+		},
+		"variables": {
+			"FLD_SOR_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []

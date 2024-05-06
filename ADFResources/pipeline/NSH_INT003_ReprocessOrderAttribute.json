@@ -711,6 +711,11 @@
 				"defaultValue": "fld_vattr_sor_no"
 			}
 		},
+		"variables": {
+			"FLD_SOR_NO": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
