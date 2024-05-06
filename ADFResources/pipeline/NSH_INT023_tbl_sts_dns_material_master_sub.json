@@ -108,8 +108,8 @@
 									"path": "$['$REC_TYPE']"
 								},
 								"sink": {
-									"name": "fld_mm_dia",
-									"type": "Decimal"
+									"name": "fld_mm_rec_type",
+									"type": "String"
 								}
 							},
 							{
