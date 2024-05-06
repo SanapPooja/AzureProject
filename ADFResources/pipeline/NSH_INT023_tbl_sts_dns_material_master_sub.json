@@ -40,6 +40,17 @@
 							{
 								"name": "fld_mm_old_matl_no",
 								"value": ""
+							},
+							{
+								"name": "fld_mm_message_id",
+								"value": {
+									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH-mm-ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 5))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_mm_rec_type",
+								"value": "1"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -111,7 +122,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$REC_TYPE']"
+									"path": "$['fld_mm_rec_type']"
 								},
 								"sink": {
 									"name": "fld_mm_rec_type",
@@ -192,25 +203,7 @@
 							},
 							{
 								"source": {
-									"path": "$['fld_mm_modify_by']"
-								},
-								"sink": {
-									"name": "fld_mm_modify_by",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['fld_mm_modify_date']"
-								},
-								"sink": {
-									"name": "fld_mm_modify_date",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$TIMESTAMP']"
+									"path": "$['fld_mm_message_id']"
 								},
 								"sink": {
 									"name": "fld_mm_message_id",
