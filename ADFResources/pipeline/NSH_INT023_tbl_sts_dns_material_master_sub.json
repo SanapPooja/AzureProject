@@ -43,10 +43,6 @@
 							{
 								"name": "fld_mm_modify_date",
 								"value": ""
-							},
-							{
-								"name": "fld_mm_old_matl_no",
-								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
