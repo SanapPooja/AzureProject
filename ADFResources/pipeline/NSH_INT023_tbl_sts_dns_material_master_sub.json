@@ -73,7 +73,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$MATNR"
+									"path": "$['$MATNR']"
 								},
 								"sink": {
 									"name": "fld_mm_matl_no",
@@ -82,7 +82,7 @@
 							},
 							{
 								"source": {
-									"path": "$MAKTX"
+									"path": "$['$MAKTX']"
 								},
 								"sink": {
 									"name": "fld_mm_matl_desc",
@@ -91,7 +91,7 @@
 							},
 							{
 								"source": {
-									"path": "$PRODUCT_CODE"
+									"path": "$['$PRODUCT_CODE']"
 								},
 								"sink": {
 									"name": "fld_mm_matl_pcode",
@@ -100,16 +100,7 @@
 							},
 							{
 								"source": {
-									"path": "$DIA"
-								},
-								"sink": {
-									"name": "fld_mm_dia",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$BASE_UOM"
+									"path": "$['$BASE_UOM']"
 								},
 								"sink": {
 									"name": "fld_mm_base_uom",
@@ -118,25 +109,16 @@
 							},
 							{
 								"source": {
-									"path": "$TIMESTAMP"
+									"path": "$['$REC_TYPE']"
 								},
 								"sink": {
-									"name": "fld_mm_message_id",
-									"type": "String"
+									"name": "fld_mm_dia",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
-									"path": "$REC_TYPE"
-								},
-								"sink": {
-									"name": "fld_mm_rec_type",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$SALES_UNIT"
+									"path": "$['$SALES_UNIT']"
 								},
 								"sink": {
 									"name": "fld_mm_order_unit",
@@ -145,25 +127,15 @@
 							},
 							{
 								"source": {
-									"path": "$PRODH"
+									"path": "$['$PRODH']"
 								},
 								"sink": {
-									"name": "fld_mm_prodH",
-									"type": "String"
+									"name": "fld_mm_prodh"
 								}
 							},
 							{
 								"source": {
-									"path": "$MATKL"
-								},
-								"sink": {
-									"name": "fld_mm_matl_grp",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$M_GRADE"
+									"path": "$['$M_GRADE']"
 								},
 								"sink": {
 									"name": "fld_mm_grade",
@@ -172,7 +144,7 @@
 							},
 							{
 								"source": {
-									"path": "$PROD_SCH"
+									"path": "$['$PROD_SCH']"
 								},
 								"sink": {
 									"name": "fld_mm_prod_sch",
@@ -181,7 +153,7 @@
 							},
 							{
 								"source": {
-									"path": "$KG_PER_PC"
+									"path": "$['$KG_PER_PC']"
 								},
 								"sink": {
 									"name": "fld_mm_kg_per_pc",
@@ -190,7 +162,34 @@
 							},
 							{
 								"source": {
-									"path": "fld_mm_create_date"
+									"path": "$['$MATKL']"
+								},
+								"sink": {
+									"name": "fld_mm_matl_grp",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DIA']"
+								},
+								"sink": {
+									"name": "fld_mm_dia",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['fld_mm_message_id']"
+								},
+								"sink": {
+									"name": "fld_mm_message_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['fld_mm_create_date']"
 								},
 								"sink": {
 									"name": "fld_mm_create_date",
@@ -199,7 +198,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_mm_create_by"
+									"path": "$['fld_mm_create_by']"
 								},
 								"sink": {
 									"name": "fld_mm_create_by",
@@ -208,7 +207,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_mm_modify_by"
+									"path": "$['fld_mm_modify_by']"
 								},
 								"sink": {
 									"name": "fld_mm_modify_by",
@@ -217,7 +216,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_mm_modify_date"
+									"path": "$['fld_mm_modify_date']"
 								},
 								"sink": {
 									"name": "fld_mm_modify_date",
@@ -226,7 +225,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_mm_old_matl_no"
+									"path": "$['fld_mm_old_matl_no']"
 								},
 								"sink": {
 									"name": "fld_mm_old_matl_no",
