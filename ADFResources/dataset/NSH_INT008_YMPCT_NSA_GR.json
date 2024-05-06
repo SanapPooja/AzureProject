@@ -1,0 +1,16 @@
+{
+	"name": "NSH_INT008_YMPCT_NSA_GR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMPCT_NSA_GR"
+		}
+	}
+}

@@ -1,0 +1,422 @@
+{
+	"name": "NSH_INT008_TBL_STS_DNS_GR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_GR_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fld_GR_id_message",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_aim_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_batch_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_ach_mat_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_tot_qty",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_base_uom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_ord_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_prod_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_doc_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_postg_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_pcode",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_sap_plant",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_stor_loc",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_GI_rec",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_sal_ord_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_item_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_heat_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_theo_wt",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_shift_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_mill_source",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_length",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_standard",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_pcs_per_heat",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_wt_per_bld",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_pcs_per_bld",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_wt_per_pcs",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_wt_per_coil",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_act_coi_wt",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_mac_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_coil_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_cut",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_bend",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_link",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_cut_per_ton",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_bend_per_ton",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_link_per_ton",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_cou_gra",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_cou_trf",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_end",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_cou_dia1",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_cou_dia2",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_cou_type_1",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_cou_type_2",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_pnt",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_mac_tpl",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_of_str",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_area_per_pc",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_wt_per_pc_mesh",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_plant_d",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_stor_loc_d",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_matl_no_d",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_qty_d",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_GR_batch_id_d",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_prodn_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_shift",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_rev_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_prod_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_status",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_con_batches",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_bat_locator_A",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_bat_locator_B",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_bat_locator_C",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_con_matl",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_batch_no_legacy",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_nds_sale_order",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_order_item",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_shape_code",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_inv_len",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_wbs1",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_wbs2",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_wbs3",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_bbsno",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_prod_mark",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_no_pieces",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_mw_spa",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_cw_spa",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "fld_GR_mw_len",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_cw_len",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_co1",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "fld_GR_co2",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "fld_GR_mo1",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "fld_GR_mo2",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "fld_GR_clbd_item",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_GR_bbs_desc",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_dns_GR"
+		}
+	}
+}
