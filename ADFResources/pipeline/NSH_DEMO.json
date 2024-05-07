@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT003_DEMO",
+	"name": "NSH_DEMO",
 	"properties": {
 		"activities": [
 			{
@@ -683,7 +683,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT003_DEMO2",
+						"referenceName": "NSH_DEMO2",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
