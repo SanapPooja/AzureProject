@@ -160,7 +160,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+								"value": "delete from sapsr3.YESB_SOR_SO where sales_order = @{pipeline().parameters.SALES_ORDER}",
 								"type": "Expression"
 							}
 						}
@@ -198,7 +198,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where sales_order in @{pipeline().parameters.SALES_ORDER}",
+								"value": "delete from sapsr3.YESB_SOR_SO where sales_order = @{pipeline().parameters.SALES_ORDER}",
 								"type": "Expression"
 							}
 						}

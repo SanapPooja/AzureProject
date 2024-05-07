@@ -30,7 +30,7 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "SELECT order_request_no, sales_order \nFROM sapsr3.YESB_SOR_SO \nWHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL \nAND ROWNUM <= 9;\n",
+						"oracleReaderQuery": "SELECT order_request_no, sales_order \nFROM sapsr3.YESB_SOR_SO \nWHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL \nAND ROWNUM <= 2;\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -99,6 +99,8 @@
 			{
 				"name": "Execute INT010 Sub",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Select_SAPY_to_QUEUE",
