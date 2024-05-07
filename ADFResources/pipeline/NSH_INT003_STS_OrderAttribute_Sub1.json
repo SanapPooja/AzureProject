@@ -41,6 +41,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "\r\nSELECT *  \r\nFROM (\r\n    SELECT ROW_NUMBER() OVER (ORDER BY FLD_VATTR_MANDT, FLD_VATTR_ID, FLD_VATTR_SOR_NO, FLD_VATTR_ITEM_NO) AS Row,\r\n           FLD_VATTR_MANDT,\r\n           FLD_VATTR_ID,\r\n           FLD_VATTR_SOR_NO,\r\n           FLD_VATTR_SAL_ORD_NO,\r\n           FLD_VATTR_ITEM_NO,\r\n           FLD_VATTR_CLBD_ITEM,\r\n           FLD_VATTR_REF_SOR_NO,\r\n           FLD_VATTR_REF_ITEM_NO,\r\n           FLD_VATTR_ACT_WT_ORDER,\r\n           FLD_VATTR_ACT_WT_PER_PC,\r\n           FLD_VATTR_AREA_PER_PC,\r\n           FLD_VATTR_ASSM_IND,\r\n           FLD_VATTR_BASE_TO_SALES_UOM,\r\n           FLD_VATTR_BBSNO,\r\n           FLD_VATTR_BBS_DESC,\r\n           FLD_VATTR_BEND_IND,\r\n           FLD_VATTR_BOM_IND,\r\n           FLD_VATTR_COMPLEXITY,\r\n           FLD_VATTR_COU_DIA_1,\r\n           FLD_VATTR_COU_DIA_2,\r\n           FLD_VATTR_COU_GRA,\r\n           FLD_VATTR_COU_SYSTEM,\r\n           FLD_VATTR_COU_TYPE_1,\r\n           FLD_VATTR_COU_TYPE_2,\r\n           FLD_VATTR_COUNT,\r\n           FLD_VATTR_CSB_IND,\r\n           FLD_VATTR_CW_COUNT,\r\n           FLD_VATTR_CW_DIA,\r\n           FLD_VATTR_CW_INV_LEN,\r\n           FLD_VATTR_CW_INV_OVR_HANG1,\r\n           FLD_VATTR_CW_INV_OVR_HANG2,\r\n           FLD_VATTR_CW_PRD_LEN,\r\n           FLD_VATTR_CW_PRD_OVR_HANG1,\r\n           FLD_VATTR_CW_PRD_OVR_HANG2,\r\n           FLD_VATTR_CW_SPA,\r\n           FLD_VATTR_DELI_DATE,\r\n           FLD_VATTR_DEP_IND,\r\n           FLD_VATTR_DEP_SO_NUMBER,\r\n           FLD_VATTR_DIAMETER,\r\n           FLD_VATTR_DRAW_NO,\r\n           FLD_VATTR_DRAW_REF,\r\n           FLD_VATTR_DRAW_REV_NO,\r\n           FLD_VATTR_ELEM_TYPE,\r\n           FLD_VATTR_END_LAP,\r\n           FLD_VATTR_EXT_DIM_HGT,\r\n           FLD_VATTR_EXT_DIM_LGT,\r\n           FLD_VATTR_EXT_DIM_WDT,\r\n           FLD_VATTR_FAB_STANDARD,\r\n           FLD_VATTR_FORMER_DIA,\r\n           FLD_VATTR_GALVANIZATION_IND,\r\n           FLD_VATTR_HG_ITEM_NO,\r\n           FLD_VATTR_IND_ITEM_NO,\r\n           FLD_VATTR_INV_LEN,\r\n           FLD_VATTR_INV_WT_ORDER,\r\n           FLD_VATTR_INV_WT_PER_PC,\r\n           FLD_VATTR_NO_OF_BEND_PC,\r\n           FLD_VATTR_NO_OF_CUT_PC,\r\n           FLD_VATTR_NO_OF_END_PC,\r\n           FLD_VATTR_NO_OF_PNT_PC,\r\n           FLD_VATTR_NO_OF_STR_PC,\r\n           FLD_VATTR_NO_ROLLING,\r\n           FLD_VATTR_MAINCON_IND,\r\n           FLD_VATTR_MATL_NO,\r\n           FLD_VATTR_MESH_TYPE,\r\n           FLD_VATTR_MW_COUNT,\r\n           FLD_VATTR_MW_DIA,\r\n           FLD_VATTR_MW_INV_LEN,\r\n           FLD_VATTR_MW_INV_OVR_HANG1,\r\n           FLD_VATTR_MW_INV_OVR_HANG2,\r\n           FLD_VATTR_MW_PRD_LEN,\r\n           FLD_VATTR_MW_PRD_OVR_HANG1,\r\n           FLD_VATTR_MW_PRD_OVR_HANG2,\r\n           FLD_VATTR_MW_SPA,\r\n           FLD_VATTR_PILE_DIA,\r\n           FLD_VATTR_PILE_SEQ,\r\n           FLD_VATTR_PRD_LENGTH,\r\n           FLD_VATTR_PRODUCE_IND,\r\n           FLD_VATTR_PROD_CD,\r\n           FLD_VATTR_PROD_GRP,\r\n           FLD_VATTR_PROD_MARK,\r\n           FLD_VATTR_PROD_ORD_NO,\r\n           FLD_VATTR_PROD_TYPE,\r\n           FLD_VATTR_PROJ_SECTOR,\r\n           FLD_VATTR_REMARKS,\r\n           FLD_VATTR_RUSH_ORDER_IND,\r\n           FLD_VATTR_SALES_QTY_IN_SALES_UOM,\r\n           FLD_VATTR_SALES_UOM,\r\n           FLD_VATTR_SHAPE_SURCHARGE,\r\n           FLD_VATTR_SHAPE_CODE,\r\n           FLD_VATTR_ST_LAP,\r\n           FLD_VATTR_TOTAL_ITEMS,\r\n           FLD_VATTR_TWIN_IND,\r\n           FLD_VATTR_WBS1,\r\n           FLD_VATTR_WBS2,\r\n           FLD_VATTR_WBS3,\r\n           FLD_VATTR_WBS4,\r\n           FLD_VATTR_WBS5,\r\n           FLD_VATTR_HIERARCHY,\r\n           'A' as FLD_VATTR_STATUS,\r\n           FLD_VATTR_CREATE_BY,\r\n           FLD_VATTR_CREATE_DATE,\r\n           FLD_VATTR_PURECSB_IND\r\n    FROM dbo.TBL_DSS_STS_DNS_VAR_ATTR\r\n    WHERE fld_vattr_status = 'C'\r\n          AND fld_vattr_sor_no = (\r\n              SELECT TOP 1 t1.FLD_TRK_SOR_NO\r\n              FROM TBL_DSS_STS_DNS_VAR_TRK t1\r\n              JOIN WMBbjpwo1y t2 ON t1.FLD_TRK_SOR_NO = t2.FLD_TRK_SOR_NO\r\n              where t1.FLD_TRK_STATUS ='Y' AND t2.FLD_TRK_STATUS ='Y' AND t2.status != 'P'\r\n          )\r\n   \r\n) AS Order_Attribute;",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -70,47 +71,11 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Copy_Data_From_QueueTo_STS",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SAP_DEV_DEMO",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update new_Staus = 'Q' from dbo.TBL_DSS_STS_DNS_VAR_TRK WHERE fld_trk_sor_no=@{variables('FLD_SOR_NO')}",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
 							"name": "Wait 60 sec",
 							"type": "Wait",
 							"dependsOn": [
 								{
-									"activity": "Script1",
+									"activity": "Copy_Data_From_QueueTo_STS",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -126,7 +91,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Script1",
+									"activity": "Copy_Data_From_QueueTo_STS",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1174,7 +1139,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update new_Staus = 'T' from dbo.TBL_DSS_STS_DNS_VAR_TRK WHERE fld_trk_sor_no=@{variables('FLD_SOR_NO')}",
+											"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK SET FLD_TRK_STATUS = 'T'\nWHERE fld_trk_sor_no=@{variables('FLD_SOR_NO')}",
 											"type": "Expression"
 										}
 									}
