@@ -139,7 +139,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT003_ODOS_OrderAttribute_Pub",
+									"referenceName": "NSH_INT003_ODOS_OrderAttribute_Pub1",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
