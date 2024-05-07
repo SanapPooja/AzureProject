@@ -105,6 +105,8 @@
 			{
 				"name": "Delete_Queue_head",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait_60_sec",
