@@ -73,7 +73,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT107_SAPY_SOBT_DATA_SUB",
+									"referenceName": "NSH_INT003_STS_OrderAttribute_Sub1",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
