@@ -160,7 +160,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where sales_order = @{pipeline().parameters.SALES_ORDER}",
+								"value": "delete from sapsr3.YESB_SOR_SO where WHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL AND ROWNUM <= 3;",
 								"type": "Expression"
 							}
 						}
@@ -198,7 +198,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where sales_order = @{pipeline().parameters.SALES_ORDER}",
+								"value": "delete from sapsr3.YESB_SOR_SO WHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL AND ROWNUM <= 3;\n",
 								"type": "Expression"
 							}
 						}
