@@ -1,0 +1,11 @@
+{
+	"name": "pipeline13",
+	"properties": {
+		"variables": {
+			"fld_trk_sor_no": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

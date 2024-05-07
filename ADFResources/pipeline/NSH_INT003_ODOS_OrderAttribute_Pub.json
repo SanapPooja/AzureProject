@@ -48,7 +48,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK \nSET FLD_TRK_STATUS = 'T' \nWHERE fld_trk_sor_no = @{variables('fld_trk_sor_no')}\n",
+											"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK \nSET FLD_TRK_STATUS = 'T' \nWHERE fld_trk_sor_no = '8000822701'\n",
 											"type": "Expression"
 										}
 									}
@@ -738,15 +738,6 @@
 				}
 			}
 		],
-		"variables": {
-			"fld_trk_sor_no": {
-				"type": "String",
-				"defaultValue": "fld_trk_sor_no"
-			},
-			"FLD_SOR_NO": {
-				"type": "String"
-			}
-		},
 		"annotations": []
 	}
 }
