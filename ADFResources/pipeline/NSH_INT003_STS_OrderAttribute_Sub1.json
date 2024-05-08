@@ -21,7 +21,7 @@
 				"typeProperties": {
 					"variableName": "FLD_SOR_NO",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].FLD_TRK_SOR_NO\n",
+						"value": "@activity('Lookup1').output.value[0].FLD_TRK_SOR_NO",
 						"type": "Expression"
 					}
 				}
@@ -55,11 +55,9 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Script2",
+						"activity": "Lookup1_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1227,6 +1225,8 @@
 			{
 				"name": "Wait 60 sec_copy1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script4_copy1",
@@ -1243,6 +1243,8 @@
 			{
 				"name": "Script3_copy1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy_Data_From_QueueTo_STS_copy2",
@@ -1279,6 +1281,8 @@
 			{
 				"name": "Copy_Data_From_QueueTo_STS_copy2",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -2245,6 +2249,8 @@
 			{
 				"name": "Script1_copy1_copy1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy_Data_From_QueueTo_STS_copy2",
@@ -2281,6 +2287,8 @@
 			{
 				"name": "Delete_Data_FromQueue_copy1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait 60 sec_copy1",
@@ -2309,6 +2317,8 @@
 			{
 				"name": "Script4_copy1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy_Data_From_QueueTo_STS_copy2",
@@ -2345,7 +2355,14 @@
 			{
 				"name": "Lookup1_copy1",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -2357,7 +2374,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT TOP 1 t1.FLD_TRK_SOR_NO \r\nFROM TBL_DSS_STS_DNS_VAR_TRK t1\r\nJOIN WMBbjpwo1y t2 ON t1.FLD_TRK_SOR_NO = t2.FLD_TRK_SOR_NO\r\nWHERE t1.FLD_TRK_STATUS = 'Y' \r\n  AND t2.FLD_TRK_STATUS = 'Y' \r\n  AND (t2.status != 'P' OR t2.status IS NULL);\r\n",
+						"sqlReaderQuery": {
+							"value": "select * FROM dbo.TBL_DSS_STS_DNS_VAR_ATTR where  fld_trk_sor_no='@{variables('FLD_SOR_NO')}'",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
