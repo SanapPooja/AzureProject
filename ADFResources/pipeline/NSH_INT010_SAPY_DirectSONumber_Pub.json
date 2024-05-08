@@ -99,8 +99,6 @@
 			{
 				"name": "Execute INT010 Sub",
 				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Select_SAPY_to_QUEUE",
