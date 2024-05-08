@@ -1,0 +1,17 @@
+{
+	"name": "ODOS_To_STS",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 2,
+				"startTime": "2024-05-09T01:20:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
