@@ -1,0 +1,6 @@
+{
+	"name": "MESPROD",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
