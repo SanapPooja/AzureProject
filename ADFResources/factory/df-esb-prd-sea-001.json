@@ -1,0 +1,9 @@
+{
+	"name": "df-esb-prd-sea-001",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "da8cd7c9-c333-43ac-8ba2-c38ec886b0e6",
+		"tenantId": "e678edbd-9359-4ccb-9dfa-1c7641b172d8"
+	}
+}
