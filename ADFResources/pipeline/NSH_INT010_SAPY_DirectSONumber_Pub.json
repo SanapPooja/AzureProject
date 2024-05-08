@@ -52,7 +52,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ORDER_REQUEST_NO"
+									"path": "$['ORDER_REQUEST_NO']"
 								}
 							},
 							{
@@ -61,23 +61,25 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$SALES_ORDER"
+									"path": "$['SALES_ORDER']"
 								}
 							},
 							{
 								"source": {
-									"name": "TM_ACCESS"
+									"name": "TM_ACCESS",
+									"type": "String"
 								},
 								"sink": {
-									"path": "$['$TM_ACCESS']"
+									"path": "$['TM_ACCESS']"
 								}
 							},
 							{
 								"source": {
-									"name": "inserted_date"
+									"name": "inserted_date",
+									"type": "String"
 								},
 								"sink": {
-									"path": "$['$inserted_date']"
+									"path": "$['inserted_date']"
 								}
 							}
 						]
@@ -99,6 +101,8 @@
 			{
 				"name": "Execute INT010 Sub",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Select_SAPY_to_QUEUE",

@@ -29,49 +29,7 @@
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "$['$ORDER_REQUEST_NO']"
-								},
-								"sink": {
-									"name": "SOR_Number",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$SALES_ORDER']"
-								},
-								"sink": {
-									"name": "SO_Number",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$TM_ACCESS']"
-								},
-								"sink": {
-									"name": "TM_Access",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$inserted_date']"
-								},
-								"sink": {
-									"name": "Inserted_date",
-									"type": "DateTime"
-								}
-							}
-						],
-						"collectionReference": ""
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{

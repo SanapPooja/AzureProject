@@ -2,7 +2,7 @@
 	"name": "INT010_QUEUE_MESSAGE",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "RestServiceDemo",
+			"referenceName": "INT010_QUEUE_PROD",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
