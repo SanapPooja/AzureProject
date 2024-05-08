@@ -726,7 +726,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/order_atrribute/messages/head",
+								"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int003_order_attribute/messages/head",
 								"authentication": {
 									"type": "MSI",
 									"resource": "https://servicebus.azure.net/"
