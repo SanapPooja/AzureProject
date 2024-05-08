@@ -1,0 +1,24 @@
+{
+	"name": "INT003_ODOS_to_STS",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "NSH_INT010_SAPY_DirectSONumber_Pub",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2024-05-09T03:34:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

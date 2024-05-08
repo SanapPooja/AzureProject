@@ -171,6 +171,8 @@
 			{
 				"name": "Delete_SALES_ORDER_Record",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Delete_Queue_head",
