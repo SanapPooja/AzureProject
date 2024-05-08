@@ -1,14 +1,14 @@
 {
 	"name": "RestService4HeadDemo",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head",
+			"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int010_so_number/messages/head",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "ManagedServiceIdentity",
 			"aadResourceId": "https://servicebus.azure.net/"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
