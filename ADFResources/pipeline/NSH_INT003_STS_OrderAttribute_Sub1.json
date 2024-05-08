@@ -41,7 +41,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT TOP 1 t1.FLD_TRK_SOR_NO \r\nFROM TBL_DSS_STS_DNS_VAR_TRK t1\r\nJOIN WMBbjpwo1y t2 ON t1.FLD_TRK_SOR_NO = t2.FLD_TRK_SOR_NO\r\nWHERE t1.FLD_TRK_STATUS = 'Y' \r\n  AND t2.FLD_TRK_STATUS = 'Y' \r\n  AND (t2.status != 'P' OR t2.status IS NULL);\r\n",
+						"sqlReaderQuery": "SELECT TOP 1 t1.FLD_TRK_SOR_NO \r\nFROM TBL_DSS_STS_DNS_VAR_TRK t1\r\nJOIN WMBbjpwo1y t2 ON t1.FLD_TRK_SOR_NO = t2.FLD_TRK_SOR_NO\r\nWHERE t1.FLD_TRK_STATUS = 'Y' \r\n  AND t2.FLD_TRK_STATUS = 'Y' \r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -79,6 +79,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Copy_Data_From_QueueTo_STS",
+									"dependencyConditions": [
+										"Failed"
+									]
 								}
 							],
 							"userProperties": [],
@@ -89,6 +95,8 @@
 						{
 							"name": "Script3",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy_Data_From_QueueTo_STS",
@@ -114,7 +122,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update WMBbjpwo1y set status='P' where TRACK_NO='@{variables('FLD_SOR_NO')}'",
+											"value": "update WMBbjpwo1y set status='P' where FLD_TRK_SOR_NO ='@{variables('FLD_SOR_NO')}'",
 											"type": "Expression"
 										}
 									}
@@ -137,6 +145,12 @@
 							"typeProperties": {
 								"source": {
 									"type": "RestSource",
+									"additionalColumns": [
+										{
+											"name": "FLD_VATTR_MANDT",
+											"value": "230"
+										}
+									],
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
@@ -156,7 +170,7 @@
 									"mappings": [
 										{
 											"source": {
-												"path": "$FLD_VATTR_MANDT"
+												"path": "FLD_VATTR_MANDT"
 											},
 											"sink": {
 												"name": "FLD_VATTR_MANDT",

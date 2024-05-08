@@ -1,6 +1,29 @@
 {
 	"name": "pipeline13",
 	"properties": {
+		"activities": [
+			{
+				"name": "Delete_Data_FromQueue",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/order_atrribute/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			}
+		],
 		"variables": {
 			"fld_trk_sor_no": {
 				"type": "String"
