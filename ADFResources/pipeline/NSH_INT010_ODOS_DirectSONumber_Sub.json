@@ -160,7 +160,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where WHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL AND ROWNUM <= 3;",
+								"value": "DELETE FROM sapsr3.YESB_SOR_SO \nWHERE ROWID IN (\n    SELECT ROWID \n    FROM sapsr3.YESB_SOR_SO \n    WHERE sales_order IS NOT NULL \n    AND TRIM(sales_order) IS NOT NULL \n    AND ROWNUM <= 3\n);",
 								"type": "Expression"
 							}
 						}
@@ -171,8 +171,6 @@
 			{
 				"name": "Delete_SALES_ORDER_Record",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Delete_Queue_head",
@@ -198,7 +196,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO WHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL AND ROWNUM <= 3;\n",
+								"value": "DELETE FROM sapsr3.YESB_SOR_SO \nWHERE ROWID IN (\n    SELECT ROWID \n    FROM sapsr3.YESB_SOR_SO \n    WHERE sales_order IS NOT NULL \n    AND TRIM(sales_order) IS NOT NULL \n    AND ROWNUM <= 3\n);",
 								"type": "Expression"
 							}
 						}
