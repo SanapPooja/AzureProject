@@ -4,14 +4,7 @@
 		"description": "Ignition-->SAP GR Data Posting",
 		"annotations": [],
 		"runtimeState": "Stopped",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "NSH_INT123_SAPY_ACTY_Sub",
-					"type": "PipelineReference"
-				}
-			}
-		],
+		"pipelines": [],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
