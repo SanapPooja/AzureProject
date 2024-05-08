@@ -9,6 +9,12 @@
 					"referenceName": "NSH_INT010_SAPY_DirectSONumber_Pub",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "NSH_INT010_ODOS_DirectSONumber_Sub",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
