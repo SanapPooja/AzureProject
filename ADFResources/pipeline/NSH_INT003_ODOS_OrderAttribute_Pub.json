@@ -7,7 +7,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -48,7 +48,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK \nSET FLD_TRK_STATUS = 'T' \nWHERE fld_trk_sor_no = '8000822701'\n",
+											"value": "UPDATE dbo.TBL_DSS_STS_DNS_VAR_TRK \nSET FLD_TRK_STATUS = 'T' \nWHERE fld_trk_sor_no = '@{variables('fld_trk_sor_no')}'\n",
 											"type": "Expression"
 										}
 									}
@@ -735,10 +735,37 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "fld_trk_sor_no",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].FLD_TRK_SOR_NO",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
-			"demo": {
+			"FLD_SOR_NO": {
+				"type": "String"
+			},
+			"fld_trk_sor_no": {
 				"type": "String"
 			}
 		},
