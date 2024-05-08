@@ -123,7 +123,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sap_so_number/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int010_so_number/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
