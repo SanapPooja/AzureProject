@@ -30,7 +30,7 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "SELECT order_request_no, sales_order \nFROM sapsr3.YESB_SOR_SO \nWHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL \nAND ROWNUM <= 2;\n",
+						"oracleReaderQuery": "SELECT order_request_no, sales_order \nFROM sapsr3.YESB_SOR_SO \nWHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL ;\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -120,6 +120,11 @@
 				}
 			}
 		],
+		"variables": {
+			"ord_req_no": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2024-02-16T09:41:16Z"
 	},

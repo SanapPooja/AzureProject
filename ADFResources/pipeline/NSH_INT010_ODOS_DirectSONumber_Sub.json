@@ -5,7 +5,14 @@
 			{
 				"name": "QUEUE_to_ODOS_Records",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -160,7 +167,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "delete from sapsr3.YESB_SOR_SO where WHERE sales_order IS NOT NULL \nAND TRIM(sales_order) IS NOT NULL AND ROWNUM <= 3;",
+								"value": "DELETE FROM sapsr3.YESB_SOR_SO where ORDER_REQUEST_NO ='@{variables('ord_req_no')}'\n\n",
 								"type": "Expression"
 							}
 						}
@@ -198,12 +205,150 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "DELETE FROM sapsr3.YESB_SOR_SO \nWHERE ROWID IN (\n    SELECT ROWID \n    FROM sapsr3.YESB_SOR_SO \n    WHERE sales_order IS NOT NULL \n    AND TRIM(sales_order) IS NOT NULL \n    AND ROWNUM <= 2\n);\n\n",
+								"value": "DELETE FROM sapsr3.YESB_SOR_SO where ORDER_REQUEST_NO ='@{variables('ord_req_no')}'\n\n",
 								"type": "Expression"
 							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT order_request_no\r\nFROM sapsr3.YESB_SOR_SO ",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT010_YESB_SOR_SO",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ord_req_no",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Delete_SALES_ORDER_Record_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Delete_Queue_head",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select * FROM sapsr3.YESB_SOR_SO where ORDER_REQUEST_NO ='@{variables('ord_req_no')}'\n\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Delete_Queue_head",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.pipelineReturnValue",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Delete_SALES_ORDER_Record_copy1_copy1",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "select * FROM sapsr3.YESB_SOR_SO where ORDER_REQUEST_NO ='@{variables('ord_req_no')}'\n\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
 				}
 			}
 		],
@@ -211,6 +356,11 @@
 			"SALES_ORDER": {
 				"type": "string",
 				"defaultValue": "SALES_ORDER"
+			}
+		},
+		"variables": {
+			"ord_req_no": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
