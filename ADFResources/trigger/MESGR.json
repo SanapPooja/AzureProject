@@ -10,13 +10,19 @@
 					"referenceName": "NSH_INT123_SAPY_ACTY_Sub",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "NSH_INT010_SAPY_DirectSONumber_Pub",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
 				"frequency": "Minute",
-				"interval": 30,
+				"interval": 1,
 				"startTime": "2023-10-03T08:09:00",
 				"timeZone": "Singapore Standard Time"
 			}
