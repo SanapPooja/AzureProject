@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Ignition-->SAP GR Data Posting",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
