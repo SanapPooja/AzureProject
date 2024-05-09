@@ -6,7 +6,7 @@
 		"type": "Oracle",
 		"typeProperties": {
 			"connectionString": "host=172.25.101.6;port=1527;sid=NSD;user id=ESB_SAPINT",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiMjdhOWZhMC05OTczLTRkZGMtOWU1NS00ZDYwZjAzM2M2YjMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1YmY1NzJiZC1mYjcwLTQ5ODEtYWJiZS0xZTM3NDM5ZWM3NmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "NSHQA",
