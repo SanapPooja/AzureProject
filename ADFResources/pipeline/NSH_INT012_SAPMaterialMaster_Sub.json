@@ -242,7 +242,7 @@
 				}
 			},
 			{
-				"name": "Web1",
+				"name": "delete from int 012 queue",
 				"type": "WebActivity",
 				"dependsOn": [
 					{

@@ -285,6 +285,43 @@
 							"typeProperties": {
 								"waitTimeInSeconds": 60
 							}
+						},
+						{
+							"name": "Wait2_copy1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 60
+							}
+						},
+						{
+							"name": "delete from int 012 queue_copy1",
+							"type": "WebActivity",
+							"dependsOn": [
+								{
+									"activity": "Wait2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_012_queue/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
 						}
 					],
 					"ifTrueActivities": [
@@ -574,6 +611,50 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Wait1_copy1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Lookup_USP_INT023",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "delete from int 012 queue",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_012_queue/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
 			}
 		],
 		"parameters": {

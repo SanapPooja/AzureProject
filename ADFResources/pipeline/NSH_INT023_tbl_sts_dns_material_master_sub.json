@@ -191,7 +191,7 @@
 							},
 							{
 								"source": {
-									"path": "$['fld_mm_message_id']"
+									"path": "$['TIMESTAMP']"
 								},
 								"sink": {
 									"name": "fld_mm_message_id",
