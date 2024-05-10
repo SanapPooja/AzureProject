@@ -5,7 +5,14 @@
 			{
 				"name": "Source To Queue",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -296,6 +303,22 @@
 								},
 								"waitOnCompletion": true
 							}
+						},
+						{
+							"name": "Execute Pipeline2",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT012_SAPMaterialMaster_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}
@@ -343,6 +366,214 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 60
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ID_MESSAGE",
+								"value": {
+									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH-mm-ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 3))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "STATUS",
+								"value": "1"
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "select MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YMPCT_MAT_DETAIL where MANDT=@{pipeline().parameters.MANDT}\nminus\t\t\nselect MANDT, MATNR, MAKTX, PRODUCT_CODE, GRADE, BASE_UOM, INTER_ID, REC_TYPE, SALES_UNIT, PRODH, M_GRADE, PROD_SCH, KG_PER_PC, MATKL, DIA  from SAPSR3.YESB_MAT_DETAIL  where MANDT= @{pipeline().parameters.MANDT}",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MANDT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MANDT"
+								}
+							},
+							{
+								"source": {
+									"name": "MATNR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATNR"
+								}
+							},
+							{
+								"source": {
+									"name": "MAKTX",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAKTX"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "GRADE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "BASE_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "INTER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "SALES_UNIT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SALES_UNIT"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODH"
+								}
+							},
+							{
+								"source": {
+									"name": "MATKL",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATKL"
+								}
+							},
+							{
+								"source": {
+									"name": "M_GRADE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$M_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_SCH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROD_SCH"
+								}
+							},
+							{
+								"source": {
+									"name": "KG_PER_PC",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$KG_PER_PC"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ID_MESSAGE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT023_YMPCT_MAT_DETAIL",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT012_QUEUE",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {

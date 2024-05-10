@@ -1,0 +1,149 @@
+{
+	"name": "NSH_INT12_SAPMATERIALMASTER_DATASET",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB5_ODOS_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MaterialCodeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MaterialCode",
+				"type": "varchar"
+			},
+			{
+				"name": "MaterialDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "Grade",
+				"type": "varchar"
+			},
+			{
+				"name": "Material",
+				"type": "varchar"
+			},
+			{
+				"name": "StructureElement",
+				"type": "nchar"
+			},
+			{
+				"name": "Acc",
+				"type": "bit"
+			},
+			{
+				"name": "RM",
+				"type": "bit"
+			},
+			{
+				"name": "Stock",
+				"type": "bit"
+			},
+			{
+				"name": "FG",
+				"type": "bit"
+			},
+			{
+				"name": "INTERFACE_ID",
+				"type": "char"
+			},
+			{
+				"name": "MANDT",
+				"type": "char"
+			},
+			{
+				"name": "ID_MESSAGE",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODH",
+				"type": "varchar"
+			},
+			{
+				"name": "BASE_UOM",
+				"type": "char"
+			},
+			{
+				"name": "SALES_UOM",
+				"type": "char"
+			},
+			{
+				"name": "STATUS",
+				"type": "char"
+			},
+			{
+				"name": "ERROR_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "PROC_TS",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "numExternalLength",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "intUnitWeight",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 3
+			},
+			{
+				"name": "numExternalWidth",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "numExternalHeight",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "PROD_CODE",
+				"type": "varchar"
+			},
+			{
+				"name": "MATL_GRP",
+				"type": "varchar"
+			},
+			{
+				"name": "PROD_SCH",
+				"type": "char"
+			},
+			{
+				"name": "M_GRADE",
+				"type": "varchar"
+			},
+			{
+				"name": "INTUPDATEDUID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATUPDATEDDATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SAPMaterialMaster"
+		}
+	}
+}

@@ -1,0 +1,275 @@
+{
+	"name": "NSH_INT012_SAPMaterialMaster_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "fld_mm_create_date",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'))\n",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_mm_create_by",
+								"value": "STSDNS"
+							},
+							{
+								"name": "fld_mm_message_id",
+								"value": {
+									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'yyyy-MM-dd-HH-mm-ss'), '-', substring(formatDateTime(utcNow(), 'fffffff'), 1, 5))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "fld_mm_rec_type",
+								"value": "1"
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"MaterialCode"
+							]
+						},
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MATNR"
+								},
+								"sink": {
+									"name": "MaterialCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MAKTX"
+								},
+								"sink": {
+									"name": "MaterialDescription",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PRODUCT_CODE"
+								},
+								"sink": {
+									"name": "PROD_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$GRADE"
+								},
+								"sink": {
+									"name": "Grade",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BASE_UOM"
+								},
+								"sink": {
+									"name": "BASE_UOM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$INTER_ID"
+								},
+								"sink": {
+									"name": "INTERFACE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$REC_TYPE"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SALES_UNIT"
+								},
+								"sink": {
+									"name": "SALES_UOM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PRODH"
+								},
+								"sink": {
+									"name": "PRODH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MATKL"
+								},
+								"sink": {
+									"name": "MATL_GRP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$M_GRADE"
+								},
+								"sink": {
+									"name": "M_GRADE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PROD_SCH"
+								},
+								"sink": {
+									"name": "PROD_SCH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$KG_PER_PC"
+								},
+								"sink": {
+									"name": "intUnitWeight",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$ID_MESSAGE"
+								},
+								"sink": {
+									"name": "ID_MESSAGE",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "",
+						"mapComplexValuesToString": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT_012_QUEUE_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT12_SAPMATERIALMASTER_DATASET",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Wait60sec",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait60sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_012_queue/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
