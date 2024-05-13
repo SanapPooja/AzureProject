@@ -1,0 +1,1107 @@
+{
+	"name": "NSH_INT001_INT002_ODOS_OrderItemVariant_Pub_new",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORD_REQ_NO",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].ORD_REQ_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT top 1 \n     sod.ORD_REQ_NO \nFROM SAP_ORDER_ITEM sod\nJOIN \n     WMBnotifySORbjpa512 wmb\nON \n     sod.ORD_REQ_NO = wmb.ORD_REQ_NO",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Order_Item_Data__To_Queue",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT *  \nFROM (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO) AS Row\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ')as IDENTITY_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_NO)),''),' ')as CONTR_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_ITEM_NO)),''),' ')as CONTR_ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ITEM_ROWS)),''),'0')as NO_ITEM_ROWS\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_VARIANT_ROWS)),''),'0')as NO_VARIANT_ROWS\n      ,isnull(NULLIF(LTRIM(RTRIM(ORD_QTY)),''),'0')as ORD_QTY\n      ,isnull(NULLIF(LTRIM(RTRIM(CONV_RATIO)),''),' ')as CONV_RATIO\n      ,isnull(NULLIF(LTRIM(RTRIM(SALES_UOM)),''),' ')as SALES_UOM\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_PIECES)),''),' ')as NO_PIECES\n      ,isnull(NULLIF(LTRIM(RTRIM(THEO_WEIGHT_KG)),''),'0')as THEO_WEIGHT_KG\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_MARKG)),''),' ')as PROD_MARKG\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(HG_ITEM_NO)), 6),''),' ')as HG_ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(PLANT)),''),' ')as PLANT\n      ,isnull(NULLIF(LTRIM(RTRIM(REQ_DELI_DATE)),''),' ')as REQ_DELI_DATE\n      ,isnull(NULLIF(LTRIM(RTRIM(NDS_DTL_NO)),''),' ')as NDS_DTL_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(VEHI_TYPE)),''),' ')as VEHI_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENT_ID)),''),' ')as WBSELEMENT_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(STRUCTUREMARK_ID)),''),' ')as STRUCTUREMARK_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTMARK_ID)),''),' ')as PRODUCTMARK_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(DETAILING_BOM_ID)),''),' ')as DETAILING_BOM_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTION_BOM_ID)),''),' ')as PRODUCTION_BOM_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_Number)),''),' ')as BBS_Number\n      ,isnull(NULLIF(LTRIM(RTRIM(ITEM_GROUP)),''),' ')as ITEM_GROUP\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTGROUPMARK_ID)),''),' ')as POSTGROUPMARK_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTSTRUCTUREMARK_ID)),''),' ')as POSTSTRUCTUREMARK_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTHEADER_ID)),''),' ')as POSTHEADER_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_NO)),''),' ')as BBS_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_DESC)),''),' ')as BBS_DESC\n      ,isnull(NULLIF(LTRIM(RTRIM(IND_ITEM_NO)),''),' ')as IND_ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_GRP)),''),' ')as PROD_GRP\n      ,isnull(NULLIF(LTRIM(RTRIM(ST_ELEMENT_TYPE)),''),' ')as ST_ELEMENT_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS1)),''),' ')as WBS1\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS2)),''),' ')as WBS2\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS3)),''),' ')as WBS3\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS4)),''),' ')as WBS4\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS5)),''),' ')as WBS5\n      ,isnull(NULLIF(LTRIM(RTRIM(SHAPE_CODE)),''),' ')as SHAPE_CODE\n      ,isnull(NULLIF(LTRIM(RTRIM(INVOICE_LENGTH)),''),' ')as INVOICE_LENGTH\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_L)),''),' ')as EXT_DIMENSION_L\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_W)),''),' ')as EXT_DIMENSION_W\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_H)),''),' ')as EXT_DIMENSION_H\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_SHAPE_SURCHARG)),''),' ')as Z_SHAPE_SURCHARG\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_CUT_PC)),''),' ')as NO_OF_CUT_PC\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_BEND_PC)),''),' ')as NO_OF_BEND_PC\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ROLLING)),''),' ')as NO_ROLLING\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_1)),''),' ')as COU_TYPE_1\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_2)),''),' ')as COU_TYPE_2\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as Z_PIECES\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as REF_ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_ACT_WT_PER_PC)),''),'0')as Z_ACT_WT_PER_PC\n      ,isnull(NULLIF(LTRIM(RTRIM(GROUP_MARK)),''),' ')as GROUP_MARK\n      ,isnull(NULLIF(LTRIM(RTRIM(IDENTICAL_HASHCODE)),''),' ')as IDENTICAL_HASHCODE\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_MAINBAR_HASHCODE)),''),' ')as SIMILAR_MAINBAR_HASHCODE\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_EXTLINK_HASHCODE)),''),' ')as SIMILAR_EXTLINK_HASHCODE\n  FROM dbo.SAP_ORDER_ITEM\n    WHERE (status = 'Q' or status = 'T')\n          AND ord_req_no = (SELECT top 1 \n     sod.ORD_REQ_NO \nFROM SAP_ORDER_ITEM sod\nJOIN \n     WMBnotifySORbjpa512 wmb\nON \n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\n          ) \n    \n) AS Order_Item;",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "Row",
+												"type": "Int64"
+											},
+											"sink": {
+												"path": "$Row"
+											}
+										},
+										{
+											"source": {
+												"name": "IDENTITY_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IDENTITY_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "INTERFACE_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INTERFACE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "MANDT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MANDT"
+											}
+										},
+										{
+											"source": {
+												"name": "ID_MESSAGE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ID_MESSAGE"
+											}
+										},
+										{
+											"source": {
+												"name": "ORD_REQ_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORD_REQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "CONTR_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONTR_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "CONTR_ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONTR_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MATL_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MATL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_ITEM_ROWS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_ITEM_ROWS"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_VARIANT_ROWS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_VARIANT_ROWS"
+											}
+										},
+										{
+											"source": {
+												"name": "ORD_QTY",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORD_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "CONV_RATIO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONV_RATIO"
+											}
+										},
+										{
+											"source": {
+												"name": "SALES_UOM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SALES_UOM"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_PIECES",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "THEO_WEIGHT_KG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$THEO_WEIGHT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "PROD_MARKG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROD_MARKG"
+											}
+										},
+										{
+											"source": {
+												"name": "HG_ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$HG_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PLANT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PLANT"
+											}
+										},
+										{
+											"source": {
+												"name": "REQ_DELI_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REQ_DELI_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "NDS_DTL_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NDS_DTL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "VEHI_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$VEHI_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "ERROR_CD",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ERROR_CD"
+											}
+										},
+										{
+											"source": {
+												"name": "PROC_TS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROC_TS"
+											}
+										},
+										{
+											"source": {
+												"name": "REC_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REC_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "WBSELEMENT_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBSELEMENT_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "STRUCTUREMARK_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$STRUCTUREMARK_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCTMARK_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCTMARK_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "DETAILING_BOM_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DETAILING_BOM_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCTION_BOM_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCTION_BOM_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_Number",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_Number"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_GROUP",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_GROUP"
+											}
+										},
+										{
+											"source": {
+												"name": "POSTGROUPMARK_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$POSTGROUPMARK_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "POSTSTRUCTUREMARK_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$POSTSTRUCTUREMARK_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "POSTHEADER_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$POSTHEADER_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_DESC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_DESC"
+											}
+										},
+										{
+											"source": {
+												"name": "IND_ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IND_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PROD_GRP",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROD_GRP"
+											}
+										},
+										{
+											"source": {
+												"name": "ST_ELEMENT_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ST_ELEMENT_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS1"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS2"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS3"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS4"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS5"
+											}
+										},
+										{
+											"source": {
+												"name": "SHAPE_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "INVOICE_LENGTH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INVOICE_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "EXT_DIMENSION_L",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$EXT_DIMENSION_L"
+											}
+										},
+										{
+											"source": {
+												"name": "EXT_DIMENSION_W",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$EXT_DIMENSION_W"
+											}
+										},
+										{
+											"source": {
+												"name": "EXT_DIMENSION_H",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$EXT_DIMENSION_H"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_SHAPE_SURCHARG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$Z_SHAPE_SURCHARG"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_CUT_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_OF_CUT_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_BEND_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_OF_BEND_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_ROLLING",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NO_ROLLING"
+											}
+										},
+										{
+											"source": {
+												"name": "COU_TYPE_1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COU_TYPE_1"
+											}
+										},
+										{
+											"source": {
+												"name": "COU_TYPE_2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COU_TYPE_2"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_PIECES",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$Z_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "REF_ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REF_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_ACT_WT_PER_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$Z_ACT_WT_PER_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "GROUP_MARK",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$GROUP_MARK"
+											}
+										},
+										{
+											"source": {
+												"name": "IDENTICAL_HASHCODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IDENTICAL_HASHCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "SIMILAR_MAINBAR_HASHCODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SIMILAR_MAINBAR_HASHCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "SIMILAR_EXTLINK_HASHCODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SIMILAR_EXTLINK_HASHCODE"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT001_SAP_ORDER_ITEM",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT001_NDS_SAPY_Queue",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Subscriber_Order_item",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Order_Item_Data__To_Queue",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT001_SAPY_OrderItem_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						},
+						{
+							"name": "update_SAP_WBS_SOR_STATUS_T_Item",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Subscriber_Order_item",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' WHERE ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n\n\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "update_SAP_ORDER_ITEM_STATUS_T",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "update_SAP_WBS_SOR_STATUS_T_Item",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Order_Variant_Data_To_Queue",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\nFROM dbo.SAP_ORDER_VARIANT\r\n    WHERE ((status = 'N' or status = 'T') and sap_status = 'A')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Variant;\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "Row",
+												"type": "Int64"
+											},
+											"sink": {
+												"path": "$Row"
+											}
+										},
+										{
+											"source": {
+												"name": "IDENTITY_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IDENTITY_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "INTERFACE_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INTERFACE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "MANDT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MANDT"
+											}
+										},
+										{
+											"source": {
+												"name": "ID_MESSAGE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ID_MESSAGE"
+											}
+										},
+										{
+											"source": {
+												"name": "ORD_REQ_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORD_REQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MATL_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MATL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "CHRSTICS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CHRSTICS"
+											}
+										},
+										{
+											"source": {
+												"name": "CHRSTICS_VAL",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CHRSTICS_VAL"
+											}
+										},
+										{
+											"source": {
+												"name": "BASE_UOM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BASE_UOM"
+											}
+										},
+										{
+											"source": {
+												"name": "STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "ERROR_CD",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ERROR_CD"
+											}
+										},
+										{
+											"source": {
+												"name": "PROC_TS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROC_TS"
+											}
+										},
+										{
+											"source": {
+												"name": "REC_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REC_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "WBSELEMENTID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBSELEMENTID"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_STATUS"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT002_SAP_ORDER_VARIANT",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT002_ODOS_SAPY_Queue",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Subscriber_order_variant",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Order_Variant_Data_To_Queue",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT002_SAPY_OrderVariant_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						},
+						{
+							"name": "update_SAP_WBS_SOR_STATUS_T_variant",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Subscriber_order_variant",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' WHERE ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n\n\n\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "update_SAP_ORDER_VARIANT_STATUS_T",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "update_SAP_WBS_SOR_STATUS_T_variant",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.SAP_ORDER_VARIANT SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"ORD_REQ_NO": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
