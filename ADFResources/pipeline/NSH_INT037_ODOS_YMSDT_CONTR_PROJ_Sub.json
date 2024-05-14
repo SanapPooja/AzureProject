@@ -137,6 +137,15 @@
 							},
 							{
 								"source": {
+									"path": "$PHYS_PROJ_ID"
+								},
+								"sink": {
+									"name": "PHYS_PROJ_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$INTER_ID"
 								},
 								"sink": {
@@ -220,7 +229,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"waitTimeInSeconds": 6
 				}
 			}
 		],
