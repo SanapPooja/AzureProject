@@ -292,6 +292,16 @@
 								"sink": {
 									"name": "STATUS"
 								}
+							},
+							{
+								"source": {
+									"path": "$['Column_1']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_2']"
+								}
 							}
 						],
 						"mapComplexValuesToString": true

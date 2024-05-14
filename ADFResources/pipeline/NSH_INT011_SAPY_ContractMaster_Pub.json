@@ -322,7 +322,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$chrPrecage"
+									"path": "$chrPercage"
 								}
 							},
 							{
@@ -340,7 +340,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$chrPCSTrand"
+									"path": "chrPCSTrand"
 								}
 							},
 							{
@@ -363,10 +363,29 @@
 							},
 							{
 								"source": {
-									"name": "vchDescription"
+									"name": "YCARPET_IND",
+									"type": "String"
 								},
 								"sink": {
-									"path": "$['$vchDescription']"
+									"path": "$chrCarInd"
+								}
+							},
+							{
+								"source": {
+									"name": "YPRCMSH_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$chrPRCMeshInd"
+								}
+							},
+							{
+								"source": {
+									"name": "vchDescription",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$vchDescription"
 								}
 							},
 							{
@@ -375,7 +394,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$['$PROC_TS']"
+									"path": "$PROC_TS"
 								}
 							},
 							{
@@ -384,7 +403,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$['$ERROR_CD']"
+									"path": "$ERROR_CD"
 								}
 							}
 						]
