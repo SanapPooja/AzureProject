@@ -17,14 +17,187 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT top (10) ref_id, SAP_PO_NUM, SCM_Q_PO_NO, SCM_OPERATION_NO, \t\nSCM_ORD_QTY_KG, SCM_ORD_QTY_PCS, SAP_BATCH_ID, BATCH_QTY, \tBATCH_PCS,PRODN_MACHINE, \nSTART_TIME, END_TIME, \tPRODN_REC_DATE,CREATE_DATE, ISNULL(MODIFY_DATE, GETDATE()) AS MODIFY_DATE, PRODN_ORDER_NO_SCH , PRODN_STATUS, NR_OF_OPERATION , product_type FROM \tSTS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SAP_BATCH_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_BATCH_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "BATCH_PCS",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BATCH_PCS"
+								}
+							},
+							{
+								"source": {
+									"name": "BATCH_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BATCH_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODN_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "NR_OF_OPERATION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$NR_OF_OPERATION"
+								}
+							},
+							{
+								"source": {
+									"name": "SCM_ORD_QTY_PCS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$SCM_ORD_QTY_PCS"
+								}
+							},
+							{
+								"source": {
+									"name": "SCM_ORD_QTY_KG",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$SCM_ORD_QTY_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_MACHINE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODN_MACHINE"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_REC_DATE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$PRODN_REC_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "END_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$END_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "SCM_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SCM_Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_ORDER_NO_SCH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODN_ORDER_NO_SCH"
+								}
+							},
+							{
+								"source": {
+									"name": "START_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$START_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "product_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$product_type"
+								}
+							},
+							{
+								"source": {
+									"name": "SAP_PO_NUM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_PO_NUM"
+								}
+							},
+							{
+								"source": {
+									"name": "SCM_OPERATION_NO",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$SCM_OPERATION_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATE_DATE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$CREATE_DATE"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "tbl_sts_scm_prodn_staging_upd_test",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT070_Queue",
 						"type": "DatasetReference"
 					}
 				]
