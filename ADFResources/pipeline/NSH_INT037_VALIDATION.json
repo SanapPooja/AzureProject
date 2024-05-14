@@ -1,0 +1,82 @@
+{
+	"name": "NSH_INT037_VALIDATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT MANDT,\n  CONTR_NO,\n  PROJECT_ID,\n  PROJ_SUB_SECTOR,\n  PROJ_COORD_NAME,\n  PROJ_SITE_ADDR,\n  GEO_FENCE_ID,\n  PROJ_START_DATE,\n  PROJ_END_DATE,\n  INTER_ID,\n  PHYS_PROJ_ID\nFROM\n  (SELECT MANDT,\n    CONTR_NO,\n    PROJECT_ID,\n    PROJ_SUB_SECTOR,\n    PROJ_COORD_NAME,\n    PROJ_SITE_ADDR,\n    GEO_FENCE_ID,\n    PROJ_START_DATE,\n    PROJ_END_DATE,\n    INTER_ID,\n\tPHYS_PROJ_ID\n  FROM SAPSR3.YMSDT_CONTR_PROJ\n  WHERE MANDT='110'\n  MINUS\n  SELECT MANDT,\n    CONTR_NO,\n    PROJECT_ID,\n    PROJ_SUB_SECTOR,\n    PROJ_COORD_NAME,\n    PROJ_SITE_ADDR,\n    GEO_FENCE_ID,\n    PROJ_START_DATE,\n    PROJ_END_DATE,\n    INTER_ID,\n\tPHYS_PROJ_ID\n  FROM SAPSR3.YESB_CONTR_PROJ\n  WHERE MANDT='110'\n  )\nWHERE rownum < 5000",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT037_YMSDT_CONTR_PROJ",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifFalseActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT037_SAPY_YMSDT_CONTR_PROJ_Pub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}

@@ -1,0 +1,78 @@
+{
+	"name": "NSH_INT013_VALIDATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT *\r\nFROM (\r\n    SELECT\r\n        mandt,\r\n        proj_id,\r\n        proj_desc1,\r\n        proj_desc2,\r\n        site_adrrs,\r\n        proj_coord,\r\n        site_cont_name1,\r\n        site_cont_tel1,\r\n        site_cont_name2,\r\n        site_cont_tel2,\r\n        geo_fence_id,\r\n        contry_key,\r\n        city,\r\n        post_code,\r\n        region,\r\n        sort_field,\r\n        tele_no,\r\n        fax_no,\r\n        inter_id,\r\n        rec_type,\r\n        udate\r\n    FROM\r\n        sapsr3.ymsdt_pro_hdr\r\n    WHERE\r\n        mandt = '110'\r\n    MINUS\r\n    SELECT\r\n        mandt,\r\n        proj_id,\r\n        proj_desc1,\r\n        proj_desc2,\r\n        site_adrrs,\r\n        proj_coord,\r\n        site_cont_name1,\r\n        site_cont_tel1,\r\n        site_cont_name2,\r\n        site_cont_tel2,\r\n        geo_fence_id,\r\n        contry_key,\r\n        city,\r\n        post_code,\r\n        region,\r\n        sort_field,\r\n        tele_no,\r\n        fax_no,\r\n        inter_id,\r\n        rec_type,\r\n        udate\r\n    FROM\r\n        sapsr3.yesb_pro_hdr\r\n    ORDER BY udate DESC\r\n)\r\nWHERE ROWNUM <= 5;",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT013_YESB_PRO_HDR",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifFalseActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT013_SAPY_PROJECTMASTER_PUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}

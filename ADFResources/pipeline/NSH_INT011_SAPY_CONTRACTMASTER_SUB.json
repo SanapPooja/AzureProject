@@ -279,7 +279,7 @@
 							},
 							{
 								"source": {
-									"path": "$ID_MESSAGE"
+									"path": "ID_MESSAGE"
 								},
 								"sink": {
 									"name": "ID_MESSAGE",
@@ -288,7 +288,7 @@
 							},
 							{
 								"source": {
-									"path": "$STATUS"
+									"path": "STATUS"
 								},
 								"sink": {
 									"name": "STATUS",

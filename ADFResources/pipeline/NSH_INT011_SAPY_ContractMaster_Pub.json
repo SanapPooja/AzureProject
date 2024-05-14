@@ -25,7 +25,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT sapsr3.INT011_Interface() AS Result FROM dual;",
+							"value": "SELECT INT_Interface('USP_INT011') AS Result FROM dual;",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -35,7 +35,8 @@
 					"dataset": {
 						"referenceName": "INT011_YMSDT_CONTRACT_M",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": true
 				}
 			},
 			{
@@ -322,7 +323,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$chrPercage"
+									"path": "$chrPrecage"
 								}
 							},
 							{
@@ -340,7 +341,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "chrPCSTrand"
+									"path": "$['$chrPCSTrand']"
 								}
 							},
 							{
