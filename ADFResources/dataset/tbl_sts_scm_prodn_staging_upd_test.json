@@ -1,0 +1,181 @@
+{
+	"name": "tbl_sts_scm_prodn_staging_upd_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "REF_ID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "SAP_ORD_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SAP_PO_NUM",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_Q_PO_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_ORD_REQ_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_OPERATION_NO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SCM_OPERATION_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_RESOURCE_GRP",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SCM_ORD_QTY_KG",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "SCM_ORD_QTY_PCS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "SAP_MATL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SAP_ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SAP_BATCH_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "BATCH_QTY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "BATCH_UOM",
+				"type": "varchar"
+			},
+			{
+				"name": "BATCH_PCS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PRODN_MACHINE",
+				"type": "varchar"
+			},
+			{
+				"name": "MTO_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_GROUP",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_PROC_ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "START_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "END_TIME",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_REC_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "STAGING_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MODIFY_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_ORDER_NO_SCH",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_STATUS",
+				"type": "varchar"
+			},
+			{
+				"name": "PRODN_CRBY",
+				"type": "varchar"
+			},
+			{
+				"name": "NR_OF_OPERATION",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "process_time",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "product_type",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sts_scm_prodn_staging_upd_test"
+		}
+	}
+}
