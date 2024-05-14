@@ -54,7 +54,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$MANDT']"
+									"path": "$MANDT"
 								},
 								"sink": {
 									"name": "MANDT",
@@ -63,7 +63,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$vchContractCode']"
+									"path": "$vchContractCode"
 								},
 								"sink": {
 									"name": "vchContractCode",
@@ -72,7 +72,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$MARKET_SEG']"
+									"path": "$MARKET_SEG"
 								},
 								"sink": {
 									"name": "MARKET_SEG",
@@ -81,7 +81,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$CUST_ID']"
+									"path": "$CUST_ID"
 								},
 								"sink": {
 									"name": "CUST_ID",
@@ -90,7 +90,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$NAME1_GP']"
+									"path": "$NAME1_GP"
 								},
 								"sink": {
 									"name": "NAME1_GP",
@@ -99,7 +99,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$NAME2_GP']"
+									"path": "$NAME2_GP"
 								},
 								"sink": {
 									"name": "NAME2_GP",
@@ -108,7 +108,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$START_DATE']"
+									"path": "$START_DATE"
 								},
 								"sink": {
 									"name": "START_DATE",
@@ -117,7 +117,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$END_DATE']"
+									"path": "$END_DATE"
 								},
 								"sink": {
 									"name": "END_DATE",
@@ -126,7 +126,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$CAB_FORMER_TYPE']"
+									"path": "$CAB_FORMER_TYPE"
 								},
 								"sink": {
 									"name": "CAB_FORMER_TYPE",
@@ -135,7 +135,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$SEG_MANAGER']"
+									"path": "$SEG_MANAGER"
 								},
 								"sink": {
 									"name": "SEG_MANAGER",
@@ -144,7 +144,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ACC_MANAGER']"
+									"path": "$ACC_MANAGER"
 								},
 								"sink": {
 									"name": "ACC_MANAGER",
@@ -153,7 +153,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$INTERFACE_ID']"
+									"path": "$INTERFACE_ID"
 								},
 								"sink": {
 									"name": "INTERFACE_ID",
@@ -162,7 +162,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$REC_TYPE']"
+									"path": "$REC_TYPE"
 								},
 								"sink": {
 									"name": "REC_TYPE",
@@ -171,7 +171,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrWireRodInd']"
+									"path": "$chrWireRodInd"
 								},
 								"sink": {
 									"name": "chrWireRodInd",
@@ -180,7 +180,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrRebarInd']"
+									"path": "$chrRebarInd"
 								},
 								"sink": {
 									"name": "chrRebarInd",
@@ -189,7 +189,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrCABInd']"
+									"path": "$chrCABInd"
 								},
 								"sink": {
 									"name": "chrCABInd",
@@ -198,7 +198,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrMeshInd']"
+									"path": "$chrMeshInd"
 								},
 								"sink": {
 									"name": "chrMeshInd",
@@ -207,7 +207,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrPrecage']"
+									"path": "$chrPrecage"
 								},
 								"sink": {
 									"name": "chrPrecage",
@@ -216,7 +216,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrBPCInd']"
+									"path": "$chrBPCInd"
 								},
 								"sink": {
 									"name": "chrBPCInd",
@@ -225,7 +225,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrPCSTrand']"
+									"path": "$chrPCSTrand"
 								},
 								"sink": {
 									"name": "chrPCSTrand",
@@ -234,7 +234,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrColdRollWire']"
+									"path": "$chrColdRollWire"
 								},
 								"sink": {
 									"name": "chrColdRollWire",
@@ -243,7 +243,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$chrPreCutWire']"
+									"path": "$chrPreCutWire"
 								},
 								"sink": {
 									"name": "chrPreCutWire",
@@ -252,7 +252,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$vchDescription']"
+									"path": "$vchDescription"
 								},
 								"sink": {
 									"name": "vchDescription",
@@ -261,7 +261,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$PROC_TS']"
+									"path": "$PROC_TS"
 								},
 								"sink": {
 									"name": "PROC_TS",
@@ -270,7 +270,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ERROR_CD']"
+									"path": "$ERROR_CD"
 								},
 								"sink": {
 									"name": "ERROR_CD",
@@ -279,28 +279,38 @@
 							},
 							{
 								"source": {
-									"path": "$['ID_MESSAGE']"
+									"path": "$ID_MESSAGE"
 								},
 								"sink": {
-									"name": "ID_MESSAGE"
+									"name": "ID_MESSAGE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['STATUS']"
+									"path": "$STATUS"
 								},
 								"sink": {
-									"name": "STATUS"
+									"name": "STATUS",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_1']"
+									"path": "$chrCarInd"
+								},
+								"sink": {
+									"name": "chrCarInd",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_2']"
+									"path": "$chrPRCMeshInd"
+								},
+								"sink": {
+									"name": "chrPRCMeshInd",
+									"type": "String"
 								}
 							}
 						],
