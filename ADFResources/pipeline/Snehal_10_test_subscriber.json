@@ -55,10 +55,37 @@
 					"dataset": {
 						"referenceName": "INT010_YESB_SOR_SO",
 						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ord_request_no",
+					"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO"
 				}
 			}
 		],
+		"variables": {
+			"ord_request_no": {
+				"type": "Integer"
+			}
+		},
 		"annotations": []
 	}
 }
