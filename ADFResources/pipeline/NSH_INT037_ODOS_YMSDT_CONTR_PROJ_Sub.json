@@ -185,24 +185,6 @@
 							},
 							{
 								"source": {
-									"path": "$['ERROR_CD']"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['PROC_TS']"
-								},
-								"sink": {
-									"name": "PROC_TS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$['REC_TYPE']"
 								},
 								"sink": {
