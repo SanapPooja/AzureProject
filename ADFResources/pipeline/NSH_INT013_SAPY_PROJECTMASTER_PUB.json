@@ -133,7 +133,7 @@
 							}
 						],
 						"oracleReaderQuery": {
-							"value": "SELECT *\nFROM (\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type,\n        udate\n    FROM\n        sapsr3.ymsdt_pro_hdr\n    WHERE\n        mandt = '110'\n    MINUS\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type,\n        udate\n    FROM\n        sapsr3.yesb_pro_hdr\n    ORDER BY udate DESC\n)\nWHERE ROWNUM <= 5;",
+							"value": "SELECT *\nFROM (\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type\n    FROM\n        sapsr3.ymsdt_pro_hdr\n    WHERE\n        mandt = '110'\n    MINUS\n    SELECT\n        mandt,\n        proj_id,\n        proj_desc1,\n        proj_desc2,\n        site_adrrs,\n        proj_coord,\n        site_cont_name1,\n        site_cont_tel1,\n        site_cont_name2,\n        site_cont_tel2,\n        geo_fence_id,\n        contry_key,\n        city,\n        post_code,\n        region,\n        sort_field,\n        tele_no,\n        fax_no,\n        inter_id,\n        rec_type\n    FROM\n        sapsr3.yesb_pro_hdr\n)\nWHERE ROWNUM <= 5;",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -339,30 +339,6 @@
 								},
 								"sink": {
 									"path": "$['$STATUS']"
-								}
-							},
-							{
-								"source": {
-									"name": "vchDescription"
-								},
-								"sink": {
-									"path": "$['$vchDescription']"
-								}
-							},
-							{
-								"source": {
-									"name": "PROC_TS"
-								},
-								"sink": {
-									"path": "$['$PROC_TS']"
-								}
-							},
-							{
-								"source": {
-									"name": "ERROR_CD"
-								},
-								"sink": {
-									"path": "$['$ERROR_CD']"
 								}
 							}
 						]
