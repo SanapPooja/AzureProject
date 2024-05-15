@@ -5,14 +5,7 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -132,10 +125,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ord_req_no",
-					"value": {
-						"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO",
-						"type": "Expression"
-					}
+					"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO"
 				}
 			}
 		],
@@ -144,7 +134,7 @@
 				"type": "Integer"
 			},
 			"ord_req_no": {
-				"type": "Integer"
+				"type": "String"
 			}
 		},
 		"annotations": []
