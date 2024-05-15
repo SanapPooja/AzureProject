@@ -1,5 +1,5 @@
 {
-	"name": "Bikash_INT101",
+	"name": "NSH_INT101_PUB",
 	"properties": {
 		"activities": [
 			{
@@ -70,11 +70,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"additionalColumns": [
-							{
-								"value": "$$COLUMN:"
-							}
-						],
 						"oracleReaderQuery": "SELECT \n    -- Columns from sapsr3.ympct_mts_stock\n    s.WERKS AS fld_sap_stock_plant,\n    s.MATNR AS fld_sap_stock_matl_no,\n    s.LGORT AS fld_sap_stock_stock,\n    s.CHARG AS fld_sap_stock_batch,\n    CASE \n        WHEN SUBSTR(s.MATNR, 1, 2) = 'FU' THEN 'PCS' \n        ELSE 'KG' \n    END AS fld_sap_stock_uom,\n    s.MAKTX AS fld_sap_stock_matl_desc,\n    s.MTART AS fld_sap_stock_matl_type,\n    s.MATKL AS fld_sap_stock_matl_group,\n    TO_CHAR(s.SAP_STK) AS fld_sap_stock_qty,\n    TO_CHAR(s.PND_GI_STK) AS fld_sap_stock_reserved,\n    TO_CHAR(s.FINAL_STK) AS fld_sap_stock_balance,\n\n    -- Placeholder columns\n    NULL AS fld_sap_stock_dia,\n    NULL AS fld_sap_stock_grade,\n\n    -- Columns from sapsr3.YMPCT_MTS_BATCH\n    b.Z_HEAT_NO AS fld_sap_stock_heat_no,\n    b.Z_MILL_SOURCE AS fld_sap_stock_mill_source,\n    b.Z_LENGTH AS fld_sap_stock_length,\n    b.Z_STANDARD AS fld_sap_stock_standard,\n    b.Z_KG_PER_PCS AS fld_sap_stock_wt_piece,\n    b.Z_KG_PER_BLD AS fld_sap_stock_wt_bundle,\n    b.Z_KG_PER_COIL AS fld_sap_stock_wt_coil,\n    b.Z_PCS_PER_BLD AS fld_sap_stock_pcs_bundle,\n\n    -- Current datetime as fld_sap_stock_modify_date\n    SYSDATE AS fld_sap_stock_modify_date -- Or CURRENT_TIMESTAMP depending on your SQL dialect\n\nFROM \n    sapsr3.ympct_mts_stock s\nJOIN \n    sapsr3.YMPCT_MTS_BATCH b ON s.MATNR = b.MATNR AND s.CHARG = b.CHARG;\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
@@ -87,7 +82,210 @@
 						"writeBatchSize": 10000,
 						"httpCompressionType": "none"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_PLANT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_PLANT"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MATL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_STOCK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_STOCK"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_BATCH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_BATCH"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_UOM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MATL_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_UOM"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MATL_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_MATL_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MATL_GROUP",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_MATL_GROUP"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_QTY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_RESERVED",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_RESERVED"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_BALANCE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_BALANCE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_DIA",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_GRADE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_GRADE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_HEAT_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_HEAT_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MILL_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_MILL_SOURCE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_LENGTH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_STANDARD",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_STANDARD"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_WT_PIECE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_WT_PIECE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_WT_BUNDLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_WT_BUNDLE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_WT_COIL",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_WT_COIL"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_PCS_BUNDLE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_PCS_BUNDLE"
+								}
+							},
+							{
+								"source": {
+									"name": "FLD_SAP_STOCK_MODIFY_DATE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$FLD_SAP_STOCK_MODIFY_DATE"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
