@@ -29,7 +29,7 @@
 							{
 								"name": "fld_sbom_create_date",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'M/d/yyyy h:mm:ss tt')\n",
 									"type": "Expression"
 								}
 							},
@@ -40,7 +40,7 @@
 							{
 								"name": "fld_sbom_modify_date",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'M/d/yyyy h:mm:ss tt')\n",
 									"type": "Expression"
 								}
 							},
