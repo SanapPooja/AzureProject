@@ -117,15 +117,15 @@
 						"additionalColumns": [
 							{
 								"name": "vchDescription",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "PROC_TS",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "ERROR_CD",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "STATUS",
