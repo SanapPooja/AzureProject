@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT101",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "vks_int101_RestService9",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

@@ -1,0 +1,108 @@
+{
+	"name": "Bikash_INT101",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT \n    -- Columns from sapsr3.ympct_mts_stock\n    s.WERKS AS fld_sap_stock_plant,\n    s.MATNR AS fld_sap_stock_matl_no,\n    s.LGORT AS fld_sap_stock_stock,\n    s.CHARG AS fld_sap_stock_batch,\n    CASE \n        WHEN SUBSTR(s.MATNR, 1, 2) = 'FU' THEN 'PCS' \n        ELSE 'KG' \n    END AS fld_sap_stock_uom,\n    s.MAKTX AS fld_sap_stock_matl_desc,\n    s.MTART AS fld_sap_stock_matl_type,\n    s.MATKL AS fld_sap_stock_matl_group,\n    TO_CHAR(s.SAP_STK) AS fld_sap_stock_qty,\n    TO_CHAR(s.PND_GI_STK) AS fld_sap_stock_reserved,\n    TO_CHAR(s.FINAL_STK) AS fld_sap_stock_balance,\n    \n    -- Columns from sapsr3.YMPCT_MTS_BATCH\n    b.Z_HEAT_NO AS fld_sap_stock_heat_no,\n    b.Z_MILL_SOURCE AS fld_sap_stock_mill_source,\n    b.Z_LENGTH AS fld_sap_stock_length,\n    b.Z_STANDARD AS fld_sap_stock_standard,\n    b.Z_KG_PER_PCS AS fld_sap_stock_wt_piece,\n    b.Z_KG_PER_BLD AS fld_sap_stock_wt_bundle,\n    b.Z_KG_PER_COIL AS fld_sap_stock_wt_coil,\n    b.Z_PCS_PER_BLD AS fld_sap_stock_pcs_bundle\nFROM \n    sapsr3.ympct_mts_stock s\nJOIN \n    sapsr3.YMPCT_MTS_BATCH b ON s.MATNR = b.MATNR AND s.CHARG = b.CHARG;\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"sink": {
+									"path": "$"
+								}
+							},
+							null
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "vks_int101",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT101",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy dataint101",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"value": "$$COLUMN:"
+							}
+						],
+						"oracleReaderQuery": "SELECT \n    -- Columns from sapsr3.ympct_mts_stock\n    s.WERKS AS fld_sap_stock_plant,\n    s.MATNR AS fld_sap_stock_matl_no,\n    s.LGORT AS fld_sap_stock_stock,\n    s.CHARG AS fld_sap_stock_batch,\n    CASE \n        WHEN SUBSTR(s.MATNR, 1, 2) = 'FU' THEN 'PCS' \n        ELSE 'KG' \n    END AS fld_sap_stock_uom,\n    s.MAKTX AS fld_sap_stock_matl_desc,\n    s.MTART AS fld_sap_stock_matl_type,\n    s.MATKL AS fld_sap_stock_matl_group,\n    TO_CHAR(s.SAP_STK) AS fld_sap_stock_qty,\n    TO_CHAR(s.PND_GI_STK) AS fld_sap_stock_reserved,\n    TO_CHAR(s.FINAL_STK) AS fld_sap_stock_balance,\n\n    -- Placeholder columns\n    NULL AS fld_sap_stock_dia,\n    NULL AS fld_sap_stock_grade,\n\n    -- Columns from sapsr3.YMPCT_MTS_BATCH\n    b.Z_HEAT_NO AS fld_sap_stock_heat_no,\n    b.Z_MILL_SOURCE AS fld_sap_stock_mill_source,\n    b.Z_LENGTH AS fld_sap_stock_length,\n    b.Z_STANDARD AS fld_sap_stock_standard,\n    b.Z_KG_PER_PCS AS fld_sap_stock_wt_piece,\n    b.Z_KG_PER_BLD AS fld_sap_stock_wt_bundle,\n    b.Z_KG_PER_COIL AS fld_sap_stock_wt_coil,\n    b.Z_PCS_PER_BLD AS fld_sap_stock_pcs_bundle,\n\n    -- Current datetime as fld_sap_stock_modify_date\n    SYSDATE AS fld_sap_stock_modify_date -- Or CURRENT_TIMESTAMP depending on your SQL dialect\n\nFROM \n    sapsr3.ympct_mts_stock s\nJOIN \n    sapsr3.YMPCT_MTS_BATCH b ON s.MATNR = b.MATNR AND s.CHARG = b.CHARG;\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "OracleNSH101",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "queue_int101",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
