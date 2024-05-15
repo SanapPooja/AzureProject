@@ -131,13 +131,19 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "ord_request_no",
-					"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO"
+					"variableName": "ord_req_no",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].ORDER_REQUEST_NO",
+						"type": "Expression"
+					}
 				}
 			}
 		],
 		"variables": {
 			"ord_request_no": {
+				"type": "Integer"
+			},
+			"ord_req_no": {
 				"type": "Integer"
 			}
 		},
