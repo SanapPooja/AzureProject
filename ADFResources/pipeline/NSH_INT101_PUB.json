@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT \n    -- Columns from sapsr3.ympct_mts_stock\n    s.WERKS AS fld_sap_stock_plant,\n    s.MATNR AS fld_sap_stock_matl_no,\n    s.LGORT AS fld_sap_stock_stock,\n    s.CHARG AS fld_sap_stock_batch,\n    CASE \n        WHEN SUBSTR(s.MATNR, 1, 2) = 'FU' THEN 'PCS' \n        ELSE 'KG' \n    END AS fld_sap_stock_uom,\n    s.MAKTX AS fld_sap_stock_matl_desc,\n    s.MTART AS fld_sap_stock_matl_type,\n    s.MATKL AS fld_sap_stock_matl_group,\n    TO_CHAR(s.SAP_STK) AS fld_sap_stock_qty,\n    TO_CHAR(s.PND_GI_STK) AS fld_sap_stock_reserved,\n    TO_CHAR(s.FINAL_STK) AS fld_sap_stock_balance,\n\n    -- Placeholder columns\n    NULL AS fld_sap_stock_dia,\n    NULL AS fld_sap_stock_grade,\n\n    -- Columns from sapsr3.YMPCT_MTS_BATCH\n    b.Z_HEAT_NO AS fld_sap_stock_heat_no,\n    b.Z_MILL_SOURCE AS fld_sap_stock_mill_source,\n    b.Z_LENGTH AS fld_sap_stock_length,\n    b.Z_STANDARD AS fld_sap_stock_standard,\n    b.Z_KG_PER_PCS AS fld_sap_stock_wt_piece,\n    b.Z_KG_PER_BLD AS fld_sap_stock_wt_bundle,\n    b.Z_KG_PER_COIL AS fld_sap_stock_wt_coil,\n    b.Z_PCS_PER_BLD AS fld_sap_stock_pcs_bundle,\n\n    -- Current datetime as fld_sap_stock_modify_date\n    SYSDATE AS fld_sap_stock_modify_date -- Or CURRENT_TIMESTAMP depending on your SQL dialect\n\nFROM \n    sapsr3.ympct_mts_stock s\nJOIN \n    sapsr3.YMPCT_MTS_BATCH b ON s.MATNR = b.MATNR AND s.CHARG = b.CHARG;\n",
+						"oracleReaderQuery": "SELECT \n    s.WERKS AS fld_sap_stock_plant,\n    s.MATNR AS fld_sap_stock_matl_no,\n    s.LGORT AS fld_sap_stock_stock,\n    s.CHARG AS fld_sap_stock_batch,\n    CASE \n        WHEN SUBSTR(s.MATNR, 1, 2) = 'FU' THEN 'PCS' \n        ELSE 'KG' \n    END AS fld_sap_stock_uom,\n    s.MAKTX AS fld_sap_stock_matl_desc,\n    s.MTART AS fld_sap_stock_matl_type,\n    s.MATKL AS fld_sap_stock_matl_group,\n    TO_CHAR(s.SAP_STK) AS fld_sap_stock_qty,\n    TO_CHAR(s.PND_GI_STK) AS fld_sap_stock_reserved,\n    TO_CHAR(s.FINAL_STK) AS fld_sap_stock_balance,\n\n    -- Placeholder columns\n    NULL AS fld_sap_stock_dia,\n    NULL AS fld_sap_stock_grade,\n\n    -- Columns from sapsr3.YMPCT_MTS_BATCH\n    b.Z_HEAT_NO AS fld_sap_stock_heat_no,\n    b.Z_MILL_SOURCE AS fld_sap_stock_mill_source,\n    b.Z_LENGTH AS fld_sap_stock_length,\n    b.Z_STANDARD AS fld_sap_stock_standard,\n    b.Z_KG_PER_PCS AS fld_sap_stock_wt_piece,\n    b.Z_KG_PER_BLD AS fld_sap_stock_wt_bundle,\n    b.Z_KG_PER_COIL AS fld_sap_stock_wt_coil,\n    b.Z_PCS_PER_BLD AS fld_sap_stock_pcs_bundle,\n\n    -- Current datetime as fld_sap_stock_modify_date\n    SYSDATE AS fld_sap_stock_modify_date -- Or CURRENT_TIMESTAMP depending on your SQL dialect\n\nFROM \n    sapsr3.ympct_mts_stock s\nJOIN \n    sapsr3.YMPCT_MTS_BATCH b ON s.MATNR = b.MATNR AND s.CHARG = b.CHARG;\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -26,7 +26,7 @@
 						"httpRequestTimeout": "00:05:00",
 						"requestInterval": 10,
 						"requestMethod": "POST",
-						"writeBatchSize": 10000,
+						"writeBatchSize": "100",
 						"httpCompressionType": "none"
 					},
 					"enableStaging": false,
@@ -84,7 +84,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$FLD_SAP_STOCK_UOM"
+									"path": "$FLD_SAP_STOCK_MATL_DESC"
 								}
 							},
 							{

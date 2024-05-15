@@ -1,0 +1,231 @@
+{
+	"name": "NSH_INT101_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_PLANT']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_PLANT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MATL_NO']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MATL_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_STOCK']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_STOCK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_BATCH']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_BATCH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_UOM']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_UOM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MATL_DESC']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MATL_DESC"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MATL_TYPE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MATL_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MATL_GROUP']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MATL_GROUP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_QTY']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_QTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_RESERVED']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_RESERVED"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_BALANCE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_BALANCE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_DIA']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_GRADE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_GRADE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_HEAT_NO']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_HEAT_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MILL_SOURCE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MILL_SOURCE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_LENGTH']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_STANDARD']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_STANDARD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_WT_PIECE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_WT_PIECE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_WT_BUNDLE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_WT_BUNDLE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_WT_COIL']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_WT_COIL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_PCS_BUNDLE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_PCS_BUNDLE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_SAP_STOCK_MODIFY_DATE']"
+								},
+								"sink": {
+									"name": "FLD_SAP_STOCK_MODIFY_DATE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "queue_int101_sub",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT101_tbl_sap_stock_list_sub",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
