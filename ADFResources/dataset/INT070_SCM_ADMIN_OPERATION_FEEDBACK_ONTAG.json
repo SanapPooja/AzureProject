@@ -1,0 +1,16 @@
+{
+	"name": "INT070_SCM_ADMIN_OPERATION_FEEDBACK_ONTAG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "OPERATION_FEEDBACK_ONTAG"
+		}
+	}
+}

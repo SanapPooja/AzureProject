@@ -19,16 +19,26 @@
 						"type": "RestSource",
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
+						"requestMethod": "POST",
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "INT070_QueueHead",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT070_SCM_ADMIN_OPERATION_FEEDBACK_ONTAG",
 						"type": "DatasetReference"
 					}
 				]
