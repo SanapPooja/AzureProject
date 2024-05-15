@@ -86,7 +86,7 @@
 							},
 							{
 								"source": {
-									"path": "$PROJ_ID"
+									"path": "$PROJECT_ID"
 								},
 								"sink": {
 									"name": "PROJ_ID",
@@ -158,7 +158,7 @@
 							},
 							{
 								"source": {
-									"path": "$INTERFACE_ID"
+									"path": "$INTER_ID"
 								},
 								"sink": {
 									"name": "INTERFACE_ID",
@@ -167,7 +167,7 @@
 							},
 							{
 								"source": {
-									"path": "ID_MESSAGE"
+									"path": "$['ID_MESSAGE']"
 								},
 								"sink": {
 									"name": "ID_MESSAGE",
@@ -176,7 +176,7 @@
 							},
 							{
 								"source": {
-									"path": "STATUS"
+									"path": "$['STATUS']"
 								},
 								"sink": {
 									"name": "STATUS",
@@ -185,7 +185,7 @@
 							},
 							{
 								"source": {
-									"path": "ERROR_CD"
+									"path": "$['ERROR_CD']"
 								},
 								"sink": {
 									"name": "ERROR_CD",
@@ -194,7 +194,7 @@
 							},
 							{
 								"source": {
-									"path": "PROC_TS"
+									"path": "$['PROC_TS']"
 								},
 								"sink": {
 									"name": "PROC_TS",
@@ -203,7 +203,7 @@
 							},
 							{
 								"source": {
-									"path": "REC_TYPE"
+									"path": "$['REC_TYPE']"
 								},
 								"sink": {
 									"name": "REC_TYPE",
@@ -262,7 +262,8 @@
 					{
 						"activity": "CopyData_FromQueueToContractProject",
 						"dependencyConditions": [
-							"Succeeded"
+							"Succeeded",
+							"Failed"
 						]
 					}
 				],
