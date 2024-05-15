@@ -25,7 +25,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT sapsr3.INT013_Interface() AS Result FROM dual;",
+							"value": "SELECT sapsr3.INT_Interface('USP_INT037') AS Result FROM dual;",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
