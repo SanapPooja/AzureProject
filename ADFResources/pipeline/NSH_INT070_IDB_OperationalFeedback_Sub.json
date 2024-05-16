@@ -24,11 +24,31 @@
 							"supportRFC5988": "true"
 						}
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "INT070_QueueHead",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT070_SCM_ADMIN_OPERATION_FEEDBACK_ONTAG",
 						"type": "DatasetReference"
 					}
 				]
