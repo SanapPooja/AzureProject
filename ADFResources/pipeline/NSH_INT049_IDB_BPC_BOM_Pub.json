@@ -193,7 +193,7 @@
 										{
 											"source": {
 												"name": "FLD_SBOM_COMP_QTY",
-												"type": "Decimal"
+												"type": "Double"
 											},
 											"sink": {
 												"path": "$FLD_SBOM_COMP_QTY"
@@ -220,7 +220,7 @@
 										{
 											"source": {
 												"name": "FLD_SBOM_BASE_QTY",
-												"type": "Decimal"
+												"type": "Double"
 											},
 											"sink": {
 												"path": "$FLD_SBOM_BASE_QTY"
@@ -242,6 +242,15 @@
 											},
 											"sink": {
 												"path": "$FLD_SBOM_Q_MODIFY_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "FLD_SBOM_Q_PROD_ORD_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FLD_SBOM_Q_PROD_ORD_NO"
 											}
 										}
 									]
