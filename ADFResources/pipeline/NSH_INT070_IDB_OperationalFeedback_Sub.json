@@ -60,46 +60,20 @@
 								}
 							},
 							{
-								"sink": {
-									"name": "PHYSICAL_RESOURCE",
-									"type": "String"
+								"source": {
+									"path": "$['Column_1']"
 								}
 							},
 							{
-								"sink": {
-									"name": "PRODN_START",
-									"type": "String"
+								"source": {
+									"path": "$['Column_2']"
 								}
 							},
 							{
-								"sink": {
-									"name": "PRODN_END",
-									"type": "String"
+								"source": {
+									"path": "$['Column_3']"
 								}
-							},
-							{
-								"sink": {
-									"name": "CUM_PRODN_QTY",
-									"type": "Decimal"
-								}
-							},
-							{
-								"sink": {
-									"name": "OPEN_QTY",
-									"type": "Decimal"
-								}
-							},
-							{
-								"sink": {
-									"name": "UOM",
-									"type": "String"
-								}
-							},
-							null,
-							null,
-							null,
-							null,
-							null
+							}
 						]
 					}
 				},
