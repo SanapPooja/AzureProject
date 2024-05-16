@@ -41,128 +41,11 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "SAP_BATCH_ID",
-									"type": "String"
+									"name": "ref_id",
+									"type": "Int64"
 								},
 								"sink": {
-									"path": "$SAP_BATCH_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "BATCH_PCS",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$BATCH_PCS"
-								}
-							},
-							{
-								"source": {
-									"name": "BATCH_QTY",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$BATCH_QTY"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_STATUS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODN_STATUS"
-								}
-							},
-							{
-								"source": {
-									"name": "NR_OF_OPERATION",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$NR_OF_OPERATION"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_ORD_QTY_PCS",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$SCM_ORD_QTY_PCS"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_ORD_QTY_KG",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$SCM_ORD_QTY_KG"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_MACHINE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODN_MACHINE"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_REC_DATE",
-									"type": "DateTime"
-								},
-								"sink": {
-									"path": "$PRODN_REC_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "END_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$END_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_Q_PO_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SCM_Q_PO_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_ORDER_NO_SCH",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODN_ORDER_NO_SCH"
-								}
-							},
-							{
-								"source": {
-									"name": "START_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$START_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "product_type",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$product_type"
+									"path": "$REF_ID"
 								}
 							},
 							{
@@ -176,6 +59,15 @@
 							},
 							{
 								"source": {
+									"name": "SCM_Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SCM_Q_PO_NO"
+								}
+							},
+							{
+								"source": {
 									"name": "SCM_OPERATION_NO",
 									"type": "Int32"
 								},
@@ -185,19 +77,119 @@
 							},
 							{
 								"source": {
-									"name": "CREATE_DATE",
-									"type": "DateTime"
+									"name": "SCM_ORD_QTY_KG",
+									"type": "Decimal"
 								},
 								"sink": {
-									"path": "$CREATE_DATE"
+									"path": "$SCM_ORD_QTY_KG"
 								}
 							},
 							{
 								"source": {
-									"name": "REC_TYPE"
+									"name": "SCM_ORD_QTY_PCS",
+									"type": "Decimal"
 								},
 								"sink": {
-									"path": "$['$REC_TYPE']"
+									"path": "$SCM_ORD_QTY_PCS"
+								}
+							},
+							{
+								"source": {
+									"name": "SAP_BATCH_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_BATCH_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "BATCH_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$BATCH_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "BATCH_PCS",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$BATCH_PCS"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_MACHINE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODN_MACHINE"
+								}
+							},
+							{
+								"source": {
+									"name": "START_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$START_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "END_TIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$END_TIME"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_REC_DATE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$PRODN_REC_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATE_DATE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "MODIFY_DATE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_ORDER_NO_SCH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODN_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NR_OF_OPERATION",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "product_type",
+									"type": "String"
 								}
 							}
 						]
