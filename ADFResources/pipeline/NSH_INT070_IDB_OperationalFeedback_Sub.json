@@ -34,9 +34,72 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$"
+									"path": "$PRODN_ORDER_NO"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO",
+									"type": "String"
 								}
-							}
+							},
+							{
+								"source": {
+									"path": "$SEQ_NO"
+								},
+								"sink": {
+									"name": "SEQ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SAP_PRODN_ORDER_NO"
+								},
+								"sink": {
+									"name": "SAP_PRODN_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PHYSICAL_RESOURCE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PRODN_START",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "PRODN_END",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CUM_PRODN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"sink": {
+									"name": "OPEN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"sink": {
+									"name": "UOM",
+									"type": "String"
+								}
+							},
+							null,
+							null,
+							null,
+							null,
+							null
 						]
 					}
 				},
