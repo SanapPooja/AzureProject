@@ -6,10 +6,10 @@
 		"type": "SqlServer",
 		"typeProperties": {
 			"connectionString": "integrated security=False;data source=NSQADB2.natsteel.corp;initial catalog=EHMS;user id=stsapp",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyNjZiZjc5NS03NWY4LTRkODctYmU3Ni1iOGE2ZGUxMTdhNDAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1NDk0MGY1NS0wYjU4LTRlYWMtYmIyZS1lMWMzZWUxNjNmYTYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "MESQARuntime",
+			"referenceName": "NSHQA",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
