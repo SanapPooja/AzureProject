@@ -21,7 +21,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1700,7 +1707,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "DeleteServiceBusMessage",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -1723,7 +1730,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update dbo.SCM_Order_Header set transfer_status = 'F' where order_request_no = @{pipeline().parameters.order_request_no}",
+								"value": "update dbo.SCM_Order_Header set transfer_status = 'F' where order_request_no = '@{variables('order_request_no')}'",
 								"type": "Expression"
 							}
 						}
@@ -1736,7 +1743,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "DeleteServiceBusMessage",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1759,12 +1766,62 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update dbo.SCM_Order_Header set transfer_status = 'S' where order_request_no = @{pipeline().parameters.order_request_no}",
+								"value": "update dbo.SCM_Order_Header set transfer_status = 'S' where order_request_no = '@{variables('order_request_no')}'",
 								"type": "Expression"
 							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Lookup12",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT t1.IDENTITY_NO\r\n      ,t1.ORD_REQ_NO\r\n      ,t1.SALES_ORDER\r\n      ,t1.ITEM_NO\r\n      ,t1.SHAPE_IND\r\n      ,t1.SHAPE_CD\r\n      ,t1.DIM_SEQ\r\n      ,t1.DIM_CHAR\r\n      ,t1.DIM_TYPE\r\n      ,t1.DIM_VALUE\r\n      ,t1.DIM_X\r\n      ,t1.DIM_Y\r\n      ,t1.DIM_Z\r\n      ,t1.CRITICAL_IND\r\n      ,t1.BEND_SEQ\r\n      ,t1.PRINT_TAG\r\n      ,t1.STATUS\r\n      ,t1.PROC_TIMESTAMP\r\n      ,t1.WBSElementId\r\n\t  ,t2.PROD_GRP\r\n  FROM SAP_ORD_SHAPE_VARIANT_DSS t1\r\n  join SAP_ORDER_ITEM t2\r\n  on t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  where t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  and t1.ITEM_NO = t2.ITEM_NO\r\n  and t1.ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\tsod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no)\r\n  and t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\t sod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no))",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT048_Table_Joins",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup12",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "order_request_no",
+					"value": {
+						"value": "@activity('Lookup12').output.value[0].order_request_no",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -1772,6 +1829,11 @@
 			"order_request_no": {
 				"type": "String",
 				"defaultValue": "order_request_no"
+			}
+		},
+		"variables": {
+			"order_request_no": {
+				"type": "String"
 			}
 		},
 		"annotations": []

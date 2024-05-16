@@ -479,6 +479,9 @@
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"order_request_no": {
+				"type": "String"
 			}
 		},
 		"annotations": []
