@@ -1,0 +1,82 @@
+{
+	"name": "INT051_VALIDATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        tag_no \r\n    FROM (\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.view_bpc_print_tag \r\n        MINUS\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.esb_bpc_print_tag\r\n    )\r\n    WHERE rownum <= 1000\r\n)\r\nSELECT\r\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\r\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\r\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\r\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\r\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\r\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\r\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\r\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\r\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\r\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\r\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\r\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\r\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\r\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\r\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\r\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\r\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\r\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\r\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\r\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\r\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\r\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\r\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\r\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\r\n    NVL(REC_ID, 0) AS REC_ID,\r\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\r\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\r\nFROM \r\n    scm_admin.view_bpc_print_tag FSQ\r\nJOIN \r\n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\r\nWHERE \r\n    ROWNUM <= 5;\r\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "BPC_PRINT_TAG",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)\n",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT051_IDB_BPC_PRINT_TAG_PUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
