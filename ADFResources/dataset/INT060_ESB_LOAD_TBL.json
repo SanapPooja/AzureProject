@@ -1,0 +1,16 @@
+{
+	"name": "INT060_ESB_LOAD_TBL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ESB_LOAD_TBL"
+		}
+	}
+}
