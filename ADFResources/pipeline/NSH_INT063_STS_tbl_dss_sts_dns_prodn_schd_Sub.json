@@ -47,19 +47,19 @@
 							},
 							{
 								"name": "fld_psch_modify_by",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_psch_modify_date",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_psch_q_status",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_psch_combi_id",
-								"value": "$$COLUMN:"
+								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",

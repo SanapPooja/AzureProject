@@ -25,7 +25,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "WITH FirstQuery AS (\n    SELECT tag_no\n    FROM (\n        SELECT tag_no\n        FROM scm_admin.cab_bender_download\n        MINUS\n        SELECT tag_no\n        FROM scm_admin.esb_cab_bender_download\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT\n    NVL(FSQ.TAG_NO, ' ') AS TAG_NO,\n    NVL(TAG_QTY, 0) AS TAG_QTY,\n    NVL(PRODUCTBAR, ' ') AS PRODUCTBAR,\n    NVL(SHAPECODE, ' ') AS SHAPECODE,\n    NVL(BBS_NO, ' ') AS BBS_NO,\n    NVL(BARMARK, ' ') AS BARMARK,\n    NVL(PRODN_TAG_WT, 0) AS PRODN_TAG_WT,\n    NVL(PIN_TYPE, ' ') AS PIN_TYPE,\n    NVL(PIN_SIZE, ' ') AS PIN_SIZE,\n    NVL(NO_OF_BENDING, 0) AS NO_OF_BENDING,\n    NVL(RUN_NO, ' ') AS RUN_NO,\n    NVL(PLANDURATION, 0) AS PLANDURATION,\n    NVL(PLAN_MACHINE, ' ') AS PLAN_MACHINE,\n    NVL(NO_OF_SEGMENTS, 0) AS NO_OF_SEGMENTS,\n    NVL(SHAPE_BVBS_PARAMETER, ' ') AS SHAPE_BVBS_PARAMETER,\n    NVL(CREATE_DATE, ' ') AS CREATE_DATE,\n    NVL(UPDATE_DATE, ' ') AS UPDATE_DATE,\n    NVL(SPARE1, ' ') AS SPARE1,\n    NVL(SPARE2, ' ') AS SPARE2,\n    NVL(SPARE3, ' ') AS SPARE3,\n    NVL(SPARE4, ' ') AS SPARE4,\n    NVL(SPARE5, ' ') AS SPARE5,\n    NVL(SPARE6, ' ') AS SPARE6,\n    NVL(SPARE7, ' ') AS SPARE7,\n    NVL(SPARE8, ' ') AS SPARE8,\n    NVL(SPARE9, ' ') AS SPARE9,\n    NVL(SPARE12, ' ') AS SPARE12,\n    NVL(PRODN_LEN, 0) AS PRODN_LEN,\n    NVL(BVBS_LEN, 0) AS BVBS_LEN\nFROM\n    scm_admin.cab_bender_download FSQ\nJOIN\n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO;\n",
+							"value": "WITH FirstQuery AS (\n    SELECT tag_no\n    FROM (\n        SELECT tag_no\n        FROM scm_admin.cab_bender_download\n        MINUS\n        SELECT tag_no\n        FROM scm_admin.esb_cab_bender_download\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT *\nFROM (\n    SELECT\n        NVL(FSQ.TAG_NO, ' ') AS TAG_NO,\n        NVL(TAG_QTY, 0) AS TAG_QTY,\n        NVL(PRODUCTBAR, ' ') AS PRODUCTBAR,\n        NVL(SHAPECODE, ' ') AS SHAPECODE,\n        NVL(BBS_NO, ' ') AS BBS_NO,\n        NVL(BARMARK, ' ') AS BARMARK,\n        NVL(PRODN_TAG_WT, 0) AS PRODN_TAG_WT,\n        NVL(PIN_TYPE, ' ') AS PIN_TYPE,\n        NVL(PIN_SIZE, ' ') AS PIN_SIZE,\n        NVL(NO_OF_BENDING, 0) AS NO_OF_BENDING,\n        NVL(RUN_NO, ' ') AS RUN_NO,\n        NVL(PLANDURATION, 0) AS PLANDURATION,\n        NVL(PLAN_MACHINE, ' ') AS PLAN_MACHINE,\n        NVL(NO_OF_SEGMENTS, 0) AS NO_OF_SEGMENTS,\n        NVL(SHAPE_BVBS_PARAMETER, ' ') AS SHAPE_BVBS_PARAMETER,\n        NVL(CREATE_DATE, ' ') AS CREATE_DATE,\n        NVL(UPDATE_DATE, ' ') AS UPDATE_DATE,\n        NVL(SPARE1, ' ') AS SPARE1,\n        NVL(SPARE2, ' ') AS SPARE2,\n        NVL(SPARE3, ' ') AS SPARE3,\n        NVL(SPARE4, ' ') AS SPARE4,\n        NVL(SPARE5, ' ') AS SPARE5,\n        NVL(SPARE6, ' ') AS SPARE6,\n        NVL(SPARE7, ' ') AS SPARE7,\n        NVL(SPARE8, ' ') AS SPARE8,\n        NVL(SPARE9, ' ') AS SPARE9,\n        NVL(SPARE12, ' ') AS SPARE12,\n        NVL(PRODN_LEN, 0) AS PRODN_LEN,\n        NVL(BVBS_LEN, 0) AS BVBS_LEN,\n        ROWNUM AS rnum\n    FROM\n        scm_admin.cab_bender_download FSQ\n    JOIN\n        FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\n)\nWHERE rnum <= 5;\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -449,7 +449,7 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "SELECT tag_no\r\n    FROM (\r\n        SELECT tag_no\r\n        FROM scm_admin.cab_bender_download\r\n        MINUS\r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n    )\r\n    WHERE ROWNUM <= 1000",
+						"oracleReaderQuery": "SELECT tag_no\r\n    FROM (\r\n        SELECT tag_no\r\n        FROM scm_admin.cab_bender_download\r\n        MINUS\r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n    )\r\n    WHERE ROWNUM <= 5",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -537,7 +537,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' and ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}

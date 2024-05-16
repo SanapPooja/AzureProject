@@ -27,19 +27,19 @@
 						"additionalColumns": [
 							{
 								"name": "vchDescription",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "PROC_TS",
-								"value": "NULL"
+								"value": ""
 							},
 							{
 								"name": "ERROR_CD",
-								"value": "NULL"
+								"value": ""
 							}
 						],
 						"oracleReaderQuery": {
-							"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_SBOM_SAL_ORD_NO,\n        FLD_SBOM_SAL_ITEM_NO,\n        FLD_SBOM_ORD_ITEM_NO,\n        FLD_SBOM_BOM_ITEM_NO\n    FROM (\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_SAL_ITEM_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_BOM_ITEM_NO\n        FROM scm_admin.cab_bom\n        MINUS\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_SAL_ITEM_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_BOM_ITEM_NO\n        FROM scm_admin.esb_cab_bom\n    )\n    WHERE rownum <= '1000'\n)\nSELECT\t\t\t\t\n    NVL(FLD_SBOM_MSG_ID, ' ') AS FLD_SBOM_MSG_ID,\n    NVL(FSQ.FLD_SBOM_PROD_ORD_NO, ' ') AS FLD_SBOM_PROD_ORD_NO,\n    NVL(FSQ.FLD_SBOM_SAL_ORD_NO, ' ') AS FLD_SBOM_SAL_ORD_NO,\n    NVL(FSQ.FLD_SBOM_SAL_ITEM_NO, ' ') AS FLD_SBOM_SAL_ITEM_NO,\n    NVL(FSQ.FLD_SBOM_ORD_ITEM_NO, ' ') AS FLD_SBOM_ORD_ITEM_NO,\n    NVL(FLD_SBOM_MATL_NO, ' ') AS FLD_SBOM_MATL_NO,\n    NVL(FSQ.FLD_SBOM_BOM_ITEM_NO, ' ') AS FLD_SBOM_BOM_ITEM_NO,\n    NVL(FLD_SBOM_COMP_MATL_NO, ' ') AS FLD_SBOM_COMP_MATL_NO,\n    NVL(FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\n    NVL(FLD_SBOM_COMP_UOM, ' ') AS FLD_SBOM_COMP_UOM,\n    NVL(FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\n    NVL(FLD_SBOM_Q_CREATE_DATE, ' ') AS FLD_SBOM_Q_CREATE_DATE,\n    NVL(FLD_SBOM_Q_MODIFY_DATE, ' ') AS FLD_SBOM_Q_MODIFY_DATE,\n    NVL(FLD_SBOM_Q_PRODN_ORD_NO, ' ') AS FLD_SBOM_Q_PRODN_ORD_NO\nFROM scm_admin.cab_bom FSQ\nJOIN FirstQuery FQ ON \n    FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO AND\n    FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO AND\n    FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO AND\n    FSQ.FLD_SBOM_BOM_ITEM_NO = FQ.FLD_SBOM_BOM_ITEM_NO;\n",
+							"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_SBOM_SAL_ORD_NO,\n        FLD_SBOM_SAL_ITEM_NO,\n        FLD_SBOM_ORD_ITEM_NO,\n        FLD_SBOM_BOM_ITEM_NO\n    FROM (\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_SAL_ITEM_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_BOM_ITEM_NO\n        FROM scm_admin.cab_bom\n        MINUS\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_SAL_ITEM_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_BOM_ITEM_NO\n        FROM scm_admin.esb_cab_bom\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT * FROM (\n    SELECT\t\t\t\t\n        NVL(FLD_SBOM_MSG_ID, ' ') AS FLD_SBOM_MSG_ID,\n        NVL(FSQ.FLD_SBOM_PROD_ORD_NO, ' ') AS FLD_SBOM_PROD_ORD_NO,\n        NVL(FSQ.FLD_SBOM_SAL_ORD_NO, ' ') AS FLD_SBOM_SAL_ORD_NO,\n        NVL(FSQ.FLD_SBOM_SAL_ITEM_NO, ' ') AS FLD_SBOM_SAL_ITEM_NO,\n        NVL(FSQ.FLD_SBOM_ORD_ITEM_NO, ' ') AS FLD_SBOM_ORD_ITEM_NO,\n        NVL(FLD_SBOM_MATL_NO, ' ') AS FLD_SBOM_MATL_NO,\n        NVL(FSQ.FLD_SBOM_BOM_ITEM_NO, ' ') AS FLD_SBOM_BOM_ITEM_NO,\n        NVL(FLD_SBOM_COMP_MATL_NO, ' ') AS FLD_SBOM_COMP_MATL_NO,\n        NVL(FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\n        NVL(FLD_SBOM_COMP_UOM, ' ') AS FLD_SBOM_COMP_UOM,\n        NVL(FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\n        NVL(FLD_SBOM_Q_CREATE_DATE, ' ') AS FLD_SBOM_Q_CREATE_DATE,\n        NVL(FLD_SBOM_Q_MODIFY_DATE, ' ') AS FLD_SBOM_Q_MODIFY_DATE,\n        NVL(FLD_SBOM_Q_PRODN_ORD_NO, ' ') AS FLD_SBOM_Q_PRODN_ORD_NO,\n        ROWNUM AS rnum\n    FROM scm_admin.cab_bom FSQ\n    JOIN FirstQuery FQ ON \n        FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO AND\n        FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO AND\n        FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO AND\n        FSQ.FLD_SBOM_BOM_ITEM_NO = FQ.FLD_SBOM_BOM_ITEM_NO\n)\nWHERE rnum <= 5;\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -270,7 +270,7 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.cab_bom\t\t\t\t\t\t\r\nminus\t\t\t\t\t\t\r\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.esb_cab_bom)\t\t\t\t\t\t\r\nwhere rownum <= 1000\t\t\t\t\t\t",
+						"oracleReaderQuery": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.cab_bom\t\t\t\t\t\t\r\nminus\t\t\t\t\t\t\r\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_SAL_ITEM_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_BOM_ITEM_NO from scm_admin.esb_cab_bom)\t\t\t\t\t\t\r\nwhere rownum <= 5\t\t\t\t\t\t",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
