@@ -250,6 +250,24 @@
 								"sink": {
 									"path": "$LOAD_NO"
 								}
+							},
+							{
+								"source": {
+									"name": "URGENT_ORDER_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$URGENT_ORDER_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "CONQUAS_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONQUAS_IND"
+								}
 							}
 						]
 					}
