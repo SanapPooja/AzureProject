@@ -209,6 +209,14 @@
 								"sink": {
 									"path": "$['$product_type']"
 								}
+							},
+							{
+								"source": {
+									"name": "REC_TYPE"
+								},
+								"sink": {
+									"path": "$['$REC_TYPE']"
+								}
 							}
 						]
 					}
