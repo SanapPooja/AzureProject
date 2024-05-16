@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Select_IDB_to_Queue",
+				"name": "Select_STS_to_Queue",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
