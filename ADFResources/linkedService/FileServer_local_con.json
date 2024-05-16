@@ -7,10 +7,10 @@
 		"typeProperties": {
 			"host": "\\\\nslfp4\\BTlabelPrintDEV\\EHMS\\INT_CHROMA_To_EHMS",
 			"userId": "NATSTEELCORP\\NSESBAPPSADM",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDY0N0Y2MjM0LThBMjMtNDQyOS1BMTY0LTBBQjNBQTIzOTE5Rl8wMzU4ZWQ5My05NjY1LTQyMTMtYjAwZS02ZTUyMjVmNzIxNDgiDQp9"
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5ZmJmZWQxMC0xNmFhLTRhOWEtODcyMS0wNDIyODFmMDdjNzUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "integrationRuntime1",
+			"referenceName": "NSHQA",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
