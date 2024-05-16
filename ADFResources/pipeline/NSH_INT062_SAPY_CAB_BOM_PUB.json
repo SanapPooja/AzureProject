@@ -358,7 +358,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Esb_Cab_bom",
+						"referenceName": "int062_Esb_Cab_bom",
 						"type": "DatasetReference"
 					}
 				]

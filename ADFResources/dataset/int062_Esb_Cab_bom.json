@@ -1,5 +1,5 @@
 {
-	"name": "Esb_Cab_bom",
+	"name": "int062_Esb_Cab_bom",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
