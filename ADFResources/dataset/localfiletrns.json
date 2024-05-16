@@ -1,0 +1,21 @@
+{
+	"name": "localfiletrns",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer_local_con",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
