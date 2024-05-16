@@ -185,7 +185,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "CAB_BOM_QUEUE",
+						"referenceName": "int062_CAB_BOM_QUEUE",
 						"type": "DatasetReference"
 					}
 				]

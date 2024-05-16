@@ -328,7 +328,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "RestResource3",
+						"referenceName": "int062_RestResource3",
 						"type": "DatasetReference"
 					}
 				],

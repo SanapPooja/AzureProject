@@ -3,111 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script4",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NDSQADB5_NDS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT t1.IDENTITY_NO, \t\t\t\t\nt1.ORD_REQ_NO, \t\t\t\t\nt1.SALES_ORDER, \t\t\t\t\nt1.ITEM_NO, \t\t\t\t\nt1.SHAPE_IND, \t\t\t\t\nt1.SHAPE_CD, \t\t\t\t\nt1.DIM_SEQ, \t\t\t\t\nt1.DIM_CHAR, \t\t\t\t\nt1.DIM_TYPE, \t\t\t\t\nt1.DIM_VALUE, \t\t\t\t\nt1.DIM_X, \t\t\t\t\nt1.DIM_Y, \t\t\t\t\nt1.DIM_Z, \t\t\t\t\nt1.CRITICAL_IND, \t\t\t\t\nt1.BEND_SEQ, \t\t\t\t\nt1.PRINT_TAG, \t\t\t\t\nt1.STATUS, \t\t\t\t\nt1.PROC_TIMESTAMP, \t\t\t\t\nt1.WBSElementId,  \t\t\t\t\nt2.PROD_GRP \t\t\t\t\nFROM dbo.SAP_ORD_SHAPE_VARIANT_DSS t1, \t\t\t\t\ndbo.SAP_ORDER_ITEM t2 \t\t\t\t\nWHERE t1.ORD_REQ_NO = t2.ORD_REQ_NO \t\t\t\t\nAND t1.ITEM_NO= t2.ITEM_NO   \t\t\t\t\nAND t1.ORD_REQ_NO = '${ORD_REQ_NO}' \t\t\t\t\nAND t1.ITEM_NO IN ('${ITEM_NO_STRING}') "
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script3",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB5_ODOS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT t1.IDENTITY_NO, \t\t\t\t\t\nt1.ORD_REQ_NO, \t\t\t\t\t\nt1.SALES_ORDER, \t\t\t\t\t\nt1.ITEM_NO, \t\t\t\t\t\nt1.SHAPE_IND, \t\t\t\t\t\nt1.SHAPE_CD, \t\t\t\t\t\nt1.DIM_SEQ, \t\t\t\t\t\nt1.DIM_CHAR, \t\t\t\t\t\nt1.DIM_TYPE, \t\t\t\t\t\nt1.DIM_VALUE, \t\t\t\t\t\nt1.DIM_X, \t\t\t\t\t\nt1.DIM_Y, \t\t\t\t\t\nt1.DIM_Z, \t\t\t\t\t\nt1.CRITICAL_IND, \t\t\t\t\t\nt1.BEND_SEQ, \t\t\t\t\t\nt1.PRINT_TAG, \t\t\t\t\t\nt1.STATUS, \t\t\t\t\t\nt1.PROC_TIMESTAMP, \t\t\t\t\t\nt1.WBSElementId,  \t\t\t\t\t\nt2.PROD_GRP  \t\t\t\t\t\nFROM dbo.SAP_ORD_SHAPE_VARIANT_DSS t1,  \t\t\t\t\t\ndbo.SAP_ORDER_ITEM t2  \t\t\t\t\t\nWHERE  t1.ORD_REQ_NO = t2.ORD_REQ_NO \t\t\t\t\t\nAND t1.ITEM_NO= t2.ITEM_NO \t\t\t\t\t\nAND t1.ORD_REQ_NO = '${ORD_REQ_NO}' \t\t\t\t\t\nAND t1.ITEM_NO IN ('${ITEM_NO_STRING}') \t\t\t\t\t\nAND (t1.PRINT_TAG = 'Y' OR t1.PRINT_TAG IS null )"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script4",
-				"type": "Script",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "SELECT \n    oh.order_no,\n    oh.transfer_status,\n    oh.order_request_no,\n    sor.PRODTYPE_ID \nFROM \n    dbo.SCM_Order_Header AS oh\nLEFT JOIN \n    dbo.SAP_WBS_SOR AS sor ON oh.order_request_no = sor.ORD_REQ_NO;\n",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Script3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -119,150 +17,220 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \n    so.IDENTITY_NO,\n    so.ORD_REQ_NO,\n    so.SALES_ORDER,\n    so.ITEM_NO,\n    so.SHAPE_IND,\n    so.SHAPE_CD,\n    so.DIM_SEQ,\n    so.DIM_CHAR,\n    so.DIM_TYPE,\n    so.DIM_VALUE,\n    so.DIM_X,\n    so.DIM_Y,\n    so.DIM_Z,\n    so.CRITICAL_IND,\n    so.BEND_SEQ,\n    so.PRINT_TAG,\n    so.STATUS,\n    so.PROC_TIMESTAMP,\n    so.WBSElementId,\n    ws.PRODTYPE_ID,\n    oh.ORDER_NO,\n    oi.PROD_GRP\nFROM \n    SAP_ORD_SHAPE_VARIANT_DSS so\nJOIN \n    SAP_WBS_SOR ws ON so.IDENTITY_NO = ws.IDENTITY_NO\nJOIN \n    SCM_ORDER_HEADER oh ON so.SALES_ORDER = oh.ORDER_NO\nJOIN \n    SAP_ORDER_ITEM oi ON so.IDENTITY_NO= oi.IDENTITY_NO AND so.ITEM_NO = oi.ITEM_NO;",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$item_no"
-								}
-							},
-							{
-								"source": {
-									"name": "DIM_CHAR",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$param_ind_1"
-								}
-							},
-							{
-								"source": {
-									"name": "DIM_TYPE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$shape_param_1"
-								}
-							},
-							{
-								"source": {
-									"name": "DIM_VALUE",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$segment_length_1"
-								}
-							},
-							{
-								"source": {
-									"name": "DIM_X",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$coordinate_x_1"
-								}
-							},
-							{
-								"source": {
-									"name": "DIM_Y",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$coordinate_y_1"
-								}
-							},
-							{
-								"source": {
-									"name": "CRITICAL_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$critical_ind_1"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODTYPE_ID",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$product_type"
-								}
-							},
-							{
-								"source": {
-									"name": "ORDER_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$order_no"
-								}
-							},
-							{
-								"source": {
-									"name": "PROD_GRP",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SAP_PRODUCT_GROUP"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
+					"dataset": {
 						"referenceName": "INT048_Table_Joins",
 						"type": "DatasetReference"
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT048_OrderShape_Queue",
-						"type": "DatasetReference"
-					}
-				]
+				}
 			},
 			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT048_SCM_OrderShape_Sub",
-						"type": "PipelineReference"
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT t1.IDENTITY_NO\r\n      ,t1.ORD_REQ_NO\r\n      ,t1.SALES_ORDER\r\n      ,t1.ITEM_NO\r\n      ,t1.SHAPE_IND\r\n      ,t1.SHAPE_CD\r\n      ,t1.DIM_SEQ\r\n      ,t1.DIM_CHAR\r\n      ,t1.DIM_TYPE\r\n      ,t1.DIM_VALUE\r\n      ,t1.DIM_X\r\n      ,t1.DIM_Y\r\n      ,t1.DIM_Z\r\n      ,t1.CRITICAL_IND\r\n      ,t1.BEND_SEQ\r\n      ,t1.PRINT_TAG\r\n      ,t1.STATUS\r\n      ,t1.PROC_TIMESTAMP\r\n      ,t1.WBSElementId\r\n\t  ,t2.PROD_GRP\r\n  FROM SAP_ORD_SHAPE_VARIANT_DSS t1\r\n  join SAP_ORDER_ITEM t2\r\n  on t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  where t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  and t1.ITEM_NO = t2.ITEM_NO\r\n  and t1.ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\tsod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no)\r\n  and t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\t sod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no))",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
-					"waitOnCompletion": true
+					"dataset": {
+						"referenceName": "INT048_Table_Joins",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT t1.IDENTITY_NO\n      ,t1.ORD_REQ_NO\n      ,t1.SALES_ORDER\n      ,t1.ITEM_NO\n      ,t1.SHAPE_IND\n      ,t1.SHAPE_CD\n      ,t1.DIM_SEQ\n      ,t1.DIM_CHAR\n      ,t1.DIM_TYPE\n      ,t1.DIM_VALUE\n      ,t1.DIM_X\n      ,t1.DIM_Y\n      ,t1.DIM_Z\n      ,t1.CRITICAL_IND\n      ,t1.BEND_SEQ\n      ,t1.PRINT_TAG\n      ,t1.STATUS\n      ,t1.PROC_TIMESTAMP\n      ,t1.WBSElementId\n\t  ,t2.PROD_GRP\n  FROM SAP_ORD_SHAPE_VARIANT_DSS t1\n  join SAP_ORDER_ITEM t2\n  on t1.ORD_REQ_NO = t2.ORD_REQ_NO\n  where t1.ORD_REQ_NO = t2.ORD_REQ_NO\n  and t1.ITEM_NO = t2.ITEM_NO\n  and t1.ORD_REQ_NO = (SELECT top 1 \n\t\t\t\t\t\t\tsod.order_request_no\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\n\t\t\t\t\t\tJOIN \n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\n\t\t\t\t\t\tON \n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no)\n  and t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO = (SELECT top 1 \n\t\t\t\t\t\t\t sod.order_request_no\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\n\t\t\t\t\t\tJOIN \n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\n\t\t\t\t\t\tON \n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no))",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$item_no"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$param_ind_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$shape_param_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$segment_length_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$coordinate_x_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$coordinate_y_1"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$critical_ind_1"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODTYPE_ID",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$product_type"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$order_no"
+											}
+										},
+										{
+											"source": {
+												"name": "PROD_GRP",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_PRODUCT_GROUP"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT048_Table_Joins",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT048_OrderShape_Queue",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT048_SCM_OrderShape_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"parameters": {
