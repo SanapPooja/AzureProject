@@ -1,5 +1,5 @@
 {
-	"name": "RestResource3",
+	"name": "int062_RestResource3",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "RestService7",
