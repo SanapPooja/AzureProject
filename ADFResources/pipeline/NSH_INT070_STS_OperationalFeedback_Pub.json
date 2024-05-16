@@ -235,9 +235,18 @@
 				]
 			},
 			{
-				"name": "Script1",
+				"name": "Update tbl_sts_scm_prodn_staging_upd_test",
 				"type": "Script",
-				"dependsOn": [],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Select_STS_to_Queue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -246,8 +255,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB2Connection",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "update REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') from dbo.tbl_sts_scm_prodn_staging_upd_test where REF_ID = 'output of QUEUE'"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
