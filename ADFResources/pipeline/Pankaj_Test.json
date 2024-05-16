@@ -289,18 +289,6 @@
 							},
 							{
 								"source": {
-									"name": "JobGrade",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "corporate_title",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
 									"name": "PositionName",
 									"type": "String",
 									"physicalType": "String"
@@ -367,17 +355,6 @@
 								},
 								"sink": {
 									"name": "BankCode",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "BankCode",
-									"type": "String"
-								},
-								"sink": {
-									"name": "BankAccountNo",
 									"type": "String",
 									"physicalType": "varchar"
 								}
