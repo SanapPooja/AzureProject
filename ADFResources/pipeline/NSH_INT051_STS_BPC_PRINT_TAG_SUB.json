@@ -63,7 +63,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$cage_name"
+									"path": "$CAGE_NAME"
 								},
 								"sink": {
 									"name": "fld_bpc_cage_name",
@@ -72,7 +72,7 @@
 							},
 							{
 								"source": {
-									"path": "$cust_name"
+									"path": "$CUST_NAME"
 								},
 								"sink": {
 									"name": "fld_bpc_cust_name",
@@ -81,7 +81,7 @@
 							},
 							{
 								"source": {
-									"path": "$proj_name"
+									"path": "$PROJ_NAME"
 								},
 								"sink": {
 									"name": "fld_bpc_proj_name",
@@ -90,7 +90,7 @@
 							},
 							{
 								"source": {
-									"path": "$so_no"
+									"path": "$SO_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_so_no",
@@ -99,7 +99,7 @@
 							},
 							{
 								"source": {
-									"path": "$so_item_no"
+									"path": "$SO_ITEM_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_so_item_no",
@@ -108,7 +108,7 @@
 							},
 							{
 								"source": {
-									"path": "$prodn_marking"
+									"path": "$PRODN_MARKING"
 								},
 								"sink": {
 									"name": "fld_bpc_prodn_marking",
@@ -117,7 +117,7 @@
 							},
 							{
 								"source": {
-									"path": "$prodn_marking_rev_no"
+									"path": "$PRODN_MARKING_REV_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_prodn_marking_rev_no",
@@ -126,7 +126,7 @@
 							},
 							{
 								"source": {
-									"path": "$drawing_no"
+									"path": "$DRAWING_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_drawing_no",
@@ -135,7 +135,7 @@
 							},
 							{
 								"source": {
-									"path": "$drawing_revision"
+									"path": "$DRAWING_REVISION"
 								},
 								"sink": {
 									"name": "fld_bpc_drawing_rev",
@@ -144,7 +144,7 @@
 							},
 							{
 								"source": {
-									"path": "$pile_seq_no"
+									"path": "$PILE_SEQ_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_pile_seq_no",
@@ -153,7 +153,7 @@
 							},
 							{
 								"source": {
-									"path": "$bbs_no"
+									"path": "$BBS_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_bbs_no",
@@ -162,7 +162,7 @@
 							},
 							{
 								"source": {
-									"path": "$running_cntr"
+									"path": "$RUNNING_CNTR"
 								},
 								"sink": {
 									"name": "fld_bpc_run_cntr",
@@ -171,7 +171,7 @@
 							},
 							{
 								"source": {
-									"path": "$work_center"
+									"path": "$WORK_CENTER"
 								},
 								"sink": {
 									"name": "fld_bpc_wrk_cntr",
@@ -180,7 +180,7 @@
 							},
 							{
 								"source": {
-									"path": "$template"
+									"path": "$TEMPLATE"
 								},
 								"sink": {
 									"name": "fld_bpc_template",
@@ -189,7 +189,7 @@
 							},
 							{
 								"source": {
-									"path": "$prodn_seq"
+									"path": "$PRODN_SEQ"
 								},
 								"sink": {
 									"name": "fld_bpc_prodn_seq",
@@ -198,7 +198,7 @@
 							},
 							{
 								"source": {
-									"path": "$planneddateandshift"
+									"path": "$PLANNEDDATEANDSHIFT"
 								},
 								"sink": {
 									"name": "fld_bpc_plan_date_shift",
@@ -207,7 +207,7 @@
 							},
 							{
 								"source": {
-									"path": "$delivery_date"
+									"path": "$DELIVERY"
 								},
 								"sink": {
 									"name": "fld_bpc_deliv_date",
@@ -216,7 +216,7 @@
 							},
 							{
 								"source": {
-									"path": "$q_po_no"
+									"path": "$Q_PO_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_q_po_no",
@@ -225,7 +225,7 @@
 							},
 							{
 								"source": {
-									"path": "$tag_no"
+									"path": "$TAG_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_tag_no",
@@ -234,7 +234,7 @@
 							},
 							{
 								"source": {
-									"path": "$create_date"
+									"path": "$CREATE_DATE"
 								},
 								"sink": {
 									"name": "fld_bpc_q_create_date",
@@ -243,7 +243,7 @@
 							},
 							{
 								"source": {
-									"path": "$modify_date"
+									"path": "$MODIFY_DATE"
 								},
 								"sink": {
 									"name": "fld_bpc_q_update_date",
@@ -252,7 +252,7 @@
 							},
 							{
 								"source": {
-									"path": "$release_code"
+									"path": "$RELEASE_CODE"
 								},
 								"sink": {
 									"name": "fld_bpc_release_code",
@@ -261,7 +261,7 @@
 							},
 							{
 								"source": {
-									"path": "$load_no"
+									"path": "$LOAD_NO"
 								},
 								"sink": {
 									"name": "fld_bpc_load_no",
@@ -270,19 +270,19 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_rec_type"
+									"path": "$URGENT_ORDER_IND"
 								},
 								"sink": {
-									"name": "fld_bpc_rec_type",
+									"name": "URGENT_ORDER_IND",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "fld_bpc_create_by"
+									"path": "$CONQUAS_IND"
 								},
 								"sink": {
-									"name": "fld_bpc_create_by",
+									"name": "CONQUAS_IND",
 									"type": "String"
 								}
 							},
@@ -297,10 +297,10 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_modify_by"
+									"path": "fld_bpc_create_by"
 								},
 								"sink": {
-									"name": "fld_bpc_modify_by",
+									"name": "fld_bpc_create_by",
 									"type": "String"
 								}
 							},
@@ -312,7 +312,38 @@
 									"name": "fld_bpc_modify_date",
 									"type": "String"
 								}
-							}
+							},
+							{
+								"source": {
+									"path": "fld_bpc_modify_by"
+								},
+								"sink": {
+									"name": "fld_bpc_modify_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "fld_bpc_rec_type"
+								},
+								"sink": {
+									"name": "fld_bpc_rec_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "fld_psch_rec_type"
+								},
+								"sink": {
+									"name": "fld_psch_rec_type",
+									"type": "String"
+								}
+							},
+							null,
+							null,
+							null,
+							null
 						]
 					}
 				},
