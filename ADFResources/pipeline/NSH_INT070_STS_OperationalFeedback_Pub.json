@@ -174,7 +174,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$['Column_1']"
+									"path": "$['$PRODN_ORDER_NO_SCH']"
 								}
 							},
 							{
@@ -183,7 +183,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$['Column_2']"
+									"path": "$['$PRODN_STATUS']"
 								}
 							},
 							{
@@ -192,12 +192,16 @@
 									"type": "Decimal"
 								},
 								"sink": {
-									"path": "$['Column_3']"
+									"path": "$['$NR_OF_OPERATION']"
 								}
 							},
 							{
+								"source": {
+									"name": "product_type",
+									"type": "String"
+								},
 								"sink": {
-									"path": "$['Column_4']"
+									"path": "$['$product_type']"
 								}
 							}
 						]
