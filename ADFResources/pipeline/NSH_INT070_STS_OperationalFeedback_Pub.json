@@ -17,12 +17,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"additionalColumns": [
-							{
-								"name": "REC_TYPE",
-								"value": "Y"
-							}
-						],
 						"sqlReaderQuery": "SELECT top (10) ref_id, SAP_PO_NUM, SCM_Q_PO_NO, SCM_OPERATION_NO, \t\nSCM_ORD_QTY_KG, SCM_ORD_QTY_PCS, SAP_BATCH_ID, BATCH_QTY, \tBATCH_PCS,PRODN_MACHINE, \nSTART_TIME, END_TIME, \tPRODN_REC_DATE,CREATE_DATE, ISNULL(MODIFY_DATE, GETDATE()) AS MODIFY_DATE, PRODN_ORDER_NO_SCH , PRODN_STATUS, NR_OF_OPERATION , product_type FROM \tSTS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
@@ -160,36 +154,50 @@
 								"source": {
 									"name": "CREATE_DATE",
 									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$['$CREATE_DATE']"
 								}
 							},
 							{
 								"source": {
 									"name": "MODIFY_DATE",
 									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$['$MODIFY_DATE']"
 								}
 							},
 							{
 								"source": {
 									"name": "PRODN_ORDER_NO_SCH",
 									"type": "String"
+								},
+								"sink": {
+									"path": "$['Column_1']"
 								}
 							},
 							{
 								"source": {
 									"name": "PRODN_STATUS",
 									"type": "String"
+								},
+								"sink": {
+									"path": "$['Column_2']"
 								}
 							},
 							{
 								"source": {
 									"name": "NR_OF_OPERATION",
 									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$['Column_3']"
 								}
 							},
 							{
-								"source": {
-									"name": "product_type",
-									"type": "String"
+								"sink": {
+									"path": "$['Column_4']"
 								}
 							}
 						]
