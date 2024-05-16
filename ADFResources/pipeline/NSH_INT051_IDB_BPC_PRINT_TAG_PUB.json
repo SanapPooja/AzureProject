@@ -495,7 +495,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'E' where ESBUPDATETIME ='@{variables('CurrenTime')}",
+								"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'E' where ESBUPDATETIME ='@{variables('CurrenTime')}'",
 								"type": "Expression"
 							}
 						}
