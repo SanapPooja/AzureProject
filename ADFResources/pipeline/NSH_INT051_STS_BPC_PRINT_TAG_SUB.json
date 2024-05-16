@@ -43,6 +43,10 @@
 									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss')",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "fld_psch_rec_type",
+								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -207,7 +211,7 @@
 							},
 							{
 								"source": {
-									"path": "$DELIVERY"
+									"path": "$DELIVERY_DATE"
 								},
 								"sink": {
 									"name": "fld_bpc_deliv_date",
@@ -288,7 +292,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_create_date"
+									"path": "$['fld_bpc_create_date']"
 								},
 								"sink": {
 									"name": "fld_bpc_create_date",
@@ -297,7 +301,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_create_by"
+									"path": "$['fld_bpc_create_by']"
 								},
 								"sink": {
 									"name": "fld_bpc_create_by",
@@ -306,7 +310,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_modify_date"
+									"path": "$['fld_bpc_modify_date']"
 								},
 								"sink": {
 									"name": "fld_bpc_modify_date",
@@ -315,7 +319,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_modify_by"
+									"path": "$['fld_bpc_modify_by']"
 								},
 								"sink": {
 									"name": "fld_bpc_modify_by",
@@ -324,7 +328,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_bpc_rec_type"
+									"path": "$['fld_bpc_rec_type']"
 								},
 								"sink": {
 									"name": "fld_bpc_rec_type",
@@ -333,17 +337,13 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_rec_type"
+									"path": "$['fld_psch_rec_type']"
 								},
 								"sink": {
 									"name": "fld_psch_rec_type",
 									"type": "String"
 								}
-							},
-							null,
-							null,
-							null,
-							null
+							}
 						]
 					}
 				},
