@@ -41,7 +41,7 @@
 							{
 								"name": "fld_psch_create_date",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss')",
 									"type": "Expression"
 								}
 							},
@@ -161,7 +161,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_SHIP_TP_DESC"
+									"path": "$FLD_PSCH_SHIP_TO_DESC"
 								},
 								"sink": {
 									"name": "fld_psch_ship_tp_desc",
@@ -287,7 +287,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_TAG_ID"
+									"path": "$FLD_PSCH_TAG_ID_FROM"
 								},
 								"sink": {
 									"name": "fld_psch_tag_id",
@@ -440,7 +440,7 @@
 							},
 							{
 								"source": {
-									"path": "$FLD_PSCH_TAG_ID_FROM"
+									"path": "$FLD_PSCH_TAG_ID_FROM1"
 								},
 								"sink": {
 									"name": "fld_psch_batch_id",
@@ -458,7 +458,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_schd_line_no"
+									"path": "$['fld_psch_schd_line_no']"
 								},
 								"sink": {
 									"name": "fld_psch_schd_line_no",
@@ -467,7 +467,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_status"
+									"path": "$['fld_psch_status']"
 								},
 								"sink": {
 									"name": "fld_psch_status",
@@ -476,7 +476,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_rec_type"
+									"path": "$['fld_psch_rec_type']"
 								},
 								"sink": {
 									"name": "fld_psch_rec_type",
@@ -485,7 +485,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_create_by"
+									"path": "$['fld_psch_create_by']"
 								},
 								"sink": {
 									"name": "fld_psch_create_by",
@@ -494,7 +494,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_create_date"
+									"path": "$['fld_psch_create_date']"
 								},
 								"sink": {
 									"name": "fld_psch_create_date",
@@ -503,7 +503,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_modify_by"
+									"path": "$['fld_psch_modify_by']"
 								},
 								"sink": {
 									"name": "fld_psch_modify_by",
@@ -512,7 +512,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_modify_date"
+									"path": "$['fld_psch_modify_date']"
 								},
 								"sink": {
 									"name": "fld_psch_modify_date",
@@ -521,7 +521,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_q_status"
+									"path": "$['fld_psch_q_status']"
 								},
 								"sink": {
 									"name": "fld_psch_q_status",
@@ -530,7 +530,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_psch_combi_id"
+									"path": "$['fld_psch_combi_id']"
 								},
 								"sink": {
 									"name": "fld_psch_combi_id",
@@ -557,6 +557,8 @@
 			{
 				"name": "Delete Data from queue",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait 60 Sec",
