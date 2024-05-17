@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int060_scm_sapy_loadplanner",
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int060_scm_sapy_loadplanner/messages/head",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "ManagedServiceIdentity",
 			"aadResourceId": "https://servicebus.azure.net/"
