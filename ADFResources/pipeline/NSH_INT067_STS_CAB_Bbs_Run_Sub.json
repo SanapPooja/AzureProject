@@ -107,7 +107,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "tbl_scm_sts_cab_bbs_run",
+						"referenceName": "int067_tbl_scm_sts_cab_bbs_run",
 						"type": "DatasetReference"
 					}
 				]

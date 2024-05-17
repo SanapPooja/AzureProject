@@ -499,7 +499,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "cab_bbs_run",
+						"referenceName": "int067_cab_bbs_run",
 						"type": "DatasetReference"
 					}
 				],
@@ -621,7 +621,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "cab_bbs_run",
+						"referenceName": "int067_cab_bbs_run",
 						"type": "DatasetReference"
 					}
 				],

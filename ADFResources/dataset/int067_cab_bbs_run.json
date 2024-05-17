@@ -1,5 +1,5 @@
 {
-	"name": "cab_bbs_run",
+	"name": "int067_cab_bbs_run",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",

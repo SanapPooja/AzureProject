@@ -1,5 +1,5 @@
 {
-	"name": "ESB_CAB_BBS_RUN",
+	"name": "int067_ESB_CAB_BBS_RUN",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",

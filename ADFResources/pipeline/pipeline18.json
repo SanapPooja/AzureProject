@@ -24,8 +24,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH MaterialCTE AS (\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\n    MINUS\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\n    WHERE ROWNUM <= 1000\n)\nSELECT \n    NVL(CSF.UPDATE_DATE, ' ') AS UPDATE_DATE,\n    NVL(CSF.CREATE_DATE, ' ') AS CREATE_DATE,\n    NVL(CSF.NO_OF_BARS, 0) AS NO_OF_BARS,\n    NVL(CSF.BAR_LENGTH, 0) AS BAR_LENGTH,\n    NVL(CSF.MATERIAL_SOURCE, ' ') AS MATERIAL_SOURCE,\n    NVL(CSF.DIAMETER, 0) AS DIAMETER,\n    NVL(CSF.GRADE, ' ') AS GRADE,\n    NVL(CSF.MATERIAL_NO, ' ') AS MATERIAL_NO,\n    NVL(CSF.FEEDMAT_RECORD_ID, ' ') AS FEEDMAT_RECORD_ID,\n    NVL(CSF.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\n    NVL(CSF.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(CSF.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS\nFROM \n    SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL CSF\nJOIN \n    MaterialCTE MC ON CSF.MATERIAL_NO = MC.MATERIAL_NO AND CSF.FEEDMAT_RECORD_ID = MC.FEEDMAT_RECORD_ID;\n",
+						"oracleReaderQuery": {
+							"value": "WITH CABBBSRuns AS (\n    SELECT C.BBS_RUN_NO \n    FROM SCM_ADMIN.CAB_BBS_RUN C\n    LEFT JOIN SCM_ADMIN.ESB_CAB_BBS_RUN E ON C.BBS_RUN_NO = E.BBS_RUN_NO\n    WHERE E.BBS_RUN_NO IS NULL\n    AND ROWNUM <= 1000\n)\nSELECT \n    NVL(B.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\n    NVL(B.HALL_PERIOD_START, ' ') AS HALL_PERIOD_START,\n    NVL(B.SEQ_NO, 0) AS SEQ_NO,\n    NVL(B.PLANNED_START, ' ') AS PLANNED_START,\n    NVL(B.PLANNED_END, ' ') AS PLANNED_END,\n    NVL(B.PLANNED_ORDER_KG, 0) AS PLANNED_ORDER_KG,\n    NVL(B.PLANNED_PRODN_KG, 0) AS PLANNED_PRODN_KG\nFROM \n    SCM_ADMIN.CAB_BBS_RUN B\nJOIN \n    CABBBSRuns M ON B.BBS_RUN_NO = M.BBS_RUN_NO\n",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
+						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -42,87 +46,6 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "UPDATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$UPDATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CREATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "NO_OF_BARS",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$NO_OF_BARS"
-								}
-							},
-							{
-								"source": {
-									"name": "BAR_LENGTH",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$BAR_LENGTH"
-								}
-							},
-							{
-								"source": {
-									"name": "MATERIAL_SOURCE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MATERIAL_SOURCE"
-								}
-							},
-							{
-								"source": {
-									"name": "DIAMETER",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$DIAMETER"
-								}
-							},
-							{
-								"source": {
-									"name": "GRADE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$GRADE"
-								}
-							},
-							{
-								"source": {
-									"name": "MATERIAL_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MATERIAL_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "FEEDMAT_RECORD_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FEEDMAT_RECORD_ID"
-								}
-							},
-							{
-								"source": {
 									"name": "BBS_RUN_NO",
 									"type": "String"
 								},
@@ -132,20 +55,56 @@
 							},
 							{
 								"source": {
-									"name": "GROUP_TAG_IND",
+									"name": "HALL_PERIOD_START",
 									"type": "String"
 								},
 								"sink": {
-									"path": "$GROUP_TAG_IND"
+									"path": "$HALL_PERIOD_START"
 								}
 							},
 							{
 								"source": {
-									"name": "GROUP_TAG_TOTAL_TAGS",
+									"name": "SEQ_NO",
 									"type": "Double"
 								},
 								"sink": {
-									"path": "$GROUP_TAG_TOTAL_TAGS"
+									"path": "$SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_START",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANNED_START"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_END",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANNED_END"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_ORDER_KG",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PLANNED_ORDER_KG"
+								}
+							},
+							{
+								"source": {
+									"name": "PLANNED_PRODN_KG",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PLANNED_PRODN_KG"
 								}
 							}
 						]
@@ -153,13 +112,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int068_cab_schilt_feed_material1",
+						"referenceName": "int067_cab_bbs_run",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "int068_cab_schilt_feed_material",
+						"referenceName": "int067_cab_bbs_runs",
 						"type": "DatasetReference"
 					}
 				]
@@ -199,8 +158,12 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "select MATERIAL_NO, FEEDMAT_RECORD_ID from (select MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\t\t\t\r\nminus\t\t\t\r\nselect  MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL)\t\t\t\r\nwhere rownum <= '1000'\t\t\t",
+						"oracleReaderQuery": {
+							"value": "select BBS_RUN_NO from (select BBS_RUN_NO from SCM_ADMIN.CAB_BBS_RUN\t\t\t\t\t\nminus\t\t\t\t\t\nselect BBS_RUN_NO from SCM_ADMIN.ESB_CAB_BBS_RUN)\t\t\t\t\t\nwhere rownum <= 1000\t\t\t\t\t",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
+						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -213,21 +176,11 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "MATERIAL_NO",
+									"name": "BBS_RUN_NO",
 									"type": "String"
 								},
 								"sink": {
-									"name": "MATERIAL_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "FEEDMAT_RECORD_ID",
-									"type": "String"
-								},
-								"sink": {
-									"name": "FEEDMAT_RECORD_ID",
+									"name": "BBS_RUN_NO",
 									"type": "String"
 								}
 							},
@@ -261,13 +214,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int068_cab_schilt_feed_material1",
+						"referenceName": "int067_cab_bbs_run",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "int068_ESB_CAB_SCHILT_FEED_MATERIAL",
+						"referenceName": "int067_ESB_CAB_BBS_RUN",
 						"type": "DatasetReference"
 					}
 				]
@@ -309,7 +262,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int068_cab_schilt_feed_material/messages",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int067_cab_bbs_runs/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -319,8 +272,6 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data2",
@@ -335,31 +286,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT068_STS_cab_schilt_feed_material_Sub",
+						"referenceName": "NSH_INT067_STS_CAB_Bbs_Run_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentTime",
-					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Script2",
+				"name": "Script1_copy1",
 				"type": "Script",
 				"dependsOn": [
 					{
@@ -386,7 +320,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'E' Where ESBUPDATETIME ='@{variables('CurrentTime')}'",
+								"value": "Update SCM_ADMIN.ESB_CAB_BBS_RUN SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
 								"type": "Expression"
 							}
 						}
@@ -395,39 +329,20 @@
 				}
 			},
 			{
-				"name": "Script2_copy1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
 				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'E' Where ESBUPDATETIME ='@{variables('CurrentTime')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+						"type": "Expression"
+					}
 				}
 			}
 		],

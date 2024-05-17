@@ -1,5 +1,5 @@
 {
-	"name": "tbl_scm_sts_cab_bbs_run",
+	"name": "int067_tbl_scm_sts_cab_bbs_run",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",
