@@ -72,18 +72,6 @@
 									"type": "String",
 									"physicalType": "varchar"
 								}
-							},
-							{
-								"source": {
-									"name": "DateofBirth",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "BirthDate",
-									"type": "String",
-									"physicalType": "varchar"
-								}
 							}
 						],
 						"typeConversion": true,
