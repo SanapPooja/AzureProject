@@ -1,0 +1,12 @@
+{
+	"name": "Int060_ESB_Load_Tally_Head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService10",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
