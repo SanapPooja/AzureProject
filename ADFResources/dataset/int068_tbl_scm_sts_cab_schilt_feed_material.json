@@ -1,5 +1,5 @@
 {
-	"name": "tbl_scm_sts_cab_schilt_feed_material",
+	"name": "int068_tbl_scm_sts_cab_schilt_feed_material",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

@@ -1,5 +1,5 @@
 {
-	"name": "cab_schilt_feed_material",
+	"name": "int068_cab_schilt_feed_material1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
