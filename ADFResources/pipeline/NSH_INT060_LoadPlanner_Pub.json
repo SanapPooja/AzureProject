@@ -473,8 +473,102 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableStaging": false
-				}
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "LOAD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['LOAD_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "VEHICLE_TYPE_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['VEHICLE_TYPE_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "IS_CANCELLED",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['IS_CANCELLED']"
+								}
+							},
+							{
+								"source": {
+									"name": "VIRTUAL_VEHICLE_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['VIRTUAL_VEHICLE_TYPE']"
+								}
+							},
+							{
+								"source": {
+									"name": "WM_ROWID",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$['WM_ROWID']"
+								}
+							},
+							{
+								"source": {
+									"name": "WM_SENDTIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['WM_SENDTIME']"
+								}
+							},
+							{
+								"source": {
+									"name": "ACTION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['ACTION']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "RestResource6",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {
