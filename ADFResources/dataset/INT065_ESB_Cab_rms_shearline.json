@@ -1,5 +1,5 @@
 {
-	"name": "ESB_Cab_rms_shearline",
+	"name": "INT065_ESB_Cab_rms_shearline",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
