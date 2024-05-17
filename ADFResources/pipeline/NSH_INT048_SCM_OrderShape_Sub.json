@@ -1789,7 +1789,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT t1.IDENTITY_NO\r\n      ,t1.ORD_REQ_NO\r\n      ,t1.SALES_ORDER\r\n      ,t1.ITEM_NO\r\n      ,t1.SHAPE_IND\r\n      ,t1.SHAPE_CD\r\n      ,t1.DIM_SEQ\r\n      ,t1.DIM_CHAR\r\n      ,t1.DIM_TYPE\r\n      ,t1.DIM_VALUE\r\n      ,t1.DIM_X\r\n      ,t1.DIM_Y\r\n      ,t1.DIM_Z\r\n      ,t1.CRITICAL_IND\r\n      ,t1.BEND_SEQ\r\n      ,t1.PRINT_TAG\r\n      ,t1.STATUS\r\n      ,t1.PROC_TIMESTAMP\r\n      ,t1.WBSElementId\r\n\t  ,t2.PROD_GRP\r\n  FROM SAP_ORD_SHAPE_VARIANT_DSS t1\r\n  join SAP_ORDER_ITEM t2\r\n  on t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  where t1.ORD_REQ_NO = t2.ORD_REQ_NO\r\n  and t1.ITEM_NO = t2.ITEM_NO\r\n  and t1.ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\tsod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no)\r\n  and t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO = (SELECT top 1 \r\n\t\t\t\t\t\t\t sod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no))",
+						"sqlReaderQuery": "SELECT TOP 1 \r\n    sod.order_request_no\r\nFROM dbo.SCM_Order_Header sod\r\nJOIN WMBORDERSHAPEbj1ugcj wmb\r\n    ON sod.order_request_no = wmb.order_request_no;\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
