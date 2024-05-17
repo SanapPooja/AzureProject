@@ -34,25 +34,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$PRODN_ORDER_NO"
-								},
-								"sink": {
-									"name": "PRODN_ORDER_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$SEQ_NO"
-								},
-								"sink": {
-									"name": "SEQ_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$SAP_PRODN_ORDER_NO"
+									"path": "$['$SAP_PO_NUM']"
 								},
 								"sink": {
 									"name": "SAP_PRODN_ORDER_NO",
@@ -61,17 +43,116 @@
 							},
 							{
 								"source": {
-									"path": "$['Column_1']"
+									"path": "$['$SCM_Q_PO_NO']"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_2']"
+									"path": "$['$SCM_OPERATION_NO']"
+								},
+								"sink": {
+									"name": "SEQ_NO",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_3']"
+									"path": "$['$SCM_ORD_QTY_KG']"
+								},
+								"sink": {
+									"name": "OPEN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SCM_ORD_QTY_PCS']"
+								},
+								"sink": {
+									"name": "OPEN_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_BATCH_ID']"
+								},
+								"sink": {
+									"name": "BATCH_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BATCH_QTY']"
+								},
+								"sink": {
+									"name": "CUM_PRODN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BATCH_PCS']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_MACHINE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$START_TIME']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$END_TIME']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_REC_DATE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_DATE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MODIFY_DATE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_ORDER_NO_SCH']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_STATUS']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NR_OF_OPERATION']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$product_type']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
 								}
 							}
 						]
