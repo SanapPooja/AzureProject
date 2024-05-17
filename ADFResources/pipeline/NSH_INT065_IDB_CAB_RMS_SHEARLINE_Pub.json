@@ -553,16 +553,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
+						"referenceName": "NSH_INT065_STS_CAB_RMS_SHEARLINE_Sub",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"esbUpdateTime": {
-							"value": "@utcnow()",
-							"type": "Expression"
-						}
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{
@@ -578,7 +572,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			},
 			{
