@@ -1,0 +1,12 @@
+{
+	"name": "INT101_batch",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BpcSequencing_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
