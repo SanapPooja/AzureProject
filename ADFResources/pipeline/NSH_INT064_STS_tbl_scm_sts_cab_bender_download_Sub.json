@@ -25,13 +25,13 @@
 							{
 								"name": "create_date",
 								"value": {
-									"value": "@formatDateTime(addMinutes(addHours(utcNow(), 5), 30), 'M/d/yyyy h:mm:ss tt')",
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm')",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "create_by",
-								"value": ""
+								"value": "INT064"
 							},
 							{
 								"name": "modify_date",
@@ -425,6 +425,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
