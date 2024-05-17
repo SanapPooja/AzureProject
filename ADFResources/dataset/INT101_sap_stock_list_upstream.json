@@ -1,0 +1,119 @@
+{
+	"name": "INT101_sap_stock_list_upstream",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IgnitionQA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "fld_sap_stock_plant",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_matl_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_stock",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_batch",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_uom",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_matl_desc",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_matl_type",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_matl_group",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_qty",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_reserved",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_balance",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_heat_no",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_mill_source",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_length",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fld_sap_stock_standard",
+				"type": "varchar"
+			},
+			{
+				"name": "fld_sap_stock_wt_piece",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_wt_bundle",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_wt_coil",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_pcs_bundle",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fld_sap_stock_modify_date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "fld_sap_stock_dia",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_sap_stock_list"
+		}
+	}
+}

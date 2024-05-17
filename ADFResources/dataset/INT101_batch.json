@@ -2,7 +2,7 @@
 	"name": "INT101_batch",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "BpcSequencing_head",
+			"referenceName": "Int101_upstream_stock_queue",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
