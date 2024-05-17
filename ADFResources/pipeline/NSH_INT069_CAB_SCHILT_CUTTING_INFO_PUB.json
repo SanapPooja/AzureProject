@@ -54,7 +54,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.cab_schilt_cutting_info\n            MINUS\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n        )\n    WHERE\n        ROWNUM <= '1000'\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
+										"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.cab_schilt_cutting_info\n            MINUS\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n        )\n    WHERE\n        ROWNUM <= '150'\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -528,7 +528,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "cab_bbs_run",
+									"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
 									"type": "DatasetReference"
 								}
 							],
@@ -575,7 +575,7 @@
 										}
 									],
 									"oracleReaderQuery": {
-										"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO \t\t\t\t\t\t\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\twhere rownum <='1000'\t\t\t\t\t\t\t\t\t\t\t\t\t",
+										"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO \t\t\t\t\t\t\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\twhere rownum <='150'\t\t\t\t\t\t\t\t\t\t\t\t\t",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -650,7 +650,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "cab_bbs_run",
+									"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
 									"type": "DatasetReference"
 								}
 							],
@@ -894,7 +894,7 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "cab_bbs_run",
+						"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
