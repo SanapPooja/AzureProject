@@ -28,7 +28,48 @@
 						"type": "OracleSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELIVERY_DATE"
+								},
+								"sink": {
+									"name": "PLAN_DELIV_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_TYPE_NAME"
+								},
+								"sink": {
+									"name": "VEHICLE_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "REM"
+								}
+							},
+							null,
+							null,
+							null,
+							null
+						]
+					}
 				},
 				"inputs": [
 					{
