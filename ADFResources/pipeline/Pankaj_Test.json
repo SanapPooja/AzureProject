@@ -21,6 +21,7 @@
 							"type": "FileServerReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": "\\\\nslfp4\\BTlabelPrintDEV\\EHMS\\INT_CHROMA_To_EHMS",
+							"wildcardFileName": "Emp_Master_20240515073037.csv",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
