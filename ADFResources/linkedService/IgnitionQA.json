@@ -6,7 +6,7 @@
 		"type": "SqlServer",
 		"typeProperties": {
 			"connectionString": "integrated security=False;data source=NSQADB14;initial catalog=MBM;user id=MESAdmin",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmMWQwNGFmYi1lZjgxLTRkNGUtYjdjMS05Mjc1NGQyY2MzM2QiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiMzE5ZmM1Yy05ODMwLTQyMmMtYjhiNy1iMDMwNDY0MGMxOGQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "MESQARuntime",
