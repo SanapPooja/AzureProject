@@ -20,16 +20,16 @@
 						"additionalColumns": [
 							{
 								"name": "Q_REC_TYPE",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "REC_TYPE",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "CREATE_DATE",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss')",
 									"type": "Expression"
 								}
 							},
@@ -39,11 +39,11 @@
 							},
 							{
 								"name": "MODIFY_DATE",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "MODIFY_BY",
-								"value": "$$COLUMN:"
+								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -199,7 +199,7 @@
 							},
 							{
 								"source": {
-									"path": "TAG_NO"
+									"path": "$['$TAG_NO']"
 								},
 								"sink": {
 									"name": "TAG_NO",
@@ -311,15 +311,6 @@
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_3",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$SHAPE_PARAM_3"
-								},
-								"sink": {
-									"name": "SHAPE_PARAM_3",
 									"type": "String"
 								}
 							},
@@ -1234,15 +1225,6 @@
 							},
 							{
 								"source": {
-									"path": "$MAT_SOURCE"
-								},
-								"sink": {
-									"name": "MAT_SOURCE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$TAG_COUNTER"
 								},
 								"sink": {
@@ -1369,7 +1351,7 @@
 							},
 							{
 								"source": {
-									"path": "Q_REC_TYPE"
+									"path": "$['Q_REC_TYPE']"
 								},
 								"sink": {
 									"name": "Q_REC_TYPE",
@@ -1378,7 +1360,7 @@
 							},
 							{
 								"source": {
-									"path": "REC_TYPE"
+									"path": "$['REC_TYPE']"
 								},
 								"sink": {
 									"name": "REC_TYPE",
@@ -1387,7 +1369,7 @@
 							},
 							{
 								"source": {
-									"path": "CREATE_DATE"
+									"path": "$['CREATE_DATE']"
 								},
 								"sink": {
 									"name": "CREATE_DATE",
@@ -1396,7 +1378,7 @@
 							},
 							{
 								"source": {
-									"path": "CREATE_BY"
+									"path": "$['CREATE_BY']"
 								},
 								"sink": {
 									"name": "CREATE_BY",
@@ -1405,7 +1387,7 @@
 							},
 							{
 								"source": {
-									"path": "MODIFY_DATE"
+									"path": "$['MODIFY_DATE']"
 								},
 								"sink": {
 									"name": "MODIFY_DATE",
@@ -1414,11 +1396,20 @@
 							},
 							{
 								"source": {
-									"path": "MODIFY_BY"
+									"path": "$['MODIFY_BY']"
 								},
 								"sink": {
 									"name": "MODIFY_BY",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_1']"
+								},
+								"sink": {
+									"name": "CAGE_QTY",
+									"type": "Int32"
 								}
 							}
 						]
@@ -1518,6 +1509,11 @@
 				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
