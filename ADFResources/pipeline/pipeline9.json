@@ -3,20 +3,12 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
+				"name": "Wait1",
+				"type": "Wait",
 				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "tracknum_variable",
-					"value": {
-						"value": "@pipeline().globalParameters.Trackno",
-						"type": "Expression"
-					}
+					"waitTimeInSeconds": 1
 				}
 			}
 		],

@@ -3,77 +3,10 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Funtion_YorN_condition",
-				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
-						"type": "Expression"
-					},
-					"ifFalseActivities": [
-						{
-							"name": "DeleteDataFrom_Queue",
-							"type": "WebActivity",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int062_cab_bom/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "NSH_INT062_SAPY_CAB_BOM_Sub",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT062_SQL_tbl_dss_sts_dns_sal_ord_bom_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 10
-							}
-						}
-					]
-				}
-			},
-			{
 				"name": "CopyDataFrom_SAPToQueue_copy1",
 				"type": "Copy",
+				"state": "Active",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -322,6 +255,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "NSH_INT062_SAPY_CAB_BOM_Sub_copy1",
@@ -345,11 +280,24 @@
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "NSH_INT062_CAB_BOM_DATASET",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "BpcSequencing_head",
 						"type": "DatasetReference"
 					}
 				]
