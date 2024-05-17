@@ -1,5 +1,5 @@
 {
-	"name": "tbl_scm_sts_rms_cab_shear",
+	"name": "int065_tbl_scm_sts_rms_cab_shear",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

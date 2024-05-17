@@ -307,7 +307,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "tbl_scm_sts_rms_cab_shear",
+						"referenceName": "int065_tbl_scm_sts_rms_cab_shear",
 						"type": "DatasetReference"
 					}
 				]
