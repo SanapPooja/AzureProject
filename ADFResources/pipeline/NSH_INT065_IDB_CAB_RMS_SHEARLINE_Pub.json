@@ -300,7 +300,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "cab_rms_shearline",
+						"referenceName": "int065_cab_rms_shearline",
 						"type": "DatasetReference"
 					}
 				],
@@ -508,13 +508,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "cab_rms_shearline",
+						"referenceName": "int065_cab_rms_shearline",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ESB_Cab_rms_shearline",
+						"referenceName": "INT065_ESB_Cab_rms_shearline",
 						"type": "DatasetReference"
 					}
 				]
