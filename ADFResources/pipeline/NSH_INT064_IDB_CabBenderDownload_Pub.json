@@ -483,6 +483,8 @@
 			{
 				"name": "Execute Pipeline1_copy1",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
 						"activity": "Copy data2",
@@ -500,13 +502,7 @@
 						"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"esbUpdateTime": {
-							"value": "@utcnow()",
-							"type": "Expression"
-						}
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{
