@@ -3,743 +3,880 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable2",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.cab_schilt_cutting_info\n            MINUS\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n        )\n    WHERE\n        ROWNUM <= '1000'\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
 					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "FEEDMAT_RECORD_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FEEDMAT_RECORD_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_ORDER_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODN_ORDER_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "TAG_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$TAG_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "BBS_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BBS_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "SOR_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SOR_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "SALES_ORDER_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SALES_ORDER_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ITEM_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "COMBI_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$COMBI_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "MATERIAL_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MATERIAL_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "BAR_MARK",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BAR_MARK"
-								}
-							},
-							{
-								"source": {
-									"name": "PIECES",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$PIECES"
-								}
-							},
-							{
-								"source": {
-									"name": "WEIGHT_KG",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$WEIGHT_KG"
-								}
-							},
-							{
-								"source": {
-									"name": "TAG_COMPLETE_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$TAG_COMPLETE_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "MASTER_BUNDLE_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MASTER_BUNDLE_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "MASTER_BUNDLE_LONGEST_LENGTH",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$MASTER_BUNDLE_LONGEST_LENGTH"
-								}
-							},
-							{
-								"source": {
-									"name": "MASTER_BUNDLE_COMPLETE_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MASTER_BUNDLE_COMPLETE_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "BENDING_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BENDING_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "CUTTING_LINE_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CUTTING_LINE_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "CUTTING_PLANNED_START_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CUTTING_PLANNED_START_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "CUTTING_PLANNED_END_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CUTTING_PLANNED_END_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "BIN_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BIN_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "CONQUAS_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CONQUAS_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "URGENT_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$URGENT_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_1",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_1"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_2",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_2"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_3",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_3"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_4",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_4"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_5",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_5"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_6",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_6"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_7",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_7"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_8",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_8"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_9",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_9"
-								}
-							},
-							{
-								"source": {
-									"name": "FREE_FIELD_10",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$FREE_FIELD_10"
-								}
-							},
-							{
-								"source": {
-									"name": "DBS_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$DBS_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "BENDING_PLANNED_START_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BENDING_PLANNED_START_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "BENDING_PLANNED_END_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BENDING_PLANNED_END_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "BVBS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BVBS"
-								}
-							},
-							{
-								"source": {
-									"name": "CUT_LENGTH",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$CUT_LENGTH"
-								}
-							},
-							{
-								"source": {
-									"name": "NUMBER_OF_CUTS",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$NUMBER_OF_CUTS"
-								}
-							},
-							{
-								"source": {
-									"name": "COMPARTMENT",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$COMPARTMENT"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CREATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "UPDATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$UPDATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "OFFCUT_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$OFFCUT_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "CUTTING_SEQUENCE_NO",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$CUTTING_SEQUENCE_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_SEQUENCE_NO",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$PRODN_SEQUENCE_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "MASTER_BUNDLE_GROUP_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MASTER_BUNDLE_GROUP_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "MASTER_BUNDLE_GRP_LONGEST_LEN",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$MASTER_BUNDLE_GRP_LONGEST_LEN"
-								}
-							},
-							{
-								"source": {
-									"name": "GROUP_TAG_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$GROUP_TAG_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "GROUP_TAG_TOTAL_TAGS",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$GROUP_TAG_TOTAL_TAGS"
-								}
-							},
-							{
-								"source": {
-									"name": "EVAC_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$EVAC_IND"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "int067_cab_bbs_run",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "NSH_INT069_QUEUE",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"additionalColumns": [
-							{
-								"name": "ESBSTATUS",
-								"value": "S"
-							},
-							{
-								"name": "ESBUPDATETIME",
-								"value": {
-									"value": "@variables('CurrentTime')",
-									"type": "Expression"
-								}
-							}
-						],
-						"oracleReaderQuery": {
-							"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO \t\t\t\t\t\t\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\twhere rownum <='1000'\t\t\t\t\t\t\t\t\t\t\t\t\t",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "OracleSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "PRODN_ORDER_NO",
-									"type": "String"
-								},
-								"sink": {
-									"name": "PRODN_ORDER_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "TAG_ID",
-									"type": "String"
-								},
-								"sink": {
-									"name": "TAG_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "FEEDMAT_RECORD_ID",
-									"type": "String"
-								},
-								"sink": {
-									"name": "FEEDMAT_RECORD_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBSTATUS",
-									"type": "String"
-								},
-								"sink": {
-									"name": "ESBSTATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBUPDATETIME",
-									"type": "String"
-								},
-								"sink": {
-									"name": "ESBUPDATETIME",
-									"type": "String"
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "int067_cab_bbs_run",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Wait1",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int069_cab_cutting_schilt_info/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
+					"ifFalseActivities": [
 						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-								"type": "Expression"
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
 							}
 						}
 					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.cab_schilt_cutting_info\n            MINUS\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n        )\n    WHERE\n        ROWNUM <= '1000'\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "FEEDMAT_RECORD_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FEEDMAT_RECORD_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_ORDER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODN_ORDER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "TAG_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TAG_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "SOR_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SOR_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "SALES_ORDER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SALES_ORDER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "COMBI_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMBI_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MATERIAL_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MATERIAL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "BAR_MARK",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BAR_MARK"
+											}
+										},
+										{
+											"source": {
+												"name": "PIECES",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "WEIGHT_KG",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$WEIGHT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "TAG_COMPLETE_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TAG_COMPLETE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "MASTER_BUNDLE_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MASTER_BUNDLE_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MASTER_BUNDLE_LONGEST_LENGTH",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$MASTER_BUNDLE_LONGEST_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "MASTER_BUNDLE_COMPLETE_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MASTER_BUNDLE_COMPLETE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "BENDING_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BENDING_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "CUTTING_LINE_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUTTING_LINE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "CUTTING_PLANNED_START_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUTTING_PLANNED_START_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "CUTTING_PLANNED_END_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUTTING_PLANNED_END_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "BIN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BIN_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "CONQUAS_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONQUAS_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "URGENT_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$URGENT_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_1"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_2"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_3"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_4"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_5"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_6"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_7"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_8"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_9"
+											}
+										},
+										{
+											"source": {
+												"name": "FREE_FIELD_10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FREE_FIELD_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DBS_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DBS_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "BENDING_PLANNED_START_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BENDING_PLANNED_START_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "BENDING_PLANNED_END_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BENDING_PLANNED_END_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "BVBS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BVBS"
+											}
+										},
+										{
+											"source": {
+												"name": "CUT_LENGTH",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$CUT_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "NUMBER_OF_CUTS",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$NUMBER_OF_CUTS"
+											}
+										},
+										{
+											"source": {
+												"name": "COMPARTMENT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMPARTMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$Q_CREATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "UPDATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$UPDATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "OFFCUT_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$OFFCUT_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "CUTTING_SEQUENCE_NO",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$CUTTING_SEQUENCE_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_SEQUENCE_NO",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$PRODN_SEQUENCE_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MASTER_BUNDLE_GROUP_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MASTER_BUNDLE_GROUP_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "MASTER_BUNDLE_GRP_LONGEST_LEN",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$MASTER_BUNDLE_GRP_LONGEST_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "GROUP_TAG_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$GROUP_TAG_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "GROUP_TAG_TOTAL_TAGS",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$GROUP_TAG_TOTAL_TAGS"
+											}
+										},
+										{
+											"source": {
+												"name": "EVAC_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$EVAC_IND"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "cab_bbs_run",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT069_QUEUE",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Copy data2_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"additionalColumns": [
+										{
+											"name": "ESBSTATUS",
+											"value": "S"
+										},
+										{
+											"name": "ESBUPDATETIME",
+											"value": {
+												"value": "@variables('CurrentTime')",
+												"type": "Expression"
+											}
+										}
+									],
+									"oracleReaderQuery": {
+										"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO \t\t\t\t\t\t\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\twhere rownum <='1000'\t\t\t\t\t\t\t\t\t\t\t\t\t",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "PRODN_ORDER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "PRODN_ORDER_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "TAG_ID",
+												"type": "String"
+											},
+											"sink": {
+												"name": "TAG_ID",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FEEDMAT_RECORD_ID",
+												"type": "String"
+											},
+											"sink": {
+												"name": "FEEDMAT_RECORD_ID",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "cab_bbs_run",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Wait1_copy1",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "Copy data2_copy1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 6
+							}
+						},
+						{
+							"name": "Web1_copy1",
+							"type": "WebActivity",
+							"dependsOn": [
+								{
+									"activity": "Wait1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "DELETE",
+								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int069_cab_cutting_schilt_info/messages/head",
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://servicebus.azure.net/"
+								}
+							}
+						},
+						{
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Copy data2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						},
+						{
+							"name": "Script1_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data2_copy1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Lookup1_copy1",
+							"type": "Lookup",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "SELECT sapsr3.INT069_Interface() AS Result FROM dual;",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "SCM_IDB_DB",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Set variable2_copy1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Script2_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Execute Pipeline1_copy1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Execute Pipeline1_copy1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			},
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -752,78 +889,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT sapsr3.INT069_Interface() AS Result FROM dual;",
-							"type": "Expression"
-						},
+						"oracleReaderQuery": "WITH cte AS (\r\n    SELECT\r\n        prodn_order_no,\r\n        tag_id,\r\n        feedmat_record_id\r\n    FROM\r\n        (\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.cab_schilt_cutting_info\r\n            MINUS\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.esb_cab_schilt_cutting_info\r\n        )\r\n    WHERE\r\n        ROWNUM <= '1000'\r\n)\r\nSELECT\r\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\r\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\r\n    nvl(csci.tag_id, ' ') AS tag_id,\r\n    nvl(bbs_no, ' ') AS bbs_no,\r\n    nvl(sor_no, ' ') AS sor_no,\r\n    nvl(sales_order_no, ' ') AS sales_order_no,\r\n    nvl(item_no, ' ') AS item_no,\r\n    nvl(combi_no, ' ') AS combi_no,\r\n    nvl(material_no, ' ') AS material_no,\r\n    nvl(bar_mark, ' ') AS bar_mark,\r\n    nvl(pieces, 0) AS pieces,\r\n    nvl(weight_kg, 0) AS weight_kg,\r\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\r\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\r\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\r\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\r\n    nvl(bending_ind, ' ') AS bending_ind,\r\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\r\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\r\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\r\n    nvl(bin_no, ' ') AS bin_no,\r\n    nvl(conquas_ind, ' ') AS conquas_ind,\r\n    nvl(urgent_ind, ' ') AS urgent_ind,\r\n    nvl(free_field_1, ' ') AS free_field_1,\r\n    nvl(free_field_2, ' ') AS free_field_2,\r\n    nvl(free_field_3, ' ') AS free_field_3,\r\n    nvl(free_field_4, ' ') AS free_field_4,\r\n    nvl(free_field_5, ' ') AS free_field_5,\r\n    nvl(free_field_6, ' ') AS free_field_6,\r\n    nvl(free_field_7, ' ') AS free_field_7,\r\n    nvl(free_field_8, ' ') AS free_field_8,\r\n    nvl(free_field_9, ' ') AS free_field_9,\r\n    nvl(free_field_10, ' ') AS free_field_10,\r\n    nvl(dbs_id, ' ') AS dbs_id,\r\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\r\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\r\n    nvl(bvbs, ' ') AS bvbs,\r\n    nvl(cut_length, 0) AS cut_length,\r\n    nvl(number_of_cuts, 0) AS number_of_cuts,\r\n    nvl(compartment, ' ') AS compartment,\r\n    nvl(create_date, ' ') AS create_date,\r\n    nvl(update_date, ' ') AS update_date,\r\n    nvl(offcut_ind, ' ') AS offcut_ind,\r\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\r\n    last_export_timestamp,\r\n    rec_id,\r\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\r\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\r\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\r\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\r\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\r\n    nvl(evac_ind, ' ') AS evac_ind\r\nFROM\r\n    scm_admin.cab_schilt_cutting_info   csci\r\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\r\n    AND csci.tag_id = ct.tag_id\r\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
 						"partitionOption": "None",
-						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "SCM_IDB_DB",
+						"referenceName": "cab_bbs_run",
 						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Set variable2",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentTime",
-					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Execute Pipeline1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],

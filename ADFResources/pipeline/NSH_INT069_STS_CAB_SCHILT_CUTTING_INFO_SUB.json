@@ -17,6 +17,31 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "$REC_TYPE",
+								"value": "Y"
+							},
+							{
+								"name": "$CREATE_DATE",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "$CREATE_BY",
+								"value": "ESB INT069"
+							},
+							{
+								"name": "$MODIFY_DATE",
+								"value": ""
+							},
+							{
+								"name": "$MODIFY_BY",
+								"value": ""
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -35,7 +60,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$FEEDMAT_RECORD_ID"
+									"path": "$['$FEEDMAT_RECORD_ID']"
 								},
 								"sink": {
 									"name": "FEEDMAT_RECORD_ID",
@@ -44,7 +69,7 @@
 							},
 							{
 								"source": {
-									"path": "$PRODN_ORDER_NO"
+									"path": "$['$PRODN_ORDER_NO']"
 								},
 								"sink": {
 									"name": "PRODN_ORDER_NO",
@@ -53,7 +78,7 @@
 							},
 							{
 								"source": {
-									"path": "$TAG_ID"
+									"path": "$['$TAG_ID']"
 								},
 								"sink": {
 									"name": "TAG_ID",
@@ -62,7 +87,7 @@
 							},
 							{
 								"source": {
-									"path": "$BBS_NO"
+									"path": "$['$BBS_NO']"
 								},
 								"sink": {
 									"name": "BBS_NO",
@@ -71,7 +96,7 @@
 							},
 							{
 								"source": {
-									"path": "$SOR_NO"
+									"path": "$['$SOR_NO']"
 								},
 								"sink": {
 									"name": "SOR_NO",
@@ -80,7 +105,7 @@
 							},
 							{
 								"source": {
-									"path": "$SALES_ORDER_NO"
+									"path": "$['$SALES_ORDER_NO']"
 								},
 								"sink": {
 									"name": "SALES_ORDER_NO",
@@ -89,7 +114,7 @@
 							},
 							{
 								"source": {
-									"path": "$ITEM_NO"
+									"path": "$['$ITEM_NO']"
 								},
 								"sink": {
 									"name": "ITEM_NO",
@@ -98,7 +123,7 @@
 							},
 							{
 								"source": {
-									"path": "$COMBI_NO"
+									"path": "$['$COMBI_NO']"
 								},
 								"sink": {
 									"name": "COMBI_NO",
@@ -107,7 +132,7 @@
 							},
 							{
 								"source": {
-									"path": "$MATERIAL_NO"
+									"path": "$['$MATERIAL_NO']"
 								},
 								"sink": {
 									"name": "MATERIAL_NO",
@@ -116,7 +141,7 @@
 							},
 							{
 								"source": {
-									"path": "$BAR_MARK"
+									"path": "$['$BAR_MARK']"
 								},
 								"sink": {
 									"name": "BAR_MARK",
@@ -125,7 +150,7 @@
 							},
 							{
 								"source": {
-									"path": "$PIECES"
+									"path": "$['$PIECES']"
 								},
 								"sink": {
 									"name": "PIECES",
@@ -134,7 +159,7 @@
 							},
 							{
 								"source": {
-									"path": "$WEIGHT_KG"
+									"path": "$['$WEIGHT_KG']"
 								},
 								"sink": {
 									"name": "WEIGHT_KG",
@@ -143,7 +168,7 @@
 							},
 							{
 								"source": {
-									"path": "$TAG_COMPLETE_IND"
+									"path": "$['$TAG_COMPLETE_IND']"
 								},
 								"sink": {
 									"name": "TAG_COMPLETE_IND",
@@ -152,7 +177,7 @@
 							},
 							{
 								"source": {
-									"path": "$MASTER_BUNDLE_NO"
+									"path": "$['$MASTER_BUNDLE_NO']"
 								},
 								"sink": {
 									"name": "MASTER_BUNDLE_NO",
@@ -161,7 +186,7 @@
 							},
 							{
 								"source": {
-									"path": "$MASTER_BUNDLE_LONGEST_LENGTH"
+									"path": "$['$MASTER_BUNDLE_LONGEST_LENGTH']"
 								},
 								"sink": {
 									"name": "MASTER_BUNDLE_LONGEST_LENGTH",
@@ -170,7 +195,7 @@
 							},
 							{
 								"source": {
-									"path": "$MASTER_BUNDLE_COMPLETE_IND"
+									"path": "$['$MASTER_BUNDLE_COMPLETE_IND']"
 								},
 								"sink": {
 									"name": "MASTER_BUNDLE_COMPLETE_IND",
@@ -179,7 +204,7 @@
 							},
 							{
 								"source": {
-									"path": "$BENDING_IND"
+									"path": "$['$BENDING_IND']"
 								},
 								"sink": {
 									"name": "BENDING_IND",
@@ -188,7 +213,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUTTING_LINE_ID"
+									"path": "$['$CUTTING_LINE_ID']"
 								},
 								"sink": {
 									"name": "CUTTING_LINE_ID",
@@ -197,7 +222,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUTTING_PLANNED_START_TIME"
+									"path": "$['$CUTTING_PLANNED_START_TIME']"
 								},
 								"sink": {
 									"name": "CUTTING_PLANNED_START_TIME",
@@ -206,7 +231,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUTTING_PLANNED_END_TIME"
+									"path": "$['$CUTTING_PLANNED_END_TIME']"
 								},
 								"sink": {
 									"name": "CUTTING_PLANNED_END_TIME",
@@ -215,7 +240,7 @@
 							},
 							{
 								"source": {
-									"path": "$BIN_NO"
+									"path": "$['$BIN_NO']"
 								},
 								"sink": {
 									"name": "BIN_NO",
@@ -224,7 +249,7 @@
 							},
 							{
 								"source": {
-									"path": "$CONQUAS_IND"
+									"path": "$['$CONQUAS_IND']"
 								},
 								"sink": {
 									"name": "CONQUAS_IND",
@@ -233,15 +258,16 @@
 							},
 							{
 								"source": {
-									"path": "$URGENT_IND"
+									"path": "$['$URGENT_IND']"
 								},
 								"sink": {
-									"name": "URGENT_IND"
+									"name": "URGENT_IND",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_1"
+									"path": "$['$FREE_FIELD_1']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_1",
@@ -250,7 +276,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_2"
+									"path": "$['$FREE_FIELD_2']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_2",
@@ -259,7 +285,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_3"
+									"path": "$['$FREE_FIELD_3']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_3",
@@ -268,7 +294,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_4"
+									"path": "$['$FREE_FIELD_4']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_4",
@@ -277,7 +303,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_5"
+									"path": "$['$FREE_FIELD_5']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_5",
@@ -286,7 +312,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_6"
+									"path": "$['$FREE_FIELD_6']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_6",
@@ -295,7 +321,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_7"
+									"path": "$['$FREE_FIELD_7']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_7",
@@ -304,7 +330,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_8"
+									"path": "$['$FREE_FIELD_8']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_8",
@@ -313,7 +339,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_9"
+									"path": "$['$FREE_FIELD_9']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_9",
@@ -322,7 +348,7 @@
 							},
 							{
 								"source": {
-									"path": "$FREE_FIELD_10"
+									"path": "$['$FREE_FIELD_10']"
 								},
 								"sink": {
 									"name": "FREE_FIELD_10",
@@ -331,7 +357,7 @@
 							},
 							{
 								"source": {
-									"path": "$DBS_ID"
+									"path": "$['$DBS_ID']"
 								},
 								"sink": {
 									"name": "DBS_ID",
@@ -340,7 +366,7 @@
 							},
 							{
 								"source": {
-									"path": "$BENDING_PLANNED_START_TIME"
+									"path": "$['$BENDING_PLANNED_START_TIME']"
 								},
 								"sink": {
 									"name": "BENDING_PLANNED_START_TIME",
@@ -349,7 +375,7 @@
 							},
 							{
 								"source": {
-									"path": "$BENDING_PLANNED_END_TIME"
+									"path": "$['$BENDING_PLANNED_END_TIME']"
 								},
 								"sink": {
 									"name": "BENDING_PLANNED_END_TIME",
@@ -358,7 +384,7 @@
 							},
 							{
 								"source": {
-									"path": "$BVBS"
+									"path": "$['$BVBS']"
 								},
 								"sink": {
 									"name": "BVBS",
@@ -367,7 +393,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUT_LENGTH"
+									"path": "$['$CUT_LENGTH']"
 								},
 								"sink": {
 									"name": "CUT_LENGTH",
@@ -376,7 +402,7 @@
 							},
 							{
 								"source": {
-									"path": "$NUMBER_OF_CUTS"
+									"path": "$['$NUMBER_OF_CUTS']"
 								},
 								"sink": {
 									"name": "NUMBER_OF_CUTS",
@@ -385,7 +411,7 @@
 							},
 							{
 								"source": {
-									"path": "$COMPARTMENT"
+									"path": "$['$COMPARTMENT']"
 								},
 								"sink": {
 									"name": "COMPARTMENT",
@@ -394,16 +420,16 @@
 							},
 							{
 								"source": {
-									"path": "$CREATE_DATE"
+									"path": "$['$Q_CREATE_DATE']"
 								},
 								"sink": {
-									"name": "CREATE_DATE",
+									"name": "Q_CREATE_DATE",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$UPDATE_DATE"
+									"path": "$['$UPDATE_DATE']"
 								},
 								"sink": {
 									"name": "UPDATE_DATE",
@@ -412,7 +438,7 @@
 							},
 							{
 								"source": {
-									"path": "$OFFCUT_IND"
+									"path": "$['$OFFCUT_IND']"
 								},
 								"sink": {
 									"name": "OFFCUT_IND",
@@ -421,7 +447,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUTTING_SEQUENCE_NO"
+									"path": "$['$CUTTING_SEQUENCE_NO']"
 								},
 								"sink": {
 									"name": "CUTTING_SEQUENCE_NO",
@@ -430,7 +456,7 @@
 							},
 							{
 								"source": {
-									"path": "$PRODN_SEQUENCE_NO"
+									"path": "$['$PRODN_SEQUENCE_NO']"
 								},
 								"sink": {
 									"name": "PRODN_SEQUENCE_NO",
@@ -439,7 +465,7 @@
 							},
 							{
 								"source": {
-									"path": "$MASTER_BUNDLE_GROUP_ID"
+									"path": "$['$MASTER_BUNDLE_GROUP_ID']"
 								},
 								"sink": {
 									"name": "MASTER_BUNDLE_GROUP_ID",
@@ -448,15 +474,16 @@
 							},
 							{
 								"source": {
-									"path": "$MASTER_BUNDLE_GRP_LONGEST_LEN"
+									"path": "$['$MASTER_BUNDLE_GRP_LONGEST_LEN']"
 								},
 								"sink": {
-									"name": "MASTER_BUNDLE_GROUP_LONGEST_LENGTH"
+									"name": "MASTER_BUNDLE_GROUP_LONGEST_LENGTH",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
-									"path": "$GROUP_TAG_IND"
+									"path": "$['$GROUP_TAG_IND']"
 								},
 								"sink": {
 									"name": "GROUP_TAG_IND",
@@ -465,7 +492,7 @@
 							},
 							{
 								"source": {
-									"path": "$GROUP_TAG_TOTAL_TAGS"
+									"path": "$['$GROUP_TAG_TOTAL_TAGS']"
 								},
 								"sink": {
 									"name": "GROUP_TAG_TOTAL_TAGS",
@@ -474,14 +501,60 @@
 							},
 							{
 								"source": {
-									"path": "$EVAC_IND"
+									"path": "$['$EVAC_IND']"
 								},
 								"sink": {
 									"name": "EVAC_IND",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_DATE']"
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_BY']"
+								},
+								"sink": {
+									"name": "CREATE_BY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MODIFY_DATE']"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MODIFY_BY']"
+								},
+								"sink": {
+									"name": "MODIFY_BY",
+									"type": "String"
+								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -504,13 +577,14 @@
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Succeeded",
+							"Failed"
 						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			},
 			{
