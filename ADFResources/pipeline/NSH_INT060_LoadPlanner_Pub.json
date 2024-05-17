@@ -89,7 +89,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Queue1",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -461,7 +461,7 @@
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "Queue 2",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
