@@ -1,5 +1,5 @@
 {
-	"name": "Esb_View_print_tag",
+	"name": "int066_Esb_View_print_tag",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",

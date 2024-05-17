@@ -1,5 +1,5 @@
 {
-	"name": "int_view_print_tag_head",
+	"name": "int066_view_print_tag_head",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "int_view_print_tag_head",

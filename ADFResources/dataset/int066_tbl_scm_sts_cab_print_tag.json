@@ -1,5 +1,5 @@
 {
-	"name": "tbl_scm_sts_cab_print_tag",
+	"name": "int066_tbl_scm_sts_cab_print_tag",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

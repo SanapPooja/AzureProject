@@ -1,1608 +1,18 @@
 {
-	"name": "NSH_INT066_IDB_View_Cab_Print_tag_Pub",
+	"name": "NSH_INT066_demo",
 	"properties": {
 		"activities": [
 			{
-				"name": "If Condition1",
-				"type": "IfCondition",
+				"name": "Copy data2",
+				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@greater(length(activity('Lookup1').output.value), 0)",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "Copy data2",
-							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set variable1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "WITH MissingTags AS (\n    SELECT TAG_NO \n    FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\n    MINUS\n    SELECT TAG_NO \n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\n    WHERE ROWNUM <= 1000\n)\nSELECT\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\n    NVL(V.WEIGHT, 0) AS WEIGHT,\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\n    NVL(V.INV_LEN, 0) AS INV_LEN,\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\n    NVL(V.BVBS, ' ') AS BVBS,\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\nFROM \n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\nJOIN \n    MissingTags M ON V.TAG_NO = M.TAG_NO\nWHERE ROWNUM <= 5;\n",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"sink": {
-									"type": "RestSink",
-									"httpRequestTimeout": "00:05:00",
-									"requestInterval": 10,
-									"requestMethod": "POST",
-									"writeBatchSize": "10",
-									"httpCompressionType": "none"
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"mappings": [
-										{
-											"source": {
-												"name": "BBS_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BBS_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "PROD_MARKING",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PROD_MARKING"
-											}
-										},
-										{
-											"source": {
-												"name": "PROJ_NAME",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PROJ_NAME"
-											}
-										},
-										{
-											"source": {
-												"name": "BBS_DESC",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BBS_DESC"
-											}
-										},
-										{
-											"source": {
-												"name": "LOAD_DATE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LOAD_DATE"
-											}
-										},
-										{
-											"source": {
-												"name": "RUN_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$RUN_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPECODE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPECODE"
-											}
-										},
-										{
-											"source": {
-												"name": "WEIGHT",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$WEIGHT"
-											}
-										},
-										{
-											"source": {
-												"name": "PIN_SIZE",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$PIN_SIZE"
-											}
-										},
-										{
-											"source": {
-												"name": "TAG_QTY",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$TAG_QTY"
-											}
-										},
-										{
-											"source": {
-												"name": "ITEM_TOTAL_QTY",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$ITEM_TOTAL_QTY"
-											}
-										},
-										{
-											"source": {
-												"name": "INV_LEN",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$INV_LEN"
-											}
-										},
-										{
-											"source": {
-												"name": "GRADE_DIA",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$GRADE_DIA"
-											}
-										},
-										{
-											"source": {
-												"name": "WORKCENTER",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$WORKCENTER"
-											}
-										},
-										{
-											"source": {
-												"name": "Q_PO_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$Q_PO_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "TAG_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TAG_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "BENDING_SEQ_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BENDING_SEQ_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_1"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_1"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_1"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_1"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_1",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_1"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_2"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_2"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_2"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_2"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_2",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_2"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_3",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_3"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_3",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_3"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_3",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_3"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_3",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_3"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_3",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_3"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_4",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_4"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_4",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_4"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_4",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_4"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_4",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_4"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_4",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_4"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_5",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_5"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_5",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_5"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_5",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_5"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_5",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_5"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_5",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_5"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_6",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_6"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_6",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_6"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_6",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_6"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_6",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_6"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_6",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_6"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_7",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_7"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_7",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_7"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_7",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_7"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_7",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_7"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_7",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_7"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_8",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_8"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_8",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_8"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_8",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_8"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_8",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_8"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_8",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_8"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_9",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_9"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_9",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_9"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_9",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_9"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_9",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_9"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_10",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_10"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_10",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_10"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_10",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_10"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_10",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_10"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_10",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_10"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_11",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_11"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_11",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_11"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_11",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_11"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_11",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_11"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_11",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_11"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_12",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_12"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_12",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_12"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_12",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_12"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_12",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_12"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_12",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_12"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_13",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_13"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_13",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_13"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_13",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_13"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_13",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_13"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_13",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_13"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_14",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_14"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_14",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_14"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_14",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_14"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_14",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_14"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_14",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_14"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_15",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_15"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_15",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_15"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_15",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_15"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_15",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_15"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_15",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_15"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_16",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_16"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_16",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_16"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_16",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_16"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_16",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_16"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_16",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_16"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_17",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_17v"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_17",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_17"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_17",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_17"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_17",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_17"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_17",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_17"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_18",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_18"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_18",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_18"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_18",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_18"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_18",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_18"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_18",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_18"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_19",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_19"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_19",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_19"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_19",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_19"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_19",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_19"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_19",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_19"
-											}
-										},
-										{
-											"source": {
-												"name": "SEGMENT_LENGTH_20",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SEGMENT_LENGTH_20"
-											}
-										},
-										{
-											"source": {
-												"name": "SHAPE_PARAM_20",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$SHAPE_PARAM_20"
-											}
-										},
-										{
-											"source": {
-												"name": "PARAM_IND_20",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PARAM_IND_20"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_X_20",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_X_20"
-											}
-										},
-										{
-											"source": {
-												"name": "COORDINATE_Y_20",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$COORDINATE_Y_20"
-											}
-										},
-										{
-											"source": {
-												"name": "LOAD_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LOAD_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "TIME_STAMP_CREATION",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TIME_STAMP_CREATION"
-											}
-										},
-										{
-											"source": {
-												"name": "TIME_STAMP_UPDATE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TIME_STAMP_UPDATE"
-											}
-										},
-										{
-											"source": {
-												"name": "BEND_HR",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BEND_HR"
-											}
-										},
-										{
-											"source": {
-												"name": "ORDER_DATE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ORDER_DATE"
-											}
-										},
-										{
-											"source": {
-												"name": "DELIVERY_DATE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$DELIVERY_DATE"
-											}
-										},
-										{
-											"source": {
-												"name": "ORDER_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ORDER_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "ITEM_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ITEM_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "MAT_SOURCE_IND",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$MAT_SOURCE_IND"
-											}
-										},
-										{
-											"source": {
-												"name": "RELEASE_CODE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$RELEASE_CODE"
-											}
-										},
-										{
-											"source": {
-												"name": "URGENT_IND",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$URGENT_IND"
-											}
-										},
-										{
-											"source": {
-												"name": "CONQUAS_IND",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$CONQUAS_IND"
-											}
-										},
-										{
-											"source": {
-												"name": "BVBS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BVBS"
-											}
-										},
-										{
-											"source": {
-												"name": "MAT_SOURCE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$MAT_SOURCE"
-											}
-										},
-										{
-											"source": {
-												"name": "TAG_COUNTER",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$TAG_COUNTER"
-											}
-										},
-										{
-											"source": {
-												"name": "TOTAL_TAGS",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$TOTAL_TAGS"
-											}
-										},
-										{
-											"source": {
-												"name": "CUST_NAME",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$CUST_NAME"
-											}
-										},
-										{
-											"source": {
-												"name": "BBS_PAGE_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BBS_PAGE_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "GROUP_TAG_ID",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$GROUP_TAG_ID"
-											}
-										},
-										{
-											"source": {
-												"name": "BBS_COLORCODE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$BBS_COLORCODE"
-											}
-										},
-										{
-											"source": {
-												"name": "GROUP_TAG_IND",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$GROUP_TAG_IND"
-											}
-										},
-										{
-											"source": {
-												"name": "GROUP_TAG_TOTAL_TAGS",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$GROUP_TAG_TOTAL_TAGS"
-											}
-										},
-										{
-											"source": {
-												"name": "PRODUCT_TYPE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$PRODUCT_TYPE"
-											}
-										},
-										{
-											"source": {
-												"name": "CAGE_MARK",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$CAGE_MARK"
-											}
-										},
-										{
-											"source": {
-												"name": "CAGE_PIECES",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$CAGE_PIECES"
-											}
-										},
-										{
-											"source": {
-												"name": "CAGING_WC",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$CAGING_WC"
-											}
-										},
-										{
-											"source": {
-												"name": "CAGING_PLANNED_STARTTIME",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$CAGING_PLANNED_STARTTIME"
-											}
-										},
-										{
-											"source": {
-												"name": "CAGING_SEQ",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$CAGING_SEQ"
-											}
-										}
-									]
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "view_cab_print_tag",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "int066_view_cab_print_tag",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
-							"name": "Copy data3",
-							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"additionalColumns": [
-										{
-											"name": "ESBSTATUS",
-											"value": "E"
-										},
-										{
-											"name": "ESBUPDATETIME",
-											"value": {
-												"value": "@variables('CurrentTime')",
-												"type": "Expression"
-											}
-										}
-									],
-									"oracleReaderQuery": {
-										"value": "select TAG_NO from (select TAG_NO from SCM_ADMIN.VIEW_CAB_PRINT_TAG\t\t\t\t\nminus\t\t\t\t\nselect TAG_NO from SCM_ADMIN.ESB_CAB_PRINT_TAG)\t\t\t\t\nwhere rownum <= 5\t\t\t\t",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"sink": {
-									"type": "OracleSink",
-									"writeBatchSize": 10000
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"mappings": [
-										{
-											"source": {
-												"name": "TAG_NO",
-												"type": "String"
-											},
-											"sink": {
-												"name": "TAG_NO",
-												"type": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "ESBSTATUS",
-												"type": "String"
-											},
-											"sink": {
-												"name": "ESBSTATUS",
-												"type": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "ESBUPDATETIME",
-												"type": "String"
-											},
-											"sink": {
-												"name": "ESBUPDATETIME",
-												"type": "String"
-											}
-										}
-									],
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "view_cab_print_tag",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "Esb_View_print_tag",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy data3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT066_STS_View_Cab_Print_tag_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data3",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						},
-						{
-							"name": "Web1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int066_view_cab_print_tag/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_PRINT_TAG Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "CurrentTime",
-								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-									"type": "Expression"
-								}
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Lookup1",
-				"type": "Lookup",
-				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1614,15 +24,1569 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH MissingTags AS (\r\n    SELECT TAG_NO \r\n    FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\r\n    MINUS\r\n    SELECT TAG_NO \r\n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT\r\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\r\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\r\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\r\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\r\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\r\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\r\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\r\n    NVL(V.WEIGHT, 0) AS WEIGHT,\r\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\r\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\r\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\r\n    NVL(V.INV_LEN, 0) AS INV_LEN,\r\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\r\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\r\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\r\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\r\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\r\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\r\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\r\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\r\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\r\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\r\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\r\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\r\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\r\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\r\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\r\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\r\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\r\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\r\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\r\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\r\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\r\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\r\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\r\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\r\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\r\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\r\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\r\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\r\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\r\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\r\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\r\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\r\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\r\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\r\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\r\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\r\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\r\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\r\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\r\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\r\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\r\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\r\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\r\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\r\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\r\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\r\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\r\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\r\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\r\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\r\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\r\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\r\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\r\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\r\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\r\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\r\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\r\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\r\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\r\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\r\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\r\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\r\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\r\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\r\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\r\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\r\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\r\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\r\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\r\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\r\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\r\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\r\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\r\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\r\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\r\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\r\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\r\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\r\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\r\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\r\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\r\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\r\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\r\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\r\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\r\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\r\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\r\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\r\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\r\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\r\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\r\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\r\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\r\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\r\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\r\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\r\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\r\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\r\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\r\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\r\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\r\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\r\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\r\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\r\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\r\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\r\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\r\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\r\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\r\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\r\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\r\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\r\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\r\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\r\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\r\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\r\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\r\n    NVL(V.BVBS, ' ') AS BVBS,\r\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\r\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\r\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\r\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\r\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\r\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\r\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\r\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\r\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\r\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\r\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\r\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\r\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\r\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\r\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\r\nFROM \r\n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\r\nJOIN \r\n    MissingTags M ON V.TAG_NO = M.TAG_NO\r\nWHERE ROWNUM <= 5;\r\n",
+						"oracleReaderQuery": {
+							"value": "WITH MissingTags AS (\n    SELECT TAG_NO \n    FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\n    MINUS\n    SELECT TAG_NO \n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\n    WHERE ROWNUM <= '1000'\n)\nSELECT\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\n    NVL(V.WEIGHT, 0) AS WEIGHT,\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\n    NVL(V.INV_LEN, 0) AS INV_LEN,\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\n    NVL(V.BVBS, ' ') AS BVBS,\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\nFROM \n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\nJOIN \n    MissingTags M ON V.TAG_NO = M.TAG_NO\n",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
+						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
-					"dataset": {
-						"referenceName": "view_cab_print_tag",
-						"type": "DatasetReference"
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": "10",
+						"httpCompressionType": "none"
 					},
-					"firstRowOnly": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "BBS_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_MARKING",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROD_MARKING"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_DESC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_DESC"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOAD_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "RUN_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$RUN_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPECODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPECODE"
+								}
+							},
+							{
+								"source": {
+									"name": "WEIGHT",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$WEIGHT"
+								}
+							},
+							{
+								"source": {
+									"name": "PIN_SIZE",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$PIN_SIZE"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_QTY",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TAG_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_TOTAL_QTY",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$ITEM_TOTAL_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "INV_LEN",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$INV_LEN"
+								}
+							},
+							{
+								"source": {
+									"name": "GRADE_DIA",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GRADE_DIA"
+								}
+							},
+							{
+								"source": {
+									"name": "WORKCENTER",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WORKCENTER"
+								}
+							},
+							{
+								"source": {
+									"name": "Q_PO_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$Q_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TAG_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "BENDING_SEQ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BENDING_SEQ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_1"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_1"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_1"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_1"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_1"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_2"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_2"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_2"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_2"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_2"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_3"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_3"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_3"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_3"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_3"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_4"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_4"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_4"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_4"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_4"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_5"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_5"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_5"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_5"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_5"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_6"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_6"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_6"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_6"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_6"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_7"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_7"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_7"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_7"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_7",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_7"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_8"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_8"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_8"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_8"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_8",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_8"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_9"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_9"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_9"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_9"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_9",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_9"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_10"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_10"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_10"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_10"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_10",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_10"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_11"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_11"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$PARAM_IND_11']"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_11"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_11",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_11"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_12"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_12"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_12"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_12"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_12",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_12"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_13"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_13"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_13"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_13"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_13",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_13"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_14"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_14"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_14"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_14"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_14",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_14"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_15"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_15"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_15"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_15"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_15",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_15"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_16"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_16"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_16"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_16"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_16",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_16"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_17"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_17"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_17"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_17"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_17",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_17"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_18"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_18"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_18"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_18"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_18",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_18"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_19"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_19"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_19"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_19"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_19",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_19"
+								}
+							},
+							{
+								"source": {
+									"name": "SEGMENT_LENGTH_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_LENGTH_20"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_PARAM_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_PARAM_20"
+								}
+							},
+							{
+								"source": {
+									"name": "PARAM_IND_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PARAM_IND_20"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_X_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_X_20"
+								}
+							},
+							{
+								"source": {
+									"name": "COORDINATE_Y_20",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COORDINATE_Y_20"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOAD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "TIME_STAMP_CREATION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_CREATION"
+								}
+							},
+							{
+								"source": {
+									"name": "TIME_STAMP_UPDATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TIME_STAMP_UPDATE"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "DELIVERY_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DELIVERY_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "BEND_HR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BEND_HR"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "MAT_SOURCE_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAT_SOURCE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "RELEASE_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$RELEASE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "URGENT_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$URGENT_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "CONQUAS_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONQUAS_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "BVBS",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BVBS"
+								}
+							},
+							{
+								"source": {
+									"name": "MAT_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAT_SOURCE"
+								}
+							},
+							{
+								"source": {
+									"name": "TAG_COUNTER",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TAG_COUNTER"
+								}
+							},
+							{
+								"source": {
+									"name": "TOTAL_TAGS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$TOTAL_TAGS"
+								}
+							},
+							{
+								"source": {
+									"name": "CUST_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_PAGE_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_PAGE_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_COLORCODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_COLORCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "GROUP_TAG_TOTAL_TAGS",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$GROUP_TAG_TOTAL_TAGS"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGE_MARK",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGE_MARK"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGE_PIECES",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$CAGE_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_WC",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGING_WC"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_PLANNED_STARTTIME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CAGING_PLANNED_STARTTIME"
+								}
+							},
+							{
+								"source": {
+									"name": "CAGING_SEQ",
+									"type": "Double"
+								},
+								"sink": {
+									"path": "$CAGING_SEQ"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "int066_view_cab_print_tag1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "int066_view_cab_print_tag",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data3",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"additionalColumns": [
+							{
+								"name": "ESBSTATUS",
+								"value": "E"
+							},
+							{
+								"name": "ESBUPDATETIME",
+								"value": {
+									"value": "@variables('CurrentTime')",
+									"type": "Expression"
+								}
+							}
+						],
+						"oracleReaderQuery": {
+							"value": "select TAG_NO from (select TAG_NO from SCM_ADMIN.VIEW_CAB_PRINT_TAG\t\t\t\t\nminus\t\t\t\t\nselect TAG_NO from SCM_ADMIN.ESB_CAB_PRINT_TAG)\t\t\t\t\nwhere rownum <= 1000\t\t\t\t",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "TAG_NO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TAG_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ESBUPDATETIME",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "int066_view_cab_print_tag1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "int066_Esb_View_print_tag",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
+				"dependsOn": [
+					{
+						"activity": "Copy data3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "NSH_INT066_STS_View_Cab_Print_tag_Sub",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data3",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int066_view_cab_print_tag/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "Update SCM_ADMIN.ESB_CAB_PRINT_TAG Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+						"type": "Expression"
+					}
 				}
 			}
 		],

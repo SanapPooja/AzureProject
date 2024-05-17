@@ -1,0 +1,11 @@
+{
+	"name": "pipeline18",
+	"properties": {
+		"variables": {
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

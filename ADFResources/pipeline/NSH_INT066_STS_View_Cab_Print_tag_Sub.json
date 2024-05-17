@@ -64,7 +64,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$BBS_NO"
+									"path": "$['$BBS_NO']"
 								},
 								"sink": {
 									"name": "BBS_NO",
@@ -73,7 +73,7 @@
 							},
 							{
 								"source": {
-									"path": "$PROD_MARKING"
+									"path": "$['$PROD_MARKING']"
 								},
 								"sink": {
 									"name": "PROD_MARKING",
@@ -82,7 +82,7 @@
 							},
 							{
 								"source": {
-									"path": "$PROJ_NAME"
+									"path": "$['$PROJ_NAME']"
 								},
 								"sink": {
 									"name": "PROJ_NAME",
@@ -91,7 +91,7 @@
 							},
 							{
 								"source": {
-									"path": "$BBS_DESC"
+									"path": "$['$BBS_DESC']"
 								},
 								"sink": {
 									"name": "BBS_DESC",
@@ -100,7 +100,7 @@
 							},
 							{
 								"source": {
-									"path": "$LOAD_DATE"
+									"path": "$['$LOAD_DATE']"
 								},
 								"sink": {
 									"name": "LOAD_DATE",
@@ -109,7 +109,7 @@
 							},
 							{
 								"source": {
-									"path": "$RUN_NO"
+									"path": "$['$RUN_NO']"
 								},
 								"sink": {
 									"name": "RUN_NO",
@@ -118,7 +118,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPECODE"
+									"path": "$['$SHAPECODE']"
 								},
 								"sink": {
 									"name": "SHAPECODE",
@@ -127,7 +127,7 @@
 							},
 							{
 								"source": {
-									"path": "$WEIGHT"
+									"path": "$['$WEIGHT']"
 								},
 								"sink": {
 									"name": "WEIGHT",
@@ -136,7 +136,7 @@
 							},
 							{
 								"source": {
-									"path": "$PIN_SIZE"
+									"path": "$['$PIN_SIZE']"
 								},
 								"sink": {
 									"name": "PIN_SIZE",
@@ -145,7 +145,7 @@
 							},
 							{
 								"source": {
-									"path": "$TAG_QTY"
+									"path": "$['$TAG_QTY']"
 								},
 								"sink": {
 									"name": "TAG_QTY",
@@ -154,7 +154,7 @@
 							},
 							{
 								"source": {
-									"path": "$ITEM_TOTAL_QTY"
+									"path": "$['$ITEM_TOTAL_QTY']"
 								},
 								"sink": {
 									"name": "ITEM_TOTAL_QTY",
@@ -163,7 +163,7 @@
 							},
 							{
 								"source": {
-									"path": "$INV_LEN"
+									"path": "$['$INV_LEN']"
 								},
 								"sink": {
 									"name": "INV_LEN",
@@ -172,7 +172,7 @@
 							},
 							{
 								"source": {
-									"path": "$GRADE_DIA"
+									"path": "$['$GRADE_DIA']"
 								},
 								"sink": {
 									"name": "GRADE_DIA",
@@ -181,7 +181,7 @@
 							},
 							{
 								"source": {
-									"path": "$WORKCENTER"
+									"path": "$['$WORKCENTER']"
 								},
 								"sink": {
 									"name": "WORKCENTER",
@@ -190,7 +190,7 @@
 							},
 							{
 								"source": {
-									"path": "$Q_PO_NO"
+									"path": "$['$Q_PO_NO']"
 								},
 								"sink": {
 									"name": "Q_PO_NO",
@@ -208,7 +208,7 @@
 							},
 							{
 								"source": {
-									"path": "$BENDING_SEQ_NO"
+									"path": "$['$BENDING_SEQ_NO']"
 								},
 								"sink": {
 									"name": "BENDING_SEQ_NO",
@@ -217,7 +217,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_1"
+									"path": "$['$SEGMENT_LENGTH_1']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_1",
@@ -226,7 +226,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_1"
+									"path": "$['$SHAPE_PARAM_1']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_1",
@@ -235,7 +235,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_1"
+									"path": "$['$PARAM_IND_1']"
 								},
 								"sink": {
 									"name": "PARAM_IND_1",
@@ -244,7 +244,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_1"
+									"path": "$['$COORDINATE_X_1']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_1",
@@ -253,7 +253,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_1"
+									"path": "$['$COORDINATE_Y_1']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_1",
@@ -262,7 +262,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_2"
+									"path": "$['$SEGMENT_LENGTH_2']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_2",
@@ -271,7 +271,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_2"
+									"path": "$['$SHAPE_PARAM_2']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_2",
@@ -280,7 +280,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_2"
+									"path": "$['$PARAM_IND_2']"
 								},
 								"sink": {
 									"name": "PARAM_IND_2",
@@ -289,7 +289,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_2"
+									"path": "$['$COORDINATE_X_2']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_2",
@@ -298,7 +298,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_2"
+									"path": "$['$COORDINATE_Y_2']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_2",
@@ -307,7 +307,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_3"
+									"path": "$['$SEGMENT_LENGTH_3']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_3",
@@ -316,7 +316,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_3"
+									"path": "$['$SHAPE_PARAM_3']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_3",
@@ -325,7 +325,16 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_3"
+									"path": "$['$PARAM_IND_3']"
+								},
+								"sink": {
+									"name": "PARAM_IND_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$COORDINATE_X_3']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_3",
@@ -334,7 +343,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_3"
+									"path": "$['$COORDINATE_Y_3']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_3",
@@ -343,7 +352,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_4"
+									"path": "$['$SEGMENT_LENGTH_4']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_4",
@@ -352,7 +361,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_4"
+									"path": "$['$SHAPE_PARAM_4']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_4",
@@ -361,7 +370,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_4"
+									"path": "$['$PARAM_IND_4']"
 								},
 								"sink": {
 									"name": "PARAM_IND_4",
@@ -370,7 +379,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_4"
+									"path": "$['$COORDINATE_X_4']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_4",
@@ -379,7 +388,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_4"
+									"path": "$['$COORDINATE_Y_4']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_4",
@@ -388,7 +397,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_5"
+									"path": "$['$SEGMENT_LENGTH_5']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_5",
@@ -397,7 +406,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_5"
+									"path": "$['$SHAPE_PARAM_5']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_5",
@@ -406,7 +415,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_5"
+									"path": "$['$PARAM_IND_5']"
 								},
 								"sink": {
 									"name": "PARAM_IND_5",
@@ -415,7 +424,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_5"
+									"path": "$['$COORDINATE_X_5']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_5",
@@ -424,7 +433,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_5"
+									"path": "$['$COORDINATE_Y_5']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_5",
@@ -433,7 +442,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_6"
+									"path": "$['$SEGMENT_LENGTH_6']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_6",
@@ -442,7 +451,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_6"
+									"path": "$['$SHAPE_PARAM_6']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_6",
@@ -451,7 +460,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_6"
+									"path": "$['$PARAM_IND_6']"
 								},
 								"sink": {
 									"name": "PARAM_IND_6",
@@ -460,7 +469,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_6"
+									"path": "$['$COORDINATE_X_6']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_6",
@@ -469,7 +478,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_6"
+									"path": "$['$COORDINATE_Y_6']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_6",
@@ -478,7 +487,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_7"
+									"path": "$['$SEGMENT_LENGTH_7']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_7",
@@ -487,7 +496,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_7"
+									"path": "$['$SHAPE_PARAM_7']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_7",
@@ -496,7 +505,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_7"
+									"path": "$['$PARAM_IND_7']"
 								},
 								"sink": {
 									"name": "PARAM_IND_7",
@@ -505,7 +514,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_7"
+									"path": "$['$COORDINATE_X_7']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_7",
@@ -514,7 +523,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_7"
+									"path": "$['$COORDINATE_Y_7']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_7",
@@ -523,7 +532,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_8"
+									"path": "$['$SEGMENT_LENGTH_8']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_8",
@@ -532,7 +541,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_8"
+									"path": "$['$SHAPE_PARAM_8']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_8",
@@ -541,7 +550,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_8"
+									"path": "$['$PARAM_IND_8']"
 								},
 								"sink": {
 									"name": "PARAM_IND_8",
@@ -550,7 +559,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_8"
+									"path": "$['$COORDINATE_X_8']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_8",
@@ -559,7 +568,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_8"
+									"path": "$['$COORDINATE_Y_8']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_8",
@@ -568,7 +577,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_9"
+									"path": "$['$SEGMENT_LENGTH_9']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_9",
@@ -577,7 +586,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_9"
+									"path": "$['$SHAPE_PARAM_9']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_9",
@@ -586,16 +595,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_9"
-								},
-								"sink": {
-									"name": "PARAM_IND_9",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$COORDINATE_X_9"
+									"path": "$['$COORDINATE_X_9']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_9",
@@ -604,7 +604,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_9"
+									"path": "$['$COORDINATE_Y_9']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_9",
@@ -613,7 +613,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_10"
+									"path": "$['$SEGMENT_LENGTH_10']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_10",
@@ -622,7 +622,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_10"
+									"path": "$['$SHAPE_PARAM_10']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_10",
@@ -631,7 +631,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_10"
+									"path": "$['$PARAM_IND_10']"
 								},
 								"sink": {
 									"name": "PARAM_IND_10",
@@ -640,7 +640,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_10"
+									"path": "$['$COORDINATE_X_10']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_10",
@@ -649,7 +649,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_10"
+									"path": "$['$COORDINATE_Y_10']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_10",
@@ -658,7 +658,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_11"
+									"path": "$['$SEGMENT_LENGTH_11']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_11",
@@ -667,7 +667,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_11"
+									"path": "$['$SHAPE_PARAM_11']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_11",
@@ -676,7 +676,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_11"
+									"path": "$['$PARAM_IND_11']"
 								},
 								"sink": {
 									"name": "PARAM_IND_11",
@@ -685,7 +685,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_11"
+									"path": "$['$COORDINATE_X_11']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_11",
@@ -694,7 +694,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_11"
+									"path": "$['$COORDINATE_Y_11']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_11",
@@ -703,7 +703,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_12"
+									"path": "$['$SEGMENT_LENGTH_12']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_12",
@@ -712,7 +712,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_12"
+									"path": "$['$SHAPE_PARAM_12']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_12",
@@ -721,7 +721,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_12"
+									"path": "$['$PARAM_IND_12']"
 								},
 								"sink": {
 									"name": "PARAM_IND_12",
@@ -730,7 +730,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_12"
+									"path": "$['$COORDINATE_X_12']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_12",
@@ -739,7 +739,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_12"
+									"path": "$['$COORDINATE_Y_12']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_12",
@@ -748,7 +748,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_13"
+									"path": "$['$SEGMENT_LENGTH_13']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_13",
@@ -757,7 +757,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_13"
+									"path": "$['$SHAPE_PARAM_13']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_13",
@@ -766,7 +766,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_13"
+									"path": "$['$PARAM_IND_13']"
 								},
 								"sink": {
 									"name": "PARAM_IND_13",
@@ -775,7 +775,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_13"
+									"path": "$['$COORDINATE_X_13']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_13",
@@ -784,7 +784,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_13"
+									"path": "$['$COORDINATE_Y_13']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_13",
@@ -793,7 +793,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_14"
+									"path": "$['$SEGMENT_LENGTH_14']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_14",
@@ -802,7 +802,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_14"
+									"path": "$['$SHAPE_PARAM_14']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_14",
@@ -811,7 +811,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_14"
+									"path": "$['$PARAM_IND_14']"
 								},
 								"sink": {
 									"name": "PARAM_IND_14",
@@ -820,7 +820,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_14"
+									"path": "$['$COORDINATE_X_14']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_14",
@@ -829,7 +829,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_14"
+									"path": "$['$COORDINATE_Y_14']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_14",
@@ -838,7 +838,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_15"
+									"path": "$['$SEGMENT_LENGTH_15']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_15",
@@ -847,7 +847,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_15"
+									"path": "$['$SHAPE_PARAM_15']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_15",
@@ -856,7 +856,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_15"
+									"path": "$['$PARAM_IND_15']"
 								},
 								"sink": {
 									"name": "PARAM_IND_15",
@@ -865,7 +865,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_15"
+									"path": "$['$COORDINATE_X_15']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_15",
@@ -874,7 +874,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_15"
+									"path": "$['$COORDINATE_Y_15']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_15",
@@ -883,7 +883,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_16"
+									"path": "$['$SEGMENT_LENGTH_16']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_16",
@@ -892,7 +892,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_16"
+									"path": "$['$SHAPE_PARAM_16']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_16",
@@ -901,7 +901,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_16"
+									"path": "$['$PARAM_IND_16']"
 								},
 								"sink": {
 									"name": "PARAM_IND_16",
@@ -910,7 +910,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_16"
+									"path": "$['$COORDINATE_X_16']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_16",
@@ -919,7 +919,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_16"
+									"path": "$['$COORDINATE_Y_16']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_16",
@@ -928,7 +928,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_17"
+									"path": "$['$SEGMENT_LENGTH_17']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_17",
@@ -937,7 +937,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_17"
+									"path": "$['$SHAPE_PARAM_17']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_17",
@@ -946,7 +946,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_17"
+									"path": "$['$PARAM_IND_17']"
 								},
 								"sink": {
 									"name": "PARAM_IND_17",
@@ -955,7 +955,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_17"
+									"path": "$['$COORDINATE_X_17']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_17",
@@ -964,7 +964,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_17"
+									"path": "$['$COORDINATE_Y_17']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_17",
@@ -973,7 +973,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_18"
+									"path": "$['$SEGMENT_LENGTH_18']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_18",
@@ -982,7 +982,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_18"
+									"path": "$['$SHAPE_PARAM_18']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_18",
@@ -991,7 +991,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_18"
+									"path": "$['$PARAM_IND_18']"
 								},
 								"sink": {
 									"name": "PARAM_IND_18",
@@ -1000,7 +1000,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_18"
+									"path": "$['$COORDINATE_X_18']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_18",
@@ -1009,7 +1009,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_18"
+									"path": "$['$COORDINATE_Y_18']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_18",
@@ -1018,7 +1018,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_19"
+									"path": "$['$SEGMENT_LENGTH_19']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_19",
@@ -1027,7 +1027,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_19"
+									"path": "$['$SHAPE_PARAM_19']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_19",
@@ -1036,7 +1036,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_19"
+									"path": "$['$PARAM_IND_19']"
 								},
 								"sink": {
 									"name": "PARAM_IND_19",
@@ -1045,7 +1045,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_19"
+									"path": "$['$COORDINATE_X_19']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_19",
@@ -1054,7 +1054,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_19"
+									"path": "$['$COORDINATE_Y_19']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_19",
@@ -1063,7 +1063,7 @@
 							},
 							{
 								"source": {
-									"path": "$SEGMENT_LENGTH_20"
+									"path": "$['$SEGMENT_LENGTH_20']"
 								},
 								"sink": {
 									"name": "SEGMENT_LENGTH_20",
@@ -1072,7 +1072,7 @@
 							},
 							{
 								"source": {
-									"path": "$SHAPE_PARAM_20"
+									"path": "$['$SHAPE_PARAM_20']"
 								},
 								"sink": {
 									"name": "SHAPE_PARAM_20",
@@ -1081,7 +1081,7 @@
 							},
 							{
 								"source": {
-									"path": "$PARAM_IND_20"
+									"path": "$['$PARAM_IND_20']"
 								},
 								"sink": {
 									"name": "PARAM_IND_20",
@@ -1090,7 +1090,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_X_20"
+									"path": "$['$COORDINATE_X_20']"
 								},
 								"sink": {
 									"name": "COORDINATE_X_20",
@@ -1099,7 +1099,7 @@
 							},
 							{
 								"source": {
-									"path": "$COORDINATE_Y_20"
+									"path": "$['$COORDINATE_Y_20']"
 								},
 								"sink": {
 									"name": "COORDINATE_Y_20",
@@ -1108,7 +1108,7 @@
 							},
 							{
 								"source": {
-									"path": "$LOAD_NO"
+									"path": "$['$LOAD_NO']"
 								},
 								"sink": {
 									"name": "LOAD_NO",
@@ -1117,7 +1117,7 @@
 							},
 							{
 								"source": {
-									"path": "$TIME_STAMP_CREATION"
+									"path": "$['$TIME_STAMP_CREATION']"
 								},
 								"sink": {
 									"name": "TIME_STAMP_CREATION",
@@ -1126,7 +1126,7 @@
 							},
 							{
 								"source": {
-									"path": "$TIME_STAMP_UPDATE"
+									"path": "$['$TIME_STAMP_UPDATE']"
 								},
 								"sink": {
 									"name": "TIME_STAMP_UPDATE",
@@ -1135,25 +1135,7 @@
 							},
 							{
 								"source": {
-									"path": "$ORDER_DATE"
-								},
-								"sink": {
-									"name": "ORDER_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$DELIVERY_DATE"
-								},
-								"sink": {
-									"name": "DELIVERY_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$BEND_HR"
+									"path": "$['$BEND_HR']"
 								},
 								"sink": {
 									"name": "BEND_HR",
@@ -1162,7 +1144,25 @@
 							},
 							{
 								"source": {
-									"path": "$ORDER_NO"
+									"path": "$['$ORDER_DATE']"
+								},
+								"sink": {
+									"name": "ORDER_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DELIVERY_DATE']"
+								},
+								"sink": {
+									"name": "DELIVERY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_NO']"
 								},
 								"sink": {
 									"name": "ORDER_NO",
@@ -1171,7 +1171,7 @@
 							},
 							{
 								"source": {
-									"path": "$ITEM_NO"
+									"path": "$['$ITEM_NO']"
 								},
 								"sink": {
 									"name": "ITEM_NO",
@@ -1180,16 +1180,16 @@
 							},
 							{
 								"source": {
-									"path": "$MAT_SOURCE"
+									"path": "$['$MAT_SOURCE_IND']"
 								},
 								"sink": {
-									"name": "MAT_SOURCE",
+									"name": "MAT_SOURCE_IND",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$RELEASE_CODE"
+									"path": "$['$RELEASE_CODE']"
 								},
 								"sink": {
 									"name": "RELEASE_CODE",
@@ -1198,7 +1198,7 @@
 							},
 							{
 								"source": {
-									"path": "$URGENT_IND"
+									"path": "$['$URGENT_IND']"
 								},
 								"sink": {
 									"name": "URGENT_IND",
@@ -1207,7 +1207,7 @@
 							},
 							{
 								"source": {
-									"path": "$CONQUAS_IND"
+									"path": "$['$CONQUAS_IND']"
 								},
 								"sink": {
 									"name": "CONQUAS_IND",
@@ -1216,7 +1216,7 @@
 							},
 							{
 								"source": {
-									"path": "$BVBS"
+									"path": "$['$BVBS']"
 								},
 								"sink": {
 									"name": "BVBS",
@@ -1225,7 +1225,16 @@
 							},
 							{
 								"source": {
-									"path": "$TAG_COUNTER"
+									"path": "$['$MAT_SOURCE']"
+								},
+								"sink": {
+									"name": "MAT_SOURCE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TAG_COUNTER']"
 								},
 								"sink": {
 									"name": "TAG_COUNTER",
@@ -1234,7 +1243,7 @@
 							},
 							{
 								"source": {
-									"path": "$TOTAL_TAGS"
+									"path": "$['$TOTAL_TAGS']"
 								},
 								"sink": {
 									"name": "TOTAL_TAGS",
@@ -1243,7 +1252,7 @@
 							},
 							{
 								"source": {
-									"path": "$CUST_NAME"
+									"path": "$['$CUST_NAME']"
 								},
 								"sink": {
 									"name": "CUST_NAME",
@@ -1252,7 +1261,7 @@
 							},
 							{
 								"source": {
-									"path": "$BBS_PAGE_NO"
+									"path": "$['$BBS_PAGE_NO']"
 								},
 								"sink": {
 									"name": "BBS_PAGE_NO",
@@ -1261,7 +1270,7 @@
 							},
 							{
 								"source": {
-									"path": "$GROUP_TAG_ID"
+									"path": "$['$GROUP_TAG_ID']"
 								},
 								"sink": {
 									"name": "GROUP_TAG_ID",
@@ -1270,7 +1279,7 @@
 							},
 							{
 								"source": {
-									"path": "$BBS_COLORCODE"
+									"path": "$['$BBS_COLORCODE']"
 								},
 								"sink": {
 									"name": "BBS_COLORCODE",
@@ -1279,7 +1288,7 @@
 							},
 							{
 								"source": {
-									"path": "$GROUP_TAG_IND"
+									"path": "$['$GROUP_TAG_IND']"
 								},
 								"sink": {
 									"name": "GROUP_TAG_IND",
@@ -1288,7 +1297,7 @@
 							},
 							{
 								"source": {
-									"path": "$GROUP_TAG_TOTAL_TAGS"
+									"path": "$['$GROUP_TAG_TOTAL_TAGS']"
 								},
 								"sink": {
 									"name": "GROUP_TAG_TOTAL_TAGS",
@@ -1297,7 +1306,7 @@
 							},
 							{
 								"source": {
-									"path": "$PRODUCT_TYPE"
+									"path": "$['$PRODUCT_TYPE']"
 								},
 								"sink": {
 									"name": "PRODUCT_TYPE",
@@ -1306,7 +1315,7 @@
 							},
 							{
 								"source": {
-									"path": "$CAGE_MARK"
+									"path": "$['$CAGE_MARK']"
 								},
 								"sink": {
 									"name": "CAGE_MARK",
@@ -1315,7 +1324,7 @@
 							},
 							{
 								"source": {
-									"path": "$CAGE_QTY"
+									"path": "$['$CAGE_PIECES']"
 								},
 								"sink": {
 									"name": "CAGE_QTY",
@@ -1324,7 +1333,7 @@
 							},
 							{
 								"source": {
-									"path": "$CAGING_WC"
+									"path": "$['$CAGING_WC']"
 								},
 								"sink": {
 									"name": "CAGING_WC",
@@ -1333,7 +1342,7 @@
 							},
 							{
 								"source": {
-									"path": "$PLANNED_START_TIME"
+									"path": "$['$CAGING_PLANNED_STARTTIME']"
 								},
 								"sink": {
 									"name": "PLANNED_START_TIME",
@@ -1342,7 +1351,7 @@
 							},
 							{
 								"source": {
-									"path": "$CAGING_SEQ"
+									"path": "$['$CAGING_SEQ']"
 								},
 								"sink": {
 									"name": "CAGING_SEQ",
@@ -1405,25 +1414,26 @@
 							},
 							{
 								"source": {
-									"path": "$['Column_1']"
+									"path": "$['$PARAM_IND_9']"
 								},
 								"sink": {
-									"name": "CAGE_QTY",
-									"type": "Int32"
+									"name": "PARAM_IND_9",
+									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "int_view_print_tag_head",
+						"referenceName": "int066_view_print_tag_head",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "tbl_scm_sts_cab_print_tag",
+						"referenceName": "int066_tbl_scm_sts_cab_print_tag",
 						"type": "DatasetReference"
 					}
 				]
