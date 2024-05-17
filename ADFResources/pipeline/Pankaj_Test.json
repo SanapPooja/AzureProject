@@ -315,18 +315,6 @@
 							},
 							{
 								"source": {
-									"name": "CalendarName",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "CalendarName",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
 									"name": "OfficialEmailID",
 									"type": "String",
 									"physicalType": "String"
