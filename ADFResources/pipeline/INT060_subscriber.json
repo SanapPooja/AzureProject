@@ -17,6 +17,32 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "LP_STATUS",
+								"value": "A"
+							},
+							{
+								"name": "STATUS",
+								"value": "Y"
+							},
+							{
+								"name": "USER_NAME",
+								"value": "ESB_INT060"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
+							},
+							{
+								"name": "EMAIL_ALERT_IND",
+								"value": "N"
+							},
+							{
+								"name": "DELIVERY_SQN",
+								"value": "0"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -43,6 +69,15 @@
 							},
 							{
 								"source": {
+									"path": "$VEHICLE_TYPE_NAME"
+								},
+								"sink": {
+									"name": "VEHICLE_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$DELIVERY_DATE"
 								},
 								"sink": {
@@ -52,22 +87,67 @@
 							},
 							{
 								"source": {
-									"path": "$VEHICLE_TYPE_NAME"
+									"path": "$REMARK1"
 								},
 								"sink": {
-									"name": "VEHICLE_TYPE",
+									"name": "PLANNER_REMARKS",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
 								"sink": {
-									"name": "REM"
+									"name": "LP_STATUS",
+									"type": "String"
 								}
 							},
-							null,
-							null,
-							null,
-							null
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$USER_NAME"
+								},
+								"sink": {
+									"name": "USER_NAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$EMAIL_ALERT_IND"
+								},
+								"sink": {
+									"name": "EMAIL_ALERT_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELIVERY_SQN"
+								},
+								"sink": {
+									"name": "DELIVERY_SQN",
+									"type": "String"
+								}
+							}
 						]
 					}
 				},
