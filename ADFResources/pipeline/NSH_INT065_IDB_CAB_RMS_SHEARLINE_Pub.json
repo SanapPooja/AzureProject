@@ -539,8 +539,6 @@
 			{
 				"name": "Execute Pipeline1_copy1",
 				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
 						"activity": "Copy data2",
