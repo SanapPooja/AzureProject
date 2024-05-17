@@ -20,7 +20,7 @@
 						"additionalColumns": [
 							{
 								"name": "fld_q_rec_type",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_create_date",
@@ -31,26 +31,19 @@
 							},
 							{
 								"name": "fld_create_by",
-								"value": ""
+								"value": "ESB INT065"
 							},
 							{
 								"name": "fld_modify_date",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_modify_by",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "fld_rec_type",
 								"value": "Y"
-							},
-							{
-								"name": "$Create_date_2",
-								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'\n)",
-									"type": "Expression"
-								}
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -215,7 +208,7 @@
 							},
 							{
 								"source": {
-									"path": "$Create_date_2"
+									"path": "$CREATE_DATE"
 								},
 								"sink": {
 									"name": "fld_q_create_date",
@@ -251,7 +244,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_q_rec_type']"
+									"path": "$['fld_q_rec_type']"
 								},
 								"sink": {
 									"name": "fld_q_rec_type",
@@ -260,7 +253,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_create_date']"
+									"path": "$['fld_create_date']"
 								},
 								"sink": {
 									"name": "fld_create_date",
@@ -269,7 +262,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_create_by']"
+									"path": "$['fld_create_by']"
 								},
 								"sink": {
 									"name": "fld_create_by",
@@ -278,7 +271,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_modify_date']"
+									"path": "$['fld_modify_date']"
 								},
 								"sink": {
 									"name": "fld_modify_date",
@@ -287,7 +280,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_modify_by']"
+									"path": "$['fld_modify_by']"
 								},
 								"sink": {
 									"name": "fld_modify_by",
@@ -296,7 +289,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$fld_rec_type']"
+									"path": "$['fld_rec_type']"
 								},
 								"sink": {
 									"name": "fld_rec_type",
@@ -339,6 +332,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
