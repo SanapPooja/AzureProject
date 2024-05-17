@@ -64,7 +64,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$fld_r_run_no"
+									"path": "$R_RUN_NO"
 								},
 								"sink": {
 									"name": "fld_r_run_no",
@@ -73,7 +73,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_r_prod_type_ref"
+									"path": "$R_PROD_TYPE_REF"
 								},
 								"sink": {
 									"name": "fld_r_prod_type_ref",
@@ -82,7 +82,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_r_start_stock_len"
+									"path": "$R_START_STOCK_LEN"
 								},
 								"sink": {
 									"name": "fld_r_start_stock_len",
@@ -91,7 +91,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_r_dia_ref"
+									"path": "$R_DIA_REF"
 								},
 								"sink": {
 									"name": "fld_r_dia_ref",
@@ -100,7 +100,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_l_comb_no"
+									"path": "$L_COMB_NO"
 								},
 								"sink": {
 									"name": "fld_l_comb_no",
@@ -109,7 +109,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_l_qty_of_segment"
+									"path": "$L_QTY_OF_SEGMENT"
 								},
 								"sink": {
 									"name": "fld_l_qty_of_segment",
@@ -118,7 +118,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_l_stock_bars_len"
+									"path": "$L_STOCK_BARS_LEN"
 								},
 								"sink": {
 									"name": "fld_l_stock_bars_len",
@@ -127,7 +127,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_no_of_cuts"
+									"path": "$D_NO_OF_CUTS"
 								},
 								"sink": {
 									"name": "fld_d_no_of_cuts",
@@ -136,7 +136,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_section_no"
+									"path": "$D_SECTION_NO"
 								},
 								"sink": {
 									"name": "fld_d_section_no",
@@ -145,7 +145,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_bin_number"
+									"path": "$D_BIN_NUMBER"
 								},
 								"sink": {
 									"name": "fld_d_bin_number",
@@ -154,7 +154,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_cut_length"
+									"path": "$D_CUT_LENGTH"
 								},
 								"sink": {
 									"name": "fld_d_cut_length",
@@ -163,7 +163,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_tag_ref_info"
+									"path": "$D_TAG_REF_INFO"
 								},
 								"sink": {
 									"name": "fld_d_tag_ref_info",
@@ -172,7 +172,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_straight_bend_flag"
+									"path": "$D_STRAIGHT_BEND_FLAG"
 								},
 								"sink": {
 									"name": "fld_d_straight_bend_flag",
@@ -181,7 +181,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_bbs_bar_mark_info"
+									"path": "$D_BBS_BAR_MARK_INFO"
 								},
 								"sink": {
 									"name": "fld_d_bbs_bar_mark_info",
@@ -190,7 +190,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_tag_no"
+									"path": "$D_TAG_NO"
 								},
 								"sink": {
 									"name": "fld_d_tag_no",
@@ -199,7 +199,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_flag_info"
+									"path": "$D_FLAG_INFO"
 								},
 								"sink": {
 									"name": "fld_d_flag_info",
@@ -208,7 +208,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_q_create_date"
+									"path": "$CREATE_DATE"
 								},
 								"sink": {
 									"name": "fld_q_create_date",
@@ -217,7 +217,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_q_update_date"
+									"path": "$UPDATE_DATE"
 								},
 								"sink": {
 									"name": "fld_q_update_date",
@@ -226,7 +226,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_cutting_seq_no"
+									"path": "$D_CUTTING_SEQ_NO"
 								},
 								"sink": {
 									"name": "fld_d_cutting_seq_no",
@@ -235,7 +235,7 @@
 							},
 							{
 								"source": {
-									"path": "$fld_d_offcut_ind"
+									"path": "$D_OFFCUT_IND"
 								},
 								"sink": {
 									"name": "fld_d_offcut_ind",
@@ -244,7 +244,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_q_rec_type"
+									"path": "$['$fld_q_rec_type']"
 								},
 								"sink": {
 									"name": "fld_q_rec_type",
@@ -253,7 +253,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_create_date"
+									"path": "$['$fld_create_date']"
 								},
 								"sink": {
 									"name": "fld_create_date",
@@ -262,7 +262,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_create_by"
+									"path": "$['$fld_create_by']"
 								},
 								"sink": {
 									"name": "fld_create_by",
@@ -271,7 +271,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_modify_date"
+									"path": "$['$fld_modify_date']"
 								},
 								"sink": {
 									"name": "fld_modify_date",
@@ -280,7 +280,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_modify_by"
+									"path": "$['$fld_modify_by']"
 								},
 								"sink": {
 									"name": "fld_modify_by",
@@ -289,7 +289,7 @@
 							},
 							{
 								"source": {
-									"path": "fld_rec_type"
+									"path": "$['$fld_rec_type']"
 								},
 								"sink": {
 									"name": "fld_rec_type",
@@ -319,7 +319,8 @@
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Succeeded",
+							"Failed"
 						]
 					}
 				],

@@ -53,7 +53,7 @@
 								"value": "Y"
 							}
 						],
-						"oracleReaderQuery": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= '1000'\n)\nSELECT \n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\n    NVL(CRSD.create_date, ' ') AS create_date,\n    NVL(CRSD.update_date, ' ') AS update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\nFROM  \n    FirstQuery FQ\nJOIN\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\n                                             AND FQ.d_section_no = CRSD.d_section_no\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\n",
+						"oracleReaderQuery": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= '82'\n)\nSELECT \n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\n    NVL(CRSD.create_date, ' ') AS create_date,\n    NVL(CRSD.update_date, ' ') AS update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\nFROM  \n    FirstQuery FQ\nJOIN\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\n                                             AND FQ.d_section_no = CRSD.d_section_no\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\n",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -256,7 +256,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "fld_q_rec_type"
+									"path": "$['$fld_q_rec_type']"
 								}
 							},
 							{
@@ -265,7 +265,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "fld_create_date"
+									"path": "$['$fld_create_date']"
 								}
 							},
 							{
@@ -274,7 +274,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "fld_create_by"
+									"path": "$['$fld_create_by']"
 								}
 							},
 							{
@@ -283,7 +283,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "fld_modify_date"
+									"path": "$['$fld_modify_date']"
 								}
 							},
 							{
@@ -292,7 +292,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "fld_modify_by"
+									"path": "$['$fld_modify_by']"
 								}
 							}
 						]
@@ -406,7 +406,7 @@
 								}
 							}
 						],
-						"oracleReaderQuery": "SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n    FROM (\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.cab_rms_shearline_download\r\n        MINUS\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n    )\r\n    WHERE ROWNUM <= '1000'",
+						"oracleReaderQuery": "SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n    FROM (\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.cab_rms_shearline_download\r\n        MINUS\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n    )\r\n    WHERE ROWNUM <= '82'",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -539,6 +539,8 @@
 			{
 				"name": "Execute Pipeline1_copy1",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
 						"activity": "Copy data2",
