@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_YMPPT_LP_HDR_REST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT077_YMPPT_LP_HDR_Link_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
