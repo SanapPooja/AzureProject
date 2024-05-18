@@ -111,7 +111,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "select \t\t\t\t\t\t\nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION,\t\t\t\t\t\t\nLOAD.SHAPE_CODE,\t\t\t\t\t\t\nLOAD.WBS1,\t\t\t\t\t\t\nLOAD.WBS2,\t\t\t\t\t\t\nLOAD.WBS3,\t\t\t\t\t\t\nLOAD.WBS4,\t\t\t\t\t\t\nLOAD.WBS5,\t\t\t\t\t\t\nLOAD.INV_LEN_IN_MM,\t\t\t\t\t\t\nLOAD.ENV_LENGTH,\t\t\t\t\t\t\nLOAD.ENV_WIDTH,\t\t\t\t\t\t\nLOAD.ENV_HEIGHT,\t\t\t\t\t\t\nLOAD.BBS_NO,\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' '),\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\nDECIMAL(10, 3)),\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0),\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.LOAD_NO = '@{variables('LOAD_NO')}'\t\t\t\t",
+							"value": "select \t\t\t\t\t\t\nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION,\t\t\t\t\t\t\nLOAD.SHAPE_CODE,\t\t\t\t\t\t\nLOAD.WBS1,\t\t\t\t\t\t\nLOAD.WBS2,\t\t\t\t\t\t\nLOAD.WBS3,\t\t\t\t\t\t\nLOAD.WBS4,\t\t\t\t\t\t\nLOAD.WBS5,\t\t\t\t\t\t\nLOAD.INV_LEN_IN_MM,\t\t\t\t\t\t\nLOAD.ENV_LENGTH,\t\t\t\t\t\t\nLOAD.ENV_WIDTH,\t\t\t\t\t\t\nLOAD.ENV_HEIGHT,\t\t\t\t\t\t\nLOAD.BBS_NO,\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' '),\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\nDECIMAL(10, 3)),\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0),\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.LOAD_NO = '2405236562'\n\t\t\t",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -123,7 +123,7 @@
 						"httpRequestTimeout": "00:05:00",
 						"requestInterval": 10,
 						"requestMethod": "POST",
-						"writeBatchSize": 10000,
+						"writeBatchSize": "100",
 						"httpCompressionType": "none"
 					},
 					"enableStaging": false,
