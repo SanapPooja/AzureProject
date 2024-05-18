@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_YMPPT_LP_HDR_PUB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
