@@ -5,8 +5,6 @@
 			{
 				"name": "Copy dataint101",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -248,31 +246,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "Executepipeline101",
-				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Copy dataint101",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT101_DOWNSTREAM_SUB",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
 			},
 			{
 				"name": "Copy data1",
@@ -520,8 +493,41 @@
 				]
 			},
 			{
-				"name": "Execute_INT101_Pub_upstream",
-				"type": "ExecutePipeline",
+				"name": "truncate_sap_stock_list",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy dataint101",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB2Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "truncate table STS.dbo.tbl_sap_stock_list\t\t\t"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "truncate_sap_stock_list_copy1",
+				"type": "Script",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -531,15 +537,25 @@
 					}
 				],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB2Connection",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT101_UPSTREAM_SUB",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "truncate table STS.dbo.tbl_sap_stock_list\t\t\t"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
