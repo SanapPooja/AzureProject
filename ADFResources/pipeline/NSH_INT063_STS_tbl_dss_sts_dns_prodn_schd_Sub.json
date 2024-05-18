@@ -557,11 +557,9 @@
 			{
 				"name": "Delete Data from queue",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait 60 Sec",
+						"activity": "Wait 6 Sec",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -585,19 +583,20 @@
 				}
 			},
 			{
-				"name": "Wait 60 Sec",
+				"name": "Wait 6 Sec",
 				"type": "Wait",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Succeeded",
+							"Failed"
 						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			}
 		],
