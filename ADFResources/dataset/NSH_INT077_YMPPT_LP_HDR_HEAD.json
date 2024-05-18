@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE_HEAD_LINKK_SERVER",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

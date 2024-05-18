@@ -1,9 +1,9 @@
 {
-	"name": "NSH_INT077_YMPPT_LP_HDR",
+	"name": "NSH_INT077_YMPPT_LP_HDR_PUB",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "YMPPT_LP_HDR",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
