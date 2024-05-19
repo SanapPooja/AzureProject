@@ -89,7 +89,7 @@
 							"referenceName": "archivedfiles",
 							"type": "LinkedServiceReference"
 						},
-						"path": "azure-webjobs-secrets"
+						"path": ""
 					},
 					"enableLogging": true,
 					"storeSettings": {
