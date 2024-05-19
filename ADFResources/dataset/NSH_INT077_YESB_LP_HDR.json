@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_YESB_LP_HDR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT077_YESB_LP_HDR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

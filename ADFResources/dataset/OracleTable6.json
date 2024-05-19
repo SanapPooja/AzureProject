@@ -1,0 +1,12 @@
+{
+	"name": "OracleTable6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": []
+	}
+}
