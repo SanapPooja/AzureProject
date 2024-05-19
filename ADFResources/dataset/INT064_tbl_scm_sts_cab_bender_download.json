@@ -1,5 +1,5 @@
 {
-	"name": "tbl_scm_sts_cab_bender_download",
+	"name": "INT064_tbl_scm_sts_cab_bender_download",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

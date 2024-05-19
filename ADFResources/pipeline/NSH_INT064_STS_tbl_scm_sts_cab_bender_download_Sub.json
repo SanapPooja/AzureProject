@@ -405,7 +405,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "tbl_scm_sts_cab_bender_download",
+						"referenceName": "INT064_tbl_scm_sts_cab_bender_download",
 						"type": "DatasetReference"
 					}
 				]

@@ -1,5 +1,5 @@
 {
-	"name": "ESB_cab_bender_download",
+	"name": "INT064_ESB_cab_bender_download",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
