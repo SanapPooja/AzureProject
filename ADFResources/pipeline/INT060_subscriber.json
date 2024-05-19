@@ -411,7 +411,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT COUNT(*) FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+							"text": {
+								"value": "SELECT COUNT(*) FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -444,7 +447,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+							"text": {
+								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -477,7 +483,76 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+							"text": {
+								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script6",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "Update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS = 'Y' WHERE LOAD_NO ='@{variables('LOAD_NO')}'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
