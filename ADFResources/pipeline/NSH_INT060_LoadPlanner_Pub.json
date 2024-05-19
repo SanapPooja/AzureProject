@@ -570,29 +570,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Queue1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "INT060_subscriber",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
 			}
 		],
 		"variables": {
