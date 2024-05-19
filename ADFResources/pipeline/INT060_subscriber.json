@@ -7,7 +7,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -294,7 +301,14 @@
 			{
 				"name": "Script1",
 				"type": "Script",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Load_sap_tally_copy",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -311,13 +325,170 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT LP_STATUS, STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('LOAD_NO')}'"
+							"text": {
+								"value": "SELECT LP_STATUS, STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_ONHOLD, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT COUNT(*) FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
+		"variables": {
+			"LOAD_NO": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
