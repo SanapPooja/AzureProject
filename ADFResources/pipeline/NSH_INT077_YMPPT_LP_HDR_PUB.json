@@ -89,15 +89,6 @@
 							},
 							{
 								"source": {
-									"name": "LOAD_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$LOAD_NO"
-								}
-							},
-							{
-								"source": {
 									"name": "LP_STATUS",
 									"type": "String"
 								},
