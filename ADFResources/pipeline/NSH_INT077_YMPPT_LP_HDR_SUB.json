@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "LOAD_SAP_TALLY",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
