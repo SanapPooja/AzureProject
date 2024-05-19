@@ -48,6 +48,10 @@
 							{
 								"name": "cab_bend_id",
 								"value": "1"
+							},
+							{
+								"name": "PIN_TYPE",
+								"value": "2"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -131,7 +135,7 @@
 							},
 							{
 								"source": {
-									"path": "$PIN_TYPE"
+									"path": "PIN_TYPE"
 								},
 								"sink": {
 									"name": "pin_type",
@@ -329,7 +333,7 @@
 							},
 							{
 								"source": {
-									"path": "cab_bend_id"
+									"path": "$['cab_bend_id']"
 								},
 								"sink": {
 									"name": "cab_bend_id",
@@ -338,7 +342,7 @@
 							},
 							{
 								"source": {
-									"path": "q_rec_type"
+									"path": "$['q_rec_type']"
 								},
 								"sink": {
 									"name": "q_rec_type",
@@ -347,7 +351,7 @@
 							},
 							{
 								"source": {
-									"path": "create_date"
+									"path": "$['create_date']"
 								},
 								"sink": {
 									"name": "create_date",
@@ -356,7 +360,7 @@
 							},
 							{
 								"source": {
-									"path": "create_by"
+									"path": "$['create_by']"
 								},
 								"sink": {
 									"name": "create_by",
@@ -365,7 +369,7 @@
 							},
 							{
 								"source": {
-									"path": "modify_date"
+									"path": "$['modify_date']"
 								},
 								"sink": {
 									"name": "modify_date",
@@ -374,7 +378,7 @@
 							},
 							{
 								"source": {
-									"path": "modify_by"
+									"path": "$['modify_by']"
 								},
 								"sink": {
 									"name": "modify_by",
@@ -383,7 +387,7 @@
 							},
 							{
 								"source": {
-									"path": "rec_type"
+									"path": "$['rec_type']"
 								},
 								"sink": {
 									"name": "rec_type",
