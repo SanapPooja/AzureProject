@@ -61,6 +61,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "If Condition2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"userProperties": [],
@@ -97,6 +103,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Set variable4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"policy": {
@@ -116,12 +128,29 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NOs')}'",
+											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NOs')}'\nand order_request_no = '@{variables('ORDER_NO')}'",
 											"type": "Expression"
 										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable4",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ORDER_NO",
+								"value": {
+									"value": "@item().ORDER_NO",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -218,6 +247,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity(\n'Lookup3'\n).output.value),\n0\n)",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
 							"name": "Wait2",
