@@ -210,36 +210,12 @@
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LOAD_NO",
-					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "If Condition1",
 				"description": "@empty(variables('LOAD_NO'))",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set variable3",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -447,6 +423,30 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARR",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -455,6 +455,9 @@
 			},
 			"NDS_SALE_ORDER": {
 				"type": "String"
+			},
+			"LOAD_NO_ARR": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
