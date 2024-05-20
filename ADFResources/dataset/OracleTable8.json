@@ -1,0 +1,16 @@
+{
+	"name": "OracleTable8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ITEM_ON_LOAD_SAP_TALLY"
+		}
+	}
+}
