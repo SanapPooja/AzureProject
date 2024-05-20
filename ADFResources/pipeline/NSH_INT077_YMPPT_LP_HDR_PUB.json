@@ -499,7 +499,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "update SAPSR3.YESB_LP_HDR set LP_STATUS = 'R' where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R' timestamp=utcnow() where LOAD_NO IN ('@{variables('LOAD_NO')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
