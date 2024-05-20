@@ -1309,6 +1309,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "INT060_ThreeVariables",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
