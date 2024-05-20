@@ -48,6 +48,28 @@
 							{
 								"name": "DELIVERY_SQN",
 								"value": "0"
+							},
+							{
+								"name": "MANDT",
+								"value": "600"
+							},
+							{
+								"name": "USER_NAME",
+								"value": "ESB_INT060"
+							},
+							{
+								"name": "UPDATION_DATE",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "PROC-TS",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+									"type": "Expression"
+								}
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
