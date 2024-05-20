@@ -199,11 +199,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
+						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "OracleTable6",
+						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
 						"type": "DatasetReference"
 					}
 				}
@@ -223,12 +224,26 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
 			},
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [],
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -239,37 +254,109 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "POST",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
 					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "NSH_INT077_YESB_LP_HDR",
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_HD",
 						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "NDS_SALE_ORDER",
+					"value": ""
+				}
+			},
+			{
+				"name": "Lookup3",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
-				"outputs": [
-					{
-						"referenceName": "NSH_INT077_YESB_LP_HDR",
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select NDS_SALE_ORDER SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
 						"type": "DatasetReference"
 					}
-				]
+				}
 			}
 		],
+		"variables": {
+			"LOAD_NO": {
+				"type": "String"
+			},
+			"NDS_SALE_ORDER": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
