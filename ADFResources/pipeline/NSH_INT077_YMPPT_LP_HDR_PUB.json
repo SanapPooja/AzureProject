@@ -301,7 +301,14 @@
 			{
 				"name": "Set variable2",
 				"type": "SetVariable",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
@@ -309,7 +316,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "NDS_SALE_ORDER",
-					"value": ""
+					"value": {
+						"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
+						"type": "Expression"
+					}
 				}
 			},
 			{
