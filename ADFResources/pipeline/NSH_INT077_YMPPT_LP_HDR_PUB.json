@@ -210,9 +210,32 @@
 				}
 			},
 			{
-				"name": "If Condition1",
-				"description": "@empty(variables('LOAD_NO'))",
-				"type": "IfCondition",
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARR",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "Set variable3",
@@ -223,9 +246,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"ifTrueActivities": [
+					"items": {
+						"value": "@variables('LOAD_NO_ARR')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
 						{
-							"name": "Lookup2",
+							"name": "Lookup2_copy1",
 							"type": "Lookup",
 							"dependsOn": [],
 							"policy": {
@@ -254,11 +282,11 @@
 							}
 						},
 						{
-							"name": "Set variable2",
+							"name": "Set variable2_copy1",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Lookup3",
+									"activity": "Lookup3_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -278,11 +306,11 @@
 							}
 						},
 						{
-							"name": "Lookup3",
+							"name": "Lookup3_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup2",
+									"activity": "Lookup2_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -314,11 +342,11 @@
 							}
 						},
 						{
-							"name": "Lookup4",
+							"name": "Lookup4_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "Set variable2_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -350,11 +378,11 @@
 							}
 						},
 						{
-							"name": "Lookup5",
+							"name": "Lookup5_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup4",
+									"activity": "Lookup4_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -386,11 +414,11 @@
 							}
 						},
 						{
-							"name": "Lookup6",
+							"name": "Lookup6_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup5",
+									"activity": "Lookup5_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -422,30 +450,6 @@
 							}
 						}
 					]
-				}
-			},
-			{
-				"name": "Set variable3",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LOAD_NO_ARR",
-					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
-						"type": "Expression"
-					}
 				}
 			}
 		],
