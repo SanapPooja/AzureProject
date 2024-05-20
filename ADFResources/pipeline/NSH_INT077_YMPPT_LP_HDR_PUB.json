@@ -224,11 +224,10 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
 				"typeProperties": {
-					"variableName": "LOAD_NO_ARR",
+					"variableName": "",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO_ARR",
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO_ARR\n\n",
 						"type": "Expression"
 					}
 				}
