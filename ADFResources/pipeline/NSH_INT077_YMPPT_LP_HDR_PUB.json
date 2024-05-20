@@ -253,7 +253,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Lookup2_copy1",
+							"name": "Lookup2",
 							"type": "Lookup",
 							"dependsOn": [],
 							"policy": {
@@ -282,11 +282,11 @@
 							}
 						},
 						{
-							"name": "Set variable2_copy1",
+							"name": "Set variable2",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Lookup3_copy1",
+									"activity": "Lookup3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -306,11 +306,11 @@
 							}
 						},
 						{
-							"name": "Lookup3_copy1",
+							"name": "Lookup3",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup2_copy1",
+									"activity": "Lookup2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -342,11 +342,11 @@
 							}
 						},
 						{
-							"name": "Lookup4_copy1",
+							"name": "Lookup4",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable2_copy1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -378,11 +378,11 @@
 							}
 						},
 						{
-							"name": "Lookup5_copy1",
+							"name": "Lookup5",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup4_copy1",
+									"activity": "Lookup4",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -414,11 +414,11 @@
 							}
 						},
 						{
-							"name": "Lookup6_copy1",
+							"name": "Lookup6",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup5_copy1",
+									"activity": "Lookup5",
 									"dependencyConditions": [
 										"Succeeded"
 									]
