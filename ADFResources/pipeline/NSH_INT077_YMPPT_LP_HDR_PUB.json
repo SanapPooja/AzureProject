@@ -226,7 +226,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "",
+					"variableName": "LOAD_NO_ARR",
 					"value": {
 						"value": "@activity('Lookup1').output.value[0].LOAD_NO_ARR\n\n",
 						"type": "Expression"
@@ -472,17 +472,32 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT DISTINCT \r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS;",
+										"value": "variables('LOAD_NO_ARR')SELECT DISTINCT \n    T.order_item, \n    T.NDS_SALE_ORDER, \n    SUM(T.tally_batch_qty) AS tally_batch_qty, \n    SUM(T.no_pieces) AS no_pieces, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR HT\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_ARR')}'\nGROUP BY\n    T.order_item, \n    T.NDS_SALE_ORDER, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS;\n\n    ",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
 								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "NSH_INT077_YESB_LP_HDR_QUERY",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
 									"type": "DatasetReference"
 								}
 							]
