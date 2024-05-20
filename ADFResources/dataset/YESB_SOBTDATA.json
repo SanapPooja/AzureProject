@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YESB_SOBTDATA"
+			"table": "ZSD_SOBTDATA"
 		}
 	}
 }

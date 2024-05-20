@@ -21,7 +21,7 @@
 							{
 								"name": "inserted_date",
 								"value": {
-									"value": "@variables('CurrentTime')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'))",
 									"type": "Expression"
 								}
 							}

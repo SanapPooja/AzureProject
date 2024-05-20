@@ -19,6 +19,17 @@
 						"value": "@greater(length(activity('Lookup1').output.value), 0)",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "CopyData_FromSourceToStaging",
@@ -55,7 +66,7 @@
 											}
 										}
 									],
-									"oracleReaderQuery": "SELECT TRACKNO,  POSNR, VBELN, CHARG, SOSTATUS, BTSTATUS From SAPSR3.ZSD_SOBTDATA \nWHERE (TRACKNO, POSNR) IN\n(\n\tSELECT TRACKNO, POSNR FROM SAPSR3.ZSD_SOBTDATA WHERE BTSTATUS='C' AND \n\t\tCRDATE > (\n\t\t\tselect TO_CHAR(SYSDATE-30, 'YYYYMMDD') FROM dual\n\t\t\t\t)\nMinus \nSELECT TRACKNO, POSNR FROM SAPSR3.YESB_SOBTDATA)  AND ROWNUM <='1000'",
+									"oracleReaderQuery": "SELECT TRACKNO,  POSNR, VBELN, CHARG, SOSTATUS, BTSTATUS From SAPSR3.ZSD_SOBTDATA \nWHERE (TRACKNO, POSNR) IN\n(\n\tSELECT TRACKNO, POSNR FROM SAPSR3.ZSD_SOBTDATA WHERE BTSTATUS='C' AND \n\t\tCRDATE > (\n\t\t\tselect TO_CHAR(SYSDATE-30, 'YYYYMMDD') FROM dual\n\t\t\t\t)\nMinus \nSELECT TRACKNO, POSNR FROM SAPSR3.YESB_SOBTDATA)  AND ROWNUM <='1'",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -307,7 +318,7 @@
 							"typeProperties": {
 								"variableName": "CurrentTime",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'))",
 									"type": "Expression"
 								}
 							}
