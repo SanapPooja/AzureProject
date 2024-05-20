@@ -1,0 +1,171 @@
+{
+	"name": "snehal_trial",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ITEM_NO",
+					"value": {
+						"value": "@activity(\n'Lookup2'\n).output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "select\nLOAD.ORDER_NO,                  \nLOAD.ITEM_NO                     \nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,                      \nSCM_ADMIN.ORDER_ITEM ORDI,                      \nSCM_ADMIN.ORDER_HEADER ORDH                                            \nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO                    \nAND LOAD.ITEM_NO = ORDI.ITEM_NO                    \nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO                      \nAND LOAD.LOAD_NO = '2405236562' ",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables(\n'ITEM_NO'\n)",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ITEM_NO",
+								"value": {
+									"value": "@item().ITEM_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Script1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set variable2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity(\n'Lookup2'\n).output.value),\n0\n)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"ITEM_NO": {
+				"type": "Array"
+			},
+			"ITEM_NOs": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
