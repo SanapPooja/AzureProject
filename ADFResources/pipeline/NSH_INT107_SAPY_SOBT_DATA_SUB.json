@@ -42,7 +42,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "SELECT top 1\n    sod.TRACKNO\nFROM \n    dbo.SAP_ORDER_DATA sod\nJOIN \n    WMBESMbny2gto wmb\nON \n    sod.TRACKNO = wmb.TRACK_NO\nWHERE \n    wmb.STATUS='Q' and wmb.transfer_status!='P'\n\t",
+							"value": "SELECT\n    sod.TRACKNO\nFROM \n    dbo.SAP_ORDER_DATA sod\nJOIN \n    WMBESMbny2gto wmb\nON \n    sod.TRACKNO = wmb.TRACK_NO\nWHERE \n    wmb.STATUS='Q' and wmb.transfer_status!='P'\n\t",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -51,7 +51,8 @@
 					"dataset": {
 						"referenceName": "NSH_INT107_SAP_ORDER_DATA",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
