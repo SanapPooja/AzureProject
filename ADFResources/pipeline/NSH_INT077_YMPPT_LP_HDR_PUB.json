@@ -451,14 +451,7 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Lookup6",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -482,6 +475,42 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Lookup7",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Lookup6",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "update SAPSR3.YESB_LP_HDR set LP_STATUS = 'R' where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YESB_LP_HDR_UPDATE",
+									"type": "DatasetReference"
+								}
+							}
 						}
 					]
 				}
