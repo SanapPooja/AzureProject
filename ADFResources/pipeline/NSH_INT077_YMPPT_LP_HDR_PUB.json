@@ -270,35 +270,6 @@
 				}
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO IN ('@{variables('LOAD_NO')}')",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Set variable2",
 				"type": "SetVariable",
 				"dependsOn": [
@@ -346,6 +317,42 @@
 						"type": "OracleSource",
 						"oracleReaderQuery": {
 							"value": "select NDS_SALE_ORDER SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Lookup4",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  from SAPSR3.YMPPT_LP_BATCH_C t where t.load_no in ('@{variables('LOAD_NO')}')\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORDER')}') group by t.order_item, t.nds_sale_order, t.load_no \n\n\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
