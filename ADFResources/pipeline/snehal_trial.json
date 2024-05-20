@@ -19,7 +19,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "ITEM_NO",
+					"variableName": "ITEM_NOs",
 					"value": {
 						"value": "@activity(\n'Lookup2'\n).output.value",
 						"type": "Expression"
@@ -41,7 +41,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select\nLOAD.ORDER_NO,                  \nLOAD.ITEM_NO                     \nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,                      \nSCM_ADMIN.ORDER_ITEM ORDI,                      \nSCM_ADMIN.ORDER_HEADER ORDH                                            \nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO                    \nAND LOAD.ITEM_NO = ORDI.ITEM_NO                    \nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO                      \nAND LOAD.LOAD_NO = '2405236562' ",
+						"oracleReaderQuery": "select                  \nLOAD.ITEM_NO                     \nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,                      \nSCM_ADMIN.ORDER_ITEM ORDI,                      \nSCM_ADMIN.ORDER_HEADER ORDH                                            \nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO                    \nAND LOAD.ITEM_NO = ORDI.ITEM_NO                                         \nAND LOAD.LOAD_NO = '2405236562' ",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -116,7 +116,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NO')}'",
+											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NOs')}'",
 											"type": "Expression"
 										}
 									}
@@ -163,7 +163,7 @@
 				"type": "Array"
 			},
 			"ITEM_NOs": {
-				"type": "String"
+				"type": "Array"
 			}
 		},
 		"annotations": []
