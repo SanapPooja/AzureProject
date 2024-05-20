@@ -156,6 +156,80 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup3",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "select \t\t\t\t\t\t\t\t\t\t\nLOAD.ORDER_NO\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\nAND LOAD.LOAD_NO = '2405236562'\t",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "set",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_NO",
+					"value": [
+						"@activity(\n'Lookup3'\n).output.value"
+					]
+				}
+			},
+			{
+				"name": "If Condition2",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "set",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifTrueActivities": [
+						{
+							"name": "Wait2",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
@@ -163,6 +237,9 @@
 				"type": "Array"
 			},
 			"ITEM_NOs": {
+				"type": "Array"
+			},
+			"ORDER_NO": {
 				"type": "Array"
 			}
 		},
