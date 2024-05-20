@@ -21,6 +21,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -1705,6 +1707,8 @@
 			{
 				"name": "Script1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -1741,6 +1745,8 @@
 			{
 				"name": "Script2",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -1789,7 +1795,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT TOP 1 \r\n    sod.order_request_no\r\nFROM dbo.SCM_Order_Header sod\r\nJOIN WMBORDERSHAPEbj1ugcj wmb\r\n    ON sod.order_request_no = wmb.order_request_no;\r\n",
+						"sqlReaderQuery": "SELECT  \r\n    sod.order_request_no\r\nFROM dbo.SCM_Order_Header sod\r\nJOIN WMBORDERSHAPEbj1ugcj wmb\r\n    ON sod.order_request_no = wmb.order_request_no;\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -1817,9 +1823,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "order_request_no",
+					"variableName": "order_req_no",
 					"value": {
-						"value": "@activity('Lookup12').output.value[0].order_request_no",
+						"value": "@activity('Lookup12').output.value",
 						"type": "Expression"
 					}
 				}
@@ -1832,8 +1838,11 @@
 			}
 		},
 		"variables": {
-			"order_request_no": {
-				"type": "String"
+			"order_req_no": {
+				"type": "Array"
+			},
+			"Rowcount": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
