@@ -364,6 +364,42 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "Lookup5",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from VEHICLE_ID SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LOAD_VEHIC",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
 		"variables": {
