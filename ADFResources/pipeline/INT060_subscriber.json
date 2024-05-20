@@ -1297,6 +1297,15 @@
 		"variables": {
 			"LOAD_NO": {
 				"type": "String"
+			},
+			"ITEM_NO": {
+				"type": "Array"
+			},
+			"ORDER_NO": {
+				"type": "String"
+			},
+			"ITEM_NOs": {
+				"type": "String"
 			}
 		},
 		"annotations": []
