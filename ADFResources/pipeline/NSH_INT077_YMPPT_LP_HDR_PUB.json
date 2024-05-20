@@ -439,6 +439,7 @@
 			},
 			{
 				"name": "If Condition1",
+				"description": "@empty(variables('LOAD_NO'))",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
