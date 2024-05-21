@@ -1,5 +1,5 @@
 {
-	"name": "pipeline19",
+	"name": "NSH_INT008_tbl_sts_dns_GR_pub1",
 	"properties": {
 		"activities": [
 			{
@@ -15,6 +15,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
 							"name": "Script1",
