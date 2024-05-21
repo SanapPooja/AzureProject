@@ -292,30 +292,6 @@
 							}
 						},
 						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "NDS_SALE_ORDER",
-								"value": {
-									"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "Lookup3",
 							"type": "Lookup",
 							"dependsOn": [
@@ -357,7 +333,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "If Condition1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -728,6 +704,44 @@
 									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Lookup3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(empty(activity('Lookup3').output.firstRow))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Set variable2",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "NDS_SALE_ORDER",
+											"value": {
+												"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
+												"type": "Expression"
+											}
+										}
+									}
+								]
 							}
 						}
 					]
