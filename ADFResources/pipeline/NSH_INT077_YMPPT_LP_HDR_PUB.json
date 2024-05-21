@@ -258,7 +258,14 @@
 						{
 							"name": "Lookup2",
 							"type": "Lookup",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -271,7 +278,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO')}')",
+										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -331,7 +338,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select NDS_SALE_ORDER SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"value": "select NDS_SALE_ORDER SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -540,6 +547,23 @@
 									"type": "DatasetReference"
 								}
 							}
+						},
+						{
+							"name": "Set variable4",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE",
+								"value": {
+									"value": "@item().ITEM_NO",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -554,6 +578,9 @@
 			},
 			"LOAD_NO_ARR": {
 				"type": "Array"
+			},
+			"LOAD_NO_VALUE": {
+				"type": "String"
 			}
 		},
 		"annotations": []
