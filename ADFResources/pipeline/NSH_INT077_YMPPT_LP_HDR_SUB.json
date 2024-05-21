@@ -40,6 +40,117 @@
 									"name": "LOAD_NO",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": ""
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": ""
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_TYPE"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FLATRACK_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CONTAINER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "THEORITICAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "ACTUAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"sink": {
+									"name": "WEIGHING_TICKET_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "LOADING_ACTUAL_START",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "LOADING_ACTUAL_END",
+									"type": "String"
+								}
 							}
 						],
 						"collectionReference": ""
