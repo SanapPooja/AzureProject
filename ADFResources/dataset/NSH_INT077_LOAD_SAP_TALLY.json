@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_LOAD_SAP_TALLY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": []
+	}
+}

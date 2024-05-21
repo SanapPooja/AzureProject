@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT077_ITEM_ON_LOAD_SUB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT077_ITEM_ON_LOAD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
