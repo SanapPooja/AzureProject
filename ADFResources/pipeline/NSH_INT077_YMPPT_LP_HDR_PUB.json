@@ -402,7 +402,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from VEHICLE_ID SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
