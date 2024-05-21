@@ -1297,9 +1297,6 @@
 			"fld_GR_id": {
 				"type": "Integer"
 			},
-			"Gi_Id": {
-				"type": "String"
-			},
 			"Gi_id": {
 				"type": "Array"
 			},

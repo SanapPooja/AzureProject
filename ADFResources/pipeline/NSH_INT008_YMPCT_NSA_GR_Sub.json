@@ -17,6 +17,72 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "REV_STATUS",
+								"value": ""
+							},
+							{
+								"name": "AUART",
+								"value": ""
+							},
+							{
+								"name": "ERROR_CD",
+								"value": ""
+							},
+							{
+								"name": "INTER_ID",
+								"value": ""
+							},
+							{
+								"name": "MBLNR",
+								"value": ""
+							},
+							{
+								"name": "MJAHR",
+								"value": ""
+							},
+							{
+								"name": "PROC_TS",
+								"value": ""
+							},
+							{
+								"name": "REV_RMZHL",
+								"value": ""
+							},
+							{
+								"name": "REV_RUECK",
+								"value": ""
+							},
+							{
+								"name": "RMZHL",
+								"value": ""
+							},
+							{
+								"name": "RUECK",
+								"value": ""
+							},
+							{
+								"name": "STATUS",
+								"value": ""
+							},
+							{
+								"name": "UDATE",
+								"value": ""
+							},
+							{
+								"name": "USERID",
+								"value": ""
+							},
+							{
+								"name": "UTIME",
+								"value": ""
+							},
+							{
+								"name": "MANDT",
+								"value": ""
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -749,6 +815,134 @@
 								"sink": {
 									"name": "Z_NO_OF_PNT",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_STATUS']"
+								},
+								"sink": {
+									"name": "REV_STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AUART']"
+								},
+								"sink": {
+									"name": "AUART"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['INTER_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MBLNR']"
+								},
+								"sink": {
+									"name": "MBLNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MJAHR']"
+								},
+								"sink": {
+									"name": "MJAHR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RMZHL']"
+								},
+								"sink": {
+									"name": "REV_RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RUECK']"
+								},
+								"sink": {
+									"name": "REV_RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RMZHL']"
+								},
+								"sink": {
+									"name": "RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RUECK']"
+								},
+								"sink": {
+									"name": "RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['STATUS']"
+								},
+								"sink": {
+									"name": "STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MANDT']"
+								},
+								"sink": {
+									"name": "MANDT"
 								}
 							}
 						]
