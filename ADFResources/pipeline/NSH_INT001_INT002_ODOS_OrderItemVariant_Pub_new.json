@@ -55,8 +55,6 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup_Order_Item",
@@ -1182,7 +1180,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+											"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n",
 											"type": "Expression"
 										}
 									}
