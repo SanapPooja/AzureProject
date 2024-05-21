@@ -325,7 +325,7 @@
 									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
 									"type": "DatasetReference"
 								},
-								"firstRowOnly": true
+								"firstRowOnly": false
 							}
 						},
 						{
@@ -720,7 +720,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@activity('Lookup1').output.value",
+									"value": "@activity('Lookup3').output.value",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
