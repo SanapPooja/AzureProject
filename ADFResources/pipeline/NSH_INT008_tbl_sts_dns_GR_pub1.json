@@ -1043,7 +1043,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Status_update_onSucess",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -1168,7 +1168,7 @@
 				}
 			},
 			{
-				"name": "ForEach2",
+				"name": "call_Sub_Pipeline",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -1206,7 +1206,7 @@
 				}
 			},
 			{
-				"name": "ForEach1_copy1",
+				"name": "Status_update_onFailure",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -1295,6 +1295,15 @@
 				"type": "String"
 			},
 			"fld_GR_id": {
+				"type": "Integer"
+			},
+			"Gi_Id": {
+				"type": "String"
+			},
+			"Gi_id": {
+				"type": "Array"
+			},
+			"GI_Con_Id": {
 				"type": "Integer"
 			}
 		},
