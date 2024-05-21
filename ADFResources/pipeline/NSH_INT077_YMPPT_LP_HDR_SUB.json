@@ -405,14 +405,9 @@
 			{
 				"name": "ITEM_ON_LOAD",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Script3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -503,6 +498,42 @@
 						"value": "@activity('Script1').output.value[0].ORDER_NO",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE ITEM_ON_LOAD_SAP_TALLY SET\nDELD_LOAD_QNTY='', \nDELD_LOAD_PCS='', \nMODIFY_DATE='' \nWHERE \nLOAD_NO='@{variables('LOAD_NO')}' AND\nORDER_REQUEST_NO='@{variables('ITEM_ON_LOAD')}' AND\nORDER_ITEM='@{variables('ITEM_ON_LOAD')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
