@@ -7,7 +7,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Get_ORD_REQ_NO",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -21,13 +21,13 @@
 				"typeProperties": {
 					"variableName": "Rowcount",
 					"value": {
-						"value": "@range(1, int(activity('Lookup1').output.value[0].recordcount))",
+						"value": "@range(1, int(activity('Get_ORD_REQ_NO').output.value[0].recordcount))",
 						"type": "Expression"
 					}
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Get_ORD_REQ_NO",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -55,9 +55,11 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Lookup2",
+						"activity": "Lookup_Order_Item",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -66,7 +68,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(length(activity('Lookup2').output.value), 0)",
+						"value": "@greater(length(activity('Lookup_Order_Item').output.value), 0)",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -1105,7 +1107,7 @@
 				}
 			},
 			{
-				"name": "Lookup2",
+				"name": "Lookup_Order_Item",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -1132,6 +1134,39 @@
 					},
 					"dataset": {
 						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Lookup_Order_Variant",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\nFROM dbo.SAP_ORDER_VARIANT\r\n    WHERE ((status = 'N' or status = 'T') and sap_status = 'A')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Variant;\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
