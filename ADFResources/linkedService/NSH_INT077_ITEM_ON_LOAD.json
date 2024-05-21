@@ -1,0 +1,13 @@
+{
+	"name": "NSH_INT077_ITEM_ON_LOAD",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int077_load_sap_tally/messages/head",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://servicebus.azure.net/"
+		}
+	}
+}
