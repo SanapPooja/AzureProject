@@ -498,7 +498,17 @@
 									"writeBatchSize": 10000,
 									"httpCompressionType": "none"
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"sink": {
+												"path": "$"
+											}
+										}
+									]
+								}
 							},
 							"inputs": [
 								{
