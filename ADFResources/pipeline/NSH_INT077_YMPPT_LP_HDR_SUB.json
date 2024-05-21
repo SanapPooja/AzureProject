@@ -604,6 +604,85 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script7",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "update SCM_ADMIN.LOAD_SAP_TALLY \r\nSET LP_STATUS = 'P', \r\nSTATUS='@{variables('STATUS')}', \r\nERROR_CD='@{variables('ERROR_CD')}', \r\nMODIFY_DATE='@{variables('MODIFIED_DATE')}', \r\nTRAILER_ID ='@{variables('TRAILER_ID')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script8",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE  SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nset DELD_LOAD_QNTY='@{variables('DELD_LOAD_QNTY')}', \r\nDELD_LOAD_PCS='@{variables('DELD_LOAD_PCS')}', \r\nMODIFY_DATE ='@{variables('MODIFIED_DATE')}', \r\nWHERE LOAD_NO= '@{variables('LOAD_NO')}',\r\nORDER_REQUEST_NO= '@{variables('ORDER_REQUEST_NO')}',\r\nORDER_ITEM= '@{variables('ORDER_ITEM')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Script6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
 			}
 		],
 		"variables": {
