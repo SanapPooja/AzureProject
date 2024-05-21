@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int008_tbl_sts_dns_gr/meesages",
+			"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int008_tbl_sts_dns_gr/messages",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "ManagedServiceIdentity",
 			"aadResourceId": "https://servicebus.azure.net/"
