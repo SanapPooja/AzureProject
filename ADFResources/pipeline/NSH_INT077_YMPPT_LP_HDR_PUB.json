@@ -348,7 +348,8 @@
 								"dataset": {
 									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
 									"type": "DatasetReference"
-								}
+								},
+								"firstRowOnly": false
 							}
 						},
 						{
