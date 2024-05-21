@@ -472,7 +472,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "variables('LOAD_NO_ARR')SELECT DISTINCT \n    T.order_item, \n    T.NDS_SALE_ORDER, \n    SUM(T.tally_batch_qty) AS tally_batch_qty, \n    SUM(T.no_pieces) AS no_pieces, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR HT\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_ARR')}'\nGROUP BY\n    T.order_item, \n    T.NDS_SALE_ORDER, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS;\n\n    ",
+										"value": "SELECT DISTINCT \n    T.order_item, \n    T.NDS_SALE_ORDER, \n    SUM(T.tally_batch_qty) AS tally_batch_qty, \n    SUM(T.no_pieces) AS no_pieces, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR HT\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_ARR')}'\nGROUP BY\n    T.order_item, \n    T.NDS_SALE_ORDER, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS;\n\n    ",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -525,7 +525,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R' timestamp=utcnow() where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=utcnow() where LOAD_NO IN ('@{variables('LOAD_NO')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
