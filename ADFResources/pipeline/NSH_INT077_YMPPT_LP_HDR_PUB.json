@@ -518,7 +518,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup6",
+									"activity": "Set variable5",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -536,7 +536,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=utcnow() where LOAD_NO IN ('@{variables('LOAD_NO')}')",
+										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -565,6 +565,30 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup6",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "TIMESTAMP",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -581,6 +605,9 @@
 				"type": "Array"
 			},
 			"LOAD_NO_VALUE": {
+				"type": "String"
+			},
+			"TIMESTAMP": {
 				"type": "String"
 			}
 		},
