@@ -89,55 +89,31 @@
 							{
 								"source": {
 									"path": "$['$BATCH_QTY']"
-								},
-								"sink": {
-									"name": "CUM_PRODN_QTY",
-									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$BATCH_PCS']"
-								},
-								"sink": {
-									"name": "CUM_PRODN_PIECES",
-									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_MACHINE']"
-								},
-								"sink": {
-									"name": "PHYSICAL_RESOURCE",
-									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$START_TIME']"
-								},
-								"sink": {
-									"name": "PRODN_START",
-									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$END_TIME']"
-								},
-								"sink": {
-									"name": "PRODN_END",
-									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_REC_DATE']"
-								},
-								"sink": {
-									"name": "PRODN_CRDATE",
-									"type": "String"
 								}
 							},
 							{
@@ -175,7 +151,8 @@
 									"path": "$['$REC_TYPE']"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -186,7 +163,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT070_SCM_ADMIN_OPERATION_FEEDBACK_ONTAG",
+						"referenceName": "INT070_OperationFeedback_Ontag_Staging",
 						"type": "DatasetReference"
 					}
 				]
