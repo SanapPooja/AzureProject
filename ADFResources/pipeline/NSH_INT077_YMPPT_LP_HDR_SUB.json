@@ -172,14 +172,9 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "LOAD_SAP_TALLY",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -207,7 +202,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "LOAD_SAP_TALLY",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -221,7 +216,7 @@
 				"typeProperties": {
 					"variableName": "LOAD_NO",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"value": "@activity('LOAD_SAP_TALLY').output.value[0].LOAD_NO",
 						"type": "Expression"
 					}
 				}
@@ -280,7 +275,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "update LP_STATUS, STATUS, ERROR_CD, MODIFY_DATE, TRAILER_ID  FROM SCM_ADMIN.LOAD_SAP_TALLY WHERE LOAD_NO = '' (Take values from QUEUE)",
+						"oracleReaderQuery": "update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS='',  STATUS='' , ERROR_CD='', MODIFY_DATE='', TRAILER_ID='' WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -318,7 +313,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO = '%select from QUEUE%'",
+								"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
 								"type": "Expression"
 							}
 						}
