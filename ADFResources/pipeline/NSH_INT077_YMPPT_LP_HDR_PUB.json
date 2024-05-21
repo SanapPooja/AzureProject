@@ -228,7 +228,7 @@
 				"typeProperties": {
 					"variableName": "LOAD_NO_ARR",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO_ARR\n\n",
+						"value": "@activity('Lookup1').output.firstRow.LOAD_NO_ARR\n\n",
 						"type": "Expression"
 					}
 				}
