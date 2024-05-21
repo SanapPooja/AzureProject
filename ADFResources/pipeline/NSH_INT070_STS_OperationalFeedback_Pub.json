@@ -217,6 +217,24 @@
 								"sink": {
 									"path": "$['$REC_TYPE']"
 								}
+							},
+							{
+								"source": {
+									"name": "SAP_BATCH_ID",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['$SAP_BATCH_ID_TAG_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "CREATE_DATE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$['$CREATE_DATE__STS_START_CRDATE']"
+								}
 							}
 						]
 					}
