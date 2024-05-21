@@ -326,13 +326,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "ITEM_NO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "ORDER_NO",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -372,6 +366,18 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "ITEM_NO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ORDER_NO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -390,7 +396,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT ID, ORDER_PIECES, WEIGHT_IN_KG, ORDER_NO, ORDER_REQUEST_NO, QTY_IN_BASE_UOM FROM SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD WHERE LOAD_NO = '?' and ITEM_NO = '?' and ORDER_NO = '?'"
+							"text": "SELECT ID, ORDER_PIECES, WEIGHT_IN_KG, ORDER_NO, ORDER_REQUEST_NO, QTY_IN_BASE_UOM FROM SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD WHERE LOAD_NO = '@{variables('LOAD_NO')}' and ITEM_NO = '@{variables('ITEM_ON_LOAD')}' and ORDER_NO = '@{variables('ORDER_NO')}'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
