@@ -89,66 +89,127 @@
 							{
 								"source": {
 									"path": "$['$BATCH_QTY']"
+								},
+								"sink": {
+									"name": "CUM_PRODN_QTY",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$BATCH_PCS']"
+								},
+								"sink": {
+									"name": "CUM_PRODN_PIECES",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_MACHINE']"
+								},
+								"sink": {
+									"name": "PHYSICAL_RESOURCE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$START_TIME']"
+								},
+								"sink": {
+									"name": "PRODN_START",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$END_TIME']"
+								},
+								"sink": {
+									"name": "PRODN_END",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_REC_DATE']"
+								},
+								"sink": {
+									"name": "PRODN_CRDATE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$CREATE_DATE']"
+								},
+								"sink": {
+									"name": "STAGING_CRDATE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$MODIFY_DATE']"
+								},
+								"sink": {
+									"name": "STS_END_DATE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_ORDER_NO_SCH']"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO_SCH",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$PRODN_STATUS']"
+								},
+								"sink": {
+									"name": "FEEDBACK_TYPE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$NR_OF_OPERATION']"
+								},
+								"sink": {
+									"name": "NR_OF_OPERATION",
+									"type": "Decimal"
 								}
 							},
 							{
 								"source": {
 									"path": "$['$product_type']"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$REC_TYPE']"
+									"path": "$['$SAP_BATCH_ID']"
+								},
+								"sink": {
+									"name": "TAG_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_DATE']"
+								},
+								"sink": {
+									"name": "STS_START_CRDATE",
+									"type": "String"
 								}
 							}
 						],
