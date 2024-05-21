@@ -338,7 +338,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select NDS_SALE_ORDER SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
