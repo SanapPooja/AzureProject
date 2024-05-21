@@ -19,9 +19,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "ORD_REQ_NO",
+					"variableName": "Rowcount",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].ORD_REQ_NO",
+						"value": "@range(1, int(activity('Lookup1').output.value[0].recordcount))",
 						"type": "Expression"
 					}
 				}
@@ -41,19 +41,22 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT top 1 \n     sod.ORD_REQ_NO \nFROM SAP_ORDER_ITEM sod\nJOIN \n     WMBnotifySORbjpa512 wmb\nON \n     sod.ORD_REQ_NO = wmb.ORD_REQ_NO",
+						"sqlReaderQuery": "SELECT \n    (COUNT(1) / 50) + 1 AS recordcount\nFROM \n    SAP_ORDER_ITEM\nWHERE \n    ORD_REQ_NO IN (\n        SELECT \n            TOP 1 sod.ORD_REQ_NO \n        FROM \n            SAP_ORDER_ITEM sod\n        JOIN \n            WMBnotifySORbjpa512 wmb\n        ON \n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\n    );",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "INT001_SAP_ORDER_ITEM",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -1105,8 +1108,11 @@
 			}
 		],
 		"variables": {
-			"ORD_REQ_NO": {
-				"type": "String"
+			"Rowcount": {
+				"type": "Array"
+			},
+			"Recordcount": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
