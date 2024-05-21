@@ -326,7 +326,13 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Set variable3",
+						"activity": "ITEM_NO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ORDER_NO",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -446,7 +452,7 @@
 				}
 			},
 			{
-				"name": "Set variable3",
+				"name": "ITEM_NO",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -463,9 +469,34 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ITEM_ON_LOAD",
-					"value": [
-						""
-					]
+					"value": {
+						"value": "@activity('Script1').output.value[0].ORDER_ITEM",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ORDER_NO",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_NO",
+					"value": {
+						"value": "@activity('Script1').output.value[0].ORDER_NO",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -489,6 +520,9 @@
 				"type": "String"
 			},
 			"ITEM_ON_LOAD": {
+				"type": "Array"
+			},
+			"ORDER_NO": {
 				"type": "Array"
 			}
 		},
