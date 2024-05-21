@@ -326,7 +326,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Set variable3",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -444,6 +444,29 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ITEM_ON_LOAD",
+					"value": [
+						""
+					]
+				}
 			}
 		],
 		"variables": {
@@ -464,6 +487,9 @@
 			},
 			"MODIFIED_DATE": {
 				"type": "String"
+			},
+			"ITEM_ON_LOAD": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
