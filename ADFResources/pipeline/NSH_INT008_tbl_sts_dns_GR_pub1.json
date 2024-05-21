@@ -1285,9 +1285,6 @@
 			"Gr_Id": {
 				"type": "Array"
 			},
-			"fld_GR_id": {
-				"type": "String"
-			},
 			"Rowcount": {
 				"type": "Array"
 			},
@@ -1296,6 +1293,9 @@
 			},
 			"fld_GR_id_error": {
 				"type": "String"
+			},
+			"fld_GR_id": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []

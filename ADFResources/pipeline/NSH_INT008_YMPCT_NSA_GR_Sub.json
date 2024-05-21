@@ -19,7 +19,7 @@
 						"type": "RestSource",
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
+						"requestMethod": "POST",
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
@@ -768,11 +768,27 @@
 				]
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
+				"name": "Wait1",
+				"type": "Wait",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 6
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -786,21 +802,21 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB2Connection",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = CONVERT(varchar, GETDATE(), 120) where fld_gr_id = '%receivedGRrecords/GR/results/fld_GR_id%'\t\t\t\t\t\t\t\t\t"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int008_tbl_sts_dns_gr/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
 				}
 			}
 		],
+		"variables": {
+			"fld_GR_id": {
+				"type": "Integer"
+			}
+		},
 		"annotations": []
 	}
 }
