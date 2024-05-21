@@ -310,7 +310,7 @@
 							"typeProperties": {
 								"variableName": "NDS_SALE_ORDER",
 								"value": {
-									"value": "@item().NDS_SALE_ORDER",
+									"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
 									"type": "Expression"
 								}
 							}
