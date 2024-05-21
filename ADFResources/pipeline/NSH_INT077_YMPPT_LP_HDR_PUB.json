@@ -314,7 +314,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select distinct NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -325,7 +325,7 @@
 									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
 									"type": "DatasetReference"
 								},
-								"firstRowOnly": false
+								"firstRowOnly": true
 							}
 						},
 						{
@@ -711,7 +711,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Lookup3",
+									"activity": "Set variable6",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -720,7 +720,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@not(empty(activity('Lookup3').output.firstRow))",
+									"value": "@activity('Lookup1').output.value",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -736,12 +736,36 @@
 										"typeProperties": {
 											"variableName": "NDS_SALE_ORDER",
 											"value": {
-												"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
+												"value": "@activity('Lookup3').output.firstRow",
 												"type": "Expression"
 											}
 										}
 									}
 								]
+							}
+						},
+						{
+							"name": "Set variable6",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "NDS_SALE_ORDER",
+								"value": {
+									"value": "@activity('Lookup3').output.value[0].NDS_SALE_ORDER",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -762,6 +786,9 @@
 				"type": "String"
 			},
 			"TIMESTAMP": {
+				"type": "String"
+			},
+			"NDS_ORDER": {
 				"type": "String"
 			}
 		},
