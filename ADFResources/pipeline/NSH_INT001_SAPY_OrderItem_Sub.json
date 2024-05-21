@@ -79,6 +79,14 @@
 							{
 								"name": "PROC_TS",
 								"value": ""
+							},
+							{
+								"name": "CONF_DEL_DATE",
+								"value": ""
+							},
+							{
+								"name": "PRODUCT_TYPE",
+								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
