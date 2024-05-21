@@ -21,8 +21,6 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -1843,6 +1841,15 @@
 			},
 			"Rowcount": {
 				"type": "Array"
+			},
+			"Gr_Id": {
+				"type": "Array"
+			},
+			"fld_Gr_id": {
+				"type": "String"
+			},
+			"fld_GR_id": {
+				"type": "String"
 			}
 		},
 		"annotations": []
