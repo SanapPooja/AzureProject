@@ -40,104 +40,9 @@
 									"name": "LOAD_NO",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$LP_STATUS"
-								},
-								"sink": {
-									"name": "LP_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$STATUS"
-								},
-								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ERROR_CD"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$VEHICLE_ID"
-								},
-								"sink": {
-									"name": "VEHICLE_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TRAILER_NO"
-								},
-								"sink": {
-									"name": "TRAILER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "FLATRACK_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "CONTAINER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TARE_WT"
-								},
-								"sink": {
-									"name": "THEORITICAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$GROSS_WT"
-								},
-								"sink": {
-									"name": "ACTUAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$TIMESTAMP"
-								},
-								"sink": {
-									"name": "WEIGHING_TICKET_TIME",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "LOADING_ACTUAL_START",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "LOADING_ACTUAL_END",
-									"type": "String"
-								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -152,8 +57,120 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT LP_STATUS FROM SAPSR3.YMPPT_LP_HDR WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Lookup3",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
+		"variables": {
+			"LOAD_NO_VALUE": {
+				"type": "String"
+			},
+			"TIMESTAMP": {
+				"type": "String"
+			},
+			"NDS_ORDER": {
+				"type": "String"
+			},
+			"NDS_SALE_ORD": {
+				"type": "Array"
+			},
+			"LOAD_NO": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
