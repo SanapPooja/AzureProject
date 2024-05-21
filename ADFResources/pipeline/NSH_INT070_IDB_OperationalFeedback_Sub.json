@@ -196,7 +196,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$SAP_BATCH_ID']"
+									"path": "$['$SAP_BATCH_ID_TAG_NO']"
 								},
 								"sink": {
 									"name": "TAG_NO",
@@ -205,7 +205,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$CREATE_DATE']"
+									"path": "$['$CREATE_DATE__STS_START_CRDATE']"
 								},
 								"sink": {
 									"name": "STS_START_CRDATE",
