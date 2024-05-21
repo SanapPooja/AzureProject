@@ -23,7 +23,14 @@
 						{
 							"name": "Script1",
 							"type": "Script",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -40,7 +47,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'I',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = CONVERT(varchar, GETDATE(), 120) WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'P'\t\r\n"
+										"text": {
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'I',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date ='@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'P'\t\n",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -910,7 +920,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = CONVERT(varchar, GETDATE(), 120) WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t"
+										"text": {
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date ='@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -943,10 +956,30 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'E',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = CONVERT(varchar, GETDATE(), 120) WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t"
+										"text": {
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'E',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable4",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@formatDateTime(addhours(utcnow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -1073,7 +1106,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = 'YYYY-MM-dd HH:mm:ss' where fld_gr_id ='@{variables('fld_GR_id')}'",
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' where fld_gr_id ='@{variables('fld_GR_id')}'",
 											"type": "Expression"
 										}
 									}
@@ -1171,6 +1204,81 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "ForEach1_copy1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Gr_Id')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable2_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "fld_GR_id_error",
+								"value": {
+									"value": "@item().fld_GR_id",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Script4_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSQADB2Connection",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'PE',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' where fld_gr_id ='@{variables('fld_GR_id_error')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
@@ -1182,6 +1290,12 @@
 			},
 			"Rowcount": {
 				"type": "Array"
+			},
+			"CurrentTime": {
+				"type": "String"
+			},
+			"fld_GR_id_error": {
+				"type": "String"
 			}
 		},
 		"annotations": []
