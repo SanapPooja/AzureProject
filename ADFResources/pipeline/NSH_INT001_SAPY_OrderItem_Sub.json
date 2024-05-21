@@ -45,14 +45,14 @@
 							{
 								"name": "UDATE",
 								"value": {
-									"value": "@formatDateTime(utcnow(), 'yyyyMMdd')\r\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "UTIME",
 								"value": {
-									"value": "@formatDateTime(utcnow(), 'HHmmss')\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n",
 									"type": "Expression"
 								}
 							},
