@@ -249,7 +249,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('LOAD_NO_ARR')",
+						"value": "@variables('LOAD_NO')",
 						"type": "Expression"
 					},
 					"isSequential": true,
