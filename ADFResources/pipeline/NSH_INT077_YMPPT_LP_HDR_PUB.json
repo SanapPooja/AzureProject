@@ -208,7 +208,8 @@
 					"dataset": {
 						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -228,9 +229,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "LOAD_NO",
+					"variableName": "LOAD_NO_ARR",
 					"value": {
-						"value": "@activity('Lookup1').output.firstRow.LOAD_NO\n\n",
+						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					}
 				}
@@ -249,7 +250,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('LOAD_NO')",
+						"value": "@variables('LOAD_NO_ARR')",
 						"type": "Expression"
 					},
 					"isSequential": true,
