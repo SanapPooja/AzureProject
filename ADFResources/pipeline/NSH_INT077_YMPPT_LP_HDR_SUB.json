@@ -535,6 +535,42 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE LOAD_SAP_TALLY \nLP_STATUS='', \nVEHICLE_ID='', \nTHEORITICAL_WEIGHT='', \nACTUAL_WEIGHT='',\nWEIGHING_TICKET_TIME='', \nMODIFY_DATE='@{variables('MODIFIED_DATE')}', \nTRAILER_ID =''\n WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {

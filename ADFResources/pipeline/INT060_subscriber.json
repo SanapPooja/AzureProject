@@ -1319,15 +1319,21 @@
 		],
 		"variables": {
 			"LOAD_NO": {
-				"type": "String"
+				"type": "Array"
 			},
 			"ITEM_NO": {
 				"type": "Array"
 			},
 			"ORDER_NO": {
-				"type": "String"
+				"type": "Array"
 			},
 			"ITEM_NOs": {
+				"type": "Array"
+			},
+			"MODIFIED_DATE": {
+				"type": "String"
+			},
+			"ITEM_ON_LOAD": {
 				"type": "Array"
 			}
 		},
