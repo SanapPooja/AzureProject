@@ -438,7 +438,14 @@
 			{
 				"name": "Set variable2",
 				"type": "SetVariable",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "LOAD_SAP_TALLY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
