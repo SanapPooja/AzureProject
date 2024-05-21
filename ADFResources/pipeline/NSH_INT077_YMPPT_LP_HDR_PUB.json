@@ -333,7 +333,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "If Condition1",
+									"activity": "Set variable6",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -704,44 +704,6 @@
 									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))",
 									"type": "Expression"
 								}
-							}
-						},
-						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "Set variable6",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@activity('Lookup3').output.value",
-									"type": "Expression"
-								},
-								"ifTrueActivities": [
-									{
-										"name": "Set variable2",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "NDS_SALE_ORDER",
-											"value": {
-												"value": "@activity('Lookup3').output.firstRow",
-												"type": "Expression"
-											}
-										}
-									}
-								]
 							}
 						},
 						{
