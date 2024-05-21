@@ -807,9 +807,92 @@
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
 							}
-						},
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup_Order_Item",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT *  \r\nFROM (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ')as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_NO)),''),' ')as CONTR_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_ITEM_NO)),''),' ')as CONTR_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ITEM_ROWS)),''),'0')as NO_ITEM_ROWS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_VARIANT_ROWS)),''),'0')as NO_VARIANT_ROWS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ORD_QTY)),''),'0')as ORD_QTY\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONV_RATIO)),''),' ')as CONV_RATIO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SALES_UOM)),''),' ')as SALES_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_PIECES)),''),' ')as NO_PIECES\r\n      ,isnull(NULLIF(LTRIM(RTRIM(THEO_WEIGHT_KG)),''),'0')as THEO_WEIGHT_KG\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_MARKG)),''),' ')as PROD_MARKG\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(HG_ITEM_NO)), 6),''),' ')as HG_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PLANT)),''),' ')as PLANT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REQ_DELI_DATE)),''),' ')as REQ_DELI_DATE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NDS_DTL_NO)),''),' ')as NDS_DTL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(VEHI_TYPE)),''),' ')as VEHI_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENT_ID)),''),' ')as WBSELEMENT_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STRUCTUREMARK_ID)),''),' ')as STRUCTUREMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTMARK_ID)),''),' ')as PRODUCTMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(DETAILING_BOM_ID)),''),' ')as DETAILING_BOM_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTION_BOM_ID)),''),' ')as PRODUCTION_BOM_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_Number)),''),' ')as BBS_Number\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ITEM_GROUP)),''),' ')as ITEM_GROUP\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTGROUPMARK_ID)),''),' ')as POSTGROUPMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTSTRUCTUREMARK_ID)),''),' ')as POSTSTRUCTUREMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTHEADER_ID)),''),' ')as POSTHEADER_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_NO)),''),' ')as BBS_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_DESC)),''),' ')as BBS_DESC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(IND_ITEM_NO)),''),' ')as IND_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_GRP)),''),' ')as PROD_GRP\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ST_ELEMENT_TYPE)),''),' ')as ST_ELEMENT_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS1)),''),' ')as WBS1\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS2)),''),' ')as WBS2\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS3)),''),' ')as WBS3\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS4)),''),' ')as WBS4\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS5)),''),' ')as WBS5\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SHAPE_CODE)),''),' ')as SHAPE_CODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INVOICE_LENGTH)),''),' ')as INVOICE_LENGTH\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_L)),''),' ')as EXT_DIMENSION_L\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_W)),''),' ')as EXT_DIMENSION_W\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_H)),''),' ')as EXT_DIMENSION_H\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_SHAPE_SURCHARG)),''),' ')as Z_SHAPE_SURCHARG\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_CUT_PC)),''),' ')as NO_OF_CUT_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_BEND_PC)),''),' ')as NO_OF_BEND_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ROLLING)),''),' ')as NO_ROLLING\r\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_1)),''),' ')as COU_TYPE_1\r\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_2)),''),' ')as COU_TYPE_2\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as Z_PIECES\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as REF_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_ACT_WT_PER_PC)),''),'0')as Z_ACT_WT_PER_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(GROUP_MARK)),''),' ')as GROUP_MARK\r\n      ,isnull(NULLIF(LTRIM(RTRIM(IDENTICAL_HASHCODE)),''),' ')as IDENTICAL_HASHCODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_MAINBAR_HASHCODE)),''),' ')as SIMILAR_MAINBAR_HASHCODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_EXTLINK_HASHCODE)),''),' ')as SIMILAR_EXTLINK_HASHCODE\r\n  FROM dbo.SAP_ORDER_ITEM\r\n    WHERE (status = 'Q' or status = 'T')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Item;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Lookup_Order_Variant",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\nFROM dbo.SAP_ORDER_VARIANT\r\n    WHERE ((status = 'N' or status = 'T') and sap_status = 'A')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Variant;\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition2",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup_Order_Variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifTrueActivities": [
 						{
-							"name": "Order_Variant_Data_To_Queue",
+							"name": "Order_Variant_Data_To_Queue_copy1",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -1009,11 +1092,11 @@
 							]
 						},
 						{
-							"name": "Subscriber_order_variant",
+							"name": "Subscriber_order_variant_copy1",
 							"type": "ExecutePipeline",
 							"dependsOn": [
 								{
-									"activity": "Order_Variant_Data_To_Queue",
+									"activity": "Order_Variant_Data_To_Queue_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1032,11 +1115,11 @@
 							}
 						},
 						{
-							"name": "update_SAP_WBS_SOR_STATUS_T_variant",
+							"name": "update_SAP_WBS_SOR_STATUS_T_variant_copy1",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Subscriber_order_variant",
+									"activity": "Subscriber_order_variant_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1068,11 +1151,11 @@
 							}
 						},
 						{
-							"name": "update_SAP_ORDER_VARIANT_STATUS_T",
+							"name": "update_SAP_ORDER_ITEM_STATUS_T_copy1",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "update_SAP_WBS_SOR_STATUS_T_variant",
+									"activity": "update_SAP_WBS_SOR_STATUS_T_variant_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1095,7 +1178,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update dbo.SAP_ORDER_VARIANT SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n\n",
+											"value": "update dbo.SAP_ORDER_ITEM SET STATUS = 'T' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
 											"type": "Expression"
 										}
 									}
@@ -1105,72 +1188,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "Lookup_Order_Item",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT *  \r\nFROM (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ')as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_NO)),''),' ')as CONTR_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONTR_ITEM_NO)),''),' ')as CONTR_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ITEM_ROWS)),''),'0')as NO_ITEM_ROWS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_VARIANT_ROWS)),''),'0')as NO_VARIANT_ROWS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ORD_QTY)),''),'0')as ORD_QTY\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CONV_RATIO)),''),' ')as CONV_RATIO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SALES_UOM)),''),' ')as SALES_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_PIECES)),''),' ')as NO_PIECES\r\n      ,isnull(NULLIF(LTRIM(RTRIM(THEO_WEIGHT_KG)),''),'0')as THEO_WEIGHT_KG\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_MARKG)),''),' ')as PROD_MARKG\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(HG_ITEM_NO)), 6),''),' ')as HG_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PLANT)),''),' ')as PLANT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REQ_DELI_DATE)),''),' ')as REQ_DELI_DATE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NDS_DTL_NO)),''),' ')as NDS_DTL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(VEHI_TYPE)),''),' ')as VEHI_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENT_ID)),''),' ')as WBSELEMENT_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STRUCTUREMARK_ID)),''),' ')as STRUCTUREMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTMARK_ID)),''),' ')as PRODUCTMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(DETAILING_BOM_ID)),''),' ')as DETAILING_BOM_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PRODUCTION_BOM_ID)),''),' ')as PRODUCTION_BOM_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_Number)),''),' ')as BBS_Number\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ITEM_GROUP)),''),' ')as ITEM_GROUP\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTGROUPMARK_ID)),''),' ')as POSTGROUPMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTSTRUCTUREMARK_ID)),''),' ')as POSTSTRUCTUREMARK_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(POSTHEADER_ID)),''),' ')as POSTHEADER_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_NO)),''),' ')as BBS_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BBS_DESC)),''),' ')as BBS_DESC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(IND_ITEM_NO)),''),' ')as IND_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROD_GRP)),''),' ')as PROD_GRP\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ST_ELEMENT_TYPE)),''),' ')as ST_ELEMENT_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS1)),''),' ')as WBS1\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS2)),''),' ')as WBS2\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS3)),''),' ')as WBS3\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS4)),''),' ')as WBS4\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBS5)),''),' ')as WBS5\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SHAPE_CODE)),''),' ')as SHAPE_CODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INVOICE_LENGTH)),''),' ')as INVOICE_LENGTH\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_L)),''),' ')as EXT_DIMENSION_L\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_W)),''),' ')as EXT_DIMENSION_W\r\n      ,isnull(NULLIF(LTRIM(RTRIM(EXT_DIMENSION_H)),''),' ')as EXT_DIMENSION_H\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_SHAPE_SURCHARG)),''),' ')as Z_SHAPE_SURCHARG\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_CUT_PC)),''),' ')as NO_OF_CUT_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_OF_BEND_PC)),''),' ')as NO_OF_BEND_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(NO_ROLLING)),''),' ')as NO_ROLLING\r\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_1)),''),' ')as COU_TYPE_1\r\n      ,isnull(NULLIF(LTRIM(RTRIM(COU_TYPE_2)),''),' ')as COU_TYPE_2\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as Z_PIECES\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_PIECES)),''),' ')as REF_ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(Z_ACT_WT_PER_PC)),''),'0')as Z_ACT_WT_PER_PC\r\n      ,isnull(NULLIF(LTRIM(RTRIM(GROUP_MARK)),''),' ')as GROUP_MARK\r\n      ,isnull(NULLIF(LTRIM(RTRIM(IDENTICAL_HASHCODE)),''),' ')as IDENTICAL_HASHCODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_MAINBAR_HASHCODE)),''),' ')as SIMILAR_MAINBAR_HASHCODE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SIMILAR_EXTLINK_HASHCODE)),''),' ')as SIMILAR_EXTLINK_HASHCODE\r\n  FROM dbo.SAP_ORDER_ITEM\r\n    WHERE (status = 'Q' or status = 'T')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Item;",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT001_SAP_ORDER_ITEM",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Lookup_Order_Variant",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\r\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\r\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\r\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\r\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\r\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\r\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\r\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\r\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\r\nFROM dbo.SAP_ORDER_VARIANT\r\n    WHERE ((status = 'N' or status = 'T') and sap_status = 'A')\r\n          AND ord_req_no = (SELECT top 1 \r\n     sod.ORD_REQ_NO \r\nFROM SAP_ORDER_ITEM sod\r\nJOIN \r\n     WMBnotifySORbjpa512 wmb\r\nON \r\n      sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n          ) \r\n    \r\n) AS Order_Variant;\r\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT002_SAP_ORDER_VARIANT",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
 			}
 		],
 		"variables": {
@@ -1179,6 +1196,9 @@
 			},
 			"Recordcount": {
 				"type": "Integer"
+			},
+			"ORD_REQ_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []
