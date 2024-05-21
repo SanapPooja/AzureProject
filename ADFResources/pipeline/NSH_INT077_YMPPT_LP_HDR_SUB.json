@@ -427,6 +427,23 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "MODIFIED_DATE",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -444,6 +461,9 @@
 			},
 			"LOAD_NO": {
 				"type": "Array"
+			},
+			"MODIFIED_DATE": {
+				"type": "String"
 			}
 		},
 		"annotations": []
