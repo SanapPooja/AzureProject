@@ -252,6 +252,14 @@
 									"name": "SUB_PROD_GRP",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS"
+								}
 							}
 						]
 					}
