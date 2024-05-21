@@ -220,8 +220,7 @@
 							},
 							{
 								"source": {
-									"name": "SAP_BATCH_ID",
-									"type": "String"
+									"name": "SAP_BATCH_ID_TAG_NO"
 								},
 								"sink": {
 									"path": "$['$SAP_BATCH_ID_TAG_NO']"
@@ -229,8 +228,7 @@
 							},
 							{
 								"source": {
-									"name": "CREATE_DATE",
-									"type": "DateTime"
+									"name": "CREATE_DATE__STS_START_CRDATE"
 								},
 								"sink": {
 									"path": "$['$CREATE_DATE__STS_START_CRDATE']"
