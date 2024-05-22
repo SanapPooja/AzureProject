@@ -540,7 +540,7 @@
 									"path": "$['fld_GR_batch_id_d']"
 								},
 								"sink": {
-									"name": " CHARG_D "
+									"name": "CHARG_D "
 								}
 							},
 							{
