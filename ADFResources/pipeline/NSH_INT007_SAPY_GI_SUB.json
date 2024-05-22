@@ -34,7 +34,152 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$"
+									"path": "$['$GR_CHARG']"
+								},
+								"sink": {
+									"name": "GR_CHARG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GR_MATNR_AIM']"
+								},
+								"sink": {
+									"name": "GR_MATNR_AIM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GR_MATNR_ACH']"
+								},
+								"sink": {
+									"name": "$GR_MATNR_ACH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_CHARG']"
+								},
+								"sink": {
+									"name": "$GI_CHARG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_MATNR']"
+								},
+								"sink": {
+									"name": "$GI_MATNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANT']"
+								},
+								"sink": {
+									"name": "$PLANT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_LGORT']"
+								},
+								"sink": {
+									"name": "$GI_LGORT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BLDAT']"
+								},
+								"sink": {
+									"name": "$BLDAT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BUDAT']"
+								},
+								"sink": {
+									"name": "$BUDAT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY']"
+								},
+								"sink": {
+									"name": "$QUANTITY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MEINS']"
+								},
+								"sink": {
+									"name": "$MEINS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$AUFNR']"
+								},
+								"sink": {
+									"name": "$AUFNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHIFT']"
+								},
+								"sink": {
+									"name": "$SHIFT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$VBELN']"
+								},
+								"sink": {
+									"name": "$VBELN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PCODE']"
+								},
+								"sink": {
+									"name": "PCODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$POSNR']"
+								},
+								"sink": {
+									"name": "POSNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_STATUS']"
+								},
+								"sink": {
+									"name": "REV_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY_D']"
+								},
+								"sink": {
+									"name": "QUANTITY_D",
+									"type": "Decimal"
 								}
 							}
 						]
@@ -103,9 +248,6 @@
 			}
 		],
 		"variables": {
-			"Gi_Id": {
-				"type": "String"
-			},
 			"Rowcount": {
 				"type": "Array"
 			},
