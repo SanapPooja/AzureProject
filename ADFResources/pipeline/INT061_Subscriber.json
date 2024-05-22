@@ -202,7 +202,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , \nUPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , \nPLANNER_REMARKS= '@{variables('REMARK1')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = '@{variables('ESB_INT060')}' ",
+								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , \nUPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , \nPLANNER_REMARKS= '@{variables('REMARK1')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = 'ESB_INT060' ",
 								"type": "Expression"
 							}
 						}
