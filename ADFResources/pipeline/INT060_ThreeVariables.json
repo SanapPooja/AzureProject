@@ -67,6 +67,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "If Condition3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"userProperties": [],
@@ -128,7 +134,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NOs')}'\nand order_request_no = '@{variables('ORDER_NO')}'",
+											"value": "SELECT top(5) * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE order_item = '@{variables('ITEM_NOs')}'\nand order_request_no = '@{variables('ORDER_NO')}'\n",
 											"type": "Expression"
 										}
 									}
@@ -265,6 +271,82 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_ONHOLD, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO",
+					"value": {
+						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "If Condition3",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifTrueActivities": [
+						{
+							"name": "Wait3",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
@@ -275,6 +357,9 @@
 				"type": "Array"
 			},
 			"ORDER_NO": {
+				"type": "Array"
+			},
+			"LOAD_NO": {
 				"type": "Array"
 			}
 		},
