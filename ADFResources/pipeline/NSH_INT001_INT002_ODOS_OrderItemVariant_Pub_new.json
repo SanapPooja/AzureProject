@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
+				"name": "Set_Rowcount",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -1048,11 +1048,11 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Get_ORD_REQ_NO_For_Update",
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set_Rowcount",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1085,7 +1085,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Get_ORD_REQ_NO_For_Update",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1099,7 +1099,7 @@
 				"typeProperties": {
 					"variableName": "ord_req_num",
 					"value": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('Get_ORD_REQ_NO_For_Update').output.value",
 						"type": "Expression"
 					}
 				}
@@ -1151,7 +1151,13 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Set variable3",
+									"activity": "update_SAP_ORDER_ITEM_STATUS_T_copy2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1187,13 +1193,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "update_SAP_WBS_SOR_STATUS_T_Item_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1",
+									"activity": "Set variable3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
