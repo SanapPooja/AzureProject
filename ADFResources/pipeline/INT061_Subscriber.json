@@ -214,6 +214,15 @@
 		"variables": {
 			"LOAD_NO": {
 				"type": "String"
+			},
+			"REMARK1": {
+				"type": "String"
+			},
+			"PLAN_DELIV_DATE": {
+				"type": "String"
+			},
+			"ESB_INT060": {
+				"type": "String"
 			}
 		},
 		"annotations": []
