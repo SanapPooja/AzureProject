@@ -53,8 +53,8 @@
 				}
 			},
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "Script1",
+				"type": "Script",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -71,29 +71,27 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "POST",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
-					},
-					"enableStaging": false
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
 				},
-				"inputs": [
-					{
-						"referenceName": "Int060_ESB_Load_Tally_Head",
-						"type": "DatasetReference"
-					}
-				]
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT LOAD_NO FROM SCM_ADMIN.LOAD_SAP_TALLY WHERE LOAD_NO  = '1304140037'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
 			"LOAD_NO": {
-				"type": "Array"
+				"type": "String"
 			}
 		},
 		"annotations": []
