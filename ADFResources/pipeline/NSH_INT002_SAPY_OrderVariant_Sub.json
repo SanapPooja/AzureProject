@@ -5,6 +5,8 @@
 			{
 				"name": "DeleteServiceBusMessage",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait_60_sec",
@@ -280,14 +282,9 @@
 			{
 				"name": "Wait_60_sec",
 				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Queue_To_YMSDT_OR_VARIANT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 60
@@ -298,7 +295,13 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "DeleteServiceBusMessage",
+						"activity": "Set variable2_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -682,6 +685,120 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Get_ORD_REQ_NO",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Queue_To_YMSDT_OR_VARIANT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \n   ORD_REQ_NO\nFROM \n    SAP_ORDER_ITEM\nWHERE \n    ORD_REQ_NO IN (\n        SELECT \n            TOP 1 sod.ORD_REQ_NO \n        FROM \n            SAP_ORDER_ITEM sod\n        JOIN \n            WMBnotifySORbjpa512 wmb\n        ON \n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Get_ITEM_NO",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Queue_To_YMSDT_OR_VARIANT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \r\n   ITEM_NO\r\nFROM \r\n    SAP_ORDER_ITEM\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_ITEM sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable2_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get_ORD_REQ_NO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ord_req_num",
+					"value": {
+						"value": "@activity('Get_ORD_REQ_NO').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get_ITEM_NO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Item_nos",
+					"value": {
+						"value": "@activity('Get_ITEM_NO').output.value\n",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -696,6 +813,20 @@
 			"CHRSTICS": {
 				"type": "String",
 				"defaultValue": "CHRSTICS"
+			}
+		},
+		"variables": {
+			"ord_req_num": {
+				"type": "Array"
+			},
+			"Item_nos": {
+				"type": "Array"
+			},
+			"ORD_REQ_NO": {
+				"type": "String"
+			},
+			"ITEM_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []
