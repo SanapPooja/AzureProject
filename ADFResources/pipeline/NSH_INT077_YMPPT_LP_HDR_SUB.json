@@ -879,6 +879,157 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FLATRACK_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CONTAINER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "THEORITICAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "ACTUAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "WEIGHING_TICKET_TIME",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT077_LOAD_SAP_TALLY",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {
