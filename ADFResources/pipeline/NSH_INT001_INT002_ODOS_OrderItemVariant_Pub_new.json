@@ -1268,7 +1268,26 @@
 						"value": "@variables('ord_req_num')",
 						"type": "Expression"
 					},
-					"isSequential": true
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ORD_REQ_NO",
+								"value": {
+									"value": "@item().ORD_REQ_NO",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
