@@ -55,6 +55,8 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup_Order_Item",
@@ -814,7 +816,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set variable2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -847,7 +849,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set variable2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -878,6 +880,8 @@
 			{
 				"name": "If Condition2",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup_Order_Variant",
@@ -1190,6 +1194,61 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \r\n    ORD_REQ_NO\r\nFROM \r\n    SAP_ORDER_ITEM\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_ITEM sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ord_req_num",
+					"value": [
+						""
+					]
+				}
 			}
 		],
 		"variables": {
@@ -1201,6 +1260,9 @@
 			},
 			"ORD_REQ_NO": {
 				"type": "String"
+			},
+			"ord_req_num": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
