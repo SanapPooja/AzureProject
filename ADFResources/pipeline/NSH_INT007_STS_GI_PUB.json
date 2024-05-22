@@ -22,7 +22,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_GI_con",
+						"referenceName": "INT_007_tbl_sts_dns_GI_con",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -79,7 +79,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_GI_con",
+						"referenceName": "INT_007_tbl_sts_dns_GI_con",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -366,13 +366,13 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "tbl_sts_dns_GI_con",
+									"referenceName": "INT_007_tbl_sts_dns_GI_con",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "GiRecords",
+									"referenceName": "INT_007_GiRecords_QUEUE",
 									"type": "DatasetReference"
 								}
 							]

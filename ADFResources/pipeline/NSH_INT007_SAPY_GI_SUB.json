@@ -371,7 +371,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "YMPCT_NSA_GI",
+						"referenceName": "INT_007_YMPCT_NSA_GI",
 						"type": "DatasetReference"
 					}
 				]

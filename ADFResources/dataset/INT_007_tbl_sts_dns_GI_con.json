@@ -1,5 +1,5 @@
 {
-	"name": "tbl_sts_dns_GI_con",
+	"name": "INT_007_tbl_sts_dns_GI_con",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

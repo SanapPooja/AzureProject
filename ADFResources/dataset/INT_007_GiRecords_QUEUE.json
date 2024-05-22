@@ -1,5 +1,5 @@
 {
-	"name": "GiRecords",
+	"name": "INT_007_GiRecords_QUEUE",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "GiRecords",
