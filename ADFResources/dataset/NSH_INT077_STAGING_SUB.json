@@ -1,0 +1,16 @@
+{
+	"name": "NSH_INT077_STAGING_SUB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "TBL_NSH_INT077_STAGING"
+		}
+	}
+}

@@ -70,16 +70,7 @@
 							},
 							{
 								"source": {
-									"path": ""
-								},
-								"sink": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": ""
+									"path": "$MODIFIED_DATE"
 								},
 								"sink": {
 									"name": "MODIFY_DATE",
@@ -88,67 +79,10 @@
 							},
 							{
 								"source": {
-									"path": "$VEHICLE_ID"
-								},
-								"sink": {
-									"name": "VEHICLE_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$VEHICLE_TYPE"
+									"path": "$TRAILER_ID"
 								},
 								"sink": {
 									"name": "TRAILER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "FLATRACK_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "CONTAINER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TARE_WT"
-								},
-								"sink": {
-									"name": "THEORITICAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$GROSS_WT"
-								},
-								"sink": {
-									"name": "ACTUAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"sink": {
-									"name": "WEIGHING_TICKET_TIME",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "LOADING_ACTUAL_START",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "LOADING_ACTUAL_END",
 									"type": "String"
 								}
 							}
@@ -164,7 +98,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "NSH_INT077_SAP_LOAD_TALLY",
+						"referenceName": "NSH_INT077_STAGING_SUB",
 						"type": "DatasetReference"
 					}
 				]
