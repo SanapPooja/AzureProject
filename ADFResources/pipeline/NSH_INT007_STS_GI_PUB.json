@@ -341,7 +341,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "REV_STATUS"
+												"path": "$['$REV_STATUS']"
 											}
 										},
 										{
@@ -351,6 +351,14 @@
 											},
 											"sink": {
 												"path": "$QUANTITY_D"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_GI_rec_type"
+											},
+											"sink": {
+												"path": "$['$fld_GI_rec_type']"
 											}
 										}
 									]
@@ -555,8 +563,6 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If Condition1",

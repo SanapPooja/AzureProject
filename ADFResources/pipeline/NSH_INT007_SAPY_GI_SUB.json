@@ -17,6 +17,64 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "REC_TYPE",
+								"value": "S"
+							},
+							{
+								"name": "MANDT",
+								"value": "600"
+							},
+							{
+								"name": "MBLNR",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "MJAHR",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "RUECK",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "RMZHL",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "REV_RUECK",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "REV_RMZHL",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "INTER_ID",
+								"value": "105"
+							},
+							{
+								"name": "PROC_TS",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "UDATE",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "UTIME",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "USERID",
+								"value": "$$COLUMN:"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -55,15 +113,7 @@
 									"path": "$['$GR_MATNR_ACH']"
 								},
 								"sink": {
-									"name": "$GR_MATNR_ACH"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$GI_CHARG']"
-								},
-								"sink": {
-									"name": "$GI_CHARG"
+									"name": "GR_MATNR_ACH"
 								}
 							},
 							{
@@ -71,7 +121,7 @@
 									"path": "$['$GI_MATNR']"
 								},
 								"sink": {
-									"name": "$GI_MATNR"
+									"name": "GI_MATNR"
 								}
 							},
 							{
@@ -79,7 +129,7 @@
 									"path": "$['$PLANT']"
 								},
 								"sink": {
-									"name": "$PLANT"
+									"name": "PLANT"
 								}
 							},
 							{
@@ -87,7 +137,7 @@
 									"path": "$['$GI_LGORT']"
 								},
 								"sink": {
-									"name": "$GI_LGORT"
+									"name": "GI_LGORT"
 								}
 							},
 							{
@@ -95,7 +145,7 @@
 									"path": "$['$BLDAT']"
 								},
 								"sink": {
-									"name": "$BLDAT"
+									"name": "BLDAT"
 								}
 							},
 							{
@@ -103,7 +153,7 @@
 									"path": "$['$BUDAT']"
 								},
 								"sink": {
-									"name": "$BUDAT"
+									"name": "BUDAT"
 								}
 							},
 							{
@@ -111,7 +161,7 @@
 									"path": "$['$QUANTITY']"
 								},
 								"sink": {
-									"name": "$QUANTITY"
+									"name": "QUANTITY"
 								}
 							},
 							{
@@ -119,7 +169,7 @@
 									"path": "$['$MEINS']"
 								},
 								"sink": {
-									"name": "$MEINS"
+									"name": "MEINS"
 								}
 							},
 							{
@@ -127,7 +177,7 @@
 									"path": "$['$AUFNR']"
 								},
 								"sink": {
-									"name": "$AUFNR"
+									"name": "AUFNR"
 								}
 							},
 							{
@@ -135,7 +185,7 @@
 									"path": "$['$SHIFT']"
 								},
 								"sink": {
-									"name": "$SHIFT"
+									"name": "SHIFT"
 								}
 							},
 							{
@@ -143,7 +193,7 @@
 									"path": "$['$VBELN']"
 								},
 								"sink": {
-									"name": "$VBELN"
+									"name": "VBELN"
 								}
 							},
 							{
@@ -166,7 +216,7 @@
 							},
 							{
 								"source": {
-									"path": "$['REV_STATUS']"
+									"path": "$['$REV_STATUS']"
 								},
 								"sink": {
 									"name": "REV_STATUS",
@@ -180,6 +230,134 @@
 								"sink": {
 									"name": "QUANTITY_D",
 									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_CHARG']"
+								},
+								"sink": {
+									"name": "GI_CHARG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$fld_GI_rec_type']"
+								},
+								"sink": {
+									"name": "STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MANDT']"
+								},
+								"sink": {
+									"name": "MANDT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MBLNR']"
+								},
+								"sink": {
+									"name": "MBLNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MJAHR']"
+								},
+								"sink": {
+									"name": "MJAHR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RUECK']"
+								},
+								"sink": {
+									"name": "RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RMZHL']"
+								},
+								"sink": {
+									"name": "RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RUECK']"
+								},
+								"sink": {
+									"name": "REV_RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RMZHL']"
+								},
+								"sink": {
+									"name": "REV_RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['INTER_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID"
 								}
 							}
 						]
