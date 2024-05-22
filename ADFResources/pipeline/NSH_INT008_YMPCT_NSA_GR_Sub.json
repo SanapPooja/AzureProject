@@ -32,7 +32,7 @@
 							},
 							{
 								"name": "INTER_ID",
-								"value": ""
+								"value": "104"
 							},
 							{
 								"name": "MBLNR",
@@ -63,10 +63,6 @@
 								"value": ""
 							},
 							{
-								"name": "STATUS",
-								"value": ""
-							},
-							{
 								"name": "UDATE",
 								"value": ""
 							},
@@ -80,7 +76,7 @@
 							},
 							{
 								"name": "MANDT",
-								"value": ""
+								"value": "600"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -907,14 +903,6 @@
 							},
 							{
 								"source": {
-									"path": "$['STATUS']"
-								},
-								"sink": {
-									"name": "STATUS"
-								}
-							},
-							{
-								"source": {
 									"path": "$['UDATE']"
 								},
 								"sink": {
@@ -943,6 +931,14 @@
 								},
 								"sink": {
 									"name": "MANDT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['fld_GR_rec_type']"
+								},
+								"sink": {
+									"name": "STATUS"
 								}
 							}
 						]
