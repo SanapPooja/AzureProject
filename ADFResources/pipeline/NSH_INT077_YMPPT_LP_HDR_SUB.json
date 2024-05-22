@@ -5,7 +5,14 @@
 			{
 				"name": "LOAD_SAP_TALLY",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -41,51 +48,17 @@
 									"type": "String"
 								}
 							},
-							{
-								"source": {
-									"path": "$LP_STATUS"
-								},
-								"sink": {
-									"name": "LP_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$STATUS"
-								},
-								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ERROR_CD"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$MODIFIED_DATE"
-								},
-								"sink": {
-									"name": "MODIFY_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TRAILER_ID"
-								},
-								"sink": {
-									"name": "TRAILER_ID",
-									"type": "String"
-								}
-							}
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null,
+							null
 						],
 						"collectionReference": ""
 					}
