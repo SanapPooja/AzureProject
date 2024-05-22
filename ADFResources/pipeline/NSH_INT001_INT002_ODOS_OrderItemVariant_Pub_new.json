@@ -1276,6 +1276,9 @@
 			},
 			"ord_req_num": {
 				"type": "Array"
+			},
+			"ITEM_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []
