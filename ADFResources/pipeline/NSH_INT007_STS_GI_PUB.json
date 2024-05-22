@@ -405,7 +405,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'Y', fld_GI_status = 'P', fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'A' and fld_GI_status = 'I'",
+											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_rec_type = 'Y',fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'A' and fld_GI_status = 'I'",
 											"type": "Expression"
 										}
 									}
@@ -524,6 +524,8 @@
 						{
 							"name": "Script6",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data1",
@@ -549,7 +551,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_status = 'I'",
+											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_rec_type = 'Y',fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_status = 'I'",
 											"type": "Expression"
 										}
 									}
@@ -563,6 +565,8 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If Condition1",
