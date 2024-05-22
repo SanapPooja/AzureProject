@@ -317,7 +317,7 @@
 				"typeProperties": {
 					"variableName": "LOAD_NO",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"value": "@activity(\n'Lookup1'\n).output.value",
 						"type": "Expression"
 					}
 				}
