@@ -118,6 +118,20 @@
 							{
 								"name": "STATUS",
 								"value": "Y"
+							},
+							{
+								"name": "CREATE_DATE",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "MODIFY_DATE",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+									"type": "Expression"
+								}
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
