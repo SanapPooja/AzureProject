@@ -200,14 +200,7 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "LOAD_SAP_TALLY",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
@@ -243,7 +236,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT LP_STATUS FROM SAPSR3.YMPPT_LP_HDR WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+						"oracleReaderQuery": {
+							"value": "SELECT LP_STATUS FROM SAPSR3.YMPPT_LP_HDR WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -275,7 +271,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS='',  STATUS='' , ERROR_CD='', MODIFY_DATE='', TRAILER_ID='' WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+						"oracleReaderQuery": {
+							"value": "update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS='',  STATUS='' , ERROR_CD='', MODIFY_DATE='', TRAILER_ID='' WHERE LOAD_NO IN ('@{variables('LOAD_NO')}')",
+							"type": "Expression"
+						},
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -396,7 +395,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT ID, ORDER_PIECES, WEIGHT_IN_KG, ORDER_NO, ORDER_REQUEST_NO, QTY_IN_BASE_UOM FROM SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD WHERE LOAD_NO = '@{variables('LOAD_NO')}' and ITEM_NO = '@{variables('ITEM_ON_LOAD')}' and ORDER_NO = '@{variables('ORDER_NO')}'"
+							"text": {
+								"value": "SELECT ID, ORDER_PIECES, WEIGHT_IN_KG, ORDER_NO, ORDER_REQUEST_NO, QTY_IN_BASE_UOM FROM SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD WHERE LOAD_NO = '@{variables('LOAD_NO')}' and ITEM_NO = '@{variables('ITEM_ON_LOAD')}' and ORDER_NO = '@{variables('ORDER_NO')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -438,14 +440,7 @@
 			{
 				"name": "Set variable2",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "LOAD_SAP_TALLY",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
@@ -606,7 +601,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "delete from SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('LOAD_NO')}'"
+							"text": {
+								"value": "delete from SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -639,7 +637,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "update SCM_ADMIN.LOAD_SAP_TALLY \r\nSET LP_STATUS = 'P', \r\nSTATUS='@{variables('STATUS')}', \r\nERROR_CD='@{variables('ERROR_CD')}', \r\nMODIFY_DATE='@{variables('MODIFIED_DATE')}', \r\nTRAILER_ID ='@{variables('TRAILER_ID')}'"
+							"text": {
+								"value": "update SCM_ADMIN.LOAD_SAP_TALLY \r\nSET LP_STATUS = 'P', \r\nSTATUS='@{variables('STATUS')}', \r\nERROR_CD='@{variables('ERROR_CD')}', \r\nMODIFY_DATE='@{variables('MODIFIED_DATE')}', \r\nTRAILER_ID ='@{variables('TRAILER_ID')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -672,7 +673,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE  SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nset DELD_LOAD_QNTY='@{variables('DELD_LOAD_QNTY')}', \r\nDELD_LOAD_PCS='@{variables('DELD_LOAD_PCS')}', \r\nMODIFY_DATE ='@{variables('MODIFIED_DATE')}', \r\nWHERE LOAD_NO= '@{variables('LOAD_NO')}',\r\nORDER_REQUEST_NO= '@{variables('ORDER_REQUEST_NO')}',\r\nORDER_ITEM= '@{variables('ORDER_ITEM')}'"
+							"text": {
+								"value": "UPDATE  SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nset DELD_LOAD_QNTY='@{variables('DELD_LOAD_QNTY')}', \r\nDELD_LOAD_PCS='@{variables('DELD_LOAD_PCS')}', \r\nMODIFY_DATE ='@{variables('MODIFIED_DATE')}', \r\nWHERE LOAD_NO= '@{variables('LOAD_NO')}',\r\nORDER_REQUEST_NO= '@{variables('ORDER_REQUEST_NO')}',\r\nORDER_ITEM= '@{variables('ORDER_ITEM')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
