@@ -1,5 +1,5 @@
 {
-	"name": "IINT007_Activity_head",
+	"name": "NSH_INT009_QUEUE_HEAD",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "IINT007_Activity_head",

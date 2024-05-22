@@ -473,7 +473,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT007_Activity",
+									"referenceName": "NSH_INT009_QUEUE",
 									"type": "DatasetReference"
 								}
 							]

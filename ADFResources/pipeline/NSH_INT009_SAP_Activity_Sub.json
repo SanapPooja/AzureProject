@@ -519,7 +519,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "IINT007_Activity_head",
+						"referenceName": "NSH_INT009_QUEUE_HEAD",
 						"type": "DatasetReference"
 					}
 				],
