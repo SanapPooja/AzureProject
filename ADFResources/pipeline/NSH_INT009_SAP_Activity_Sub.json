@@ -24,7 +24,7 @@
 							},
 							{
 								"name": "MANDT",
-								"value": "110"
+								"value": "600"
 							},
 							{
 								"name": "RUECK",
@@ -549,6 +549,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
