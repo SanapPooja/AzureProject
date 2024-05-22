@@ -28,27 +28,27 @@
 							},
 							{
 								"name": "MBLNR",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "MJAHR",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "RUECK",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "RMZHL",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "REV_RUECK",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "REV_RMZHL",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "INTER_ID",
@@ -56,23 +56,23 @@
 							},
 							{
 								"name": "PROC_TS",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "ERROR_CD",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "UDATE",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "UTIME",
-								"value": "$$COLUMN:"
+								"value": ""
 							},
 							{
 								"name": "USERID",
-								"value": "$$COLUMN:"
+								"value": ""
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
