@@ -80,7 +80,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT LOAD_NO FROM SCM_ADMIN.LOAD_SAP_TALLY WHERE LOAD_NO  = '1304140037'",
+								"value": "SELECT LOAD_NO FROM SCM_ADMIN.LOAD_SAP_TALLY WHERE LOAD_NO  = '2405106515'",
 								"type": "Expression"
 							}
 						}
