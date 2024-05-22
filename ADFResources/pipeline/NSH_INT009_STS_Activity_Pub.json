@@ -22,7 +22,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_Act_con",
+						"referenceName": "NSH_INT009_tbl_sts_dns_Act_con",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -79,7 +79,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_Act_con",
+						"referenceName": "NSH_INT009_tbl_sts_dns_Act_con",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -467,7 +467,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "tbl_sts_dns_Act_con",
+									"referenceName": "NSH_INT009_tbl_sts_dns_Act_con",
 									"type": "DatasetReference"
 								}
 							],

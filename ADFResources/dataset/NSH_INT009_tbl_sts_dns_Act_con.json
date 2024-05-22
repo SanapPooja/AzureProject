@@ -1,5 +1,5 @@
 {
-	"name": "tbl_sts_dns_Act_con",
+	"name": "NSH_INT009_tbl_sts_dns_Act_con",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NSQADB2Connection",

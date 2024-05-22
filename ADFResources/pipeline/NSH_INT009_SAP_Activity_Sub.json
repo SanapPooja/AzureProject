@@ -525,7 +525,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "YMPCT_NSA_ACT",
+						"referenceName": "NSH_INT009_YMPCT_NSA_ACT",
 						"type": "DatasetReference"
 					}
 				]
@@ -533,6 +533,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
