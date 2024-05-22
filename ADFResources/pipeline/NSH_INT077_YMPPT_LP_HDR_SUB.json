@@ -200,7 +200,14 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Script9",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
@@ -209,7 +216,7 @@
 				"typeProperties": {
 					"variableName": "LOAD_NO",
 					"value": {
-						"value": "@activity('LOAD_SAP_TALLY').output.value[0].LOAD_NO",
+						"value": "@activity('Script9').output.value[0].LOAD_NO",
 						"type": "Expression"
 					}
 				}
@@ -217,14 +224,7 @@
 			{
 				"name": "Lookup2",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -694,6 +694,78 @@
 					}
 				],
 				"userProperties": []
+			},
+			{
+				"name": "Script9",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "LOAD_SAP_TALLY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT * FROM TBL_NSH_INT077_STAGING",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script10",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT LP_STATUS FROM SAPSR3.YMPPT_LP_HDR WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
