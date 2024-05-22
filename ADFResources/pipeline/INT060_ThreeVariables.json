@@ -358,6 +358,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity(\n'Lookup1'\n).output.value),\n0\n)",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
 							"name": "Wait3",
