@@ -115,6 +115,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Set variable5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"policy": {
@@ -155,6 +161,23 @@
 								"variableName": "ORDER_NO",
 								"value": {
 									"value": "@item().ORDER_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO",
+								"value": {
+									"value": "@item().LOAD_NO",
 									"type": "Expression"
 								}
 							}
