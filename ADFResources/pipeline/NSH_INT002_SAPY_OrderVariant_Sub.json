@@ -324,7 +324,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T'where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO}",
+								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}' and ITEM_NO = '@{variables('ITEM_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -360,7 +360,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update dbo.SAP_WBS_SOR set ESB_STATUS = 'T where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO}\n\n\t\t\t\t\t\t",
+								"value": "Update dbo.SAP_WBS_SOR set ESB_STATUS = 'T where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -606,7 +606,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "Update dbo.SAP_ORDER_VARIANT Set STATUS = 'R' where ORD_REQ_NO = @{pipeline().parameters.ORD_REQ_NO} and ITEM_NO = @{pipeline().parameters.ITEM_NO} and CHRSTICS = @{pipeline().parameters.CHRSTICS}",
+								"value": "Update dbo.SAP_ORDER_VARIANT Set STATUS = 'R' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}' and ITEM_NO = '@{variables('ITEM_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -799,6 +799,42 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \n   CHRSTICS\nFROM \n    SAP_ORDER_ITEM\nWHERE \n    ORD_REQ_NO IN (\n        SELECT \n            TOP 1 sod.ORD_REQ_NO \n        FROM \n            SAP_ORDER_ITEM sod\n        JOIN \n            WMBnotifySORbjpa512 wmb\n        ON \n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT001_SAP_ORDER_ITEM",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"parameters": {
@@ -827,6 +863,12 @@
 			},
 			"ITEM_NO": {
 				"type": "String"
+			},
+			"CHRSTICS": {
+				"type": "String"
+			},
+			"chrstic_new": {
+				"type": "Array"
 			}
 		},
 		"annotations": []

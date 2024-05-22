@@ -775,7 +775,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable2",
+						"activity": "Set variable4",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1105,17 +1105,11 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "update_ORDER_ITEM",
 				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "If Condition2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1152,12 +1146,6 @@
 							"dependsOn": [
 								{
 									"activity": "update_SAP_ORDER_ITEM_STATUS_T_copy2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1223,13 +1211,195 @@
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
 							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Get_ORD_REQ_NO_Variant",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \r\n    (COUNT(1) / 50) + 1 AS recordcount\r\nFROM \r\n    SAP_ORDER_VARIANT\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_VARIANT sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set_Rowcount_Variant",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get_ORD_REQ_NO_Variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Rowcount",
+					"value": {
+						"value": "@range(1, int(activity('Get_ORD_REQ_NO_Variant').output.value[0].recordcount))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get_ORD_REQ_NO_Update_Variant",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set_Rowcount_Variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \r\n    ORD_REQ_NO\r\nFROM \r\n    SAP_ORDER_VARIANT\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_VARIANT sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT002_SAP_ORDER_VARIANT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable4",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get_ORD_REQ_NO_Update_Variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ord_req_num_var",
+					"value": {
+						"value": "@activity('Get_ORD_REQ_NO_Update_Variant').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "update_ORDER_VARIANT",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('ord_req_num_var')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable3_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ORD_REQ_NO",
+								"value": {
+									"value": "@item().ORD_REQ_NO",
+									"type": "Expression"
+								}
+							}
 						},
 						{
-							"name": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1",
+							"name": "update_SAP_WBS_SOR_STATUS_T_Item_copy1_copy1",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Set variable3",
+									"activity": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' WHERE ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n\n\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "update_SAP_WBS_SOR_STATUS_T_variant_copy1_copy1_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable3_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1279,6 +1449,9 @@
 			},
 			"ITEM_NO": {
 				"type": "String"
+			},
+			"ord_req_num_var": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
