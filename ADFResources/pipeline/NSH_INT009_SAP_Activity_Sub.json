@@ -620,15 +620,6 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "['A']"
-								},
-								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$GR_CHARG"
 								},
 								"sink": {
@@ -1049,17 +1040,9 @@
 									"name": "REV_STATUS",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['mto'][0]['Y']"
-								},
-								"sink": {
-									"name": "A"
-								}
 							}
 						],
-						"collectionReference": "$['mts']",
+						"collectionReference": "$['mts'",
 						"mapComplexValuesToString": false
 					}
 				},
@@ -1077,6 +1060,20 @@
 				]
 			}
 		],
+		"variables": {
+			"Rowcount": {
+				"type": "Array"
+			},
+			"ACT_ID": {
+				"type": "Array"
+			},
+			"CurrentTime": {
+				"type": "String"
+			},
+			"ACT_ID_ERROR": {
+				"type": "Integer"
+			}
+		},
 		"annotations": []
 	}
 }
