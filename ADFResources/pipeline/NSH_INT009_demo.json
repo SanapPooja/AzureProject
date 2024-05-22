@@ -1,0 +1,415 @@
+{
+	"name": "NSH_INT009_STS_Activity_Pub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT TOP 1000 \r\n    fld_ACT_id,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_GR_batch_id)), ''), ' ') AS fld_ACT_GR_batch_id,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_GR_aim_matl_no)), ''), ' ') AS fld_ACT_GR_aim_matl_no,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_id_message)), ''), ' ') AS fld_ACT_id_message,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_plant)), ''), ' ') AS fld_ACT_plant,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_doc_date)), ''), ' ') AS fld_ACT_doc_date,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_postg_date)), ''), ' ') AS fld_ACT_postg_date,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_tot_qty)), ''), ' ') AS fld_ACT_tot_qty,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_qty_d)), ''), ' ') AS fld_ACT_qty_d,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_opr_actv_no)), ''), ' ') AS fld_ACT_opr_actv_no,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_prod_ord_no)), ''), ' ') AS fld_ACT_prod_ord_no,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no1)), ''), ' ') AS fld_ACT_act_no1,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty1)), ''), ' ') AS fld_ACT_act_qty1,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom1)), ''), ' ') AS fld_ACT_act_uom1,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no2)), ''), ' ') AS fld_ACT_act_no2,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty2)), ''), ' ') AS fld_ACT_act_qty2,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom2)), ''), ' ') AS fld_ACT_act_uom2,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no3)), ''), ' ') AS fld_ACT_act_no3,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty3)), ''), ' ') AS fld_ACT_act_qty3,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom3)), ''), ' ') AS fld_ACT_act_uom3,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no4)), ''), ' ') AS fld_ACT_act_no4,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty4)), ''), ' ') AS fld_ACT_act_qty4,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom4)), ''), ' ') AS fld_ACT_act_uom4,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no5)), ''), ' ') AS fld_ACT_act_no5,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty5)), ''), ' ') AS fld_ACT_act_qty5,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom5)), ''), ' ') AS fld_ACT_act_uom5,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no6)), ''), ' ') AS fld_ACT_act_no6,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty6)), ''), ' ') AS fld_ACT_act_qty6,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom6)), ''), ' ') AS fld_ACT_act_uom6,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_sal_ord_no)), ''), ' ') AS fld_ACT_sal_ord_no,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_item_no)), ''), ' ') AS fld_ACT_item_no,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_pcode)), ''), ' ') AS fld_ACT_pcode,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_shift)), ''), ' ') AS fld_ACT_shift,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_clbd_item)), ''), ' ') AS fld_ACT_clbd_item,\r\n    fld_ACT_rec_type,\r\n    fld_ACT_status,\r\n    ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_wrk_cnt)), ''), ' ') AS fld_ACT_wrk_cnt\r\nFROM \r\n    tbl_sts_dns_act_con\r\nWHERE \r\n    (fld_ACT_status = 'I' AND fld_ACT_rec_type = 'A') OR (fld_ACT_status = 'I' AND fld_ACT_rec_type = 'Z')\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fld_ACT_GR_batch_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GR_CHARG"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_GR_aim_matl_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$GR_MATNR_AIM"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_id_message",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$TIMESTAMP"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_plant",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANT"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_doc_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BLDAT"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_postg_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BUDAT"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_wrk_cnt",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ARBPL"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_tot_qty",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$QUANTITY"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_qty_d",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$QUANTITY_D"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_opr_actv_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$VORNR"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_prod_ord_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$AUFNR"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY1"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY1"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM1"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY2"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY2"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM2"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY3"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY3"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM3"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY4"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY4"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM4"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY5"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY5"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM5"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_no6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTIVITY6"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_qty6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_QTY6"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_act_uom6",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACT_UOM6"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_sal_ord_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$VBELN"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_clbd_item",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$POSNR"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_pcode",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PCODE"
+								}
+							},
+							{
+								"source": {
+									"name": "fld_ACT_shift",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHIFT"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "tbl_sts_dns_Act_con",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT007_Activity",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB2Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "WITH update_status AS (\r\n    SELECT TOP 1000 fld_ACT_id,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_GR_batch_id)),''),' ') AS fld_ACT_GR_batch_id,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_GR_aim_matl_no)),''),' ') AS fld_ACT_GR_aim_matl_no,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_id_message)),''),' ') AS fld_ACT_id_message,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_plant)),''),' ') AS fld_ACT_plant,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_doc_date)),''),' ') AS fld_ACT_doc_date,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_postg_date)),''),' ') AS fld_ACT_postg_date,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_tot_qty)),''),' ') AS fld_ACT_tot_qty,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_qty_d)),''),' ') AS fld_ACT_qty_d,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_opr_actv_no)),''),' ') AS fld_ACT_opr_actv_no,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_prod_ord_no)),''),' ') AS fld_ACT_prod_ord_no,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no1)),''),' ') AS fld_ACT_act_no1,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty1)),''),' ') AS fld_ACT_act_qty1,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom1)),''),' ') AS fld_ACT_act_uom1,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no2)),''),' ') AS fld_ACT_act_no2,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty2)),''),' ') AS fld_ACT_act_qty2,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom2)),''),' ') AS fld_ACT_act_uom2,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no3)),''),' ') AS fld_ACT_act_no3,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty3)),''),' ') AS fld_ACT_act_qty3,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom3)),''),' ') AS fld_ACT_act_uom3,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no4)),''),' ') AS fld_ACT_act_no4,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty4)),''),' ') AS fld_ACT_act_qty4,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom4)),''),' ') AS fld_ACT_act_uom4,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no5)),''),' ') AS fld_ACT_act_no5,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty5)),''),' ') AS fld_ACT_act_qty5,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom5)),''),' ') AS fld_ACT_act_uom5,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_no6)),''),' ') AS fld_ACT_act_no6,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_qty6)),''),' ') AS fld_ACT_act_qty6,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_act_uom6)),''),' ') AS fld_ACT_act_uom6,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_sal_ord_no)),''),' ') AS fld_ACT_sal_ord_no,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_item_no)),''),' ') AS fld_ACT_item_no,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_pcode)),''),' ') AS fld_ACT_pcode,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_shift)),''),' ') AS fld_ACT_shift,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_clbd_item)),''),' ') AS fld_ACT_clbd_item,\r\n        fld_ACT_rec_type,\r\n        fld_ACT_status,\r\n        ISNULL(NULLIF(LTRIM(RTRIM(fld_ACT_wrk_cnt)),''),' ') AS fld_ACT_wrk_cnt\r\n    FROM tbl_sts_dns_act_con\r\n    WHERE (fld_ACT_status = 'P' AND fld_ACT_rec_type = 'A') OR (fld_ACT_status = 'P' AND fld_ACT_rec_type = 'Z')\r\n)\r\nUPDATE update_status\r\nSET fld_ACT_status = 'I'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String",
+				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			}
+		},
+		"annotations": []
+	}
+}
