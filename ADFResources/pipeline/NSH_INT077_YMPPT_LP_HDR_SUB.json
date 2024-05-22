@@ -641,7 +641,14 @@
 			{
 				"name": "Script10",
 				"type": "Script",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Script11",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -659,7 +666,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT LP_STATUS FROM SAPSR3.YMPPT_LP_HDR WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -1003,6 +1010,30 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Script12",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script10",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
