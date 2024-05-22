@@ -1245,9 +1245,30 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ord_req_num",
-					"value": [
-						""
-					]
+					"value": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('ord_req_num')",
+						"type": "Expression"
+					},
+					"isSequential": true
 				}
 			}
 		],
