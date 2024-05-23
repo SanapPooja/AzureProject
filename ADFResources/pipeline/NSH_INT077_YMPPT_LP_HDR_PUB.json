@@ -277,10 +277,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -313,10 +310,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -350,10 +344,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  from SAPSR3.YMPPT_LP_BATCH_C t where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') group by t.order_item, t.nds_sale_order, t.load_no \n\n\n",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  from SAPSR3.YMPPT_LP_BATCH_C t where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') group by t.order_item, t.nds_sale_order, t.load_no ",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -386,10 +377,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -422,10 +410,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR where LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR where LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -458,10 +443,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "SELECT DISTINCT \n    T.order_item,  AS order_item\n    T.NDS_SALE_ORDER, \n    SUM(T.tally_batch_qty) AS tally_batch_qty, \n    SUM(T.no_pieces) AS no_pieces, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR HT\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\nGROUP BY\n    T.order_item, \n    T.NDS_SALE_ORDER, \n    HB.MANDT, \n    HB.LOAD_NO, \n    HB.LP_STATUS, \n    HT.STATUS, \n    HT.TRAILER_NO, \n    HT.ERROR_CD, \n    V.VEHICLE_ID, \n    V.TARE_WT, \n    V.GROSS_WT, \n    V.TIMESTAMP, \n    HT.NGWS_STATUS;\n\n    ",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "SELECT DISTINCT \r\n    T.order_item,  AS order_item\r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -651,10 +633,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
