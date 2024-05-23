@@ -169,10 +169,10 @@
 							},
 							{
 								"source": {
-									"path": "$['NO_OF_ROLLING_PC']"
+									"path": "$['NO_ROLLING_PC']"
 								},
 								"sink": {
-									"name": "Z_NO_OF_ROLLING_PC"
+									"name": "Z_NO_ROLLING_PC"
 								}
 							},
 							{
@@ -315,7 +315,7 @@
 									"path": "$['Z_PROD_MARKG']"
 								},
 								"sink": {
-									"name": "Z_PROD_MARKG"
+									"name": "Z_PROD_MARK"
 								}
 							},
 							{
@@ -1153,6 +1153,14 @@
 								"sink": {
 									"name": "Z_SHAPE_CODE",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AUART']"
+								},
+								"sink": {
+									"name": "AUART"
 								}
 							}
 						]

@@ -125,7 +125,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN,sod.ACT_CW_LEN,sod.PRODUCT_CODE, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N, sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1, sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );",
+									"sqlReaderQuery": "SELECT\r\n    TRIM(sod.MANDT) AS MANDT,\r\n    TRIM(sod.TRACKNO) AS TRACKNO,\r\n    TRIM(sod.Z_ITEM_NO) AS Z_ITEM_NO,\r\n    TRIM(sod.Creation_Date) AS Creation_Date,\r\n    TRIM(sod.CREATED_BY) AS CREATED_BY,\r\n    TRIM(sod.ORDER_TYPE) AS ORDER_TYPE,\r\n    TRIM(sod.CONTRACT_NO) AS CONTRACT_NO,\r\n    TRIM(sod.PROJ_ID) AS PROJ_ID,\r\n    TRIM(sod.CUSTOMER_ID) AS CUSTOMER_ID,\r\n    TRIM(sod.PO_NUM) AS PO_NUM,\r\n    TRIM(sod.PO_Date) AS PO_Date,\r\n    TRIM(sod.REQ_DELI_DATE) AS REQ_DELI_DATE,\r\n    sod.OVER_DELIVERY_TOLERANCE AS OVER_DELIVERY_TOLERANCE,\r\n    sod.UUNDER_DELIVERY_TOLERANCE AS UUNDER_DELIVERY_TOLERANCE,\r\n    TRIM(sod.ITEM_NO) AS ITEM_NO,\r\n    TRIM(sod.MATL_NO) AS MATL_NO,\r\n    sod.ORD_QTY AS ORD_QTY,\r\n    TRIM(sod.SALES_UOM) AS SALES_UOM,\r\n    sod.NUMERATOR AS NUMERATOR,\r\n    TRIM(sod.UOM_1) AS UOM_1,\r\n    sod.DENOMINATOR AS DENOMINATOR,\r\n    TRIM(sod.UOM_2) AS UOM_2,\r\n    TRIM(sod.HG_ITEM_NO) AS HG_ITEM_NO,\r\n    TRIM(sod.VALUATION_TYPE) AS VALUATION_TYPE,\r\n    TRIM(sod.SO_NO) AS SO_NO,\r\n    TRIM(sod.BATCH_NO) AS BATCH_NO,\r\n    TRIM(sod.SO_STATUS) AS SO_STATUS,\r\n    TRIM(sod.BT_STATUS) AS BT_STATUS,\r\n    TRIM(sod.BBS_NO) AS BBS_NO,\r\n    TRIM(sod.BBS_DESC) AS BBS_DESC,\r\n    TRIM(sod.SHAPE_CODE) AS SHAPE_CODE,\r\n    TRIM(sod.Z_SHAPE_SURCHARG) AS Z_SHAPE_SURCHARG,\r\n    TRIM(sod.Z_PROD_DATE) AS Z_PROD_DATE,\r\n    TRIM(sod.INVOICE_LENGTH) AS INVOICE_LENGTH,\r\n    TRIM(sod.NO_OF_BEND_PC) AS NO_OF_BEND_PC,\r\n    TRIM(sod.NO_OF_CUT_PC) AS NO_OF_CUT_PC,\r\n    TRIM(sod.NO_ROLLING_PC) AS NO_ROLLING_PC,\r\n    TRIM(sod.Z_PIECES) AS Z_PIECES,\r\n    TRIM(sod.LOCATION) AS LOCATION,\r\n    TRIM(sod.REMARKS) AS REMARKS,\r\n    TRIM(sod.SITE_CONTACT_PERSON) AS SITE_CONTACT_PERSON,\r\n    TRIM(sod.Z_CW_DIA) AS Z_CW_DIA,\r\n    TRIM(sod.Z_CW_LEN) AS Z_CW_LEN,\r\n    TRIM(sod.Z_CW_OVR_HANG1) AS Z_CW_OVR_HANG1,\r\n    TRIM(sod.Z_CW_OVR_HANG2) AS Z_CW_OVR_HANG2,\r\n    TRIM(sod.Z_CW_SPA) AS Z_CW_SPA,\r\n    TRIM(sod.Z_ELEM_TYPE) AS Z_ELEM_TYPE,\r\n    TRIM(sod.Z_MW_DIA) AS Z_MW_DIA,\r\n    TRIM(sod.Z_MW_LEN) AS Z_MW_LEN,\r\n    TRIM(sod.Z_MW_OVR_HANG1) AS Z_MW_OVR_HANG1,\r\n    TRIM(sod.Z_MW_OVR_HANG2) AS Z_MW_OVR_HANG2,\r\n    TRIM(sod.Z_MW_SPA) AS Z_MW_SPA,\r\n    COALESCE(TRIM(sod.PROD_MARKG), '') AS PROD_MARKG,\r\n    TRIM(sod.WBS1) AS WBS1,\r\n    TRIM(sod.WBS2) AS WBS2,\r\n    TRIM(sod.WBS3) AS WBS3,\r\n    TRIM(sod.WBS4) AS WBS4,\r\n    TRIM(sod.WBS5) AS WBS5,\r\n    TRIM(sod.Z_MAC_NO) AS Z_MAC_NO,\r\n    TRIM(sod.Z_NO_OF_PNT) AS Z_NO_OF_PNT,\r\n    TRIM(sod.Z_NO_OF_STR) AS Z_NO_OF_STR,\r\n    TRIM(sod.Z_TOTAL_BEND) AS Z_TOTAL_BEND,\r\n    TRIM(sod.Z_TOTAL_CUT) AS Z_TOTAL_CUT,\r\n    TRIM(sod.BAR_MARK) AS BAR_MARK,\r\n    sod.NO_MW_PC AS NO_MW_PC,\r\n    sod.NO_CW_PC AS NO_CW_PC,\r\n    sod.ACT_MW_LEN AS ACT_MW_LEN,\r\n    sod.ACT_CW_LEN AS ACT_CW_LEN,\r\n    TRIM(sod.PRODUCT_CODE) AS PRODUCT_CODE,\r\n    TRIM(sod.SLOPE) AS SLOPE,\r\n    TRIM(sod.PIN_DIAMETER) AS PIN_DIAMETER,\r\n    TRIM(sod.SEG_A) AS SEG_A,\r\n    TRIM(sod.SEG_B) AS SEG_B,\r\n    TRIM(sod.SEG_C) AS SEG_C,\r\n    TRIM(sod.SEG_D) AS SEG_D,\r\n    TRIM(sod.SEG_E) AS SEG_E,\r\n    TRIM(sod.SEG_F) AS SEG_F,\r\n    TRIM(sod.SEG_G) AS SEG_G,\r\n    TRIM(sod.SEG_H) AS SEG_H,\r\n    TRIM(sod.SEG_I) AS SEG_I,\r\n    TRIM(sod.SEG_J) AS SEG_J,\r\n    TRIM(sod.SEG_K) AS SEG_K,\r\n    TRIM(sod.SEG_L) AS SEG_L,\r\n    TRIM(sod.SEG_M) AS SEG_M,\r\n    TRIM(sod.SEG_N) AS SEG_N,\r\n    TRIM(sod.SEG_O) AS SEG_O,\r\n    TRIM(sod.SEG_R) AS SEG_R,\r\n    TRIM(sod.SEG_S) AS SEG_S,\r\n    TRIM(sod.SEG_T) AS SEG_T,\r\n    TRIM(sod.HT_H) AS HT_H,\r\n    TRIM(sod.AN_P) AS AN_P,\r\n    TRIM(sod.AN_Q) AS AN_Q,\r\n    TRIM(sod.AN_R) AS AN_R,\r\n    TRIM(sod.AN_S) AS AN_S,\r\n    TRIM(sod.AN_T) AS AN_T,\r\n    TRIM(sod.AN_U) AS AN_U,\r\n    TRIM(sod.AN_V) AS AN_V,\r\n    TRIM(sod.AN_W) AS AN_W,\r\n    TRIM(sod.HT_B) AS HT_B,\r\n    TRIM(sod.HT_C) AS HT_C,\r\n    TRIM(sod.HT_D) AS HT_D,\r\n    TRIM(sod.LEG) AS LEG,\r\n    TRIM(sod.HOOK) AS HOOK,\r\n    TRIM(sod.MW_TYPE) AS MW_TYPE,\r\n   TRIM(sod.CW_TYPE) AS CW_TYPE,\r\nsod.T_THEO_KG AS T_THEO_KG,\r\nsod.T_NET_KG AS T_NET_KG,\r\nTRIM(sod.T_BOM) AS T_BOM,\r\nTRIM(sod.T_MWOH1) AS T_MWOH1,\r\nsod.T_MWSP AS T_MWSP,\r\nsod.T_MWPC AS T_MWPC,\r\nsod.T_CWPC AS T_CWPC,\r\nsod.T_CWSP AS T_CWSP,\r\nTRIM(sod.T_MHOH2) AS T_MHOH2,\r\nTRIM(sod.T_CWOH1) AS T_CWOH1,\r\nTRIM(sod.T_CWOH2) AS T_CWOH2,\r\nTRIM(sod.T_REVERSE) AS T_REVERSE,\r\nTRIM(sod.T_COMBINE) AS T_COMBINE,\r\nTRIM(sod.T_FORCE) AS T_FORCE,\r\nTRIM(sod.T_PTCM01) AS T_PTCM01,\r\nTRIM(sod.T_PTCM02) AS T_PTCM02,\r\nTRIM(sod.T_PTCM03) AS T_PTCM03,\r\nTRIM(sod.T_PTCM04) AS T_PTCM04,\r\nTRIM(sod.T_PTCM05) AS T_PTCM05,\r\nTRIM(sod.T_PTCM06) AS T_PTCM06,\r\nTRIM(sod.T_PTCM07) AS T_PTCM07,\r\nTRIM(sod.T_PTCM08) AS T_PTCM08,\r\nTRIM(sod.T_PTCM09) AS T_PTCM09,\r\nTRIM(sod.T_PTCM10) AS T_PTCM10,\r\nTRIM(sod.T_PTCC01) AS T_PTCC01,\r\nTRIM(sod.T_PTCC02) AS T_PTCC02,\r\nTRIM(sod.T_PTCC03) AS T_PTCC03,\r\nTRIM(sod.T_PTCC04) AS T_PTCC04,\r\nTRIM(sod.T_PTCC05) AS T_PTCC05,\r\nTRIM(sod.T_PTCC06) AS T_PTCC06,\r\nTRIM(sod.T_PTCC07) AS T_PTCC07,\r\nTRIM(sod.T_PTCC08) AS T_PTCC08,\r\nTRIM(sod.T_PTCC09) AS T_PTCC09,\r\nTRIM(sod.T_PTCC10) AS T_PTCC10,\r\nTRIM(sod.T_DEL_DIR) AS T_DEL_DIR,\r\nTRIM(sod.T_DEL_DIS) AS T_DEL_DIS,\r\nTRIM(sod.T_DEL_TIME) AS T_DEL_TIME,\r\nsod.T_CAB_PROD_LEN AS T_CAB_PROD_LEN,\r\nsod.T_CUT_TIME AS T_CUT_TIME,\r\nsod.T_BEND_TIME AS T_BEND_TIME,\r\nsod.T_STK_TIME AS T_STK_TIME\r\nFROM\r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE\r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO\r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -147,7 +147,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "MANDT"
+												"path": "$['MANDT']"
 											}
 										},
 										{
@@ -156,7 +156,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "TRACKNO"
+												"path": "$['TRACKNO']"
 											}
 										},
 										{
@@ -165,7 +165,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "CRDATE"
+												"path": "$['CRDATE']"
 											}
 										},
 										{
@@ -174,16 +174,15 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "CREATOR"
+												"path": "$['CREATOR']"
 											}
 										},
 										{
 											"source": {
-												"name": "PO_NUM",
-												"type": "String"
+												"name": "Z_ITEM_NO"
 											},
 											"sink": {
-												"path": "ZPOSNR"
+												"path": "$['ZPOSNR']"
 											}
 										},
 										{
@@ -192,7 +191,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "MATNR"
+												"path": "$['MATNR']"
 											}
 										},
 										{
@@ -201,7 +200,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SOSTATUS"
+												"path": "$['SOSTATUS']"
 											}
 										},
 										{
@@ -210,7 +209,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "BTSTATUS"
+												"path": "$['BTSTATUS']"
 											}
 										},
 										{
@@ -219,7 +218,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_BBS_NO"
+												"path": "$['Z_BBS_NO']"
 											}
 										},
 										{
@@ -228,7 +227,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_BBS_DESC"
+												"path": "$['Z_BBS_DESC']"
 											}
 										},
 										{
@@ -237,7 +236,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_SHAPE_SURCHARG"
+												"path": "$['Z_SHAPE_SURCHARG']"
 											}
 										},
 										{
@@ -246,7 +245,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_SHAPE_CODE"
+												"path": "$['Z_SHAPE_CODE']"
 											}
 										},
 										{
@@ -255,7 +254,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_PROD_DATE"
+												"path": "$['Z_PROD_DATE']"
 											}
 										},
 										{
@@ -264,7 +263,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_INV_LEN"
+												"path": "$['Z_INV_LEN']"
 											}
 										},
 										{
@@ -273,7 +272,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "NO_OF_BEND_PC"
+												"path": "$['NO_OF_BEND_PC']"
 											}
 										},
 										{
@@ -282,7 +281,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "NO_OF_CUT_PC"
+												"path": "$['NO_OF_CUT_PC']"
 											}
 										},
 										{
@@ -291,7 +290,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "NO_ROLLING_PC"
+												"path": "$['NO_ROLLING_PC']"
 											}
 										},
 										{
@@ -300,7 +299,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_PIECES"
+												"path": "$['Z_PIECES']"
 											}
 										},
 										{
@@ -309,7 +308,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "LOCATION"
+												"path": "$['LOCATION']"
 											}
 										},
 										{
@@ -318,7 +317,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "REMARKS"
+												"path": "$['REMARKS']"
 											}
 										},
 										{
@@ -327,7 +326,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SITECON"
+												"path": "$['SITECON']"
 											}
 										},
 										{
@@ -336,7 +335,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_CW_DIA"
+												"path": "$['Z_CW_DIA']"
 											}
 										},
 										{
@@ -345,7 +344,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_CW_LEN"
+												"path": "$['Z_CW_LEN']"
 											}
 										},
 										{
@@ -354,7 +353,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_CW_OVR_HANG1"
+												"path": "$['Z_CW_OVR_HANG1']"
 											}
 										},
 										{
@@ -363,7 +362,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_CW_OVR_HANG2"
+												"path": "$['Z_CW_OVR_HANG2']"
 											}
 										},
 										{
@@ -372,7 +371,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_CW_SPA"
+												"path": "$['Z_CW_SPA']"
 											}
 										},
 										{
@@ -381,7 +380,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_ELEM_TYPE"
+												"path": "$['Z_ELEM_TYPE']"
 											}
 										},
 										{
@@ -390,7 +389,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_MW_DIA"
+												"path": "$['Z_MW_DIA']"
 											}
 										},
 										{
@@ -399,7 +398,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_MW_LEN"
+												"path": "$['Z_MW_LEN']"
 											}
 										},
 										{
@@ -408,7 +407,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_MW_OVR_HANG1"
+												"path": "$['Z_MW_OVR_HANG1']"
 											}
 										},
 										{
@@ -417,7 +416,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_MW_OVR_HANG2"
+												"path": "$['Z_MW_OVR_HANG2']"
 											}
 										},
 										{
@@ -426,7 +425,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_PROD_MARKG"
+												"path": "$['Z_PROD_MARKG']"
 											}
 										},
 										{
@@ -435,7 +434,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "WBS1"
+												"path": "$['WBS1']"
 											}
 										},
 										{
@@ -444,7 +443,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "WBS2"
+												"path": "$['WBS2']"
 											}
 										},
 										{
@@ -453,7 +452,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "WBS3"
+												"path": "$['WBS3']"
 											}
 										},
 										{
@@ -462,7 +461,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "WBS4"
+												"path": "$['WBS4']"
 											}
 										},
 										{
@@ -471,7 +470,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "WBS5"
+												"path": "$['WBS5']"
 											}
 										},
 										{
@@ -480,7 +479,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_MAC_NO"
+												"path": "$['Z_MAC_NO']"
 											}
 										},
 										{
@@ -489,7 +488,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_NO_OF_PNT"
+												"path": "$['Z_NO_OF_PNT']"
 											}
 										},
 										{
@@ -498,7 +497,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_NO_OF_STR"
+												"path": "$['Z_NO_OF_STR']"
 											}
 										},
 										{
@@ -507,7 +506,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_TOTAL_BEND"
+												"path": "$['Z_TOTAL_BEND']"
 											}
 										},
 										{
@@ -516,7 +515,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "Z_TOTAL_CUT"
+												"path": "$['Z_TOTAL_CUT']"
 											}
 										},
 										{
@@ -525,7 +524,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "BAR_MARK"
+												"path": "$['BAR_MARK']"
 											}
 										},
 										{
@@ -534,7 +533,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "NO_MW_PC"
+												"path": "$['NO_MW_PC']"
 											}
 										},
 										{
@@ -543,7 +542,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "NO_CW_PC"
+												"path": "$['NO_CW_PC']"
 											}
 										},
 										{
@@ -552,7 +551,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "ACT_MW_LEN"
+												"path": "$['ACT_MW_LEN']"
 											}
 										},
 										{
@@ -560,7 +559,7 @@
 												"name": "ACT_CW_LEN"
 											},
 											"sink": {
-												"path": "ACT_CW_LEN"
+												"path": "$['ACT_CW_LEN']"
 											}
 										},
 										{
@@ -568,7 +567,7 @@
 												"name": "PRODUCT_CODE"
 											},
 											"sink": {
-												"path": "Z_LGY_CODE"
+												"path": "$['Z_LGY_CODE']"
 											}
 										},
 										{
@@ -577,7 +576,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SLOPE"
+												"path": "$['SLOPE']"
 											}
 										},
 										{
@@ -586,7 +585,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "PIN_DIAMETER"
+												"path": "$['PIN_DIAMETER']"
 											}
 										},
 										{
@@ -595,7 +594,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_A"
+												"path": "$['SEG_A']"
 											}
 										},
 										{
@@ -604,7 +603,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_B"
+												"path": "$['SEG_B']"
 											}
 										},
 										{
@@ -613,7 +612,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_C"
+												"path": "$['SEG_C']"
 											}
 										},
 										{
@@ -622,7 +621,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_D"
+												"path": "$['SEG_D']"
 											}
 										},
 										{
@@ -631,7 +630,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_E"
+												"path": "$['SEG_E']"
 											}
 										},
 										{
@@ -640,7 +639,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_F"
+												"path": "$['SEG_F']"
 											}
 										},
 										{
@@ -649,7 +648,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_G"
+												"path": "$['SEG_G']"
 											}
 										},
 										{
@@ -658,7 +657,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_H"
+												"path": "$['SEG_H']"
 											}
 										},
 										{
@@ -667,7 +666,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_I"
+												"path": "$['SEG_I']"
 											}
 										},
 										{
@@ -676,7 +675,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_J"
+												"path": "$['SEG_J']"
 											}
 										},
 										{
@@ -685,7 +684,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_K"
+												"path": "$['SEG_K']"
 											}
 										},
 										{
@@ -694,7 +693,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_L"
+												"path": "$['SEG_L']"
 											}
 										},
 										{
@@ -703,7 +702,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_M"
+												"path": "$['SEG_M']"
 											}
 										},
 										{
@@ -712,7 +711,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_N"
+												"path": "$['SEG_N']"
 											}
 										},
 										{
@@ -721,7 +720,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_O"
+												"path": "$['SEG_O']"
 											}
 										},
 										{
@@ -730,7 +729,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_R"
+												"path": "$['SEG_R']"
 											}
 										},
 										{
@@ -739,7 +738,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_S"
+												"path": "$['SEG_S']"
 											}
 										},
 										{
@@ -748,7 +747,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "SEG_T"
+												"path": "$['SEG_T']"
 											}
 										},
 										{
@@ -757,7 +756,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "HT_H"
+												"path": "$['HT_H']"
 											}
 										},
 										{
@@ -766,7 +765,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_P"
+												"path": "$['AN_P']"
 											}
 										},
 										{
@@ -775,7 +774,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_Q"
+												"path": "$['AN_Q']"
 											}
 										},
 										{
@@ -784,7 +783,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_R"
+												"path": "$['AN_R']"
 											}
 										},
 										{
@@ -793,7 +792,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_S"
+												"path": "$['AN_S']"
 											}
 										},
 										{
@@ -802,7 +801,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_T"
+												"path": "$['AN_T']"
 											}
 										},
 										{
@@ -811,7 +810,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_U"
+												"path": "$['AN_U']"
 											}
 										},
 										{
@@ -820,7 +819,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_V"
+												"path": "$['AN_V']"
 											}
 										},
 										{
@@ -829,7 +828,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "AN_W"
+												"path": "$['AN_W']"
 											}
 										},
 										{
@@ -838,7 +837,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "HT_B"
+												"path": "$['HT_B']"
 											}
 										},
 										{
@@ -847,7 +846,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "HT_C"
+												"path": "$['HT_C']"
 											}
 										},
 										{
@@ -856,7 +855,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "HT_D"
+												"path": "$['HT_D']"
 											}
 										},
 										{
@@ -865,7 +864,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "LEG"
+												"path": "$['LEG']"
 											}
 										},
 										{
@@ -874,7 +873,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "HOOK"
+												"path": "$['HOOK']"
 											}
 										},
 										{
@@ -883,7 +882,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "MW_TYPE"
+												"path": "$['MW_TYPE']"
 											}
 										},
 										{
@@ -892,7 +891,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "CW_TYPE"
+												"path": "$['CW_TYPE']"
 											}
 										},
 										{
@@ -901,7 +900,7 @@
 												"type": "Decimal"
 											},
 											"sink": {
-												"path": "T_THEO_KG"
+												"path": "$['T_THEO_KG']"
 											}
 										},
 										{
@@ -910,7 +909,7 @@
 												"type": "Decimal"
 											},
 											"sink": {
-												"path": "T_NET_KG"
+												"path": "$['T_NET_KG']"
 											}
 										},
 										{
@@ -919,7 +918,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_MWOH1"
+												"path": "$['T_MWOH1']"
 											}
 										},
 										{
@@ -928,7 +927,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "T_MWSP"
+												"path": "$['T_MWSP']"
 											}
 										},
 										{
@@ -937,7 +936,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "T_MWPC"
+												"path": "$['T_MWPC']"
 											}
 										},
 										{
@@ -946,7 +945,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "T_CWPC"
+												"path": "$['T_CWPC']"
 											}
 										},
 										{
@@ -955,7 +954,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "T_CWSP"
+												"path": "$['T_CWSP']"
 											}
 										},
 										{
@@ -964,7 +963,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_MHOH2"
+												"path": "$['T_MHOH2']"
 											}
 										},
 										{
@@ -973,7 +972,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_CWOH1"
+												"path": "$['T_CWOH1']"
 											}
 										},
 										{
@@ -982,7 +981,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_CWOH2"
+												"path": "$['T_CWOH2']"
 											}
 										},
 										{
@@ -991,7 +990,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_REVERSE"
+												"path": "$['T_REVERSE']"
 											}
 										},
 										{
@@ -1000,7 +999,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_COMBINE"
+												"path": "$['T_COMBINE']"
 											}
 										},
 										{
@@ -1009,7 +1008,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_FORCE"
+												"path": "$['T_FORCE']"
 											}
 										},
 										{
@@ -1018,7 +1017,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM01"
+												"path": "$['T_PTCM01']"
 											}
 										},
 										{
@@ -1027,7 +1026,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM02"
+												"path": "$['T_PTCM02']"
 											}
 										},
 										{
@@ -1036,7 +1035,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM03"
+												"path": "$['T_PTCM03']"
 											}
 										},
 										{
@@ -1045,7 +1044,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM04"
+												"path": "$['T_PTCM04']"
 											}
 										},
 										{
@@ -1054,7 +1053,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM05"
+												"path": "$['T_PTCM05']"
 											}
 										},
 										{
@@ -1063,7 +1062,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM06"
+												"path": "$['T_PTCM06']"
 											}
 										},
 										{
@@ -1072,7 +1071,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM07"
+												"path": "$['T_PTCM07']"
 											}
 										},
 										{
@@ -1081,7 +1080,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM08"
+												"path": "$['T_PTCM08']"
 											}
 										},
 										{
@@ -1090,7 +1089,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM09"
+												"path": "$['T_PTCM09']"
 											}
 										},
 										{
@@ -1099,7 +1098,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCM10"
+												"path": "$['T_PTCM10']"
 											}
 										},
 										{
@@ -1108,7 +1107,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC01"
+												"path": "$['T_PTCC01']"
 											}
 										},
 										{
@@ -1117,7 +1116,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC02"
+												"path": "$['T_PTCC02']"
 											}
 										},
 										{
@@ -1126,7 +1125,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC03"
+												"path": "$['T_PTCC03']"
 											}
 										},
 										{
@@ -1135,7 +1134,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC04"
+												"path": "$['T_PTCC04']"
 											}
 										},
 										{
@@ -1144,7 +1143,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC05"
+												"path": "$['T_PTCC05']"
 											}
 										},
 										{
@@ -1153,7 +1152,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC06"
+												"path": "$['T_PTCC06']"
 											}
 										},
 										{
@@ -1162,7 +1161,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC07"
+												"path": "$['T_PTCC07']"
 											}
 										},
 										{
@@ -1171,7 +1170,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC08"
+												"path": "$['T_PTCC08']"
 											}
 										},
 										{
@@ -1180,7 +1179,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC09"
+												"path": "$['T_PTCC09']"
 											}
 										},
 										{
@@ -1189,7 +1188,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_PTCC10"
+												"path": "$['T_PTCC10']"
 											}
 										},
 										{
@@ -1198,7 +1197,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_DEL_DIR"
+												"path": "$['T_DEL_DIR']"
 											}
 										},
 										{
@@ -1207,7 +1206,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_DEL_DIS"
+												"path": "$['T_DEL_DIS']"
 											}
 										},
 										{
@@ -1216,7 +1215,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_DEL_TIME"
+												"path": "$['T_DEL_TIME']"
 											}
 										},
 										{
@@ -1225,7 +1224,7 @@
 												"type": "Int32"
 											},
 											"sink": {
-												"path": "T_CAB_PROD_LEN"
+												"path": "$['T_CAB_PROD_LEN']"
 											}
 										},
 										{
@@ -1234,7 +1233,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_CUT_TIME"
+												"path": "$['T_CUT_TIME']"
 											}
 										},
 										{
@@ -1243,7 +1242,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_BEND_TIME"
+												"path": "$['T_BEND_TIME']"
 											}
 										},
 										{
@@ -1252,7 +1251,15 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "T_STK_TIME"
+												"path": "$['T_STK_TIME']"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_TYPE"
+											},
+											"sink": {
+												"path": "$['AUART']"
 											}
 										}
 									]
