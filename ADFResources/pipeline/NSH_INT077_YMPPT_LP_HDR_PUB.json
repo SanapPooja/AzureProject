@@ -424,14 +424,7 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Lookup7",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -716,6 +709,39 @@
 									"value": "@array(activity('Lookup3').output.firstRow.NDS_SALE_ORDER)",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "Script1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Lookup7",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'Y', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
