@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT (count(1) / 50) + 1 AS recordcount\r\nFROM dbo.SAP_ORDER_DATA sod\r\nJOIN WMBESMbny2gto wmb ON sod.TRACKNO = wmb.TRACK_NO\r\nWHERE wmb.STATUS = 'Q' \r\n  AND wmb.transfer_status != 'P';\r\n",
+						"sqlReaderQuery": "SELECT (COUNT(1) / 50) + 1 AS recordcount\r\nFROM \r\n    dbo.SAP_ORDER_DATA\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -74,7 +74,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N,sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1,sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nJOIN \r\n    WMBESMbny2gto wmb\r\nON \r\n    sod.TRACKNO = wmb.TRACK_NO\r\nWHERE \r\n    wmb.STATUS='Q' and wmb.transfer_status!='P'\r\n\t",
+						"sqlReaderQuery": "SELECT TOP (2) \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N, sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1, sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -118,10 +118,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": {
-										"value": "SELECT top 1\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N,sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1,sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\nFROM \n    dbo.SAP_ORDER_DATA sod\nJOIN \n    WMBESMbny2gto wmb\nON \n    sod.TRACKNO = wmb.TRACK_NO\nWHERE \n    wmb.STATUS='Q' and wmb.transfer_status!='P'\n\t",
-										"type": "Expression"
-									},
+									"sqlReaderQuery": "SELECT \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N, sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1, sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -279,10 +276,73 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": {
-											"value": "UPDATE dbo.ESM_SAP_TRACK SET ESB_STATUS = 'E' and STATUS_DATE = getdate() where TRACK_NO = {pipeline().parameters.TRACKNO} and STATUS = 'Q'",
-											"type": "Expression"
-										}
+										"text": "UPDATE dbo.esm_sap_track \r\nSET STATUS = 'E' \r\nWHERE TRACK_NO IN (\r\n    SELECT t1.TRACK_NO\r\n    FROM esm_sap_track t1\r\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n);"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script3",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSQADB5_ODOS_Connection",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "UPDATE dbo.esm_sap_track \r\nSET STATUS = 'Q' \r\nWHERE TRACK_NO IN (\r\n    SELECT t1.TRACK_NO\r\n    FROM esm_sap_track t1\r\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n);"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script4",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSQADB5_ODOS_Connection",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "DELETE FROM WMBESMbny2gto WHERE TRACK_NO IN\r\n(SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n\t\tWHERE t1.STATUS='Q')"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
