@@ -443,7 +443,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "SELECT DISTINCT \r\n    T.order_item,  AS order_item\r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\n    WHERE HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS",
+									"oracleReaderQuery": " SELECT DISTINCT \r\n    T.order_item,\r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\nWHERE \r\n    HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -494,6 +494,15 @@
 											},
 											"sink": {
 												"path": "$NO_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "SALES_ORDER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SALES_ORDER"
 											}
 										},
 										{
