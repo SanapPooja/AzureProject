@@ -840,7 +840,14 @@
 			{
 				"name": "Script12",
 				"type": "Script",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -849,8 +856,20 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO = '@{variables('LOAD_NO')}' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+								"type": "Expression"
+							}
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
