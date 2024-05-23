@@ -379,7 +379,23 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT TRAILER_NO FROM SAPSR3.YMPPT_LP_HDR",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_YMPPT_LP_HDR",
+						"type": "DatasetReference"
+					}
+				}
 			},
 			{
 				"name": "Lookup5",
@@ -392,7 +408,23 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT VEHICLE_TYPE FROM SAPSR3.YMPPT_LP_HDR",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_YMPPT_LP_HDR",
+						"type": "DatasetReference"
+					}
+				}
 			},
 			{
 				"name": "Set variable4",
@@ -409,7 +441,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "TRAILER_NO",
+					"value": {
+						"value": "@activity('Lookup4').output.value[0].TRAILER_NO",
+						"type": "Expression"
+					}
+				}
 			},
 			{
 				"name": "Set variable5",
@@ -426,7 +465,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "VEHICLE_TYPE",
+					"value": {
+						"value": "@activity('Lookup5').output.value[0].VEHICLE_TYPE",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
