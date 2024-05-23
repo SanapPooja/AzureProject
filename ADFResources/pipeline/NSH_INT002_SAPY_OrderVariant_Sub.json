@@ -345,7 +345,7 @@
 					{
 						"activity": "update_SAP_WBS_SOR_STATUS_T_copy1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
