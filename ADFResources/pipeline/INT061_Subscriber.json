@@ -699,7 +699,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script9",
+						"activity": "Script9_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -723,6 +723,42 @@
 							"type": "Query",
 							"text": {
 								"value": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script9_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script9",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T',  MODIFY_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' WHERE LOAD_NO = '@{variables('LOAD_NO')}' and LP_STATUS  <> 'Y'",
 								"type": "Expression"
 							}
 						}
