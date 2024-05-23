@@ -34,7 +34,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$MANDT"
+									"path": "$['MANDT']"
 								},
 								"sink": {
 									"name": "MANDT",
@@ -43,7 +43,7 @@
 							},
 							{
 								"source": {
-									"path": "$TRACKNO"
+									"path": "$['TRACKNO']"
 								},
 								"sink": {
 									"name": "TRACKNO",
@@ -52,7 +52,7 @@
 							},
 							{
 								"source": {
-									"path": "$CRDATE"
+									"path": "$['CRDATE']"
 								},
 								"sink": {
 									"name": "CRDATE",
@@ -61,7 +61,7 @@
 							},
 							{
 								"source": {
-									"path": "$CREATOR"
+									"path": "$['CREATOR']"
 								},
 								"sink": {
 									"name": "CREATOR",
@@ -70,10 +70,1084 @@
 							},
 							{
 								"source": {
-									"path": "$ZPOSNR"
+									"path": "$['ZPOSNR']"
 								},
 								"sink": {
 									"name": "ZPOSNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MATNR']"
+								},
+								"sink": {
+									"name": "MATNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SOSTATUS']"
+								},
+								"sink": {
+									"name": "SOSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BTSTATUS']"
+								},
+								"sink": {
+									"name": "BTSTATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_BBSNO']"
+								},
+								"sink": {
+									"name": "Z_BBSNO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_BBS_DEC']"
+								},
+								"sink": {
+									"name": "Z_BBS_DEC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_SHAPE_SURCHARG']"
+								},
+								"sink": {
+									"name": "Z_SHAPE_SURCHARG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_PROD_DATE']"
+								},
+								"sink": {
+									"name": "Z_PROD_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_INV_LEN']"
+								},
+								"sink": {
+									"name": "Z_INV_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_NO_OF_BEND_PC']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_BEND_PC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_NO_OF_CUT_PC']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_CUT_PC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_NO_OF_ROLLING_PC']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_ROLLING_PC"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_PIECES']"
+								},
+								"sink": {
+									"name": "Z_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['LOCATION']"
+								},
+								"sink": {
+									"name": "LOCATION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REMARKS']"
+								},
+								"sink": {
+									"name": "REMARKS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SITECON']"
+								},
+								"sink": {
+									"name": "SITECON",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_CW_DIA']"
+								},
+								"sink": {
+									"name": "Z_CW_DIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_CW_LEN']"
+								},
+								"sink": {
+									"name": "Z_CW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_CW_OVR_HANG1']"
+								},
+								"sink": {
+									"name": "Z_CW_OVR_HANG1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_CW_OVR_HANG2']"
+								},
+								"sink": {
+									"name": "Z_CW_OVR_HANG2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_CW_SPA']"
+								},
+								"sink": {
+									"name": "Z_CW_SPA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_ELEM_TYPE']"
+								},
+								"sink": {
+									"name": "Z_ELEM_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_DIA']"
+								},
+								"sink": {
+									"name": "Z_MW_DIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_LEN']"
+								},
+								"sink": {
+									"name": "Z_MW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_OVR_HANG1']"
+								},
+								"sink": {
+									"name": "Z_MW_OVR_HANG1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_OVR_HANG2']"
+								},
+								"sink": {
+									"name": "Z_MW_OVR_HANG2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_SPA']"
+								},
+								"sink": {
+									"name": "Z_MW_SPA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_PROD_MARKG']"
+								},
+								"sink": {
+									"name": "Z_PROD_MARKG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_WBS1']"
+								},
+								"sink": {
+									"name": "Z_WBS1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_WBS2']"
+								},
+								"sink": {
+									"name": "Z_WBS2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_WBS3']"
+								},
+								"sink": {
+									"name": "Z_WBS3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_WBS4']"
+								},
+								"sink": {
+									"name": "Z_WBS4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_WBS5']"
+								},
+								"sink": {
+									"name": "Z_WBS5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MAC_NO']"
+								},
+								"sink": {
+									"name": "Z_MAC_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_NO_OF_PNT']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_PNT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_NO_OF_STR']"
+								},
+								"sink": {
+									"name": "Z_NO_OF_STR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_TOTAL_BEND']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_BEND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_TOTAL_CUT']"
+								},
+								"sink": {
+									"name": "Z_TOTAL_CUT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BAR_MARK']"
+								},
+								"sink": {
+									"name": "BAR_MARK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['NO_MW_PC']"
+								},
+								"sink": {
+									"name": "NO_MW_PC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['NO_CW_PC']"
+								},
+								"sink": {
+									"name": "NO_CW_PC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ACT_MW_LEN']"
+								},
+								"sink": {
+									"name": "ACT_MW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ACT_CW_LEN']"
+								},
+								"sink": {
+									"name": "ACT_CW_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_LGY_CODE']"
+								},
+								"sink": {
+									"name": "Z_LGY_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SLOPE']"
+								},
+								"sink": {
+									"name": "SLOPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PIN_DIAMETER']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_A']"
+								},
+								"sink": {
+									"name": "SEG_A",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_B']"
+								},
+								"sink": {
+									"name": "SEG_B",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_C']"
+								},
+								"sink": {
+									"name": "SEG_C",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_D']"
+								},
+								"sink": {
+									"name": "SEG_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_E']"
+								},
+								"sink": {
+									"name": "SEG_E",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_F']"
+								},
+								"sink": {
+									"name": "SEG_F",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_G']"
+								},
+								"sink": {
+									"name": "SEG_G",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_H']"
+								},
+								"sink": {
+									"name": "SEG_H",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_I']"
+								},
+								"sink": {
+									"name": "SEG_I",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_J']"
+								},
+								"sink": {
+									"name": "SEG_J",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_K']"
+								},
+								"sink": {
+									"name": "SEG_K",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_L']"
+								},
+								"sink": {
+									"name": "SEG_L",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_M']"
+								},
+								"sink": {
+									"name": "SEG_M",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_N']"
+								},
+								"sink": {
+									"name": "SEG_N",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_O']"
+								},
+								"sink": {
+									"name": "SEG_O",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_R']"
+								},
+								"sink": {
+									"name": "SEG_R",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_S']"
+								},
+								"sink": {
+									"name": "SEG_S",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SEG_T']"
+								},
+								"sink": {
+									"name": "SEG_T",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HT_H']"
+								},
+								"sink": {
+									"name": "HT_H",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_P']"
+								},
+								"sink": {
+									"name": "AN_P",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_Q']"
+								},
+								"sink": {
+									"name": "AN_Q",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_R']"
+								},
+								"sink": {
+									"name": "AN_R",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_S']"
+								},
+								"sink": {
+									"name": "AN_S",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_T']"
+								},
+								"sink": {
+									"name": "AN_T",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_U']"
+								},
+								"sink": {
+									"name": "AN_U",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_V']"
+								},
+								"sink": {
+									"name": "AN_V",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['AN_W']"
+								},
+								"sink": {
+									"name": "AN_W",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HT_B']"
+								},
+								"sink": {
+									"name": "HT_B",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HT_C']"
+								},
+								"sink": {
+									"name": "HT_C",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HT_D']"
+								},
+								"sink": {
+									"name": "HT_D",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['LEG']"
+								},
+								"sink": {
+									"name": "LEG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HOOK']"
+								},
+								"sink": {
+									"name": "HOOK",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_MW_TYPE']"
+								},
+								"sink": {
+									"name": "T_MW_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CW_TYPE']"
+								},
+								"sink": {
+									"name": "T_CW_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_THEO_KG']"
+								},
+								"sink": {
+									"name": "T_THEO_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_NET_KG']"
+								},
+								"sink": {
+									"name": "T_NET_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_MWOH1']"
+								},
+								"sink": {
+									"name": "T_MWOH1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_MWSP']"
+								},
+								"sink": {
+									"name": "T_MWSP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_MWPC']"
+								},
+								"sink": {
+									"name": "T_MWPC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CWPC']"
+								},
+								"sink": {
+									"name": "T_CWPC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CWSP']"
+								},
+								"sink": {
+									"name": "T_CWSP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_MHOH2']"
+								},
+								"sink": {
+									"name": "T_MHOH2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CWOH1']"
+								},
+								"sink": {
+									"name": "T_CWOH1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CWOH2']"
+								},
+								"sink": {
+									"name": "T_CWOH2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_REVERSE']"
+								},
+								"sink": {
+									"name": "T_REVERSE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_COMBINE']"
+								},
+								"sink": {
+									"name": "T_COMBINE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_FORCE']"
+								},
+								"sink": {
+									"name": "T_FORCE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM01']"
+								},
+								"sink": {
+									"name": "T_PTCM01",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM02']"
+								},
+								"sink": {
+									"name": "T_PTCM02",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM03']"
+								},
+								"sink": {
+									"name": "T_PTCM03",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM04']"
+								},
+								"sink": {
+									"name": "T_PTCM04",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM05']"
+								},
+								"sink": {
+									"name": "T_PTCM05",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM06']"
+								},
+								"sink": {
+									"name": "T_PTCM06",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM07']"
+								},
+								"sink": {
+									"name": "T_PTCM07",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM08']"
+								},
+								"sink": {
+									"name": "T_PTCM08",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM09']"
+								},
+								"sink": {
+									"name": "T_PTCM09",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCM10']"
+								},
+								"sink": {
+									"name": "T_PTCM10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC01']"
+								},
+								"sink": {
+									"name": "T_PTCC01",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC02']"
+								},
+								"sink": {
+									"name": "T_PTCC02",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC03']"
+								},
+								"sink": {
+									"name": "T_PTCC03",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC04']"
+								},
+								"sink": {
+									"name": "T_PTCC04",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC05']"
+								},
+								"sink": {
+									"name": "T_PTCC05",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC06']"
+								},
+								"sink": {
+									"name": "T_PTCC06",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC07']"
+								},
+								"sink": {
+									"name": "T_PTCC07",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC08']"
+								},
+								"sink": {
+									"name": "T_PTCC08",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC09']"
+								},
+								"sink": {
+									"name": "T_PTCC09",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_PTCC10']"
+								},
+								"sink": {
+									"name": "T_PTCC10",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_DEL_DIR']"
+								},
+								"sink": {
+									"name": "T_DEL_DIR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_DEL_DIS']"
+								},
+								"sink": {
+									"name": "T_DEL_DIS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_DEL_TIME']"
+								},
+								"sink": {
+									"name": "T_DEL_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CAB_PROD_LEN']"
+								},
+								"sink": {
+									"name": "T_CAB_PROD_LEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_CUT_TIME']"
+								},
+								"sink": {
+									"name": "T_CUT_TIME",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_BEND_TIME']"
+								},
+								"sink": {
+									"name": "T_BEND_TIME",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_STK_TIME']"
+								},
+								"sink": {
+									"name": "T_STK_TIME",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_SHAPE_CODE']"
+								},
+								"sink": {
+									"name": "Z_SHAPE_CODE",
 									"type": "String"
 								}
 							}
