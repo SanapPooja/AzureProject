@@ -125,7 +125,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N, sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1, sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );",
+									"sqlReaderQuery": "SELECT \r\n    sod.MANDT, sod.TRACKNO, sod.Z_ITEM_NO, sod.Creation_Date, sod.CREATED_BY, sod.ORDER_TYPE, sod.CONTRACT_NO, sod.PROJ_ID, sod.CUSTOMER_ID, sod.PO_NUM, sod.PO_Date, \r\n    sod.REQ_DELI_DATE, sod.OVER_DELIVERY_TOLERANCE, sod.UUNDER_DELIVERY_TOLERANCE, sod.ITEM_NO, sod.MATL_NO,\t\t\t\t\t\r\n    sod.ORD_QTY, sod.SALES_UOM, sod.NUMERATOR, sod.UOM_1, sod.DENOMINATOR, sod.UOM_2, sod.HG_ITEM_NO, sod.VALUATION_TYPE, sod.SO_NO, sod.BATCH_NO,\t\t\t\t\t\r\n    sod.SO_STATUS, sod.BT_STATUS, sod.BBS_NO, sod.BBS_DESC, sod.SHAPE_CODE, sod.Z_SHAPE_SURCHARG, sod.Z_PROD_DATE, sod.INVOICE_LENGTH, sod.NO_OF_BEND_PC, sod.NO_OF_CUT_PC, \r\n    sod.NO_ROLLING_PC, sod.Z_PIECES, sod.LOCATION, sod.REMARKS, sod.SITE_CONTACT_PERSON, sod.Z_CW_DIA, \t\t\t\t\t\r\n    sod.Z_CW_LEN, sod.Z_CW_OVR_HANG1, sod.Z_CW_OVR_HANG2, sod.Z_CW_SPA, sod.Z_ELEM_TYPE, sod.Z_MW_DIA, sod.Z_MW_LEN, sod.Z_MW_OVR_HANG1, sod.Z_MW_OVR_HANG2, sod.Z_MW_SPA,\r\n    sod.PROD_MARKG, sod.WBS1, sod.WBS2, sod.WBS3, sod.WBS4, sod.WBS5, sod.Z_MAC_NO, sod.Z_NO_OF_PNT, sod.Z_NO_OF_STR, sod.Z_TOTAL_BEND, sod.Z_TOTAL_CUT, sod.BAR_MARK, \r\n    sod.NO_MW_PC, sod.NO_CW_PC, sod.ACT_MW_LEN,sod.ACT_CW_LEN,sod.PRODUCT_CODE, sod.SLOPE, sod.PIN_DIAMETER, sod.SEG_A, sod.SEG_B, \t\t\t\t\t\r\n    sod.SEG_C, sod.SEG_D, sod.SEG_E, sod.SEG_F, sod.SEG_G, sod.SEG_H, sod.SEG_I, sod.SEG_J, sod.SEG_K, sod.SEG_L, sod.SEG_M, sod.SEG_N, sod.SEG_O, sod.SEG_R, sod.SEG_S, \t\t\t\t\t\r\n    sod.SEG_T, sod.HT_H, sod.AN_P, sod.AN_Q, sod.AN_R, sod.AN_S, sod.AN_T, sod.AN_U, sod.AN_V, sod.AN_W, sod.HT_B, sod.HT_C, sod.HT_D, sod.LEG, sod.HOOK, sod.MW_TYPE, sod.CW_TYPE, \r\n    sod.T_THEO_KG, sod.T_NET_KG, sod.T_BOM, sod.T_MWOH1, sod.T_MWSP, sod.T_MWPC, sod.T_CWPC, sod.T_CWSP, sod.T_MHOH2, sod.T_CWOH1, sod.T_CWOH2, sod.T_REVERSE, sod.T_COMBINE, sod.T_FORCE, \r\n    sod.T_PTCM01, sod.T_PTCM02, sod.T_PTCM03, sod.T_PTCM04, sod.T_PTCM05, sod.T_PTCM06, sod.T_PTCM07, sod.T_PTCM08, sod.T_PTCM09, sod.T_PTCM10, sod.T_PTCC01, sod.T_PTCC02, \r\n    sod.T_PTCC03, sod.T_PTCC04, sod.T_PTCC05, sod.T_PTCC06, sod.T_PTCC07, sod.T_PTCC08, sod.T_PTCC09, sod.T_PTCC10, sod.T_DEL_DIR, sod.T_DEL_DIS, sod.T_DEL_TIME, \r\n    sod.T_CAB_PROD_LEN, sod.T_CUT_TIME, sod.T_BEND_TIME, sod.T_STK_TIME\r\nFROM \r\n    dbo.SAP_ORDER_DATA sod\r\nWHERE \r\n    sod.TRACKNO IN (\r\n        SELECT t1.TRACK_NO \r\n        FROM esm_sap_track t1\r\n        JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n        WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n    );",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -147,7 +147,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$MANDT"
+												"path": "MANDT"
 											}
 										},
 										{
@@ -156,7 +156,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$TRACKNO"
+												"path": "TRACKNO"
 											}
 										},
 										{
@@ -165,7 +165,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$CRDATE"
+												"path": "CRDATE"
 											}
 										},
 										{
@@ -174,7 +174,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$CREATED_BY"
+												"path": "CREATOR"
 											}
 										},
 										{
@@ -183,7 +183,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$ZPOSNR"
+												"path": "ZPOSNR"
 											}
 										},
 										{
@@ -192,7 +192,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$MATNR"
+												"path": "MATNR"
 											}
 										},
 										{
@@ -201,7 +201,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$SOSTATUS"
+												"path": "SOSTATUS"
 											}
 										},
 										{
@@ -210,7 +210,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$BTSTATUS"
+												"path": "BTSTATUS"
 											}
 										},
 										{
@@ -219,7 +219,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$Z_BBSNO"
+												"path": "Z_BBS_NO"
 											}
 										},
 										{
@@ -228,7 +228,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$Z_BBS_DEC"
+												"path": "Z_BBS_DESC"
 											}
 										},
 										{
@@ -237,7 +237,536 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$Z_SHAPE_CODE"
+												"path": "Z_SHAPE_SURCHARG"
+											}
+										},
+										{
+											"source": {
+												"name": "SHAPE_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_SHAPE_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_PROD_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_PROD_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "INVOICE_LENGTH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_INV_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_BEND_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "NO_OF_BEND_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_CUT_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "NO_OF_CUT_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_ROLLING_PC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "NO_ROLLING_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_PIECES",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "LOCATION",
+												"type": "String"
+											},
+											"sink": {
+												"path": "LOCATION"
+											}
+										},
+										{
+											"source": {
+												"name": "REMARKS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "REMARKS"
+											}
+										},
+										{
+											"source": {
+												"name": "SITE_CONTACT_PERSON",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SITECON"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_CW_DIA",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_CW_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_CW_LEN",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_CW_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_CW_OVR_HANG1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_CW_OVR_HANG1"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_CW_OVR_HANG2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_CW_OVR_HANG2"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_CW_SPA",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_CW_SPA"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_ELEM_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_ELEM_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MW_DIA",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_MW_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MW_LEN",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_MW_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MW_OVR_HANG1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_MW_OVR_HANG1"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MW_OVR_HANG2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_MW_OVR_HANG2"
+											}
+										},
+										{
+											"source": {
+												"name": "PROD_MARKG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_PROD_MARKG"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WBS1"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WBS2"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WBS3"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WBS4"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WBS5"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MAC_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_MAC_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_NO_OF_PNT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_NO_OF_PNT"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_NO_OF_STR",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_NO_OF_STR"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_TOTAL_BEND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_TOTAL_BEND"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_TOTAL_CUT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "Z_TOTAL_CUT"
+											}
+										},
+										{
+											"source": {
+												"name": "BAR_MARK",
+												"type": "String"
+											},
+											"sink": {
+												"path": "BAR_MARK"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_MW_PC",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "NO_MW_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_CW_PC",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "NO_CW_PC"
+											}
+										},
+										{
+											"source": {
+												"name": "ACT_MW_LEN",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "ACT_MW_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "ACT_CW_LEN"
+											},
+											"sink": {
+												"path": "ACT_CW_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCT_CODE"
+											},
+											"sink": {
+												"path": "Z_LGY_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "SLOPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SLOPE"
+											}
+										},
+										{
+											"source": {
+												"name": "PIN_DIAMETER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "PIN_DIAMETER"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_A",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_A"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_B",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_B"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_C",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_C"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_D",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_D"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_E",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_E"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_F",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_F"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_G",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_G"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_H",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_H"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_I",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_I"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_J",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_J"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_K",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_K"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_L",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_L"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_M",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_M"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_N",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_N"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_O",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_O"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_R",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_R"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_S",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_S"
+											}
+										},
+										{
+											"source": {
+												"name": "SEG_T",
+												"type": "String"
+											},
+											"sink": {
+												"path": "SEG_T"
+											}
+										},
+										{
+											"source": {
+												"name": "HT_H",
+												"type": "String"
+											},
+											"sink": {
+												"path": "HT_H"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_P",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_P"
 											}
 										}
 									]
@@ -259,6 +788,8 @@
 						{
 							"name": "Script2",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data2",
