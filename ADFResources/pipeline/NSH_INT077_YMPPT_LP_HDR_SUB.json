@@ -102,11 +102,195 @@
 									"type": "Decimal"
 								}
 							},
-							null,
-							null,
-							null,
-							null,
-							null
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_NO"
+								},
+								"sink": {
+									"name": "TRAILER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CREATE_DATE"
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MODIFY_DATE"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "TARE_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NGWS_STATUS"
+								},
+								"sink": {
+									"name": "NGWS_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_PIECES"
+								},
+								"sink": {
+									"name": "ORDER_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$WEIGHT_IN_KG"
+								},
+								"sink": {
+									"name": "WEIGHT_IN_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_REQUEST_NO"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$QTY_IN_BASE_UOM"
+								},
+								"sink": {
+									"name": "QTY_IN_BASE_UOM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "DELD_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_PCS"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_PCS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_PCS"
+								},
+								"sink": {
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
+								}
+							}
 						],
 						"collectionReference": ""
 					}
