@@ -585,7 +585,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['PIN_DIAMETER']"
+												"path": "$['BENDING_PIN']"
 											}
 										},
 										{
@@ -882,7 +882,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['MW_TYPE']"
+												"path": "$['T_MW_TYPE']"
 											}
 										},
 										{
@@ -891,7 +891,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['CW_TYPE']"
+												"path": "$['T_CW_TYPE']"
 											}
 										},
 										{
@@ -1260,6 +1260,174 @@
 											},
 											"sink": {
 												"path": "$['AUART']"
+											}
+										},
+										{
+											"source": {
+												"name": "CONTRACT_NO"
+											},
+											"sink": {
+												"path": "$['VGBEL']"
+											}
+										},
+										{
+											"source": {
+												"name": "PROJ_ID"
+											},
+											"sink": {
+												"path": "$['KUNAG']"
+											}
+										},
+										{
+											"source": {
+												"name": "CUSTOMER_ID"
+											},
+											"sink": {
+												"path": "$['KUNNR']"
+											}
+										},
+										{
+											"source": {
+												"name": "PO_NUM"
+											},
+											"sink": {
+												"path": "$['BSTNK']"
+											}
+										},
+										{
+											"source": {
+												"name": "PO_Date"
+											},
+											"sink": {
+												"path": "$['BSTDK']"
+											}
+										},
+										{
+											"source": {
+												"name": "REQ_DELI_DATE"
+											},
+											"sink": {
+												"path": "$['VDATU']"
+											}
+										},
+										{
+											"source": {
+												"name": "OVER_DELIVERY_TOLERANCE"
+											},
+											"sink": {
+												"path": "$['UEBTO']"
+											}
+										},
+										{
+											"source": {
+												"name": "UUNDER_DELIVERY_TOLERANCE"
+											},
+											"sink": {
+												"path": "$['UNTTO']"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO"
+											},
+											"sink": {
+												"path": "$['POSNR']"
+											}
+										},
+										{
+											"source": {
+												"name": "ORD_QTY"
+											},
+											"sink": {
+												"path": "$['KWMENG']"
+											}
+										},
+										{
+											"source": {
+												"name": "SALES_UOM"
+											},
+											"sink": {
+												"path": "$['VRKME']"
+											}
+										},
+										{
+											"source": {
+												"name": "NUMERATOR"
+											},
+											"sink": {
+												"path": "$['UMVKZ']"
+											}
+										},
+										{
+											"source": {
+												"name": "UOM_1"
+											},
+											"sink": {
+												"path": "$['VRKME1']"
+											}
+										},
+										{
+											"source": {
+												"name": "DENOMINATOR"
+											},
+											"sink": {
+												"path": "$['UMVKN']"
+											}
+										},
+										{
+											"source": {
+												"name": "UOM_2"
+											},
+											"sink": {
+												"path": "$['VRKME2']"
+											}
+										},
+										{
+											"source": {
+												"name": "HG_ITEM_NO"
+											},
+											"sink": {
+												"path": "$['UEPOS']"
+											}
+										},
+										{
+											"source": {
+												"name": "VALUATION_TYPE"
+											},
+											"sink": {
+												"path": "$['BWTAR']"
+											}
+										},
+										{
+											"source": {
+												"name": "SO_NO"
+											},
+											"sink": {
+												"path": "$['VBLEN']"
+											}
+										},
+										{
+											"source": {
+												"name": "BATCH_NO"
+											},
+											"sink": {
+												"path": "$['CHARG']"
+											}
+										},
+										{
+											"source": {
+												"name": "Z_MW_SPA"
+											},
+											"sink": {
+												"path": "$['Z_MW_SPA']"
+											}
+										},
+										{
+											"source": {
+												"name": "T_BOM"
+											},
+											"sink": {
+												"path": "$['T_BOM']"
 											}
 										}
 									]
