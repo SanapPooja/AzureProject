@@ -513,6 +513,42 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update sapsr3.YMPPT_LP_HDR \nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))', UPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , VEHICLE_TYPE = '@{variables('VEHICLE_TYPE')}', TRAILER_NO = '@{variables('TRAILER_NO')}' , USER_name = 'ESB_INT060' \nwhere LOAD_NO = '@{variables('LOAD_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
