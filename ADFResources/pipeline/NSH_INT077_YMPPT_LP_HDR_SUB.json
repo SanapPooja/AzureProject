@@ -917,6 +917,39 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script14",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script13",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \t\t\t\t\t\t\r\n(LOAD_NO,ORDER_NO,ORDER_ITEM,ID,PLAN_LOAD_QNTY,DELD_LOAD_QNTY,PLAN_LOAD_PCS,DELD_LOAD_PCS,CREATE_DATE,MODIFY_DATE,ORDER_REQUEST_NO) VALUES \t\t\t\t\t\t\r\n( '%ItemDetails/LOAD_NO%','%ItemDetails/SALES_ORDER%','%ItemDetails/ORDER_ITEM%','%getItemData_sales_order_line_on_loadOutput/results[0]/ID%','%getItemData_sales_order_line_on_loadOutput/results[0]/QTY_IN_BASE_UOM%',NVL(%ItemDetails/TALLY_BATCH_QTY%,0),'%getItemData_sales_order_line_on_loadOutput/results[0]/ORDER_PIECES%',NVL(%deldLoadPcs%,0),'%currentTime%','%currentTime%','%getItemData_sales_order_line_on_loadOutput/results[0]/ORDER_REQUEST_NO%')"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
