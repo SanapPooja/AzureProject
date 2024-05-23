@@ -377,10 +377,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP \r\nfrom SAPSR3.YMPPT_LOAD_VEHIC\r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -413,10 +410,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR where LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR \r\nwhere LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -648,7 +642,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'R', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -751,7 +745,7 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "update SAPSR3.YMPPT_LP_HDR set LP_STATUS = 'Y', timestamp=('@{variables('TIMESTAMP')}')  where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
+										"text": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'Y', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
