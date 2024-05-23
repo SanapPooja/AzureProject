@@ -339,49 +339,13 @@
 				}
 			},
 			{
-				"name": "update_SAP_WBS_SOR_STATUS_T",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "update_SAP_ORDER_VARIANT_STATUS_T",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NDSQADB5_NDS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update dbo.SAP_WBS_SOR set ESB_STATUS = 'T where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Order_Variant_Data_To_Queue",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "update_SAP_WBS_SOR_STATUS_T",
+						"activity": "update_SAP_WBS_SOR_STATUS_T_copy1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -861,6 +825,42 @@
 						"value": "@activity('Get_CHRSTICS').output.value",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "update_SAP_WBS_SOR_STATUS_T_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "update_SAP_ORDER_VARIANT_STATUS_T",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
