@@ -1073,6 +1073,12 @@
 			},
 			"LAYER_NO": {
 				"type": "String"
+			},
+			"PRODUCT_TYPE": {
+				"type": "String"
+			},
+			"DELIVERY_DATE": {
+				"type": "String"
 			}
 		},
 		"annotations": []
