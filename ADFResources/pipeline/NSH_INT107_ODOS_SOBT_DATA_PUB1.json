@@ -1312,6 +1312,8 @@
 						{
 							"name": "Script3",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data2",
