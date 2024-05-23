@@ -3,16 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LOAD_SAP_TALLY",
+				"name": "SCM_STAGING_TABLE",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -313,7 +306,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "LOAD_SAP_TALLY",
+						"activity": "SAP_STAGING_TABLE",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -976,9 +969,16 @@
 				}
 			},
 			{
-				"name": "Copy data2",
+				"name": "SAP_STAGING_TABLE",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SCM_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
