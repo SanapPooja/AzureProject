@@ -473,7 +473,11 @@
 							},
 							{
 								"source": {
-									"path": "$['PIN_DIAMETER']"
+									"path": "$['BENDING_PIN']"
+								},
+								"sink": {
+									"name": "BENDING_PIN",
+									"type": "String"
 								}
 							},
 							{
