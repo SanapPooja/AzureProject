@@ -151,7 +151,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_NO_OF_BEND_PC']"
+									"path": "$['NO_OF_BEND_PC']"
 								},
 								"sink": {
 									"name": "Z_NO_OF_BEND_PC",
@@ -160,7 +160,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_NO_OF_CUT_PC']"
+									"path": "$['NO_OF_CUT_PC']"
 								},
 								"sink": {
 									"name": "Z_NO_OF_CUT_PC",
@@ -169,7 +169,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_NO_OF_ROLLING_PC']"
+									"path": "$['NO_OF_ROLLING_PC']"
 								},
 								"sink": {
 									"name": "Z_NO_OF_ROLLING_PC"
