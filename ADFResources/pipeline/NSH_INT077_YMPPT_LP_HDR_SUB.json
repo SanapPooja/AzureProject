@@ -638,7 +638,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -855,7 +855,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO = '@{variables('LOAD_NO')}' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM"
+							"text": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_SAP_INT077_STAGING) GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -1058,7 +1058,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT STATUS from LOAD_SAP_TALLY WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
+							"text": "SELECT STATUS from LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -1095,6 +1095,119 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script19",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script18",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script20",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script19",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT STATUS from LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "If Condition3",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Script20",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Script20').output, 'T')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Script17_copy1",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\nSELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID FROM\r\nTBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO);"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
 				}
 			}
 		],
