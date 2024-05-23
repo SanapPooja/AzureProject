@@ -427,7 +427,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "INSERT INTO SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \t\t\t\t\t\t\r\n(LOAD_NO,ORDER_NO,ORDER_ITEM,ID,PLAN_LOAD_QNTY,DELD_LOAD_QNTY,PLAN_LOAD_PCS,DELD_LOAD_PCS,CREATE_DATE,MODIFY_DATE,ORDER_REQUEST_NO) VALUES \t\t\t\t\t\t\r\n( '%ItemDetails/LOAD_NO%','%ItemDetails/SALES_ORDER%','%ItemDetails/ORDER_ITEM%','%getItemData_sales_order_line_on_loadOutput/results[0]/ID%','%getItemData_sales_order_line_on_loadOutput/results[0]/QTY_IN_BASE_UOM%',NVL(%ItemDetails/TALLY_BATCH_QTY%,0),'%getItemData_sales_order_line_on_loadOutput/results[0]/ORDER_PIECES%',NVL(%deldLoadPcs%,0),'%currentTime%','%currentTime%','%getItemData_sales_order_line_on_loadOutput/results[0]/ORDER_REQUEST_NO%')"
+							"text": "INSERT INTO SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\n    (LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO)\r\nSELECT \r\n    LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO\r\nFROM \r\n    TBL_NSH_INT077_STAGING;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
