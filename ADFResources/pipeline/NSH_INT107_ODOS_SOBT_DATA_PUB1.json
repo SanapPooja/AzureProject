@@ -768,6 +768,492 @@
 											"sink": {
 												"path": "AN_P"
 											}
+										},
+										{
+											"source": {
+												"name": "AN_Q",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_Q"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_R",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_R"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_S",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_S"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_T",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_T"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_U",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_U"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_V",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_V"
+											}
+										},
+										{
+											"source": {
+												"name": "AN_W",
+												"type": "String"
+											},
+											"sink": {
+												"path": "AN_W"
+											}
+										},
+										{
+											"source": {
+												"name": "HT_B",
+												"type": "String"
+											},
+											"sink": {
+												"path": "HT_B"
+											}
+										},
+										{
+											"source": {
+												"name": "HT_C",
+												"type": "String"
+											},
+											"sink": {
+												"path": "HT_C"
+											}
+										},
+										{
+											"source": {
+												"name": "HT_D",
+												"type": "String"
+											},
+											"sink": {
+												"path": "HT_D"
+											}
+										},
+										{
+											"source": {
+												"name": "LEG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "LEG"
+											}
+										},
+										{
+											"source": {
+												"name": "HOOK",
+												"type": "String"
+											},
+											"sink": {
+												"path": "HOOK"
+											}
+										},
+										{
+											"source": {
+												"name": "MW_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "MW_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "CW_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "CW_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "T_THEO_KG",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "T_THEO_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "T_NET_KG",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "T_NET_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "T_MWOH1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_MWOH1"
+											}
+										},
+										{
+											"source": {
+												"name": "T_MWSP",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "T_MWSP"
+											}
+										},
+										{
+											"source": {
+												"name": "T_MWPC",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "T_MWPC"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CWPC",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "T_CWPC"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CWSP",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "T_CWSP"
+											}
+										},
+										{
+											"source": {
+												"name": "T_MHOH2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_MHOH2"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CWOH1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_CWOH1"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CWOH2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_CWOH2"
+											}
+										},
+										{
+											"source": {
+												"name": "T_REVERSE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_REVERSE"
+											}
+										},
+										{
+											"source": {
+												"name": "T_COMBINE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_COMBINE"
+											}
+										},
+										{
+											"source": {
+												"name": "T_FORCE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_FORCE"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM01",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM01"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM02",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM02"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM03",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM03"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM04",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM04"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM05",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM05"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM06",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM06"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM07",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM07"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM08",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM08"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM09",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM09"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCM10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCM10"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC01",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC01"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC02",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC02"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC03",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC03"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC04",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC04"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC05",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC05"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC06",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC06"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC07",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC07"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC08",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC08"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC09",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC09"
+											}
+										},
+										{
+											"source": {
+												"name": "T_PTCC10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_PTCC10"
+											}
+										},
+										{
+											"source": {
+												"name": "T_DEL_DIR",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_DEL_DIR"
+											}
+										},
+										{
+											"source": {
+												"name": "T_DEL_DIS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_DEL_DIS"
+											}
+										},
+										{
+											"source": {
+												"name": "T_DEL_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_DEL_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CAB_PROD_LEN",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "T_CAB_PROD_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "T_CUT_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_CUT_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "T_BEND_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_BEND_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "T_STK_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "T_STK_TIME"
+											}
 										}
 									]
 								}
