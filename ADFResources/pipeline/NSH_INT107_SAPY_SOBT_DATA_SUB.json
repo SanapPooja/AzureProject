@@ -1162,6 +1162,175 @@
 								"sink": {
 									"name": "AUART"
 								}
+							},
+							{
+								"source": {
+									"path": "$['VGBEL']"
+								},
+								"sink": {
+									"name": "VGBEL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['KUNAG']"
+								},
+								"sink": {
+									"name": "KUNAG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['KUNNR']"
+								},
+								"sink": {
+									"name": "KUNNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BSTNK']"
+								},
+								"sink": {
+									"name": "BSTNK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BSTDK']"
+								},
+								"sink": {
+									"name": "BSTDK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['VDATU']"
+								},
+								"sink": {
+									"name": "VDATU"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UEBTO']"
+								},
+								"sink": {
+									"name": "UEBTO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UNTTO']"
+								},
+								"sink": {
+									"name": "UNTTO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['POSNR']"
+								},
+								"sink": {
+									"name": "POSNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['KWMENG']"
+								},
+								"sink": {
+									"name": "KWMENG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['VRKME']"
+								},
+								"sink": {
+									"name": "VRKME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UMVKZ']"
+								},
+								"sink": {
+									"name": "UMVKZ"
+								}
+							},
+							{
+								"source": {
+									"path": "$['VRKME1']"
+								},
+								"sink": {
+									"name": "VRKME1"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UMVKN']"
+								},
+								"sink": {
+									"name": "UMVKN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['VRKME2']"
+								},
+								"sink": {
+									"name": "VRKME2"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UEPOS']"
+								},
+								"sink": {
+									"name": "UEPOS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BWTAR']"
+								},
+								"sink": {
+									"name": "BWTAR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['VBLEN']"
+								},
+								"sink": {
+									"name": "VBLEN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['CHARG']"
+								},
+								"sink": {
+									"name": "CHARG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Z_MW_SPA']"
+								},
+								"sink": {
+									"name": "Z_MW_SPA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['T_BOM']"
+								},
+								"sink": {
+									"name": "T_BOM"
+								}
 							}
 						]
 					}
