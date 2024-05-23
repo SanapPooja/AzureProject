@@ -344,7 +344,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  from SAPSR3.YMPPT_LP_BATCH_C t where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') group by t.order_item, t.nds_sale_order, t.load_no ",
+									"oracleReaderQuery": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -377,7 +377,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": {
+										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP from SAPSR3.YMPPT_LOAD_VEHIC where LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -410,7 +413,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR where LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": {
+										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR where LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
