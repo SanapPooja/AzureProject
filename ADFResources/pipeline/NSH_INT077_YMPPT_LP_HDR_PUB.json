@@ -689,7 +689,7 @@
 							"typeProperties": {
 								"variableName": "TIMESTAMP",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))",
+									"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
 									"type": "Expression"
 								}
 							}
