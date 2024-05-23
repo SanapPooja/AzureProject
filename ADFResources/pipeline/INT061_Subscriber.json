@@ -830,7 +830,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select SALES_ORDER,ORDER_ITEM from sapsr3.ymppt_lp_item_c\nwhere (load_no = '@{variables('LOAD_NO')}' ) and (sales_order = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_NO%' ) and order_item = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ITEM_NO%'",
+								"value": "select SALES_ORDER,ORDER_ITEM from sapsr3.ymppt_lp_item_c\nwhere (load_no = '@{variables('LOAD_NO')}' ) and (sales_order = '@{variables('ORDER_NO')}' ) and order_item = '@{variables('ITEM_NO')}'",
 								"type": "Expression"
 							}
 						}
