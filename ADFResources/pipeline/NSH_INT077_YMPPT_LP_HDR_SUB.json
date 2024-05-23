@@ -840,14 +840,7 @@
 			{
 				"name": "Script12",
 				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script10",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -859,6 +852,30 @@
 				"typeProperties": {
 					"scripts": [],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script10",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CURRENT_DATE",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),'dd-MM-yy'))",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -900,6 +917,9 @@
 				"type": "String"
 			},
 			"TRAILER_ID": {
+				"type": "String"
+			},
+			"CURRENT_DATE": {
 				"type": "String"
 			}
 		},
