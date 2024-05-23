@@ -106,7 +106,14 @@
 						{
 							"name": "Copy data2",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -276,7 +283,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "UPDATE dbo.esm_sap_track \r\nSET STATUS = 'E' \r\nWHERE TRACK_NO IN (\r\n    SELECT t1.TRACK_NO\r\n    FROM esm_sap_track t1\r\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n);"
+										"text": {
+											"value": "UPDATE dbo.esm_sap_track \nSET \n    STATUS = 'E',\n    STATUS_DATE = '@{variables('CurrentTime')}'\nWHERE TRACK_NO IN (\n    SELECT t1.TRACK_NO\n    FROM esm_sap_track t1\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\n);\n",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -309,7 +319,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "UPDATE dbo.esm_sap_track \r\nSET STATUS = 'Q' \r\nWHERE TRACK_NO IN (\r\n    SELECT t1.TRACK_NO\r\n    FROM esm_sap_track t1\r\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\r\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\r\n);"
+										"text": {
+											"value": "UPDATE dbo.esm_sap_track \nSET \n    STATUS = 'Q',\n    STATUS_DATE = '@{variables('CurrentTime')}'\nWHERE TRACK_NO IN (\n    SELECT t1.TRACK_NO\n    FROM esm_sap_track t1\n    JOIN WMBESMbny2gto t2 ON t1.TRACK_NO = t2.TRACK_NO\n    WHERE t1.STATUS = 'Q' AND t2.STATUS = 'Q'\n);\n",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -318,6 +331,8 @@
 						{
 							"name": "Script4",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Script3",
@@ -346,6 +361,23 @@
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable4",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@formatDateTime(addhours(utcnow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -393,6 +425,9 @@
 		"variables": {
 			"Rowcount": {
 				"type": "Array"
+			},
+			"CurrentTime": {
+				"type": "String"
 			}
 		},
 		"annotations": []
