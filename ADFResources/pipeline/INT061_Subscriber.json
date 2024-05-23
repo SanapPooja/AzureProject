@@ -801,6 +801,42 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script12",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script11",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "select SALES_ORDER,ORDER_ITEM from sapsr3.ymppt_lp_item_c\nwhere (load_no = '@{variables('LOAD_NO')}' ) and (sales_order = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_NO%' ) and order_item = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ITEM_NO%'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
@@ -820,6 +856,12 @@
 				"type": "String"
 			},
 			"LP_STATUS": {
+				"type": "String"
+			},
+			"ORDER_NO": {
+				"type": "String"
+			},
+			"ITEM_NO": {
 				"type": "String"
 			}
 		},
