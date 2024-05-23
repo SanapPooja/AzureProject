@@ -105,30 +105,6 @@
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LOAD_NO",
-					"value": {
-						"value": "@activity('Script9').output.value[0].LOAD_NO",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Lookup2",
 				"type": "Lookup",
 				"dependsOn": [],
@@ -658,7 +634,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
+					"referenceName": "SCM_IDB_Connect",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -675,161 +651,11 @@
 				}
 			},
 			{
-				"name": "Set variable3",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LP_STATUS",
-					"value": {
-						"value": "@activity('Script9').output.value[0].LP_STATUS",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set variable4",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "STATUS",
-					"value": {
-						"value": "@activity('Script9').output.value[0].STATUS",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set variable5",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ERROR_CD",
-					"value": {
-						"value": "@activity('Script9').output.value[0].ERROR_CD",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set variable6",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "MODIFY_DATE",
-					"value": {
-						"value": "@activity('Script9').output.value[0].MODIFIED_DATE",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set variable7",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script9",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "TRAILER_ID",
-					"value": {
-						"value": "@activity('Script9').output.value[0].TRAILER_ID",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Script11",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable4",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable5",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable6",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable7",
+						"activity": "Script9",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -852,7 +678,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY  SET\nLP_STATUS = '@{variables('LP_STATUS')}', \nSTATUS = '@{variables('STATUS')}',\nERROR_CD = '@{variables('ERROR_CD')}',\nMODIFY_DATE = '@{variables('MODIFY_DATE')}',\nTRAILER_ID = '@{variables('TRAILER_ID')}' \nWHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY L\nSET (L.LP_STATUS, L.STATUS, L.ERROR_CD, L.MODIFY_DATE, L.TRAILER_ID) = (\nSELECT S.LP_STATUS, S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID FROM\nTBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = L.LOAD_NO)\nWHERE EXISTS (\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = L.LOAD_NO);",
 								"type": "Expression"
 							}
 						}
