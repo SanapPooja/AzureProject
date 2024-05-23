@@ -605,10 +605,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "SELECT * FROM TBL_NSH_INT077_STAGING",
-								"type": "Expression"
-							}
+							"text": "SELECT * FROM TBL_NSH_INT077_STAGING"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -641,10 +638,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
+							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO = '@{variables('LOAD_NO')}'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -677,10 +671,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY L\nSET (L.LP_STATUS, L.STATUS, L.ERROR_CD, L.MODIFY_DATE, L.TRAILER_ID) = (\nSELECT S.LP_STATUS, S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID FROM\nTBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = L.LOAD_NO)\nWHERE EXISTS (\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = L.LOAD_NO);",
-								"type": "Expression"
-							}
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY L\r\nSET (L.LP_STATUS, L.STATUS, L.ERROR_CD, L.MODIFY_DATE, L.TRAILER_ID) = (\r\nSELECT S.LP_STATUS, S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID FROM\r\nTBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = L.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = L.LOAD_NO);"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -864,10 +855,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO = '@{variables('LOAD_NO')}' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
-								"type": "Expression"
-							}
+							"text": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO = '@{variables('LOAD_NO')}' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -895,6 +883,39 @@
 						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),'dd-MM-yy'))",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Script13",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script12",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT \r\n    s.ID, \r\n    s.ORDER_PIECES, \r\n    s.WEIGHT_IN_KG, \r\n    s.ORDER_NO, \r\n    s.ORDER_REQUEST_NO, \r\n    s.QTY_IN_BASE_UOM,\r\n    t.LOAD_NO, \r\n    t.ORDER_ITEM\r\nFROM \r\n    SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD s\r\nJOIN \r\n    TBL_NSH_INT077_STAGING t\r\nON \r\n    s.LOAD_NO = t.LOAD_NO AND \r\n    s.ORDER_NO = t.ORDER_NO AND \r\n    s.ITEM_NO = t.ORDER_ITEM"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
