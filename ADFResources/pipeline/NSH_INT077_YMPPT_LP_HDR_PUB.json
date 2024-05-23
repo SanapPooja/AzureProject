@@ -621,39 +621,6 @@
 							]
 						},
 						{
-							"name": "Lookup7",
-							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT077_YESB_LP_HDR_UPDATE",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
 							"name": "Set variable4",
 							"type": "SetVariable",
 							"dependsOn": [],
@@ -723,7 +690,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Lookup7",
+									"activity": "Script2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -746,6 +713,39 @@
 									{
 										"type": "Query",
 										"text": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'Y', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script2",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
