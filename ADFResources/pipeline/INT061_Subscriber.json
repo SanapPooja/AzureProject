@@ -195,6 +195,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Set variable6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -214,7 +220,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))' , \nUPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),'fff'))' , \nPLANNER_REMARKS= '@{variables('PLANNER_REMARKS')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = 'ESB_INT060'\nwhere LOAD_NO = '@{variables('LOAD_NO')}'",
+								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))', \nUPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),'fff'))', \nPLANNER_REMARKS= '@{variables('PLANNER_REMARKS')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = 'ESB_INT060'\nwhere LOAD_NO = '@{variables('LOAD_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -949,6 +955,8 @@
 			{
 				"name": "Script16",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script15",
@@ -1117,6 +1125,8 @@
 			{
 				"name": "Copy data2",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script20",
@@ -1176,6 +1186,8 @@
 			{
 				"name": "Copy data3",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script21",
@@ -1302,6 +1314,43 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Lookup6",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			},
+			{
+				"name": "Set variable6",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "PROC_TS",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -1339,6 +1388,9 @@
 				"type": "String"
 			},
 			"DELIVERY_DATE": {
+				"type": "String"
+			},
+			"PROC_TS": {
 				"type": "String"
 			}
 		},
