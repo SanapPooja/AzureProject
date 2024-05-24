@@ -1403,7 +1403,7 @@
 												"name": "SO_NO"
 											},
 											"sink": {
-												"path": "$['VBLEN']"
+												"path": "$['VBELN']"
 											}
 										},
 										{

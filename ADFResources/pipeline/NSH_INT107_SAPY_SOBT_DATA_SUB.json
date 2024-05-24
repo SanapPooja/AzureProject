@@ -1301,10 +1301,10 @@
 							},
 							{
 								"source": {
-									"path": "$['VBLEN']"
+									"path": "$['VBELN']"
 								},
 								"sink": {
-									"name": "VBLEN"
+									"name": "VBELN"
 								}
 							},
 							{
