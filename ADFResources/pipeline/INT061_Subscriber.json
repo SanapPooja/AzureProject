@@ -684,7 +684,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
+					"referenceName": "SCM_IDB_Connect",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
