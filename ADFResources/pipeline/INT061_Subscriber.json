@@ -1266,6 +1266,42 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script23",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script22",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY SET PLAN_LOAD_PCS = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_PIECES%', DELD_LOAD_QNTY = NVL('%TALLY_BACTH_QTY%',0), DELD_LOAD_PCS = NVL('%deldLoadPcs%',0), MODIFY_DATE = '%currentTimeOnLoadSAPTally%' WHERE LOAD_NO = '@{variables('LOAD_NO')}' AND ORDER_REQUEST_NO = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_REQUEST_NO%' AND ORDER_ITEM = '@{variables('ITEM_NO')}'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
