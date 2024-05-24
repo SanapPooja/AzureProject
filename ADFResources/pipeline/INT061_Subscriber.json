@@ -220,7 +220,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))', \nUPDATION_DATE = '@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),'fff'))', \nPLANNER_REMARKS= '@{variables('PLANNER_REMARKS')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = 'ESB_INT060'\nwhere LOAD_NO = '@{variables('LOAD_NO')}'",
+								"value": "update sapsr3.YMPPT_LP_HDR\nset PROC_TS = '@{variables('PROC_TS')}', \nUPDATION_DATE = '@{variables('PROC_TS')}', \nPLANNER_REMARKS= '@{variables('PLANNER_REMARKS')}', \nPLAN_DELIV_DATE = '@{variables('PLAN_DELIV_DATE')}', \nUSER_name = 'ESB_INT060'\nwhere LOAD_NO = '@{variables('LOAD_NO')}'",
 								"type": "Expression"
 							}
 						}
@@ -1326,7 +1326,23 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT PROC_TS FROM SAPSR3.YMPPT_LP_HDR",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_YMPPT_LP_HDR",
+						"type": "DatasetReference"
+					}
+				}
 			},
 			{
 				"name": "Set variable6",
@@ -1347,7 +1363,7 @@
 				"typeProperties": {
 					"variableName": "PROC_TS",
 					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'),'.', formatDateTime(utcnow),\n'fff'))",
+						"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(),\n8\n),\n00\n),\n'yyyy-MM-dd-HH.mm.ss'\n),\n'.'\n, substring(formatDateTime(utcNow(),\n'fffffff'\n),\n1\n,\n3\n))",
 						"type": "Expression"
 					}
 				}
