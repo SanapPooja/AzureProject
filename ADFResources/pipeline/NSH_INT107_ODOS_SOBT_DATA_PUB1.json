@@ -218,7 +218,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['Z_BBS_NO']"
+												"path": "$['Z_BBSNO']"
 											}
 										},
 										{
@@ -227,7 +227,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['Z_BBS_DESC']"
+												"path": "$['Z_BBS_DEC']"
 											}
 										},
 										{

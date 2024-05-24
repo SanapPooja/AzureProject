@@ -320,7 +320,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_WBS1']"
+									"path": "$['WBS1']"
 								},
 								"sink": {
 									"name": "Z_WBS1",
@@ -329,7 +329,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_WBS2']"
+									"path": "$['WBS2']"
 								},
 								"sink": {
 									"name": "Z_WBS2",
@@ -338,7 +338,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_WBS3']"
+									"path": "$['WBS3']"
 								},
 								"sink": {
 									"name": "Z_WBS3",
@@ -347,7 +347,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_WBS4']"
+									"path": "$['WBS4']"
 								},
 								"sink": {
 									"name": "Z_WBS4",
@@ -356,7 +356,7 @@
 							},
 							{
 								"source": {
-									"path": "$['Z_WBS5']"
+									"path": "$['WBS5']"
 								},
 								"sink": {
 									"name": "Z_WBS5",
@@ -1313,15 +1313,6 @@
 								},
 								"sink": {
 									"name": "CHARG"
-								}
-							},
-							{
-								"source": {
-									"path": "$['Z_MW_SPA']"
-								},
-								"sink": {
-									"name": "Z_MW_SPA",
-									"type": "String"
 								}
 							},
 							{
