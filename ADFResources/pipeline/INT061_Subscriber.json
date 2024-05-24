@@ -1113,6 +1113,65 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Script20",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"enableStaging": false
+				}
+			},
+			{
+				"name": "Script21",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='@{variables('LOAD_NO')}' AND SALES_ORDER = '@{variables('ORDER_NO')}' AND ORDER_ITEM = '@{variables('ITEM_NO')}' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
