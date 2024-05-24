@@ -908,7 +908,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "select LOAD_NO  from sapsr3.YMPPT_LP_ITEM_C \nwhere (LOAD_NO = '@{variables('LOAD_NO')}' or LOAD_NO = ''@{variables('LOAD_NO')}') and (SALES_ORDER = '@{variables('ORDER_NO')}' or SALES_ORDER = '@{variables('ORDER_NO')}') and ORDER_ITEM = '@{variables('ITEM_NO')}'",
+								"value": "select LOAD_NO  from sapsr3.YMPPT_LP_ITEM_C \nwhere (LOAD_NO = '@{variables('LOAD_NO')}' or LOAD_NO = '@{variables('LOAD_NO')}') and (SALES_ORDER = '@{variables('ORDER_NO')}' or SALES_ORDER = '@{variables('ORDER_NO')}') and ORDER_ITEM = '@{variables('ITEM_NO')}'",
 								"type": "Expression"
 							}
 						}
