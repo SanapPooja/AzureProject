@@ -1077,6 +1077,42 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script20",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script19",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update sapsr3.YMPPT_LP_ITEM_C\nset\nLOAD_NO = '%LoadPlannerData/loadPlannerDoc/Detail/LoadHeader/LOAD_NO%',\nSALES_ORDER = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_NO%',\nNDS_SALE_ORDER = '%nds_sales_order%',\nCONTRACT = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/CONTRACT_NO%',\nNO_PIECES = '%no_pieces%', \nLOAD_SQN = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/LAYER_NO%',\nPROC_TS = '%currentDateTimeWithoutMiliSec%',\nPLAN_LOAD_QNTY = '%plan_load_qty%',\nDESP_LOAD_QNTY = '%plan_load_qty%',\nINTERMEDIATE_QTY = '%plan_load_qty%',\nPROD_GRP = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/PRODUCT_TYPE%',\nDELIVERY_DATE = '%LoadPlannerData/loadPlannerDoc/Detail/LoadHeader/DELIVERY_DATE%',\nLOAD_DATE = '%LoadPlannerData/loadPlannerDoc/Detail/LoadHeader/DELIVERY_DATE%'\nwhere ( LOAD_NO = '%X_loadNo%') and ( SALES_ORDER = '%X_orderNo%') and ORDER_ITEM = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ITEM_NO%'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
