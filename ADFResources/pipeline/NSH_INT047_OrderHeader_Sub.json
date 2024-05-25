@@ -7,7 +7,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -72,7 +72,14 @@
 			{
 				"name": "Copy data2",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -191,7 +198,14 @@
 			{
 				"name": "Copy data3",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1575,7 +1589,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
 								"type": "Expression"
 							}
 						}
@@ -1611,7 +1625,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
 								"type": "Expression"
 							}
 						}
@@ -1624,7 +1638,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1647,7 +1661,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no =@{pipeline().parameters.order_request_no}",
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
 								"type": "Expression"
 							}
 						}
@@ -1769,6 +1783,71 @@
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT sapsr3.INT_Interface('USP_INT047') AS Result FROM dual;",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "OracleTable4",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from ORDER_HEADER_INT047_STAGING"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
