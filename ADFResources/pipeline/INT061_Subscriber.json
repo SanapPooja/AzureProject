@@ -1444,7 +1444,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
+							"value": "select ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -1452,9 +1452,10 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "Int060_Load_SAP_Tally",
+						"referenceName": "INT060_YMPPT_LP_HDR",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
