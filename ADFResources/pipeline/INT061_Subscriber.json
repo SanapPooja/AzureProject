@@ -1533,7 +1533,7 @@
 				"type": "String"
 			},
 			"ORDER_PIECES": {
-				"type": "String"
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
