@@ -1474,7 +1474,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT ORDER_REQUEST_NO FROM SAPSR3.YMPPT_LP_HDR",
+							"value": "SELECT ORDER_REQUEST_NO FROM SCM_ADMIN.sales_order_line_on_load",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -1482,9 +1482,10 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "Int060_Load_SAP_Tally",
+						"referenceName": "INT060_SCM_ADMIN_sales_order_line_on_load",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
