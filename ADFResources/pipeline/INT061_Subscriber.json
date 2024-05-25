@@ -1408,6 +1408,12 @@
 			},
 			"PROC_TS": {
 				"type": "String"
+			},
+			"ORDER_REQUEST_NO": {
+				"type": "String"
+			},
+			"ORDER_PIECES": {
+				"type": "String"
 			}
 		},
 		"annotations": []
