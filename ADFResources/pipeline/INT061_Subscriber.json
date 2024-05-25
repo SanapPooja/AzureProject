@@ -1444,7 +1444,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "select ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
+							"value": "SELECT ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
