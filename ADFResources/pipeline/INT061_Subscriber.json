@@ -1444,7 +1444,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
+							"value": "SELECT ORDER_PIECES FROM SCM_ADMIN.sales_order_line_on_load",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -1452,7 +1452,7 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "INT060_YMPPT_LP_HDR",
+						"referenceName": "INT060_SCM_ADMIN_sales_order_line_on_load",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false

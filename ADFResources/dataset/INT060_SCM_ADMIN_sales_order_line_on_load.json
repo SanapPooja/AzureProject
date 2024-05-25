@@ -1,0 +1,16 @@
+{
+	"name": "INT060_SCM_ADMIN_sales_order_line_on_load",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "sales_order_line_on_load"
+		}
+	}
+}
