@@ -1288,6 +1288,18 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Set variable7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -1365,6 +1377,112 @@
 					"value": {
 						"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(),\n8\n),\n00\n),\n'yyyy-MM-dd-HH.mm.ss'\n),\n'.'\n, substring(formatDateTime(utcNow(),\n'fffffff'\n),\n1\n,\n3\n))",
 						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable7",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_PIECES",
+					"value": {
+						"value": "@activity('Lookup7').output.value[0].ORDER_PIECES",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable8",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_REQUEST_NO",
+					"value": {
+						"value": "@activity('Lookup8').output.value[0].ORDER_REQUEST_NO",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup7",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT ORDER_PIECES FROM SAPSR3.YMPPT_LP_HDR",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "Int060_Load_SAP_Tally",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Lookup8",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT ORDER_REQUEST_NO FROM SAPSR3.YMPPT_LP_HDR",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "Int060_Load_SAP_Tally",
+						"type": "DatasetReference"
 					}
 				}
 			}
