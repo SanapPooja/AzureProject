@@ -1319,7 +1319,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY SET PLAN_LOAD_PCS = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_PIECES%', DELD_LOAD_QNTY = NVL('%TALLY_BACTH_QTY%',0), DELD_LOAD_PCS = NVL('%deldLoadPcs%',0), MODIFY_DATE = '%currentTimeOnLoadSAPTally%' WHERE LOAD_NO = '@{variables('LOAD_NO')}' AND ORDER_REQUEST_NO = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_REQUEST_NO%' AND ORDER_ITEM = '@{variables('ITEM_NO')}'",
+								"value": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY SET PLAN_LOAD_PCS = '@{variables('ORDER_PIECES')}', DELD_LOAD_QNTY = NVL('%TALLY_BACTH_QTY%',0), DELD_LOAD_PCS = NVL('%deldLoadPcs%',0), MODIFY_DATE = '%currentTimeOnLoadSAPTally%' WHERE LOAD_NO = '@{variables('LOAD_NO')}' AND ORDER_REQUEST_NO = '@{variables('ORDER_REQUEST_NO')}' AND ORDER_ITEM = '@{variables('ITEM_NO')}'",
 								"type": "Expression"
 							}
 						}
