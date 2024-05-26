@@ -1,5 +1,5 @@
 {
-	"name": "order_item",
+	"name": "INT047_order_item_dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",

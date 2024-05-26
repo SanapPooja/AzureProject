@@ -1,5 +1,5 @@
 {
-	"name": "order_item_fabrication",
+	"name": "INT047_order_item_fabrication",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NDSQADB5_NDS_Connection",

@@ -64,7 +64,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "OracleTable4",
+						"referenceName": "NSH_INT047_ORDER_HEADER",
 						"type": "DatasetReference"
 					}
 				]
@@ -190,7 +190,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "order_item_fabrication",
+						"referenceName": "INT047_order_item_fabrication",
 						"type": "DatasetReference"
 					}
 				]
@@ -1556,7 +1556,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "order_item",
+						"referenceName": "INT047_order_item_dataset",
 						"type": "DatasetReference"
 					}
 				]
@@ -1812,7 +1812,7 @@
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "OracleTable4",
+						"referenceName": "NSH_INT047_ORDER_HEADER",
 						"type": "DatasetReference"
 					}
 				}
