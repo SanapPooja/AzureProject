@@ -99,9 +99,8 @@
 						}
 					},
 					"sink": {
-						"type": "SqlServerSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"type": "OracleSink",
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
 					"translator": {
@@ -113,7 +112,7 @@
 								},
 								"sink": {
 									"name": "ID",
-									"type": "Int64"
+									"type": "Double"
 								}
 							},
 							{
@@ -121,7 +120,7 @@
 									"path": "$Order_request_no"
 								},
 								"sink": {
-									"name": "Order_request_no",
+									"name": "ORDER_REQUEST_NO",
 									"type": "String"
 								}
 							},
@@ -130,7 +129,7 @@
 									"path": "$parent_item_no"
 								},
 								"sink": {
-									"name": "parent_item_no",
+									"name": "PARENT_ITEM_NO",
 									"type": "String"
 								}
 							},
@@ -139,7 +138,7 @@
 									"path": "$MB_prefix"
 								},
 								"sink": {
-									"name": "MB_prefix",
+									"name": "MB_PREFIX",
 									"type": "String"
 								}
 							},
@@ -148,7 +147,7 @@
 									"path": "$component_prefix"
 								},
 								"sink": {
-									"name": "component_prefix",
+									"name": "COMPONENT_PREFIX",
 									"type": "String"
 								}
 							},
@@ -157,8 +156,8 @@
 									"path": "$fabrication_pts"
 								},
 								"sink": {
-									"name": "fabrication_pts",
-									"type": "Int32"
+									"name": "FABRICATION_PTS",
+									"type": "Double"
 								}
 							},
 							{
@@ -166,7 +165,7 @@
 									"path": "$MB_item_no"
 								},
 								"sink": {
-									"name": "MB_item_no",
+									"name": "MB_ITEM_NO",
 									"type": "String"
 								}
 							},
@@ -175,11 +174,12 @@
 									"path": "$component_item_no"
 								},
 								"sink": {
-									"name": "component_item_no",
+									"name": "COMPONENT_ITEM_NO",
 									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -190,7 +190,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT047_order_item_fabrication",
+						"referenceName": "INT047_order_item_fabrication_oracle",
 						"type": "DatasetReference"
 					}
 				]

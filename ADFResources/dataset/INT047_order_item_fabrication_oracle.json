@@ -1,5 +1,5 @@
 {
-	"name": "NSH_INT047_ORDER_HEADER",
+	"name": "INT047_order_item_fabrication_oracle",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "ORDER_HEADER_INT047_STAGING"
+			"table": "ORDER_ITEM_FABRICATION_PREFIX"
 		}
 	}
 }
