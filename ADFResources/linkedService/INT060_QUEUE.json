@@ -8,10 +8,6 @@
 			"enableServerCertificateValidation": true,
 			"authenticationType": "ManagedServiceIdentity",
 			"aadResourceId": "https://servicebus.azure.net/"
-		},
-		"connectVia": {
-			"referenceName": "NSHQA",
-			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
