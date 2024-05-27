@@ -2031,7 +2031,7 @@
 									"type": "Decimal"
 								},
 								"sink": {
-									"path": "$ COMPLEXITY_IND"
+									"path": "$COMPLEXITY_IND"
 								}
 							}
 						]
@@ -4052,8 +4052,6 @@
 			{
 				"name": "Script2",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -4071,7 +4069,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "update from dbo.SCM_Order_Header set transfer_status = 'I' where order_request_no in\r\n (select top (100) order_request_no FROM SCM_ORDER_HEADER WHERE transfer_status<>'T')"
+							"text": "update dbo.SCM_Order_Header set transfer_status = 'I' where order_request_no in\r\n (select top (100) order_request_no FROM SCM_ORDER_HEADER WHERE transfer_status<>'T')"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"

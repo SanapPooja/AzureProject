@@ -23,7 +23,14 @@
 			{
 				"name": "order_header",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Script4_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -277,10 +284,10 @@
 							},
 							{
 								"source": {
-									"path": "$['$cab_former_type']"
+									"path": "$['$CAB_FORMER_TYPE']"
 								},
 								"sink": {
-									"name": "cab_former_type"
+									"name": "CAB_FORMER_TYPE"
 								}
 							},
 							{
@@ -614,15 +621,6 @@
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
-							{
-								"source": {
-									"path": "$ID"
-								},
-								"sink": {
-									"name": "ID",
-									"type": "Double"
-								}
-							},
 							{
 								"source": {
 									"path": "$ORDER_REQUEST_NO"
@@ -2072,8 +2070,6 @@
 			{
 				"name": "Script1",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item_fabrication_head",
@@ -2098,10 +2094,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
-								"type": "Expression"
-							}
+							"text": "update dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -2110,8 +2103,6 @@
 			{
 				"name": "Script2",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item",
@@ -2137,7 +2128,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
 								"type": "Expression"
 							}
 						}
@@ -2148,8 +2139,6 @@
 			{
 				"name": "Script3",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -2175,7 +2164,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where order_request_no in (SELECT ORDER_REQUEST_NO FROM ORDER_HEADER_INT047_STAGING) AND transfer_status='I'",
+								"value": "update  dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
 								"type": "Expression"
 							}
 						}
@@ -2312,8 +2301,6 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_header",
@@ -2333,21 +2320,20 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT sapsr3.INT_Interface('USP_INT047') AS Result FROM dual;",
+						"oracleReaderQuery": "SELECT scm_admin.INT_Interface('USP_INT047') AS Result FROM dual;",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
 						"referenceName": "NSH_INT047_ORDER_HEADER",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
 				"name": "Script4",
 				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -2356,6 +2342,32 @@
 						]
 					}
 				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from ORDER_HEADER_INT047_STAGING"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script4_copy1",
+				"type": "Script",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
