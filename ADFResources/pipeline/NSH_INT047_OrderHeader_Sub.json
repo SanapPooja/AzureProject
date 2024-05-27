@@ -625,7 +625,7 @@
 							},
 							{
 								"source": {
-									"path": "$Order_request_no"
+									"path": "$ORDER_REQUEST_NO"
 								},
 								"sink": {
 									"name": "ORDER_REQUEST_NO",
@@ -634,7 +634,7 @@
 							},
 							{
 								"source": {
-									"path": "$parent_item_no"
+									"path": "$PARENT_ITEM_NO"
 								},
 								"sink": {
 									"name": "PARENT_ITEM_NO",
@@ -643,7 +643,7 @@
 							},
 							{
 								"source": {
-									"path": "$MB_prefix"
+									"path": "$MB_PREFIX"
 								},
 								"sink": {
 									"name": "MB_PREFIX",
@@ -652,7 +652,7 @@
 							},
 							{
 								"source": {
-									"path": "$component_prefix"
+									"path": "$COMPONENT_PREFIX"
 								},
 								"sink": {
 									"name": "COMPONENT_PREFIX",
@@ -661,7 +661,7 @@
 							},
 							{
 								"source": {
-									"path": "$fabrication_pts"
+									"path": "$FABRICATION_PTS"
 								},
 								"sink": {
 									"name": "FABRICATION_PTS",
@@ -670,7 +670,7 @@
 							},
 							{
 								"source": {
-									"path": "$MB_item_no"
+									"path": "$MB_ITEM_NO"
 								},
 								"sink": {
 									"name": "MB_ITEM_NO",
@@ -679,7 +679,7 @@
 							},
 							{
 								"source": {
-									"path": "$component_item_no"
+									"path": "$COMPONENET_ITEM_NO"
 								},
 								"sink": {
 									"name": "COMPONENT_ITEM_NO",
@@ -1984,10 +1984,10 @@
 							},
 							{
 								"source": {
-									"path": "$COMPLEAXITY_IND"
+									"path": "$COMPLEXITY_IND"
 								},
 								"sink": {
-									"name": "COMPLEAXITY_IND"
+									"name": "COMPLEXITY_IND"
 								}
 							},
 							{

@@ -2151,7 +2151,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "COMPONENET_ITEM-NO"
+									"path": "$COMPONENET_ITEM_NO"
 								}
 							}
 						]
