@@ -19,7 +19,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "order_header",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -559,11 +559,11 @@
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "order_item_fabrication_head",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "order_header",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -685,11 +685,11 @@
 				]
 			},
 			{
-				"name": "Copy data3",
+				"name": "order_item",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "order_header",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -706,6 +706,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "TIME_STAMP_INSERT",
+								"value": {
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"type": "Expression"
+								}
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -1614,7 +1623,7 @@
 							},
 							{
 								"source": {
-									"path": "$TIME_STAMP_INSERT"
+									"path": "TIME_STAMP_INSERT"
 								},
 								"sink": {
 									"name": "TIME_STAMP_INSERT",
@@ -2055,7 +2064,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "order_item_fabrication_head",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2091,7 +2100,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data3",
+						"activity": "order_item",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2247,7 +2256,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "order_item_fabrication_head",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2263,7 +2272,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Copy data3",
+						"activity": "order_item",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2279,7 +2288,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "order_header",
 						"dependencyConditions": [
 							"Succeeded"
 						]

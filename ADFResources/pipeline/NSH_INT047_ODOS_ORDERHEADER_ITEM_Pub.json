@@ -705,6 +705,8 @@
 			{
 				"name": "Script1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -754,7 +756,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select top (100) id_message, order_request_no, item_no, parent_item_no, sap_order_item, material_no, product_hierarchy, order_qty, sales_uom, fg_production_wt_kg, component_production_wt_kg, product_marking, component_prefix, order_pieces, delivered_pieces, actual_del_date, delivery_status,cancellation_status, no_of_points, env_length, env_width, env_height, wbs1, wbs2, wbs3, wbs4, wbs5, proj_stage, bbs_no, bbs_desc, needs_galvanizing_ind, needs_production_ind, cab_spiral_pitch, cab_fleet_pitch, cab_bar_grade, cab_dia, cab_bvbs, cab_cut_length, cab_coupler_end_no, cab_former_size, cab_shape_group, shape_code, cab_cou_end_type1, cab_cou_end_type2, cab_no_of_bend, mesh_lw_cw_reversed_ind, mesh_lw_dia, mesh_lw_length, mesh_lw_mat_type, mesh_lw_spacing, mesh_lw_grade, mesh_lw_oh1, mesh_lw_oh2, mesh_lw_qty, mesh_lw_wt_kg, mesh_lw_twin_ind, mesh_lw_bvbs, mesh_cw_dia, mesh_cw_length, mesh_cw_mat_code, mesh_cw_twin_ind,mesh_cw_mat_type, mesh_cw_spacing, mesh_cw_grade, mesh_cw_oh1, mesh_cw_oh2, mesh_cw_qty, mesh_cw_wt_kg, mesh_cw_bvbs, mesh_no_of_bend, mesh_no_of_cut, mesh_manual_trim_ind, mesh_bom_ind, meshb_wire_line_cross, meshb_wire_seq_no, meshb_wire_mat_code, meshb_wire_length, meshb_wire_dia, meshb_wire_wt_kg, meshb_wire_qty, meshb_wire_spacing, bpc_cage_dia, bpc_cage_length, bpc_cage_set_code, bpc_centralizer_qty, bpc_lap_length, bpc_end_length, bpc_pile_dia, bpc_l2_cage_dia, bpc_no_rings_start, bpc_sleeve_id, bpc_jig_id, bpc_add_jig_id, bpc_pile_seq_no, bpc_micropile_ind, pcg_cage_type, pcg_assembly_ind, remarks, time_stamp, st_element, process_status, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, qty_in_base_uom, base_uom, QA_transfer_status, drawing_no, inv_len_in_mm, grade_dia, bpc_layer, cab_main_bar_angle, sap_product_group, product_marking_rev_no, cab_standard_end_no, drawing_no_rev, cab_former_type, bpc_pile_no, order_no, product_type, cab_extended_end_no, cab_stud_end_no, prc_bpc_layer_no, bbs_page_no, mesh_product_code, mesh_lw_inv_len, mesh_cw_inv_len, mesh_inv_mo1, mesh_inv_mo2, mesh_inv_co1, mesh_inv_co2, mesh_slope_indicator, mesh_num_of_links, meshb_MESH_TYPE, meshb_START_POS, meshb_WIRE_SPEC, meshb_NO_PITCH, meshb_REP_FROM, meshb_REP_TO, meshb_num_of_REPETITION, meshb_WIRE_PROD_CODE, meshb_TWIN_IND, meshb_MACH_WIRE_SPEC, mesh_slope, prc_panel_no, prc_panel_seq_no, IDENTICAL_HASHCODE, SIMILAR_MAINBAR_HASHCODE, SIMILAR_EXTLINK_HASHCODE, COMPLEXITY_IND from dbo.SCM_Order_Item where order_request_no IN (SELECT ORDER_REQUEST_NO FROM SCM_Order_Header)",
+							"value": "select top (10) id_message, order_request_no, item_no, parent_item_no, sap_order_item, material_no, product_hierarchy, order_qty, sales_uom, fg_production_wt_kg, component_production_wt_kg, product_marking, component_prefix, order_pieces, delivered_pieces, actual_del_date, delivery_status,cancellation_status, no_of_points, env_length, env_width, env_height, wbs1, wbs2, wbs3, wbs4, wbs5, proj_stage, bbs_no, bbs_desc, needs_galvanizing_ind, needs_production_ind, cab_spiral_pitch, cab_fleet_pitch, cab_bar_grade, cab_dia, cab_bvbs, cab_cut_length, cab_coupler_end_no, cab_former_size, cab_shape_group, shape_code, cab_cou_end_type1, cab_cou_end_type2, cab_no_of_bend, mesh_lw_cw_reversed_ind, mesh_lw_dia, mesh_lw_length, mesh_lw_mat_type, mesh_lw_spacing, mesh_lw_grade, mesh_lw_oh1, mesh_lw_oh2, mesh_lw_qty, mesh_lw_wt_kg, mesh_lw_twin_ind, mesh_lw_bvbs, mesh_cw_dia, mesh_cw_length, mesh_cw_mat_code, mesh_cw_twin_ind,mesh_cw_mat_type, mesh_cw_spacing, mesh_cw_grade, mesh_cw_oh1, mesh_cw_oh2, mesh_cw_qty, mesh_cw_wt_kg, mesh_cw_bvbs, mesh_no_of_bend, mesh_no_of_cut, mesh_manual_trim_ind, mesh_bom_ind, meshb_wire_line_cross, meshb_wire_seq_no, meshb_wire_mat_code, meshb_wire_length, meshb_wire_dia, meshb_wire_wt_kg, meshb_wire_qty, meshb_wire_spacing, bpc_cage_dia, bpc_cage_length, bpc_cage_set_code, bpc_centralizer_qty, bpc_lap_length, bpc_end_length, bpc_pile_dia, bpc_l2_cage_dia, bpc_no_rings_start, bpc_sleeve_id, bpc_jig_id, bpc_add_jig_id, bpc_pile_seq_no, bpc_micropile_ind, pcg_cage_type, pcg_assembly_ind, remarks, time_stamp, st_element, process_status, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, qty_in_base_uom, base_uom, QA_transfer_status, drawing_no, inv_len_in_mm, grade_dia, bpc_layer, cab_main_bar_angle, sap_product_group, product_marking_rev_no, cab_standard_end_no, drawing_no_rev, cab_former_type, bpc_pile_no, order_no, product_type, cab_extended_end_no, cab_stud_end_no, prc_bpc_layer_no, bbs_page_no, mesh_product_code, mesh_lw_inv_len, mesh_cw_inv_len, mesh_inv_mo1, mesh_inv_mo2, mesh_inv_co1, mesh_inv_co2, mesh_slope_indicator, mesh_num_of_links, meshb_MESH_TYPE, meshb_START_POS, meshb_WIRE_SPEC, meshb_NO_PITCH, meshb_REP_FROM, meshb_REP_TO, meshb_num_of_REPETITION, meshb_WIRE_PROD_CODE, meshb_TWIN_IND, meshb_MACH_WIRE_SPEC, mesh_slope, prc_panel_no, prc_panel_seq_no, IDENTICAL_HASHCODE, SIMILAR_MAINBAR_HASHCODE, SIMILAR_EXTLINK_HASHCODE, COMPLEXITY_IND from dbo.SCM_Order_Item where order_request_no IN (SELECT ORDER_REQUEST_NO FROM SCM_Order_Header)",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -1260,15 +1262,6 @@
 							},
 							{
 								"source": {
-									"name": "mesh_lw_twin_ind",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MESH_LW_TWIN_IND"
-								}
-							},
-							{
-								"source": {
 									"name": "mesh_lw_bvbs",
 									"type": "String"
 								},
@@ -1390,7 +1383,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$MESH_CW_TWIN_IND"
+									"path": "$MESH_LW_TWIN_IND"
 								}
 							},
 							{
@@ -2089,7 +2082,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select order_request_no, parent_item_no, MB_prefix, component_prefix, fabrication_pts, MB_item_no, component_item_no from dbo.ORDER_ITEM_FABRICATION_PREFIX where order_request_no (SELECT ORDER_REQUEST_NO FROM SCM_Order_Header)",
+							"value": "SELECT top(5) \n    order_request_no, \n    parent_item_no, \n    MB_prefix, \n    component_prefix, \n    fabrication_pts, \n    MB_item_no, \n    component_item_no \nFROM \n    dbo.ORDER_ITEM_FABRICATION_PREFIX \nWHERE \n    order_request_no IN (SELECT ORDER_REQUEST_NO FROM SCM_Order_Header);\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -2208,7 +2201,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select top (5) order_request_no, order_no, cust_code, cust_name, contract_no, proj_no, proj_name, cust_po_no, cust_order_date, req_del_date_fr, req_del_date_to, projected_casting_date, actual_del_date, planning_strategy, order_type, cust_class, proj_segment, proj_sub_segment, job_site_location, forecast_order_no, account_mgr, segment_mgr, proj_coordinator, product_type, cab_former_type, vehicle_type, order_pieces, delivered_pieces, credit_status, approval_status, delivery_status, mat_source_ind, urgent_order_ind, allow_partial_delivery_ind, forecast_order_ind, local_order_ind, mto_ind, self_collect_ind, premium_service_ind, crane_booked_ind, barge_booked_ind, police_escort_ind, company_code, no_of_items, int_remark, ext_remark, time_stamp, remarks, process_status, order_udate, order_utime, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, QA_transfer_status, order_group_id, group_member_count, LOW_BED_VEHICLE_ALLOWED, FIFTYTON_VEHICLE_ALLOWED, UNIT_TAG_MODE_IND, MUST_HAVE_DATE, PHYSICAL_PROJ_NO, PHYSICAL_DELIVERY_PROJ_NO FROM SCM_ORDER_HEADER",
+						"sqlReaderQuery": "SELECT TOP (10) \r\n    order_request_no, \r\n    order_no, \r\n    cust_code, \r\n    cust_name, \r\n    contract_no, \r\n    proj_no, \r\n    proj_name, \r\n    cust_po_no, \r\n    cust_order_date, \r\n    req_del_date_fr, \r\n    req_del_date_to, \r\n    projected_casting_date, \r\n    actual_del_date, \r\n    planning_strategy, \r\n    order_type, \r\n    cust_class, \r\n    proj_segment, \r\n    proj_sub_segment, \r\n    job_site_location, \r\n    forecast_order_no, \r\n    account_mgr, \r\n    segment_mgr, \r\n    proj_coordinator, \r\n    product_type, \r\n    cab_former_type, \r\n    vehicle_type, \r\n    order_pieces, \r\n    delivered_pieces, \r\n    credit_status, \r\n    approval_status, \r\n    delivery_status, \r\n    mat_source_ind, \r\n    urgent_order_ind, \r\n    allow_partial_delivery_ind, \r\n    forecast_order_ind, \r\n    local_order_ind, \r\n    mto_ind, \r\n    self_collect_ind, \r\n    premium_service_ind, \r\n    crane_booked_ind, \r\n    barge_booked_ind, \r\n    police_escort_ind, \r\n    company_code, \r\n    no_of_items, \r\n    int_remark, \r\n    ext_remark, \r\n    time_stamp, \r\n    remarks, \r\n    process_status, \r\n    order_udate, \r\n    order_utime, \r\n    transfer_idref, \r\n    transfer_status, \r\n    create_by, \r\n    create_date, \r\n    update_by, \r\n    update_date, \r\n    QA_transfer_status, \r\n    order_group_id, \r\n    group_member_count, \r\n    LOW_BED_VEHICLE_ALLOWED, \r\n    FIFTYTON_VEHICLE_ALLOWED, \r\n    UNIT_TAG_MODE_IND, \r\n    MUST_HAVE_DATE, \r\n    PHYSICAL_PROJ_NO, \r\n    PHYSICAL_DELIVERY_PROJ_NO \r\nFROM SCM_ORDER_HEADER \r\nWHERE transfer_status = 'I';\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -2738,6 +2731,8 @@
 			{
 				"name": "Order_Item_Records_copy1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
