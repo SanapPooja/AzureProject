@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "select * from T_NSA_GR",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -963,8 +964,7 @@
 									"type": "String",
 									"physicalType": "String"
 								}
-							},
-							null
+							}
 						],
 						"typeConversion": true,
 						"typeConversionSettings": {
