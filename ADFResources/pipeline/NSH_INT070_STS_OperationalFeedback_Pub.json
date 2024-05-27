@@ -280,7 +280,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') from dbo.tbl_sts_scm_prodn_staging_upd_test where REF_ID = \r\n'@{variables('REF_ID')}'",
+								"value": "update REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') from dbo.tbl_sts_scm_prodn_staging_upd_test where REF_ID = \n'@{variables('ref_id')}'",
 								"type": "Expression"
 							}
 						}
