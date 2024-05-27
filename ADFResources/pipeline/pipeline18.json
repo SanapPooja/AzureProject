@@ -255,7 +255,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ORDER_GROUP_ID"
+									"path": "$cab_former_type"
 								}
 							},
 							{
