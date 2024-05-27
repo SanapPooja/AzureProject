@@ -2033,15 +2033,6 @@
 								"sink": {
 									"path": "$ COMPLEXITY_IND"
 								}
-							},
-							{
-								"source": {
-									"name": "SIMILAR_EXTLINK_HASHCODE",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$TIME_STAMP_INSERT_UPDATE"
-								}
 							}
 						]
 					}
@@ -2439,7 +2430,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ORDER_GROUP_ID"
+									"path": "$CAB_FORMER_TYPE"
 								}
 							},
 							{
@@ -4061,6 +4052,8 @@
 			{
 				"name": "Script2",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
