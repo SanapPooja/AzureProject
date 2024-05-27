@@ -5,6 +5,8 @@
 			{
 				"name": "CopyData_FromQueueToScmOrderHeader",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -35,7 +37,13 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
-						"writeBehavior": "insert",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"order_request_no"
+							]
+						},
 						"sqlWriterUseTableLock": false
 					},
 					"enableStaging": false,
@@ -612,6 +620,8 @@
 			{
 				"name": "DeleteServiceBusMessage",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait_For_60sec",
@@ -644,6 +654,8 @@
 			{
 				"name": "Wait_For_60sec",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyData_FromQueueToScmOrderHeader",
@@ -656,6 +668,684 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 60
 				}
+			},
+			{
+				"name": "CopyData_FromQueueToScmOrderHeader_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "id_message",
+								"value": {
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "QA_transfer_status",
+								"value": ""
+							},
+							{
+								"name": "create_by",
+								"value": "ESB Service"
+							},
+							{
+								"name": "create_date",
+								"value": {
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "update_by",
+								"value": ""
+							},
+							{
+								"name": "update_date",
+								"value": ""
+							},
+							{
+								"name": "transfer_status",
+								"value": "B"
+							},
+							{
+								"name": "transfer_idref",
+								"value": "0"
+							},
+							{
+								"name": "remarks",
+								"value": ""
+							},
+							{
+								"name": "time_stamp",
+								"value": {
+									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "allow_partial_delivery_ind",
+								"value": ""
+							},
+							{
+								"name": "cancellation_status",
+								"value": "A"
+							},
+							{
+								"name": "delivery_status",
+								"value": "A"
+							},
+							{
+								"name": "approval_status",
+								"value": ""
+							},
+							{
+								"name": "credit_status",
+								"value": ""
+							},
+							{
+								"name": "delivered_pieces",
+								"value": "0"
+							},
+							{
+								"name": "order_pieces",
+								"value": "0"
+							},
+							{
+								"name": "actual_del_date",
+								"value": ""
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"order_request_no"
+							]
+						},
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$mandt']"
+								},
+								"sink": {
+									"name": "mandt",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_request_no']"
+								},
+								"sink": {
+									"name": "order_request_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_no']"
+								},
+								"sink": {
+									"name": "order_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$cust_code']"
+								},
+								"sink": {
+									"name": "cust_code",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$cust_name']"
+								},
+								"sink": {
+									"name": "cust_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$contract_no']"
+								},
+								"sink": {
+									"name": "contract_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$proj_no']"
+								},
+								"sink": {
+									"name": "proj_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$proj_name']"
+								},
+								"sink": {
+									"name": "proj_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$cust_po_no']"
+								},
+								"sink": {
+									"name": "cust_po_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$req_del_date_fr']"
+								},
+								"sink": {
+									"name": "req_del_date_fr",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$req_del_date_to']"
+								},
+								"sink": {
+									"name": "req_del_date_to",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$projected_casting_date']"
+								},
+								"sink": {
+									"name": "projected_casting_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_type']"
+								},
+								"sink": {
+									"name": "order_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$mat_source_ind']"
+								},
+								"sink": {
+									"name": "mat_source_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$premium_service_ind']"
+								},
+								"sink": {
+									"name": "premium_service_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$crane_booked_ind']"
+								},
+								"sink": {
+									"name": "crane_booked_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$barge_booked_ind']"
+								},
+								"sink": {
+									"name": "barge_booked_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$police_escort_ind']"
+								},
+								"sink": {
+									"name": "police_escort_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$no_of_items']"
+								},
+								"sink": {
+									"name": "no_of_items",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$int_remark']"
+								},
+								"sink": {
+									"name": "int_remark",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ext_remark']"
+								},
+								"sink": {
+									"name": "ext_remark",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_udate']"
+								},
+								"sink": {
+									"name": "order_udate",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_utime']"
+								},
+								"sink": {
+									"name": "order_utime",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$order_group_id']"
+								},
+								"sink": {
+									"name": "order_group_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$low_bed_vechile_allowed']"
+								},
+								"sink": {
+									"name": "LOW_BED_VEHICLE_ALLOWED",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$fiftyton_vechile_allowed']"
+								},
+								"sink": {
+									"name": "FIFTYTON_VEHICLE_ALLOWED",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$must_have_dat']"
+								},
+								"sink": {
+									"name": "MUST_HAVE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['id_message']"
+								},
+								"sink": {
+									"name": "id_message",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['actual_del_date']"
+								},
+								"sink": {
+									"name": "actual_del_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$planning_strategy']"
+								},
+								"sink": {
+									"name": "planning_strategy",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['order_pieces']"
+								},
+								"sink": {
+									"name": "order_pieces",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['delivered_pieces']"
+								},
+								"sink": {
+									"name": "delivered_pieces",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['credit_status']"
+								},
+								"sink": {
+									"name": "credit_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['approval_status']"
+								},
+								"sink": {
+									"name": "approval_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['delivery_status']"
+								},
+								"sink": {
+									"name": "delivery_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['cancellation_status']"
+								},
+								"sink": {
+									"name": "cancellation_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['allow_partial_delivery_ind']"
+								},
+								"sink": {
+									"name": "allow_partial_delivery_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['time_stamp']"
+								},
+								"sink": {
+									"name": "time_stamp",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['remarks']"
+								},
+								"sink": {
+									"name": "remarks",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['transfer_idref']"
+								},
+								"sink": {
+									"name": "transfer_idref",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['transfer_status']"
+								},
+								"sink": {
+									"name": "transfer_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['create_by']"
+								},
+								"sink": {
+									"name": "create_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['update_by']"
+								},
+								"sink": {
+									"name": "update_by",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['update_date']"
+								},
+								"sink": {
+									"name": "update_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['QA_transfer_status']"
+								},
+								"sink": {
+									"name": "QA_transfer_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$cust_order_date']"
+								},
+								"sink": {
+									"name": "cust_order_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$proj_segment']"
+								},
+								"sink": {
+									"name": "proj_segment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$proj_sub_segment']"
+								},
+								"sink": {
+									"name": "proj_sub_segment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$job_site_location']"
+								},
+								"sink": {
+									"name": "job_site_location",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$product_type']"
+								},
+								"sink": {
+									"name": "product_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$cab_former_type']"
+								},
+								"sink": {
+									"name": "cab_former_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$mto_ind']"
+								},
+								"sink": {
+									"name": "mto_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$company_code']"
+								},
+								"sink": {
+									"name": "company_code",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$process_status']"
+								},
+								"sink": {
+									"name": "process_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$self_collect_ind']"
+								},
+								"sink": {
+									"name": "self_collect_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$forecast_order_no']"
+								},
+								"sink": {
+									"name": "forecast_order_no",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$urgent_order_ind']"
+								},
+								"sink": {
+									"name": "urgent_order_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$local_order_ind']"
+								},
+								"sink": {
+									"name": "local_order_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$forecast_order_ind']"
+								},
+								"sink": {
+									"name": "forecast_order_ind",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['create_date']"
+								},
+								"sink": {
+									"name": "create_date",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT046_SAP_ODOS_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT046_SCM_ORDER_HEADER",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
