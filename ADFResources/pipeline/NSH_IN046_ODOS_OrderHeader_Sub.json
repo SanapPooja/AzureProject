@@ -688,7 +688,7 @@
 							{
 								"name": "id_message",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFFFFFF')}",
 									"type": "Expression"
 								}
 							},
@@ -703,7 +703,7 @@
 							{
 								"name": "create_date",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFFFFF')}",
 									"type": "Expression"
 								}
 							},
@@ -730,7 +730,7 @@
 							{
 								"name": "time_stamp",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm')",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyyMMddHHmmssFF')}",
 									"type": "Expression"
 								}
 							},
