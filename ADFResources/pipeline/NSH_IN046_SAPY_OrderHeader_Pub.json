@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT\n    t1.MANDT,\n    t1.ORDER_REQUEST_NO,\n    t1.SALES_ORDER,\n    t1.KUNAG,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z1')\n        ), '') AS account_mgr,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z2')\n        ), '') AS segment_mgr,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z3')\n        ), '') AS proj_coordinator,\n    t1.NAME_AG,\n    t1.CONTRACT,\n    t1.KUNNR,\n    t1.NAME_WE,\n    t1.PO_NUMBER,\n    t1.REQ_DAT_FRM,\n    t1.REQ_DAT_TO,\n    t1.PRJ_CST_DAT,\n    t1.YORD_TYPE,\n    t1.VEHICLE_TYPE,\n    t1.YMAT_SOURCE,\n    t1.PRM_SVC_IND,\n    t1.CRN_BKD_IND,\n    t1.BRG_BKD_IND,\n    t1.POL_ESC_IND,\n    t1.NO_ITEM,\n    t1.INT_REMARK,\n    t1.EXT_REMARK,\n    t1.UDATE,\n    t1.UTIME,\n    t1.ORDER_GROUP_ID,\n    t1.LOW_BED_VEH_IND,\n    t1.TON50_VEH_IND,\n    t1.UNIT_MODE_IND,\n    t1.MUST_HAVE_DAT,\n    t1.YCAB_TYPE,\n    t2.BRAN1 AS cust_class,\n    t2.BRAN2 AS proj_segment,\n    t2.BRAN3 AS proj_sub_segment,\n    t2.REGIO AS job_site_location,\n    CASE\n        WHEN t1.SALES_ORG IN ('6401', '6402') THEN '0640'\n        WHEN t1.SALES_ORG IN ('6411', '6412') THEN '0641'\n        WHEN t1.SALES_ORG IN ('6421', '6422') THEN '0642'\n        ELSE '0640'\n    END AS company_code,\n    CASE\n        WHEN t1.ORDER_TYPE = 'ZMCS' THEN 'X'\n        ELSE 'Y'\n    END AS process_status,\n    CASE\n        WHEN t1.SALES_ORG IN ('6401', '6411', '6421') THEN 'Y'\n        ELSE 'N'\n    END AS local_order_ind,\n    COALESCE(t1.URG_ORD_IND, 'N') AS urgent_order_ind,\n    CASE\n        WHEN SUBSTR(t1.YORD_TYPE, 4, 1) = 'S' THEN 'MTS'\n        ELSE 'MTO'\n    END AS plannig_strategy,\n    CASE\n        WHEN t1.VEHICLE_TYPE = 'SC' THEN 'Y'\n        ELSE 'N'\n    END AS self_collect_ind,\n    NVL((SELECT PROD_GRP\n         FROM SAPSR3.YMSDT_ORDER_ITEM\n         WHERE MANDT = t1.MANDT\n           AND ORDER_REQUEST_NO = t1.ORDER_REQUEST_NO\n           AND ORDER_ITEM = '000010'), '') AS product_type,\n    (SELECT count(*) as countgroup FROM sapsr3.ymsdt_order_hdr\n     WHERE MANDT =t1.MANDT AND KUNNR = t1.KUNNR and order_group_id =ORDER_GROUP_ID and ON_HOLD_IND !='Y' AND STATUS !='X') as  group_member_count,\n    (SELECT MAX(k.kunnr) \n     FROM SAPSR3.kna1 a\n     JOIN SAPSR3.knvp v ON v.kunnr = a.kunnr AND v.mandt = a.mandt AND v.parvw = 'PD'\n     JOIN SAPSR3.kna1 k ON k.kunnr = v.kunn2\n     WHERE a.kunnr = t1.KUNNR \n       AND a.mandt = t1.MANDT \n       AND a.ktokd IN ('Y001','Y007','Y008')\n    ) AS Physical_delivery_proj_no,\n    (SELECT max(k.kunnr) \n     FROM SAPSR3.kna1 a\n     JOIN SAPSR3.knvp v ON v.kunnr = a.kunnr AND v.mandt = a.mandt AND v.parvw = 'PP'\n     JOIN SAPSR3.kna1 k ON k.kunnr = v.kunn2\n     WHERE a.kunnr = t1.KUNNR \n       AND a.mandt = t1.MANDT \n       AND a.ktokd IN ('Y001','Y007','Y008')\n    ) AS Physical_proj_no,\n    CASE\n        WHEN t1.ORDER_TYPE != 'MTS' AND TRIM(NDS_SALE_ORDER) <> '' THEN t1.ORDER_REQUEST_NO\n        ELSE 'BLANK'\n    END AS forecast_order_no,\n    CASE\n        WHEN t1.ORDER_TYPE = 'MTO' THEN 'Y'\n        ELSE 'N'\n    END AS mto_ind\nFROM\n    SAPSR3.YMSDT_ORDER_HDR t1\nLEFT JOIN\n    SAPSR3.KNA1 t2 ON t1.MANDT = t2.MANDT AND t1.KUNNR = t2.KUNNR\nFETCH FIRST 3 ROWS ONLY;\n",
+						"oracleReaderQuery": "SELECT\n    t1.MANDT,\n    t1.ORDER_REQUEST_NO,\n    t1.SALES_ORDER,\n    t1.KUNAG,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z1')\n        ), '') AS account_mgr,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z2')\n        ), '') AS segment_mgr,\n    NVL((SELECT NAME1\n         FROM SAPSR3.KNA1\n         WHERE MANDT = t1.MANDT\n         AND KUNNR = (SELECT NVL(KUNNR, '')\n                      FROM SAPSR3.VBPA\n                      WHERE MANDT = t1.MANDT\n                      AND VBELN = t1.SALES_ORDER\n                      AND PARVW = 'Z3')\n        ), '') AS proj_coordinator,\n    t1.NAME_AG,\n    t1.CONTRACT,\n    t1.KUNNR,\n    t1.NAME_WE,\n    t1.PO_NUMBER,\n    t1.REQ_DAT_FRM,\n    t1.REQ_DAT_TO,\n    t1.PRJ_CST_DAT,\n    t1.YORD_TYPE,\n    t1.VEHICLE_TYPE,\n    t1.YMAT_SOURCE,\n    t1.PRM_SVC_IND,\n    t1.CRN_BKD_IND,\n    t1.BRG_BKD_IND,\n    t1.POL_ESC_IND,\n    t1.NO_ITEM,\n    t1.INT_REMARK,\n    t1.EXT_REMARK,\n    t1.UDATE,\n    t1.UTIME,\n    t1.ORDER_GROUP_ID,\n    t1.LOW_BED_VEH_IND,\n    t1.TON50_VEH_IND,\n    t1.UNIT_MODE_IND,\n    t1.MUST_HAVE_DAT,\n    t1.YCAB_TYPE,\n    t2.BRAN1 AS cust_class,\n    t2.BRAN2 AS proj_segment,\n    t2.BRAN3 AS proj_sub_segment,\n    t2.REGIO AS job_site_location,\n    CASE\n        WHEN t1.SALES_ORG IN ('6401', '6402') THEN '0640'\n        WHEN t1.SALES_ORG IN ('6411', '6412') THEN '0641'\n        WHEN t1.SALES_ORG IN ('6421', '6422') THEN '0642'\n        ELSE '0640'\n    END AS company_code,\n    CASE\n        WHEN t1.ORDER_TYPE = 'ZMCS' THEN 'X'\n        ELSE 'Y'\n    END AS process_status,\n    CASE\n        WHEN t1.SALES_ORG IN ('6401', '6411', '6421') THEN 'Y'\n        ELSE 'N'\n    END AS local_order_ind,\n    COALESCE(t1.URG_ORD_IND, 'N') AS urgent_order_ind,\n    CASE\n        WHEN SUBSTR(t1.YORD_TYPE, 4, 1) = 'S' THEN 'MTS'\n        ELSE 'MTO'\n    END AS planning_strategy,\n    CASE\n        WHEN t1.VEHICLE_TYPE = 'SC' THEN 'Y'\n        ELSE 'N'\n    END AS self_collect_ind,\n    NVL((SELECT PROD_GRP\n         FROM SAPSR3.YMSDT_ORDER_ITEM\n         WHERE MANDT = t1.MANDT\n           AND ORDER_REQUEST_NO = t1.ORDER_REQUEST_NO\n           AND ORDER_ITEM = '000010'), '') AS product_type,\n    (SELECT count(*) as countgroup FROM sapsr3.ymsdt_order_hdr\n     WHERE MANDT =t1.MANDT AND KUNNR = t1.KUNNR and order_group_id =ORDER_GROUP_ID and ON_HOLD_IND !='Y' AND STATUS !='X') as  group_member_count,\n    (SELECT MAX(k.kunnr) \n     FROM SAPSR3.kna1 a\n     JOIN SAPSR3.knvp v ON v.kunnr = a.kunnr AND v.mandt = a.mandt AND v.parvw = 'PD'\n     JOIN SAPSR3.kna1 k ON k.kunnr = v.kunn2\n     WHERE a.kunnr = t1.KUNNR \n       AND a.mandt = t1.MANDT \n       AND a.ktokd IN ('Y001','Y007','Y008')\n    ) AS Physical_delivery_proj_no,\n    (SELECT max(k.kunnr) \n     FROM SAPSR3.kna1 a\n     JOIN SAPSR3.knvp v ON v.kunnr = a.kunnr AND v.mandt = a.mandt AND v.parvw = 'PP'\n     JOIN SAPSR3.kna1 k ON k.kunnr = v.kunn2\n     WHERE a.kunnr = t1.KUNNR \n       AND a.mandt = t1.MANDT \n       AND a.ktokd IN ('Y001','Y007','Y008')\n    ) AS Physical_proj_no,\n    CASE\n        WHEN t1.ORDER_TYPE != 'MTS' AND TRIM(NDS_SALE_ORDER) <> '' THEN t1.ORDER_REQUEST_NO\n        ELSE 'BLANK'\n    END AS forecast_order_no,\n    CASE\n        WHEN t1.ORDER_TYPE = 'MTO' THEN 'Y'\n        ELSE 'N'\n    END AS mto_ind\nFROM\n    SAPSR3.YMSDT_ORDER_HDR t1\nLEFT JOIN\n    SAPSR3.KNA1 t2 ON t1.MANDT = t2.MANDT AND t1.KUNNR = t2.KUNNR\nFETCH FIRST 3 ROWS ONLY;\n",
 						"partitionOption": "None",
 						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
@@ -297,7 +297,7 @@
 							},
 							{
 								"source": {
-									"name": "planning_strategy"
+									"name": "PLANNING_STRATEGY"
 								},
 								"sink": {
 									"path": "$['$planning_strategy']"
@@ -305,15 +305,7 @@
 							},
 							{
 								"source": {
-									"name": "cust_order_date"
-								},
-								"sink": {
-									"path": "$['$cust_order_date']"
-								}
-							},
-							{
-								"source": {
-									"name": "cust_class"
+									"name": "CUST_CLASS"
 								},
 								"sink": {
 									"path": "$['$cust_class']"
@@ -321,7 +313,7 @@
 							},
 							{
 								"source": {
-									"name": "proj_segment"
+									"name": "PROJ_SEGMENT"
 								},
 								"sink": {
 									"path": "$['$proj_segment']"
@@ -329,7 +321,7 @@
 							},
 							{
 								"source": {
-									"name": "proj_sub_segment"
+									"name": "PROJ_SUB_SEGMENT"
 								},
 								"sink": {
 									"path": "$['$proj_sub_segment']"
@@ -337,7 +329,7 @@
 							},
 							{
 								"source": {
-									"name": "job_site_location"
+									"name": "JOB_SITE_LOCATION"
 								},
 								"sink": {
 									"path": "$['$job_site_location']"
@@ -345,7 +337,7 @@
 							},
 							{
 								"source": {
-									"name": "product_type"
+									"name": "PRODUCT_TYPE"
 								},
 								"sink": {
 									"path": "$['$product_type']"
@@ -361,7 +353,7 @@
 							},
 							{
 								"source": {
-									"name": "mto_ind"
+									"name": "MTO_IND"
 								},
 								"sink": {
 									"path": "$['$mto_ind']"
@@ -369,7 +361,7 @@
 							},
 							{
 								"source": {
-									"name": "company_code"
+									"name": "COMPANY_CODE"
 								},
 								"sink": {
 									"path": "$['$company_code']"
@@ -377,7 +369,7 @@
 							},
 							{
 								"source": {
-									"name": "process_status"
+									"name": "PROCESS_STATUS"
 								},
 								"sink": {
 									"path": "$['$process_status']"
@@ -385,7 +377,7 @@
 							},
 							{
 								"source": {
-									"name": "self_collect_ind"
+									"name": "SELF_COLLECT_IND"
 								},
 								"sink": {
 									"path": "$['$self_collect_ind']"
@@ -393,7 +385,7 @@
 							},
 							{
 								"source": {
-									"name": "forecast_order_no"
+									"name": "FORECAST_ORDER_NO"
 								},
 								"sink": {
 									"path": "$['$forecast_order_no']"
@@ -401,7 +393,7 @@
 							},
 							{
 								"source": {
-									"name": "urgent_order_ind"
+									"name": "URGENT_ORDER_IND"
 								},
 								"sink": {
 									"path": "$['$urgent_order_ind']"
@@ -409,7 +401,7 @@
 							},
 							{
 								"source": {
-									"name": "local_order_ind"
+									"name": "LOCAL_ORDER_IND"
 								},
 								"sink": {
 									"path": "$['$local_order_ind']"
@@ -417,7 +409,7 @@
 							},
 							{
 								"source": {
-									"name": "forecast_order_ind"
+									"name": "FORECAST_ORDER_IND"
 								},
 								"sink": {
 									"path": "$['$forecast_order_ind']"
@@ -425,7 +417,7 @@
 							},
 							{
 								"source": {
-									"name": "account_mgr"
+									"name": "ACCOUNT_MGR"
 								},
 								"sink": {
 									"path": "$['$account_mgr']"
@@ -433,7 +425,7 @@
 							},
 							{
 								"source": {
-									"name": "segment_mgr"
+									"name": "SEGMENT_MGR"
 								},
 								"sink": {
 									"path": "$['$segment_mgr']"
@@ -441,7 +433,7 @@
 							},
 							{
 								"source": {
-									"name": "proj_coordinator"
+									"name": "PROJ_COORDINATOR"
 								},
 								"sink": {
 									"path": "$['$proj_coordinator']"
@@ -466,6 +458,8 @@
 			{
 				"name": "NSH_IN046_ODOS_OrderHeader_Sub",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyData_FromSapToQueue",
@@ -490,33 +484,7 @@
 		"parameters": {
 			"MANDT": {
 				"type": "String",
-				"defaultValue": "MANDT"
-			},
-			"VBELN": {
-				"type": "string",
-				"defaultValue": "VBELN"
-			}
-		},
-		"variables": {
-			"process_status": {
-				"type": "String",
-				"defaultValue": "Y"
-			},
-			"mto_ind": {
-				"type": "String",
-				"defaultValue": "N"
-			},
-			"company_code": {
-				"type": "String",
-				"defaultValue": "0640"
-			},
-			"forecast_order_no": {
-				"type": "String",
-				"defaultValue": "Y"
-			},
-			"local_order_ind": {
-				"type": "String",
-				"defaultValue": "N"
+				"defaultValue": "600"
 			}
 		},
 		"annotations": []
