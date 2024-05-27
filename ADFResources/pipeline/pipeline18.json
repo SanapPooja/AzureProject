@@ -3,21 +3,546 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable4",
-				"type": "SetVariable",
+				"name": "Order_Header",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "CurrentTime",
-					"value": {
-						"value": "@formatDateTime(addhours(utcnow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
-						"type": "Expression"
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select top (5) order_request_no, order_no, cust_code, cust_name, contract_no, proj_no, proj_name, cust_po_no, cust_order_date, req_del_date_fr, req_del_date_to, projected_casting_date, actual_del_date, planning_strategy, order_type, cust_class, proj_segment, proj_sub_segment, job_site_location, forecast_order_no, account_mgr, segment_mgr, proj_coordinator, product_type, cab_former_type, vehicle_type, order_pieces, delivered_pieces, credit_status, approval_status, delivery_status, mat_source_ind, urgent_order_ind, allow_partial_delivery_ind, forecast_order_ind, local_order_ind, mto_ind, self_collect_ind, premium_service_ind, crane_booked_ind, barge_booked_ind, police_escort_ind, company_code, no_of_items, int_remark, ext_remark, time_stamp, remarks, process_status, order_udate, order_utime, transfer_idref, transfer_status, create_by, create_date, update_by, update_date, QA_transfer_status, order_group_id, group_member_count, LOW_BED_VEHICLE_ALLOWED, FIFTYTON_VEHICLE_ALLOWED, UNIT_TAG_MODE_IND, MUST_HAVE_DATE, PHYSICAL_PROJ_NO, PHYSICAL_DELIVERY_PROJ_NO FROM SCM_ORDER_HEADER",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": 10000,
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "order_request_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "order_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_name",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "contract_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONTRACT_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_name",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_po_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_PO_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_order_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_ORDER_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "req_del_date_fr",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REQ_DEL_DATE_FR"
+								}
+							},
+							{
+								"source": {
+									"name": "req_del_date_to",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REQ_DEL_DATE_TO"
+								}
+							},
+							{
+								"source": {
+									"name": "projected_casting_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJECTED_CASTING_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "actual_del_date",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACTUAL_DEL_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "planning_strategy",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PLANNING_STRATEGY"
+								}
+							},
+							{
+								"source": {
+									"name": "order_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "cust_class",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_CLASS"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_segment",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SEGMENT"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_sub_segment",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_SUB_SEGMENT"
+								}
+							},
+							{
+								"source": {
+									"name": "job_site_location",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"name": "forecast_order_no",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FORECAST_ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "account_mgr",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ACCOUNT_MGR"
+								}
+							},
+							{
+								"source": {
+									"name": "segment_mgr",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SEGMENT_MGR"
+								}
+							},
+							{
+								"source": {
+									"name": "proj_coordinator",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_COORDINATOR"
+								}
+							},
+							{
+								"source": {
+									"name": "product_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "cab_former_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_GROUP_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "vehicle_type",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$VEHICLE_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "order_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$ORDER_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "delivered_pieces",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$DELIVERED_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "credit_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CREDIT_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "approval_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$APPROVAL_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "delivery_status",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$DELIVERY_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "mat_source_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MAT_SOURCE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "urgent_order_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$URGENT_ORDER_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "allow_partial_delivery_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ALLOW_PARTIAL_DELIVERY_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "forecast_order_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FORECAST_ORDER_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "local_order_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOCAL_ORDER_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "mto_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MTO_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "self_collect_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SELF_COLLECT_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "premium_service_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PREMIUM_SERVICE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "crane_booked_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CRANE_BOOKED_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "barge_booked_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BARGE_BOOKED_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "police_escort_ind",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$POLICE_ESCORT_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "company_code",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$COMPANY_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "no_of_items",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$NO_OF_ITEMS"
+								}
+							},
+							{
+								"source": {
+									"name": "int_remark",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$INT_REMARK"
+								}
+							},
+							{
+								"source": {
+									"name": "ext_remark",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$EXT_REMARK"
+								}
+							},
+							{
+								"source": {
+									"name": "remarks",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$REMARKS"
+								}
+							},
+							{
+								"source": {
+									"name": "order_group_id",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_GROUP_ID"
+								}
+							},
+							{
+								"source": {
+									"name": "group_member_count",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$GROUP_MEMBER_COUNT"
+								}
+							},
+							{
+								"source": {
+									"name": "LOW_BED_VEHICLE_ALLOWED",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOW_BED_VEHICLE_ALLOWED"
+								}
+							},
+							{
+								"source": {
+									"name": "FIFTYTON_VEHICLE_ALLOWED",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$FIFTYTON_VEHICLE_ALLOWED"
+								}
+							},
+							{
+								"source": {
+									"name": "UNIT_TAG_MODE_IND",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$UNIT_TAG_MODE_IND"
+								}
+							},
+							{
+								"source": {
+									"name": "MUST_HAVE_DATE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MUST_HAVE_DATE"
+								}
+							},
+							{
+								"source": {
+									"name": "PHYSICAL_PROJ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PHYSICAL_PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PHYSICAL_DELIVERY_PROJ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PHYSICAL_DELIVERY_PROJ_NO"
+								}
+							}
+						]
 					}
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "Int047_scm_order_header",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT047_Order_Header",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {
