@@ -5,6 +5,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -33,6 +35,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "TIME_STAMP_INSERT",
+								"value": {
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"type": "Expression"
+								}
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -540,6 +551,14 @@
 								"sink": {
 									"name": "PHYSICAL_DELIVERY_PROJ_NO",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TIME_STAMP_INSERT']"
+								},
+								"sink": {
+									"name": "TIME_STAMP_INSERT"
 								}
 							}
 						]
@@ -1164,15 +1183,6 @@
 							},
 							{
 								"source": {
-									"path": "$MESH_CW_SPACING"
-								},
-								"sink": {
-									"name": "MESH_CW_SPACING",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$MESH_LW_OH1"
 								},
 								"sink": {
@@ -1623,7 +1633,7 @@
 							},
 							{
 								"source": {
-									"path": "TIME_STAMP_INSERT"
+									"path": "$['TIME_STAMP_INSERT']"
 								},
 								"sink": {
 									"name": "TIME_STAMP_INSERT",
@@ -2062,6 +2072,8 @@
 			{
 				"name": "Script1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item_fabrication_head",
@@ -2098,6 +2110,8 @@
 			{
 				"name": "Script2",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item",
@@ -2134,6 +2148,8 @@
 			{
 				"name": "Script3",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -2170,6 +2186,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -2198,6 +2216,8 @@
 			{
 				"name": "Web2",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait3",
@@ -2226,6 +2246,8 @@
 			{
 				"name": "Web3",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait2",
@@ -2254,6 +2276,8 @@
 			{
 				"name": "Wait2",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item_fabrication_head",
@@ -2270,6 +2294,8 @@
 			{
 				"name": "Wait3",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item",
@@ -2286,6 +2312,8 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_header",
@@ -2318,6 +2346,8 @@
 			{
 				"name": "Script4",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
