@@ -310,7 +310,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": {
+										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -344,7 +347,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
+									"oracleReaderQuery": {
+										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -377,7 +383,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP \r\nfrom SAPSR3.YMPPT_LOAD_VEHIC\r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": {
+										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP \r\nfrom SAPSR3.YMPPT_LOAD_VEHIC\r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -410,7 +419,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR \r\nwhere LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
+									"oracleReaderQuery": {
+										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR \r\nwhere LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -443,7 +455,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": " SELECT DISTINCT \r\n    T.order_item,\r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\nWHERE \r\n    HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS",
+									"oracleReaderQuery": {
+										"value": " SELECT DISTINCT \r\n    T.order_item,\r\n    T.NDS_SALE_ORDER, \r\n    SUM(T.tally_batch_qty) AS tally_batch_qty, \r\n    SUM(T.no_pieces) AS no_pieces, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS\r\nFROM \r\n    SAPSR3.YMPPT_LP_HDR HT\r\n    JOIN SAPSR3.YESB_LP_HDR HB ON HT.LOAD_NO = HB.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LP_BATCH_C T ON HT.LOAD_NO = T.LOAD_NO \r\n    JOIN SAPSR3.YMPPT_LOAD_VEHIC V ON HT.LOAD_NO = V.LOAD_NO\r\nWHERE \r\n    HB.LOAD_NO = '@{variables('LOAD_NO_VALUE')}'\r\nGROUP BY\r\n    T.order_item, \r\n    T.NDS_SALE_ORDER, \r\n    T.SALES_ORDER,\r\n    HB.MANDT, \r\n    HB.LOAD_NO, \r\n    HB.LP_STATUS, \r\n    HT.STATUS, \r\n    HT.TRAILER_NO, \r\n    HT.ERROR_CD, \r\n    V.VEHICLE_ID, \r\n    V.TARE_WT, \r\n    V.GROSS_WT, \r\n    V.TIMESTAMP, \r\n    HT.NGWS_STATUS",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
@@ -712,7 +727,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'Y', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
+										"text": {
+											"value": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'Y', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -745,7 +763,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')"
+										"text": {
+											"value": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
