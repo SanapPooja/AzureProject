@@ -63,46 +63,6 @@
 				]
 			},
 			{
-				"name": "Delete1",
-				"type": "Delete",
-				"dependsOn": [
-					{
-						"activity": "Filter1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "filetransfer_souce",
-						"type": "DatasetReference"
-					},
-					"logStorageSettings": {
-						"linkedServiceName": {
-							"referenceName": "archivedfiles",
-							"type": "LinkedServiceReference"
-						},
-						"path": ""
-					},
-					"enableLogging": true,
-					"storeSettings": {
-						"type": "FileServerReadSettings",
-						"recursive": true,
-						"wildcardFileName": "*.csv",
-						"enablePartitionDiscovery": false
-					}
-				}
-			},
-			{
 				"name": "Get Metadata1",
 				"type": "GetMetadata",
 				"dependsOn": [
@@ -160,6 +120,56 @@
 						"value": "@startswith(item().name,'Emp_Master' )",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
+						{
+							"name": "Delete1",
+							"type": "Delete",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "filetransfer_souce",
+									"type": "DatasetReference"
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "archivedfiles",
+										"type": "LinkedServiceReference"
+									},
+									"path": ""
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "FileServerReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								}
+							}
+						}
+					]
 				}
 			}
 		],
