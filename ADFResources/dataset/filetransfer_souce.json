@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": "Emp_Master_20240515073037.csv",
+				"fileName": "*.csv",
 				"folderPath": "old"
 			},
 			"columnDelimiter": ",",
