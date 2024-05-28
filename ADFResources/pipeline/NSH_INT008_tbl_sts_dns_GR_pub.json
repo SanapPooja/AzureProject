@@ -1007,7 +1007,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select  fld_GR_id FROM tbl_sts_dns_GR WHERE fld_GR_status = 'I' AND (fld_gr_rec_type = 'A' or fld_gr_rec_type = 'H')",
+						"sqlReaderQuery": "select  fld_GR_id FROM tbl_sts_dns_GR WHERE fld_GR_status = 'A' AND (fld_gr_rec_type = 'A' or fld_gr_rec_type = 'H')",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
