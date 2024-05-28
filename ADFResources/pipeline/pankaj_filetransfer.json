@@ -135,6 +135,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter1').output.Value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Delete1",
