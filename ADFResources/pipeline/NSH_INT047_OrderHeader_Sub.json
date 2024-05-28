@@ -567,6 +567,22 @@
 								"sink": {
 									"name": "TIME_STAMP_INSERT"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$cancellation_status']"
+								},
+								"sink": {
+									"name": "CANCELLATION_STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TIME_STAMP']"
+								},
+								"sink": {
+									"name": "TIME_STAMP"
+								}
 							}
 						]
 					}
