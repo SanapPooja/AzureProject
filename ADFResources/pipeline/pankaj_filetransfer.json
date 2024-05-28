@@ -149,7 +149,17 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item().name,'Emp_Master' )",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"annotations": []
