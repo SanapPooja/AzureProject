@@ -2030,6 +2030,22 @@
 								"sink": {
 									"path": "$COMPLEXITY_IND"
 								}
+							},
+							{
+								"source": {
+									"name": "mesh_lw_mat_code"
+								},
+								"sink": {
+									"path": "$['$MESH_LW_MAT_CODE']"
+								}
+							},
+							{
+								"source": {
+									"name": "bpc_no_rings_end"
+								},
+								"sink": {
+									"path": "$['$BPC_NO_RINGS_END']"
+								}
 							}
 						]
 					}
@@ -2420,15 +2436,6 @@
 							},
 							{
 								"source": {
-									"name": "cab_former_type",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CAB_FORMER_TYPE"
-								}
-							},
-							{
-								"source": {
 									"name": "vehicle_type",
 									"type": "String"
 								},
@@ -2631,7 +2638,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"path": "$ORDER_GROUP_ID"
+									"path": "$CAB_FORMER_TYPE"
 								}
 							},
 							{

@@ -490,15 +490,6 @@
 							},
 							{
 								"source": {
-									"path": "$['$ORDER_GROUP_ID']"
-								},
-								"sink": {
-									"name": "ORDER_GROUP_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$['$GROUP_MEMBER_COUNT']"
 								},
 								"sink": {
