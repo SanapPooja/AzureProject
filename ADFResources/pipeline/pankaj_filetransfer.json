@@ -169,7 +169,7 @@
 									"type": "FileServerReadSettings",
 									"recursive": true,
 									"wildcardFileName": {
-										"value": "@activity('Filter1').output.Value",
+										"value": "@item().name",
 										"type": "Expression"
 									},
 									"enablePartitionDiscovery": false
