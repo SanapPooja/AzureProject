@@ -168,7 +168,10 @@
 								"storeSettings": {
 									"type": "FileServerReadSettings",
 									"recursive": true,
-									"wildcardFileName": "*.csv",
+									"wildcardFileName": {
+										"value": "@activity('Filter1').output.Value",
+										"type": "Expression"
+									},
 									"enablePartitionDiscovery": false
 								}
 							}
