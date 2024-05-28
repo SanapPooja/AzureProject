@@ -125,7 +125,9 @@
 						"referenceName": "filetransfer_souce",
 						"type": "DatasetReference"
 					},
-					"fieldList": [],
+					"fieldList": [
+						"childItems"
+					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
 						"recursive": true,
