@@ -373,11 +373,8 @@
 			"scm_operation_no": {
 				"type": "String"
 			},
-			"ref_id": {
-				"type": "String"
-			},
 			"REF_ID": {
-				"type": "String"
+				"type": "Integer"
 			}
 		},
 		"annotations": []
