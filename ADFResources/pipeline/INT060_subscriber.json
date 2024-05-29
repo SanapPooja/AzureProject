@@ -74,9 +74,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "LOAD_NO",
+					"variableName": "Load_number",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].LOAD_NO",
+						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					}
 				}
@@ -1323,6 +1323,45 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Load_number')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
@@ -1342,6 +1381,9 @@
 				"type": "String"
 			},
 			"ITEM_ON_LOAD": {
+				"type": "Array"
+			},
+			"Load_number": {
 				"type": "Array"
 			}
 		},
