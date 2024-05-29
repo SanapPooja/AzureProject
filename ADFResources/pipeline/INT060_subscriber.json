@@ -481,7 +481,13 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Set variable3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable3_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -504,7 +510,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/LOAD_NO%' AND SALES_ORDER = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_NO%' AND ORDER_ITEM = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ITEM_NO%' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+								"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='@{variables('LOAD_NO')'}\n\n",
 								"type": "Expression"
 							}
 						}
@@ -1825,17 +1831,131 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT ORDER_REQUEST_NO FROM SCM_ADMIN.ORDER_ITEM ",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_NO",
+					"value": {
+						"value": "@activity('Lookup2').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup3",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT ITEM_NO FROM SCM_ADMIN.ORDER_ITEM ",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT060_SCM_ADMIN_sales_order_line_on_load",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable3_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ORDER_NO",
+					"value": {
+						"value": "@activity('Lookup3').output.value",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
 			"LOAD_NO": {
-				"type": "Array"
+				"type": "String"
 			},
 			"ITEM_NO": {
 				"type": "Array"
 			},
 			"ORDER_NO": {
-				"type": "Array"
+				"type": "String"
 			},
 			"ITEM_NOs": {
 				"type": "Array"
@@ -1847,6 +1967,9 @@
 				"type": "Array"
 			},
 			"Load_number": {
+				"type": "Array"
+			},
+			"ord_num": {
 				"type": "Array"
 			}
 		},
