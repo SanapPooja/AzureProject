@@ -2202,7 +2202,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT TOP (10) \r\n    order_request_no, \r\n    order_no, \r\n    cust_code, \r\n    cust_name, \r\n    contract_no, \r\n    proj_no, \r\n    proj_name, \r\n    cust_po_no, \r\n    cust_order_date, \r\n    req_del_date_fr, \r\n    req_del_date_to, \r\n    projected_casting_date, \r\n    actual_del_date, \r\n    planning_strategy, \r\n    order_type, \r\n    cust_class, \r\n    proj_segment, \r\n    proj_sub_segment, \r\n    job_site_location, \r\n    forecast_order_no, \r\n    account_mgr, \r\n    segment_mgr, \r\n    proj_coordinator, \r\n    product_type, \r\n    cab_former_type, \r\n    vehicle_type, \r\n    order_pieces, \r\n    delivered_pieces, \r\n    credit_status, \r\n    approval_status, \r\n    delivery_status, \r\n    mat_source_ind, \r\n    urgent_order_ind, \r\n    allow_partial_delivery_ind, \r\n    forecast_order_ind, \r\n    local_order_ind, \r\n    mto_ind, \r\n    self_collect_ind, \r\n    premium_service_ind, \r\n    crane_booked_ind, \r\n    barge_booked_ind, \r\n    police_escort_ind, \r\n    company_code, \r\n    no_of_items, \r\n    int_remark, \r\n    ext_remark, \r\n    time_stamp, \r\n    remarks, \r\n    process_status, \r\n    order_udate, \r\n    order_utime, \r\n    transfer_idref, \r\n    transfer_status, \r\n    create_by, \r\n    create_date, \r\n    update_by, \r\n    update_date, \r\n    QA_transfer_status, \r\n    order_group_id, \r\n    group_member_count, \r\n    LOW_BED_VEHICLE_ALLOWED, \r\n    FIFTYTON_VEHICLE_ALLOWED, \r\n    UNIT_TAG_MODE_IND, \r\n    MUST_HAVE_DATE, \r\n    PHYSICAL_PROJ_NO, \r\n    PHYSICAL_DELIVERY_PROJ_NO \r\nFROM SCM_ORDER_HEADER \r\nWHERE transfer_status = 'I';\r\n",
+						"sqlReaderQuery": "SELECT TOP (10)\r\n    order_request_no, \r\n    order_no, \r\n    cust_code, \r\n    cust_name, \r\n    contract_no, \r\n    proj_no, \r\n    proj_name, \r\n    cust_po_no, \r\n    cust_order_date, \r\n    req_del_date_fr, \r\n    req_del_date_to, \r\n    projected_casting_date, \r\n    actual_del_date, \r\n    planning_strategy, \r\n    order_type, \r\n    cust_class, \r\n    proj_segment, \r\n    proj_sub_segment, \r\n    job_site_location, \r\n    forecast_order_no, \r\n    account_mgr, \r\n    segment_mgr, \r\n    proj_coordinator, \r\n    product_type, \r\n    cab_former_type, \r\n    vehicle_type, \r\n    order_pieces, \r\n    delivered_pieces, \r\n    credit_status, \r\n    approval_status, \r\n    delivery_status, \r\n    mat_source_ind, \r\n    urgent_order_ind, \r\n    allow_partial_delivery_ind, \r\n    forecast_order_ind, \r\n    local_order_ind, \r\n    mto_ind, \r\n    self_collect_ind, \r\n    premium_service_ind, \r\n    crane_booked_ind, \r\n    barge_booked_ind, \r\n    police_escort_ind, \r\n    company_code, \r\n    no_of_items, \r\n    int_remark, \r\n    ext_remark, \r\n    time_stamp, \r\n    remarks, \r\n    process_status, \r\n    order_udate, \r\n    order_utime, \r\n    CONCAT(\r\n        SUBSTRING(order_udate, 1, 4), '-', \r\n        SUBSTRING(order_udate, 5, 2), '-', \r\n        SUBSTRING(order_udate, 7, 2), ' ', \r\n        SUBSTRING(order_utime, 1, 2), ':', \r\n        SUBSTRING(order_utime, 3, 2), ':', \r\n        SUBSTRING(order_utime, 5, 2), ''\r\n    ) AS time_stamp_so_creation, \r\n    transfer_idref, \r\n    transfer_status, \r\n    create_by, \r\n    create_date, \r\n    update_by, \r\n    update_date, \r\n    QA_transfer_status, \r\n    order_group_id, \r\n    group_member_count, \r\n    LOW_BED_VEHICLE_ALLOWED, \r\n    FIFTYTON_VEHICLE_ALLOWED, \r\n    UNIT_TAG_MODE_IND, \r\n    MUST_HAVE_DATE, \r\n    PHYSICAL_PROJ_NO, \r\n    PHYSICAL_DELIVERY_PROJ_NO \r\nFROM SCM_ORDER_HEADER \r\nWHERE transfer_status = 'T';\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -2718,6 +2718,14 @@
 								},
 								"sink": {
 									"path": "$['$TIME_STAMP']"
+								}
+							},
+							{
+								"source": {
+									"name": "time_stamp_so_creation"
+								},
+								"sink": {
+									"path": "$['$TIME_STAMP_SO_CREATION']"
 								}
 							}
 						]

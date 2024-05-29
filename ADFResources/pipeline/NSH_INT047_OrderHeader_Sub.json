@@ -46,7 +46,14 @@
 							{
 								"name": "TIME_STAMP_INSERT",
 								"value": {
-									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"value": "activity('Script4_copy1').output.pipelineReturnValue@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "TIME_STAMP_INSERT_UPDATE",
+								"value": {
+									"value": "activity('Script4_copy1').output.pipelineReturnValue@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
 									"type": "Expression"
 								}
 							}
@@ -573,6 +580,22 @@
 								},
 								"sink": {
 									"name": "TIME_STAMP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TIME_STAMP_INSERT_UPDATE']"
+								},
+								"sink": {
+									"name": "TIME_STAMP_INSERT_UPDATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TIME_STAMP_SO_CREATION']"
+								},
+								"sink": {
+									"name": "TIME_STAMP_SO_CREATION"
 								}
 							}
 						]
