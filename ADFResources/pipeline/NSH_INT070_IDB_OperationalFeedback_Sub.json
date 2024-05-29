@@ -122,8 +122,8 @@
 			}
 		],
 		"variables": {
-			"ref_id": {
-				"type": "String"
+			"REF_ID": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
