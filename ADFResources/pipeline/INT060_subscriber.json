@@ -3,35 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "SELECT LP_STATUS, STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Lookup1",
 				"type": "Lookup",
 				"dependsOn": [],
@@ -82,191 +53,11 @@
 				}
 			},
 			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "SELECT COUNT(*) FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script3",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script4",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script5",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script4",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script6",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script5",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS = 'Y' WHERE LOAD_NO ='@{variables('LOAD_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script6",
+						"activity": "ForEach1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1358,6 +1149,678 @@
 									"value": "@item().LOAD_NO",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "Script1_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "SELECT LP_STATUS, STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script2_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "SELECT COUNT(*) FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script4_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script3_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script3_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script5_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script4_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script6_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script5_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS = 'Y' WHERE LOAD_NO ='@{variables('LOAD_NO')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Script6_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"additionalColumns": [
+										{
+											"name": "SHIFT",
+											"value": "QQ"
+										},
+										{
+											"name": "UNDERLOAD_CHARG",
+											"value": "No"
+										},
+										{
+											"name": "STATUS",
+											"value": "Y"
+										},
+										{
+											"name": "ERROR_CD",
+											"value": "RD RECODELETED AND THEN SUCCESSFULLY POSTED"
+										},
+										{
+											"name": "NDS_SALE_ORDER",
+											"value": ""
+										},
+										{
+											"name": "DELIVERY_DATE",
+											"value": ""
+										},
+										{
+											"name": "LOAD_DATE",
+											"value": ""
+										},
+										{
+											"name": "TIMESTAMP",
+											"value": ""
+										},
+										{
+											"name": "PROC_TS",
+											"value": ""
+										},
+										{
+											"name": "NO_PIECES",
+											"value": ""
+										},
+										{
+											"name": "PLAN_LOAD_QTY",
+											"value": ""
+										},
+										{
+											"name": "DESP_LOAD_QTY",
+											"value": ""
+										},
+										{
+											"name": "INTERMEDIATE_QTY",
+											"value": ""
+										}
+									],
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "POST",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"path": "$['$SAP_ORDER_ITEM']"
+											},
+											"sink": {
+												"name": "CLBD_ITEM",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$MATERIAL_NO']"
+											},
+											"sink": {
+												"name": "MATNR",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PROJ_NO']"
+											},
+											"sink": {
+												"name": "KUNNR",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$ORDER_NO']"
+											},
+											"sink": {
+												"name": "SALES_ORDER",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PROJ_NAME']"
+											},
+											"sink": {
+												"name": "NAME_WE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$CUST_CODE']"
+											},
+											"sink": {
+												"name": "KUNAG",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$CUST_NAME']"
+											},
+											"sink": {
+												"name": "NAME_AG",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PROJ_COORDINATOR']"
+											},
+											"sink": {
+												"name": "PROJ_COORD",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$JOB_SITE_LOCATION']"
+											},
+											"sink": {
+												"name": "DESTINATION_CODE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$SHAPE_CODE']"
+											},
+											"sink": {
+												"name": "SHAPE_CODE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$WBS1']"
+											},
+											"sink": {
+												"name": "WBS1",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$WBS2']"
+											},
+											"sink": {
+												"name": "WBS2",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$WBS3']"
+											},
+											"sink": {
+												"name": "WBS3",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$WBS4']"
+											},
+											"sink": {
+												"name": "WBS4",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$WBS5']"
+											},
+											"sink": {
+												"name": "WBS5",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$INV_LEN_IN_MM']"
+											},
+											"sink": {
+												"name": "INVOICE_LENGTH",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$ENV_LENGTH']"
+											},
+											"sink": {
+												"name": "EXT_DIMENSION_L",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$ENV_WIDTH']"
+											},
+											"sink": {
+												"name": "EXT_DIMENSION_W",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$ENV_HEIGHT']"
+											},
+											"sink": {
+												"name": "EXT_DIMENSION_H",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$BBS_NO']"
+											},
+											"sink": {
+												"name": "BBS_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$ITEM_NO']"
+											},
+											"sink": {
+												"name": "ORDER_ITEM",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$LOAD_NO']"
+											},
+											"sink": {
+												"name": "LOAD_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$LAYER_NO']"
+											},
+											"sink": {
+												"name": "LOAD_SQN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PRODUCT_TYPE']"
+											},
+											"sink": {
+												"name": "PROD_GRP",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$CONTRACT_NO']"
+											},
+											"sink": {
+												"name": "CONTRACT",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$NDS_SALE_ORDER']"
+											},
+											"sink": {
+												"name": "NDS_SALE_ORDER",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$DELIVERY_DATE']"
+											},
+											"sink": {
+												"name": "DELIVERY_DATE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$LOAD_DATE']"
+											},
+											"sink": {
+												"name": "LOAD_DATE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$TIMESTAMP']"
+											},
+											"sink": {
+												"name": "TIMESTAMP",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PROC_TS']"
+											},
+											"sink": {
+												"name": "PROC_TS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$NO_PIECES']"
+											},
+											"sink": {
+												"name": "NO_PIECES",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$NDS_SALE_ORDER']"
+											},
+											"sink": {
+												"name": "NDS_SALE_ORDER",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$PLAN_LOAD_QTY']"
+											},
+											"sink": {
+												"name": "PLAN_LOAD_QTY"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$DESP_LOAD_QTY']"
+											},
+											"sink": {
+												"name": "DESP_LOAD_QTY"
+											}
+										},
+										{
+											"source": {
+												"path": "$['$INTERMEDIATE_QTY']"
+											},
+											"sink": {
+												"name": "INTERMEDIATE_QTY",
+												"type": "Decimal"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Int060_ESB_Load_Tally_Head",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT060_YMPPT_LP_ITEM_C",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Script7_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='@{variables('LOAD_NO')}' AND SALES_ORDER = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ORDER_NO%' AND ORDER_ITEM = '%LoadPlannerData/loadPlannerDoc/Detail/LoadItem/ITEM_NO%' GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
