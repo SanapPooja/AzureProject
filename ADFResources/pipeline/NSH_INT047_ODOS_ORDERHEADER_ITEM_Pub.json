@@ -2046,6 +2046,22 @@
 								"sink": {
 									"path": "$['$BPC_NO_RINGS_END']"
 								}
+							},
+							{
+								"source": {
+									"name": "order_no"
+								},
+								"sink": {
+									"path": "$['$ORDER_NO']"
+								}
+							},
+							{
+								"source": {
+									"name": "product_type"
+								},
+								"sink": {
+									"path": "$['$PRODUCT_TYPE']"
+								}
 							}
 						]
 					}
