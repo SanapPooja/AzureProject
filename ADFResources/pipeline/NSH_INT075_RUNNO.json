@@ -17,12 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT top 10 B.RUN_NO,\t\t\t\t\t\r\n\t        A.GROUP_TAG_ID,\t\t\t\t\t\r\n\t        COUNT(2) CNT\t\t\t\t\t\r\n\t      FROM [tbl_scm_sts_cab_print_tag] a\t\t\t\t\t\r\n\t      INNER JOIN [DBO].[tbl_scm_sts_cab_bender_download] b\t\t\t\t\t\r\n\t      ON a.run_no = b.run_no\t\t\t\t\t\r\n\t      AND a.tag_no = b.tag_no\t\t\t\t\t\r\n\t      WHERE a.run_no = 'H205015D0000'\t\t\t\t\r\n\t      AND isnull(a.GROUP_TAG_ID,'') <> ''\t\t\t\t\t\r\n\t      AND group_tag_id LIKE 'C%'\t\t\t\t\t\r\n\t      GROUP BY B.RUN_NO,\t\t\t\t\t\r\n\t        A.GROUP_TAG_ID\t\t\t\t\t\r\n\t       HAVING COUNT(GROUP_TAG_ID) > 1",
+						"sqlReaderQuery": {
+							"value": "Select distinct run_no from dbo.tbl_scm_sts_cab_bender_download where REC_TYPE = 'Y'\t\t\t\t\t\t\t",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "SqlServerTable10",
+						"referenceName": "SqlServerTable11",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -45,11 +48,8 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "run_no",
-					"value": {
-						"value": "@activity('Lookup1').output.value",
-						"type": "Expression"
-					}
+					"variableName": "run_no_arr",
+					"value": "@activity('Lookup1').output.value"
 				}
 			},
 			{
@@ -66,10 +66,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('run_no')",
+						"value": "@variables('run_no_arr')",
 						"type": "Expression"
 					},
-					"isSequential": true,
 					"activities": [
 						{
 							"name": "Set variable2",
@@ -81,9 +80,61 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "run_no_arr",
+								"variableName": "run_no",
 								"value": {
 									"value": "@item().run_no",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Lookup2",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": "select count(*) from scm_admin.cab_bender_download where run_no='@{variables('run_no')}'",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "SCM_IDB_DB",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Lookup2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('Lookup2').output.value), 0)",
 									"type": "Expression"
 								}
 							}
