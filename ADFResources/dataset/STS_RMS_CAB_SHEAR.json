@@ -1,0 +1,12 @@
+{
+	"name": "STS_RMS_CAB_SHEAR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
