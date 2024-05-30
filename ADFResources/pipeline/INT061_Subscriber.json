@@ -1125,8 +1125,6 @@
 			{
 				"name": "Copy data2",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script20",
@@ -1146,6 +1144,56 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "MANDT",
+								"value": "600"
+							},
+							{
+								"name": "PLAN_LOAD_QNTY",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "DESC_LOAD_QNTY",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "INTERMEDIATE_QNTY",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "SHIFT",
+								"value": "QQ"
+							},
+							{
+								"name": "LOAD_DATE",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "UNDERLOAD_CHARGE",
+								"value": "No"
+							},
+							{
+								"name": "STATUS",
+								"value": "Y"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "$$COLUMN:RD RECODELETED AND THEN SUCCESSFULLY POSTED"
+							},
+							{
+								"name": "TIMESTAMP",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "PROC_TS",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "TRANSPORT_ZONE",
+								"value": "$$COLUMN:"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
