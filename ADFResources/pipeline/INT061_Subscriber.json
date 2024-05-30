@@ -1560,8 +1560,6 @@
 			{
 				"name": "Copy data3",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script21",
@@ -1598,7 +1596,10 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$"
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO"
 								}
 							}
 						]
