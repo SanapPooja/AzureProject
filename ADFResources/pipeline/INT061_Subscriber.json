@@ -1205,7 +1205,308 @@
 						"type": "OracleSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$SAP_ORDER_ITEM']"
+								},
+								"sink": {
+									"name": "CLBD_ITEM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATERIAL_NO']"
+								},
+								"sink": {
+									"name": "MATNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NO']"
+								},
+								"sink": {
+									"name": "KUNNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_NO']"
+								},
+								"sink": {
+									"name": "SALES_ORDER"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NAME']"
+								},
+								"sink": {
+									"name": "NAME_WE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_CODE']"
+								},
+								"sink": {
+									"name": "KUNAG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_NAME']"
+								},
+								"sink": {
+									"name": "NAME_AG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_COORDINATOR']"
+								},
+								"sink": {
+									"name": "PROJ_COORD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$JOB_SITE_LOCATION']"
+								},
+								"sink": {
+									"name": "DESTINATION_CODE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHAPE_CODE']"
+								},
+								"sink": {
+									"name": "SHAPE_CODE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS1']"
+								},
+								"sink": {
+									"name": "WBS1"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS2']"
+								},
+								"sink": {
+									"name": "WBS2"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS3']"
+								},
+								"sink": {
+									"name": "WBS3"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS4']"
+								},
+								"sink": {
+									"name": "WBS4"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS5']"
+								},
+								"sink": {
+									"name": "WBS5"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INV_LEN_IN_MM']"
+								},
+								"sink": {
+									"name": "INVOICE_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_LENGTH']"
+								},
+								"sink": {
+									"name": "EXT_DIMENSION_L"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_WIDTH']"
+								},
+								"sink": {
+									"name": "EXT_DIMENSION_W"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_HEIGHT']"
+								},
+								"sink": {
+									"name": "EXT_DIMENSION_H"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BBS_NO']"
+								},
+								"sink": {
+									"name": "BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "ORDER_ITEM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_NO']"
+								},
+								"sink": {
+									"name": "LOAD_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LAYER_NO']"
+								},
+								"sink": {
+									"name": "LOAD_SQN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_TYPE']"
+								},
+								"sink": {
+									"name": "PROD_GRP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CONTRACT_NO']"
+								},
+								"sink": {
+									"name": "CONTRACT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MANDT']"
+								},
+								"sink": {
+									"name": "MANDT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PLAN_LOAD_QNTY']"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QNTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DESC_LOAD_QNTY']"
+								},
+								"sink": {
+									"name": "DESC_LOAD_QNTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['INTERMEDIATE_QNTY']"
+								},
+								"sink": {
+									"name": "INTERMEDIATE_QNTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SHIFT']"
+								},
+								"sink": {
+									"name": "SHIFT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['LOAD_DATE']"
+								},
+								"sink": {
+									"name": "LOAD_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UNDERLOAD_CHARGE']"
+								},
+								"sink": {
+									"name": "UNDERLOAD_CHARGE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['STATUS']"
+								},
+								"sink": {
+									"name": "STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TIMESTAMP']"
+								},
+								"sink": {
+									"name": "TIMESTAMP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TRANSPORT_ZONE']"
+								},
+								"sink": {
+									"name": "TRANSPORT_ZONE"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
