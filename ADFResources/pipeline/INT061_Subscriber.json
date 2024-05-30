@@ -1579,6 +1579,16 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "CREATE_DATE",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "MODIFY_DATE",
+								"value": "$$COLUMN:"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -1596,13 +1606,205 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$LOAD_NO"
+									"path": "$['$SAP_ORDER_ITEM']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATERIAL_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_NO']"
 								},
 								"sink": {
-									"name": "LOAD_NO"
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NAME']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_CODE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_NAME']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_COORDINATOR']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$JOB_SITE_LOCATION']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHAPE_CODE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS1']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS2']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS3']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS4']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS5']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INV_LEN_IN_MM']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_LENGTH']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_WIDTH']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_HEIGHT']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BBS_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_PIECES']"
+								},
+								"sink": {
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_NO']"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LAYER_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_TYPE']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WEIGHT_IN_MT']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NVL(SUBSTR(TRIM(ORDH']['JOB_SITE_LOCATION),0,3),\\\\'\\\\')']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAST(((ORDI']['ORDER_QTY*LOAD']['ORDER_PIECES)/ORDI']['ORDER_PIECES)ASDECIMAL(10,3))']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CONTRACT_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_QTY']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$IS_DELETED']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NVL(LOAD']['NR_OF_BUNDLE,0)']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_REQUEST_NO']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ID']"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QTY_IN_BASE_UOM']"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QNTY",
+									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
