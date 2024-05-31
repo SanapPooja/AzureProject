@@ -1,11 +1,17 @@
 {
 	"name": "FileServerCurFile",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
 			"host": "\\\\nslfp4\\cut\\",
-			"userId": "natsteelcorp\\cabcut"
+			"userId": "natsteelcorp\\nslupload",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyMTVhMzJiNi01ZDc0LTQ4NDktYTc0OC01OTVlYTc1YWFkNTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NSHQA",
+			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
