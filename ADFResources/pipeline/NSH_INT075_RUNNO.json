@@ -592,27 +592,38 @@
 													{
 														"source": {
 															"name": "fld_r_run_no",
-															"type": "String"
+															"type": "String",
+															"physicalType": "varchar"
 														},
 														"sink": {
+															"type": "String",
+															"physicalType": "String",
 															"ordinal": 1
 														}
 													},
 													{
 														"source": {
 															"name": "fld_r_dia_ref",
-															"type": "Decimal"
+															"type": "Decimal",
+															"physicalType": "decimal",
+															"scale": 9,
+															"precision": 38
 														},
 														"sink": {
+															"type": "String",
+															"physicalType": "String",
 															"ordinal": 2
 														}
 													},
 													{
 														"source": {
 															"name": "fld_r_prod_type_ref",
-															"type": "String"
+															"type": "String",
+															"physicalType": "varchar"
 														},
 														"sink": {
+															"type": "String",
+															"physicalType": "String",
 															"ordinal": 3
 														}
 													}
