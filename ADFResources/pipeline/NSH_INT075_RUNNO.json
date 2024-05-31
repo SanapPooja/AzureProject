@@ -320,12 +320,25 @@
 									]
 								}
 							],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(activity('Lookup8').output.firstRow.rec_type, 1)\n",
+									"type": "Expression"
+								}
+							}
 						},
 						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [],
+							"name": "Lookup9",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "If Condition2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -335,8 +348,62 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"scripts": [],
-								"scriptBlockExecutionTimeout": "02:00:00"
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "UPDATE dbo.tbl_scm_sts_cab_bender_download\nSET REC_TYPE = 'Y'\nWHERE run_no = '@{variables('run_no')}';\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "SqlServerTable16",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Lookup10",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "If Condition3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Lookup9",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "SELECT B.RUN_NO, A.GROUP_TAG_ID, COUNT(2) AS CNT\nFROM [tbl_scm_sts_cab_print_tag] A\nINNER JOIN [dbo].[tbl_scm_sts_cab_bender_download] B\nON A.run_no = B.run_no\nAND A.tag_no = B.tag_no\nWHERE A.run_no = '@{variables('run_no')}'\nAND ISNULL(A.group_tag_id,'') <> ''\nAND A.group_tag_id LIKE 'C%'\nGROUP BY B.RUN_NO, A.GROUP_TAG_ID\nHAVING COUNT(A.group_tag_id) > 1;\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "SqlServerTable17",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
@@ -574,16 +641,11 @@
 												"partitionOption": "None"
 											},
 											"sink": {
-												"type": "DelimitedTextSink",
-												"storeSettings": {
-													"type": "FileServerWriteSettings",
-													"copyBehavior": "PreserveHierarchy"
-												},
-												"formatSettings": {
-													"type": "DelimitedTextWriteSettings",
-													"quoteAllText": true,
-													"fileExtension": ".OUS"
-												}
+												"type": "RestSink",
+												"httpRequestTimeout": "00:05:00",
+												"requestInterval": 10,
+												"writeBatchSize": 10000,
+												"httpCompressionType": "none"
 											},
 											"enableStaging": false,
 											"translator": {
@@ -592,47 +654,31 @@
 													{
 														"source": {
 															"name": "fld_r_run_no",
-															"type": "String",
-															"physicalType": "varchar"
+															"type": "String"
 														},
 														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 1
+															"path": "$['fld_r_run_no']"
 														}
 													},
 													{
 														"source": {
 															"name": "fld_r_dia_ref",
-															"type": "Decimal",
-															"physicalType": "decimal",
-															"scale": 9,
-															"precision": 38
+															"type": "Decimal"
 														},
 														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 2
+															"path": "$['fld_r_dia_ref']"
 														}
 													},
 													{
 														"source": {
 															"name": "fld_r_prod_type_ref",
-															"type": "String",
-															"physicalType": "varchar"
+															"type": "String"
 														},
 														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 3
+															"path": "$['fld_r_prod_type_ref']"
 														}
 													}
-												],
-												"typeConversion": true,
-												"typeConversionSettings": {
-													"allowDataTruncation": true,
-													"treatBooleanAsNumber": false
-												}
+												]
 											}
 										},
 										"inputs": [
@@ -643,7 +689,7 @@
 										],
 										"outputs": [
 											{
-												"referenceName": "CutTextFile",
+												"referenceName": "NSH_INT075_CUT_FILE_QUEUE",
 												"type": "DatasetReference"
 											}
 										]
@@ -660,12 +706,6 @@
 				"type": "Array"
 			},
 			"run_no_arr": {
-				"type": "String"
-			},
-			"Run_No_Arr": {
-				"type": "Array"
-			},
-			"Run_No": {
 				"type": "String"
 			},
 			"IDBRunCnt": {
