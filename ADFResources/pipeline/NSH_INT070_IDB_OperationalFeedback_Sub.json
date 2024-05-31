@@ -310,8 +310,7 @@
 									"path": "$['$CREATE_DATE']"
 								},
 								"sink": {
-									"name": "STS_END_DATE",
-									"type": "String"
+									"name": "STAGING_CRDATE"
 								}
 							},
 							{
@@ -400,7 +399,7 @@
 									"path": "$['TIMESTAMP']"
 								},
 								"sink": {
-									"name": "TIMESTAMP"
+									"name": "TIME_STAMP"
 								}
 							},
 							{
@@ -426,7 +425,7 @@
 									"path": "$['IDB_START_CR_DATE']"
 								},
 								"sink": {
-									"name": "IDB_START_CR_DATE"
+									"name": "IDB_START_CRDATE"
 								}
 							}
 						]
