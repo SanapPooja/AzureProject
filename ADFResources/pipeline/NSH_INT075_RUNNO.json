@@ -580,7 +580,39 @@
 												"writeBatchSize": 10000,
 												"httpCompressionType": "none"
 											},
-											"enableStaging": false
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "fld_r_run_no",
+															"type": "String"
+														},
+														"sink": {
+															"path": "$['fld_r_run_no']"
+														}
+													},
+													{
+														"source": {
+															"name": "fld_r_dia_ref",
+															"type": "Decimal"
+														},
+														"sink": {
+															"path": "$['fld_r_dia_ref']"
+														}
+													},
+													{
+														"source": {
+															"name": "fld_r_prod_type_ref",
+															"type": "String"
+														},
+														"sink": {
+															"path": "$['fld_r_prod_type_ref']"
+														}
+													}
+												]
+											}
 										},
 										"inputs": [
 											{
