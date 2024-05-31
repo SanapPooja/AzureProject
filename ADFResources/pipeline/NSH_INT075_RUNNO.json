@@ -227,7 +227,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "Run_No",
+								"variableName": "RunNo",
 								"value": {
 									"value": "@item().Run_No",
 									"type": "Expression"
@@ -304,7 +304,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('Run_No')}') group by r_run_no",
+									"oracleReaderQuery": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('RunNo')}') group by r_run_no",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -336,7 +336,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('Run_No')}') group by fld_r_run_no",
+									"sqlReaderQuery": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('RunNo')}') group by fld_r_run_no",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -371,6 +371,9 @@
 			},
 			"IDBRunCont": {
 				"type": "Integer"
+			},
+			"RunNo": {
+				"type": "String"
 			}
 		},
 		"annotations": []
