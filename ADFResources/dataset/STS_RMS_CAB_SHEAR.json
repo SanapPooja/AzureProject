@@ -2,11 +2,15 @@
 	"name": "STS_RMS_CAB_SHEAR",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SQL_DEV_DEMO",
+			"referenceName": "NSQADB2Connection",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_rms_cab_shear"
+		}
 	}
 }
