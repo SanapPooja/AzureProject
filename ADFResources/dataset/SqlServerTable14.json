@@ -1,0 +1,643 @@
+{
+	"name": "SqlServerTable14",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "CAB_PRINT_ID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "BBS_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "PROD_MARKING",
+				"type": "varchar"
+			},
+			{
+				"name": "PROJ_NAME",
+				"type": "varchar"
+			},
+			{
+				"name": "BBS_DESC",
+				"type": "varchar"
+			},
+			{
+				"name": "LOAD_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "RUN_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPECODE",
+				"type": "varchar"
+			},
+			{
+				"name": "WEIGHT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PIN_SIZE",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "TAG_QTY",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ITEM_TOTAL_QTY",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "INV_LEN",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "GRADE_DIA",
+				"type": "varchar"
+			},
+			{
+				"name": "WORKCENTER",
+				"type": "varchar"
+			},
+			{
+				"name": "Q_PO_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "TAG_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "BENDING_SEQ_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_1",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_1",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_1",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_1",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_1",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_2",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_2",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_2",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_2",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_2",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_3",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_3",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_3",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_3",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_3",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_4",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_4",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_4",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_4",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_4",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_5",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_5",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_5",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_5",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_5",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_6",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_6",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_6",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_6",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_6",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_7",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_7",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_7",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_7",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_7",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_8",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_8",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_8",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_8",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_8",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_9",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_9",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_9",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_9",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_9",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_10",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_10",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_10",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_10",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_10",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_11",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_11",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_11",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_11",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_11",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_12",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_12",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_12",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_12",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_12",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_13",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_13",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_13",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_13",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_13",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_14",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_14",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_14",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_14",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_14",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_15",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_15",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_15",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_15",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_15",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_16",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_16",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_16",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_16",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_16",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_17",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_17",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_17",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_17",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_17",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_18",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_18",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_18",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_18",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_18",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_19",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_19",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_19",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_19",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_19",
+				"type": "varchar"
+			},
+			{
+				"name": "SEGMENT_LENGTH_20",
+				"type": "varchar"
+			},
+			{
+				"name": "SHAPE_PARAM_20",
+				"type": "varchar"
+			},
+			{
+				"name": "PARAM_IND_20",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_X_20",
+				"type": "varchar"
+			},
+			{
+				"name": "COORDINATE_Y_20",
+				"type": "varchar"
+			},
+			{
+				"name": "LOAD_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "TIME_STAMP_CREATION",
+				"type": "varchar"
+			},
+			{
+				"name": "TIME_STAMP_UPDATE",
+				"type": "varchar"
+			},
+			{
+				"name": "Q_REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "BEND_HR",
+				"type": "varchar"
+			},
+			{
+				"name": "MAT_SOURCE_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "ORDER_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "DELIVERY_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "ORDER_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "ITEM_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "RELEASE_CODE",
+				"type": "varchar"
+			},
+			{
+				"name": "URGENT_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "CONQUAS_IND",
+				"type": "varchar"
+			},
+			{
+				"name": "BVBS",
+				"type": "varchar"
+			},
+			{
+				"name": "MAT_SOURCE",
+				"type": "varchar"
+			},
+			{
+				"name": "TAG_COUNTER",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "TOTAL_TAGS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CUST_NAME",
+				"type": "varchar"
+			},
+			{
+				"name": "REC_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "MODIFY_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "BBS_PAGE_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "GROUP_TAG_ID",
+				"type": "nchar"
+			},
+			{
+				"name": "BBS_COLORCODE",
+				"type": "varchar"
+			},
+			{
+				"name": "GROUP_TAG_IND",
+				"type": "char"
+			},
+			{
+				"name": "GROUP_TAG_TOTAL_TAGS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CAGING_SEQ",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CAGE_MARK",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CAGE_QTY",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CAGING_WC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PLANNED_START_TIME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRODUCT_TYPE",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_cab_print_tag"
+		}
+	}
+}
