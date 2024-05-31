@@ -5,8 +5,6 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -39,8 +37,6 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup2",
@@ -55,9 +51,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "ref_id",
+					"variableName": "ref_identity",
 					"value": {
-						"value": "@activity('Lookup2').output.value[0].ref_id",
+						"value": "@activity('Lookup2').output.value",
 						"type": "Expression"
 					}
 				}
@@ -65,8 +61,6 @@
 			{
 				"name": "Lookup2",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -86,7 +80,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT top (10) ref_id, SAP_PO_NUM, SCM_Q_PO_NO, SCM_OPERATION_NO, \nSCM_ORD_QTY_KG, SCM_ORD_QTY_PCS, SAP_BATCH_ID, BATCH_QTY, \tBATCH_PCS,PRODN_MACHINE, \nSTART_TIME, END_TIME, \tPRODN_REC_DATE,CREATE_DATE, ISNULL(MODIFY_DATE, GETDATE()) AS MODIFY_DATE, PRODN_ORDER_NO_SCH , PRODN_STATUS, NR_OF_OPERATION , product_type FROM \tSTS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
+						"sqlReaderQuery": "SELECT ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -95,44 +89,6 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Update tbl_sts_scm_prodn_staging_upd_test",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB2Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') from dbo.tbl_sts_scm_prodn_staging_upd_test where REF_ID = \n'@{variables('ref_id')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
 			{
@@ -443,11 +399,119 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup2').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 3
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('ref_identity')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Update tbl_sts_scm_prodn_staging_upd_test",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSQADB2Connection",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REF_ID = \n'@{variables('REF_ID')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "REF_ID",
+								"value": {
+									"value": "@item().REF_ID",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
 			"REF_ID": {
 				"type": "Integer"
+			},
+			"ref_identity": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
