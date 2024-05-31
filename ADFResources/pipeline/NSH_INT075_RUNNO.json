@@ -331,6 +331,8 @@
 						{
 							"name": "Lookup9",
 							"type": "Lookup",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "If Condition2",
@@ -367,6 +369,8 @@
 						{
 							"name": "Lookup10",
 							"type": "Lookup",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "If Condition3",
@@ -700,9 +704,6 @@
 				"type": "Array"
 			},
 			"run_no_arr": {
-				"type": "String"
-			},
-			"Run_No": {
 				"type": "String"
 			},
 			"IDBRunCnt": {
