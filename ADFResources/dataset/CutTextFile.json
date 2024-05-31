@@ -1,0 +1,21 @@
+{
+	"name": "CutTextFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServerCurFile",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": null
+		},
+		"schema": []
+	}
+}
