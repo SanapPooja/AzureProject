@@ -702,9 +702,6 @@
 			"run_no_arr": {
 				"type": "String"
 			},
-			"Run_No_Arr": {
-				"type": "Array"
-			},
 			"Run_No": {
 				"type": "String"
 			},
