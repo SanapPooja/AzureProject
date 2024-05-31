@@ -1,0 +1,12 @@
+{
+	"name": "NSH_INT075_CUT_FILE_QUEUE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT075_CUT_LINK_SERVICE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
