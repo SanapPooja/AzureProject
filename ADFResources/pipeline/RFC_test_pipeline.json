@@ -1,0 +1,7 @@
+{
+	"name": "RFC_test_pipeline",
+	"properties": {
+		"description": "Temp pipeline for testing. Do not publish or deploy.",
+		"annotations": []
+	}
+}
