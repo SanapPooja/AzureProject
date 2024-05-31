@@ -191,7 +191,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Run_No_Arr",
+					"variableName": "RunNoArr",
 					"value": {
 						"value": "@activity('CutFiles').output.value",
 						"type": "Expression"
@@ -212,7 +212,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Run_No_Arr')",
+						"value": "@variables('RunNoArr')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -374,6 +374,9 @@
 			},
 			"RunNo": {
 				"type": "String"
+			},
+			"RunNoArr": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
