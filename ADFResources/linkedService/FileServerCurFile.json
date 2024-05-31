@@ -1,0 +1,11 @@
+{
+	"name": "FileServerCurFile",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\nslfp4\\cut\\",
+			"userId": "natsteelcorp\\cabcut"
+		}
+	}
+}
