@@ -251,7 +251,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "IDBRunCnt",
+								"variableName": "IDBRunCont",
 								"value": {
 									"value": "@activity('Lookup3').output.value[0].countIDB",
 									"type": "Expression"
@@ -367,6 +367,9 @@
 				"type": "String"
 			},
 			"STSRunCnt": {
+				"type": "Integer"
+			},
+			"IDBRunCont": {
 				"type": "Integer"
 			}
 		},
