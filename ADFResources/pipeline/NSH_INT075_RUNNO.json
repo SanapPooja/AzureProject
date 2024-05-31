@@ -565,7 +565,8 @@
 								"dataset": {
 									"referenceName": "SCM_IDB_DB",
 									"type": "DatasetReference"
-								}
+								},
+								"firstRowOnly": false
 							}
 						},
 						{
@@ -600,7 +601,8 @@
 								"dataset": {
 									"referenceName": "NSQADB2",
 									"type": "DatasetReference"
-								}
+								},
+								"firstRowOnly": false
 							}
 						},
 						{
