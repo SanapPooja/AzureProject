@@ -573,7 +573,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup3",
+									"activity": "If Condition5",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -608,7 +608,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Lookup4",
+									"activity": "If Condition6",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -697,6 +697,63 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "Set variable6",
+							"type": "SetVariable",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RunNoCheck",
+								"value": {
+									"value": "@not(empty(activity('Lookup3').output.firstRow))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition5",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Lookup3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(empty(activity('Lookup3').output.firstRow))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition6",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Lookup4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(empty(activity('Lookup4').output.firstRow))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -723,6 +780,9 @@
 			},
 			"RunNoArr": {
 				"type": "Array"
+			},
+			"RunNoCheck": {
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
