@@ -733,7 +733,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@not(empty(activity('Lookup3').output.value[0].countIDB))",
+									"value": "@and(not(empty(activity('Lookup3').output.value)), not(empty(activity('Lookup3').output.value[0].countIDB)))\n",
 									"type": "Expression"
 								}
 							}
@@ -752,7 +752,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@not(empty(activity('Lookup4').output.value[0].countSTS))",
+									"value": "@and(not(empty(activity('Lookup4').output.value)), not(empty(activity('Lookup4').output.value[0].countSTS)))\n",
 									"type": "Expression"
 								}
 							}
