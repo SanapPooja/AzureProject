@@ -2,15 +2,15 @@
 	"name": "SCM_IDB_DB",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "SAPSR3",
-			"table": "TBL_NSH_SAP_INT077_STAGING"
+			"schema": "SCM_ADMIN",
+			"table": "CAB_RMS_SHEARLINE_DOWNLOAD"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
