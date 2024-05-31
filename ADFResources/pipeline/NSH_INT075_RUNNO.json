@@ -517,9 +517,14 @@
 						{
 							"name": "Set variable5",
 							"type": "SetVariable",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "If Condition6",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -610,7 +615,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "If Condition6",
+									"activity": "Set variable5",
 									"dependencyConditions": [
 										"Succeeded"
 									]
