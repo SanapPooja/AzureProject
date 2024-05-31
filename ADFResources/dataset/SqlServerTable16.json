@@ -1,0 +1,176 @@
+{
+	"name": "SqlServerTable16",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSQADB2Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "cab_bend_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "pin_size",
+				"type": "varchar"
+			},
+			{
+				"name": "q_update_date",
+				"type": "varchar"
+			},
+			{
+				"name": "q_create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "planduration",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "tag_no",
+				"type": "varchar"
+			},
+			{
+				"name": "shape_bvbs_parameter",
+				"type": "varchar"
+			},
+			{
+				"name": "barmark",
+				"type": "varchar"
+			},
+			{
+				"name": "tag_qty",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "pin_type",
+				"type": "varchar"
+			},
+			{
+				"name": "prodn_len",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "productbar",
+				"type": "varchar"
+			},
+			{
+				"name": "run_no",
+				"type": "varchar"
+			},
+			{
+				"name": "prodn_tag_wt",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 9
+			},
+			{
+				"name": "plan_machine",
+				"type": "varchar"
+			},
+			{
+				"name": "bbs_no",
+				"type": "varchar"
+			},
+			{
+				"name": "shapecode",
+				"type": "varchar"
+			},
+			{
+				"name": "no_of_bending",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "no_of_segments",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "q_rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "create_date",
+				"type": "varchar"
+			},
+			{
+				"name": "create_by",
+				"type": "varchar"
+			},
+			{
+				"name": "modify_date",
+				"type": "varchar"
+			},
+			{
+				"name": "modify_by",
+				"type": "varchar"
+			},
+			{
+				"name": "rec_type",
+				"type": "varchar"
+			},
+			{
+				"name": "bvbs_len",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "spare1",
+				"type": "varchar"
+			},
+			{
+				"name": "spare2",
+				"type": "varchar"
+			},
+			{
+				"name": "spare3",
+				"type": "varchar"
+			},
+			{
+				"name": "spare4",
+				"type": "varchar"
+			},
+			{
+				"name": "spare5",
+				"type": "varchar"
+			},
+			{
+				"name": "spare6",
+				"type": "varchar"
+			},
+			{
+				"name": "spare7",
+				"type": "varchar"
+			},
+			{
+				"name": "spare8",
+				"type": "varchar"
+			},
+			{
+				"name": "spare9",
+				"type": "varchar"
+			},
+			{
+				"name": "spare12",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_scm_sts_cab_bender_download"
+		}
+	}
+}
