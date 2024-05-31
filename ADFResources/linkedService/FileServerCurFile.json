@@ -5,9 +5,9 @@
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
-			"host": "\\\\nslfp4\\cut\\",
+			"host": "\\\\nslfp4\\BTlabelPrintQA\\AzureCut\\",
 			"userId": "natsteelcorp\\nslupload",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyMTVhMzJiNi01ZDc0LTQ4NDktYTc0OC01OTVlYTc1YWFkNTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0YWEzNmE1NS0zNTYzLTQzYmMtYjA5MC0xMjJjZTA1YTQyOWIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "NSHQA",
