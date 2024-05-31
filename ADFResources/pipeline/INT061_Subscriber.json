@@ -1593,6 +1593,14 @@
 									"value": "@concat(formatDateTime(utcnow(), 'dd-MMM-yy'))",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "TALLY_BACTH_QTY",
+								"value": "0"
+							},
+							{
+								"name": "DELD_LOAD_PCS",
+								"value": "0"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -1633,8 +1641,7 @@
 									"path": "$['$ORDER_PIECES']"
 								},
 								"sink": {
-									"name": "DELD_LOAD_PCS",
-									"type": "String"
+									"name": "PLAN_LOAD_PCS"
 								}
 							},
 							{
@@ -1686,6 +1693,23 @@
 								},
 								"sink": {
 									"name": "MODIFY_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TALLY_BACTH_QTY']"
+								},
+								"sink": {
+									"name": "DELD_LOAD_QNTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DELD_LOAD_PCS']"
+								},
+								"sink": {
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
 								}
 							}
 						],
