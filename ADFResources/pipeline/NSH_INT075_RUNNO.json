@@ -431,14 +431,9 @@
 						{
 							"name": "Set variable4",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -455,14 +450,9 @@
 						{
 							"name": "Set variable5",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup4",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -516,7 +506,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable4",
+									"activity": "Lookup3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -543,6 +533,25 @@
 								"dataset": {
 									"referenceName": "NSQADB2",
 									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "If Condition4",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Lookup4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(activity('Lookup3').output.value[0].countIDB, activity('Lookup3').output.value[0].countSTS)",
+									"type": "Expression"
 								}
 							}
 						}
