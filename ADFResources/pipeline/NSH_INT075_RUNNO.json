@@ -48,7 +48,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "run_no_arr",
+					"variableName": "RunNoArray",
 					"value": {
 						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
@@ -785,6 +785,9 @@
 			},
 			"RunNoCheck": {
 				"type": "Boolean"
+			},
+			"RunNoArray": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
