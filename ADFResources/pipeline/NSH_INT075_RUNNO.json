@@ -738,7 +738,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@or(equals(activity('Lookup3').output.value[0].countIDB, null), equals(activity('Lookup3').output.value[0].countIDB, 0))",
+									"value": "@if(empty(activity('Lookup3').output.value), true, or(equals(activity('Lookup3').output.value[0].countIDB, null), equals(activity('Lookup3').output.value[0].countIDB, 0)))\n",
 									"type": "Expression"
 								}
 							}
@@ -757,7 +757,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@or(equals(activity('Lookup4').output.value[0].countSTS, null), equals(activity('Lookup4').output.value[0].countSTS, 0))\n",
+									"value": "@if(empty(activity('Lookup4').output.value), true, or(equals(activity('Lookup4').output.value[0].countSTS, null), equals(activity('Lookup4').output.value[0].countSTS, 0)))",
 									"type": "Expression"
 								}
 							}
