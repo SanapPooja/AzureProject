@@ -83,7 +83,7 @@
 							"typeProperties": {
 								"variableName": "RunNoArr",
 								"value": {
-									"value": "@item().RunNo",
+									"value": "@item().RunNoArr",
 									"type": "Expression"
 								}
 							}
