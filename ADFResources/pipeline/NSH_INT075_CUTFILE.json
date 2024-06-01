@@ -130,7 +130,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('RunNoArr')}') group by r_run_no",
+										"value": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('RunNo')}') group by r_run_no",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
