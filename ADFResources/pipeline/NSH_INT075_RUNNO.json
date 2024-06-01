@@ -332,6 +332,8 @@
 						{
 							"name": "Lookup9",
 							"type": "Lookup",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "If Condition2",
@@ -351,10 +353,6 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": {
-										"value": "UPDATE dbo.tbl_scm_sts_cab_bender_download\nSET REC_TYPE = 'Y'\nWHERE run_no = '@{variables('run_no')}';\n",
-										"type": "Expression"
-									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -371,12 +369,6 @@
 							"dependsOn": [
 								{
 									"activity": "If Condition3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Lookup9",
 									"dependencyConditions": [
 										"Succeeded"
 									]
