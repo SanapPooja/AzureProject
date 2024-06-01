@@ -113,10 +113,11 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select count(*) from scm_admin.cab_bender_download where run_no='@{variables('run_no')}'",
+										"value": "SELECT COUNT(*) AS count FROM scm_admin.cab_bender_download WHERE run_no='@{variables('run_no')}'\n",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
 								},
 								"dataset": {
