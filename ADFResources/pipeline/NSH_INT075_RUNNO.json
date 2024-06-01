@@ -630,7 +630,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(activity('Lookup3').output.value[0].countIDB, activity('Lookup3').output.value[0].countSTS)",
+									"value": "@if(empty(activity('Lookup3').output.value), false, equals(activity('Lookup3').output.value[0].countIDB, activity('Lookup3').output.value[0].countSTS))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
