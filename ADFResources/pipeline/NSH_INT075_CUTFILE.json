@@ -81,7 +81,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "RunNoArr",
+								"variableName": "RunNo",
 								"value": {
 									"value": "@item().RunNo",
 									"type": "Expression"
@@ -381,6 +381,9 @@
 		"variables": {
 			"RunNoArr": {
 				"type": "Array"
+			},
+			"RunNo": {
+				"type": "String"
 			}
 		},
 		"annotations": []
