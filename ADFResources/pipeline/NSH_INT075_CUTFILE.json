@@ -167,7 +167,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('RunNoArr')}') group by fld_r_run_no",
+										"value": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('RunNo')}') group by fld_r_run_no",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
