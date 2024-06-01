@@ -382,6 +382,11 @@
 				}
 			}
 		],
+		"variables": {
+			"RunNoArr": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
