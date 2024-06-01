@@ -91,14 +91,9 @@
 						{
 							"name": "Set variable5",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "If Condition6",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -135,10 +130,11 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('RunNo')}') group by r_run_no",
+										"value": "select r_run_no, count(1) as countIDB from scm_admin.cab_rms_shearline_download where r_run_no in ('@{variables('RunNoArr')}') group by r_run_no",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
 								},
 								"dataset": {
@@ -171,7 +167,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('RunNo')}') group by fld_r_run_no",
+										"value": "select fld_r_run_no,count(1) as countSTS from [dbo].[tbl_scm_sts_rms_cab_shear] where fld_r_run_no in ('@{variables('RunNoArr')}') group by fld_r_run_no",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -189,7 +185,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Set variable5",
+									"activity": "If Condition6",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -198,7 +194,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@if(empty(activity('Lookup3').output.value), false, equals(activity('Lookup3').output.value[0].countIDB, activity('Lookup3').output.value[0].countSTS))",
+									"value": "@if(empty(activity('Lookup3').output.value), false, equals(activity('Lookup3').output.value[0].countIDB, activity('Lookup4').output.value[0].countSTS))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
