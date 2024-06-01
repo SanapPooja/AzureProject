@@ -303,7 +303,7 @@
 													"type": "DelimitedTextWriteSettings",
 													"maxRowsPerFile": 1,
 													"fileNamePrefix": {
-														"value": "@{variables('RunNo')}",
+														"value": "@{variables('RunNoArr')}",
 														"type": "Expression"
 													},
 													"quoteAllText": true,
