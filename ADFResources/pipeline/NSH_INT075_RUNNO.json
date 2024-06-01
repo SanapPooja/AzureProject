@@ -819,8 +819,6 @@
 			{
 				"name": "CutFiles",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -847,8 +845,6 @@
 			{
 				"name": "Run_No_Array",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CutFiles",
@@ -873,8 +869,6 @@
 			{
 				"name": "ForEach2",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Run_No_Array",
