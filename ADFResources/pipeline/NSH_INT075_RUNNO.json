@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "Select distinct run_no from dbo.tbl_scm_sts_cab_bender_download where REC_TYPE = 'Y'\t\t\t\t\t\t\t",
+							"value": "Select distinct top 5 run_no from dbo.tbl_scm_sts_cab_bender_download where REC_TYPE = 'Y'\t\t\t\t\t\t\t",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -278,7 +278,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "select count(distinct rec_type) as rec_type from [dbo].[tbl_scm_sts_cab_bender_download] where run_no ='@{variables('run_no')}'\n\n",
+										"value": "SELECT COUNT(DISTINCT rec_type) AS rec_type \nFROM [dbo].[tbl_scm_sts_cab_bender_download] \nWHERE run_no ='@{variables('run_no')}'\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -305,7 +305,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(activity('Lookup8').output.firstRow.rec_type, 1)\n",
+									"value": "@equals(activity('Lookup8').output.value[0].rec_type, 1)\n",
 									"type": "Expression"
 								}
 							}
