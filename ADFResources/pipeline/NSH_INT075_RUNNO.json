@@ -305,7 +305,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(activity('Lookup8').output.value[0].rec_type, 1)\n",
+									"value": "@greater(activity('Lookup8').output.value[0].rec_type, 1)\n",
 									"type": "Expression"
 								}
 							}
@@ -324,7 +324,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(activity('Lookup8').output.firstRow.rec_type, 1)\n",
+									"value": "@equals(activity('Lookup8').output.value[0].rec_type, 1)\n",
 									"type": "Expression"
 								}
 							}
@@ -819,6 +819,8 @@
 			{
 				"name": "CutFiles",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -845,6 +847,8 @@
 			{
 				"name": "Run_No_Array",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CutFiles",
@@ -869,6 +873,8 @@
 			{
 				"name": "ForEach2",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Run_No_Array",
