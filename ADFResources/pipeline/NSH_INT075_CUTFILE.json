@@ -373,7 +373,7 @@
 							"typeProperties": {
 								"variableName": "countIDB",
 								"value": {
-									"value": "@activity('LookupIDB').output.firstRow.countIDB",
+									"value": "@if(empty(activity('LookupIDB').output.firstRow), 0, int(activity('LookupIDB').output.firstRow.countIDB))",
 									"type": "Expression"
 								}
 							}
@@ -397,7 +397,7 @@
 							"typeProperties": {
 								"variableName": "countSTS",
 								"value": {
-									"value": "@activity('LookupSTS').output.firstRow.countSTS",
+									"value": "@if(empty(activity('LookupSTS').output.firstRow), 0, int(activity('LookupSTS').output.firstRow.countSTS))\n",
 									"type": "Expression"
 								}
 							}
