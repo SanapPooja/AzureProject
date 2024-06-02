@@ -164,6 +164,8 @@
 						{
 							"name": "If Condition4",
 							"type": "IfCondition",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "If Condition6",
@@ -320,7 +322,16 @@
 						{
 							"name": "If Condition5",
 							"type": "IfCondition",
-							"dependsOn": [],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [
+								{
+									"activity": "If Condition4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -332,6 +343,8 @@
 						{
 							"name": "If Condition6",
 							"type": "IfCondition",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
