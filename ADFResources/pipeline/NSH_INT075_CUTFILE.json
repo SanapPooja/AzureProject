@@ -72,7 +72,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Set variable3",
+							"name": "GetRunNo",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -89,11 +89,16 @@
 							}
 						},
 						{
-							"name": "Lookup3",
+							"name": "LookupIDB",
 							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "GetRunNo",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -121,13 +126,11 @@
 							}
 						},
 						{
-							"name": "Lookup4",
+							"name": "LookupSTS",
 							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "If Condition5",
+									"activity": "CountIDB",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -161,8 +164,6 @@
 						{
 							"name": "If Condition4",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "If Condition6",
@@ -319,16 +320,7 @@
 						{
 							"name": "If Condition5",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "Lookup3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -340,16 +332,7 @@
 						{
 							"name": "If Condition6",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "Lookup4",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -359,70 +342,258 @@
 							}
 						},
 						{
-							"name": "CutFileCreation",
-							"type": "Copy",
+							"name": "CountIDB",
+							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Set variable3",
+									"activity": "LookupIDB",
 									"dependencyConditions": [
 										"Succeeded"
 									]
 								}
 							],
 							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT fld_d_no_of_cuts\t\t\t\t\t\t\t\t\r\n\t\t,fld_d_section_no\t\t\t\t\t\t\t\r\n\t\t,fld_d_bin_number\t\t\t\t\t\t\t\r\n\t\t,fld_d_cut_length\t\t\t\t\t\t\t\r\n\t\t,fld_d_tag_ref_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_straight_bend_flag\t\t\t\t\t\t\t\r\n\t\t,fld_d_bbs_bar_mark_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_tag_no\t\t\t\t\t\t\t\r\n\t\t,fld_d_flag_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_cutting_seq_no\t\t\t\t\t\t\t\r\n\tFROM (\t\t\t\t\t\t\t\t\r\n\t\tSELECT fld_r_run_no\t\t\t\t\t\t\t\r\n\t\t\t,fld_r_prod_type_ref\t\t\t\t\t\t\r\n\t\t\t,fld_r_start_stock_len\t\t\t\t\t\t\r\n\t\t\t,fld_r_dia_ref\t\t\t\t\t\t\r\n\t\t\t,cast(fld_l_comb_no AS INT) AS fld_l_comb_no\t\t\t\t\t\t\r\n\t\t\t,fld_d_cutting_seq_no\t\t\t\t\t\t\r\n\t\t\t,fld_l_qty_of_segment\t\t\t\t\t\t\r\n\t\t\t,fld_l_stock_bars_len\t\t\t\t\t\t\r\n\t\t\t,convert(NUMERIC(18, 0), isnull(fld_d_no_of_cuts, 0)) AS fld_d_no_of_cuts\t\t\t\t\t\t\r\n\t\t\t,fld_d_section_no\t\t\t\t\t\t\r\n\t\t\t,fld_d_bin_number = CASE \t\t\t\t\t\t\r\n\t\t\t\tWHEN (\t\t\t\t\t\r\n\t\t\t\t\t\tfld_d_bin_number = 'NULL'\t\t\t\r\n\t\t\t\t\t\tOR isnull(fld_d_bin_number, ' ') = ' '\t\t\t\r\n\t\t\t\t\t\t)\t\t\t\r\n\t\t\t\t\tTHEN ' '\t\t\t\t\r\n\t\t\t\tELSE fld_d_bin_number\t\t\t\t\t\r\n\t\t\t\tEND\t\t\t\t\t\r\n\t\t\t,fld_d_cut_length\t\t\t\t\t\t\r\n\t\t\t,fld_d_tag_ref_info\t\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_straight_bend_flag, ' ') AS fld_d_straight_bend_flag\t\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_tag_no, '0') AS fld_d_tag_no\t\t\t\t\t\t\r\n\t\t\t,fld_rec_type\t\t\t\t\t\t\r\n\t\t\t,fld_d_bbs_bar_mark_info = CASE \t\t\t\t\t\t\r\n\t\t\t\tWHEN (\t\t\t\t\t\r\n\t\t\t\t\t\tfld_d_offcut_ind = 'Y'\t\t\t\r\n\t\t\t\t\t\tAND (\t\t\t\r\n\t\t\t\t\t\t\tfld_d_bin_number <> 'NULL'\t\t\r\n\t\t\t\t\t\t\tAND isnull(fld_d_bin_number, ' ') <> ' '\t\t\r\n\t\t\t\t\t\t\t)\t\t\r\n\t\t\t\t\t\t)\t\t\t\r\n\t\t\t\t\tTHEN 'OFFCUT'\t\t\t\t\r\n\t\t\t\tELSE fld_d_bbs_bar_mark_info\t\t\t\t\t\r\n\t\t\t\tEND\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_flag_info, ' ') AS fld_d_flag_info\t\t\t\t\t\t\r\n\t\tFROM sts.dbo.tbl_scm_sts_rms_cab_shear\t\t\t\t\t\t\t\r\n\t\tWHERE isnull(fld_r_run_no, '') <> ''\t\t\t\t\t\t\t\r\n\t\t\tAND fld_d_no_of_cuts > 0\t\t\t\t\t\t\r\n\t\t) AS A\t\t\t\t\t\t\t\r\n\tWHERE A.fld_d_bbs_bar_mark_info <> ''\t\t\t\t\t\t\t\t\r\n\t\t--AND fld_rec_type <> 'S'\t\t\t\t\t\t\t\r\n\t\tAND A.fld_r_run_no = 'H205184L0000'\t\t\t\t\t\r\n\t\tAND A.fld_r_dia_ref = 32.000000000\t\t\t\t\t\t\t\r\n\t\tAND A.fld_l_comb_no = 46\t\t\t\t\t\t\t\t\r\n\t\tAND A.fld_r_prod_type_ref = 'H'\t\t\t\t\t\t\t\r\n\tORDER BY A.fld_r_run_no\t\t\t\t\t\t\t\t\r\n\t\t,A.fld_r_dia_ref ASC\t\t\t\t\t\t\t\r\n\t\t,A.fld_l_comb_no ASC\t\t\t\t\t\t\t\r\n\t\t,A.fld_d_cutting_seq_no ASC\t",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "FileServerWriteSettings",
-										"copyBehavior": "PreserveHierarchy"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"maxRowsPerFile": 1,
-										"fileNamePrefix": {
-											"value": "@{variables('RunNo')}",
-											"type": "Expression"
-										},
-										"quoteAllText": true,
-										"fileExtension": ".OUS"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
+								"variableName": "countIDB",
+								"value": {
+									"value": "@activity('LookupIDB').output.firstRow.countIDB",
+									"type": "Expression"
 								}
-							},
-							"inputs": [
+							}
+						},
+						{
+							"name": "CountSTS",
+							"type": "SetVariable",
+							"dependsOn": [
 								{
-									"referenceName": "NSQADB2",
-									"type": "DatasetReference"
+									"activity": "LookupSTS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
-							"outputs": [
-								{
-									"referenceName": "CutTextFile",
-									"type": "DatasetReference"
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "countSTS",
+								"value": {
+									"value": "@activity('LookupSTS').output.firstRow.countSTS",
+									"type": "Expression"
 								}
-							]
+							}
+						},
+						{
+							"name": "CompairCount",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "CountSTS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(variables('countIDB'), variables('countSTS'))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "CutFileCreation",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": "SELECT fld_d_no_of_cuts\t\t\t\t\t\t\t\t\r\n\t\t,fld_d_section_no\t\t\t\t\t\t\t\r\n\t\t,fld_d_bin_number\t\t\t\t\t\t\t\r\n\t\t,fld_d_cut_length\t\t\t\t\t\t\t\r\n\t\t,fld_d_tag_ref_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_straight_bend_flag\t\t\t\t\t\t\t\r\n\t\t,fld_d_bbs_bar_mark_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_tag_no\t\t\t\t\t\t\t\r\n\t\t,fld_d_flag_info\t\t\t\t\t\t\t\r\n\t\t,fld_d_cutting_seq_no\t\t\t\t\t\t\t\r\n\tFROM (\t\t\t\t\t\t\t\t\r\n\t\tSELECT fld_r_run_no\t\t\t\t\t\t\t\r\n\t\t\t,fld_r_prod_type_ref\t\t\t\t\t\t\r\n\t\t\t,fld_r_start_stock_len\t\t\t\t\t\t\r\n\t\t\t,fld_r_dia_ref\t\t\t\t\t\t\r\n\t\t\t,cast(fld_l_comb_no AS INT) AS fld_l_comb_no\t\t\t\t\t\t\r\n\t\t\t,fld_d_cutting_seq_no\t\t\t\t\t\t\r\n\t\t\t,fld_l_qty_of_segment\t\t\t\t\t\t\r\n\t\t\t,fld_l_stock_bars_len\t\t\t\t\t\t\r\n\t\t\t,convert(NUMERIC(18, 0), isnull(fld_d_no_of_cuts, 0)) AS fld_d_no_of_cuts\t\t\t\t\t\t\r\n\t\t\t,fld_d_section_no\t\t\t\t\t\t\r\n\t\t\t,fld_d_bin_number = CASE \t\t\t\t\t\t\r\n\t\t\t\tWHEN (\t\t\t\t\t\r\n\t\t\t\t\t\tfld_d_bin_number = 'NULL'\t\t\t\r\n\t\t\t\t\t\tOR isnull(fld_d_bin_number, ' ') = ' '\t\t\t\r\n\t\t\t\t\t\t)\t\t\t\r\n\t\t\t\t\tTHEN ' '\t\t\t\t\r\n\t\t\t\tELSE fld_d_bin_number\t\t\t\t\t\r\n\t\t\t\tEND\t\t\t\t\t\r\n\t\t\t,fld_d_cut_length\t\t\t\t\t\t\r\n\t\t\t,fld_d_tag_ref_info\t\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_straight_bend_flag, ' ') AS fld_d_straight_bend_flag\t\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_tag_no, '0') AS fld_d_tag_no\t\t\t\t\t\t\r\n\t\t\t,fld_rec_type\t\t\t\t\t\t\r\n\t\t\t,fld_d_bbs_bar_mark_info = CASE \t\t\t\t\t\t\r\n\t\t\t\tWHEN (\t\t\t\t\t\r\n\t\t\t\t\t\tfld_d_offcut_ind = 'Y'\t\t\t\r\n\t\t\t\t\t\tAND (\t\t\t\r\n\t\t\t\t\t\t\tfld_d_bin_number <> 'NULL'\t\t\r\n\t\t\t\t\t\t\tAND isnull(fld_d_bin_number, ' ') <> ' '\t\t\r\n\t\t\t\t\t\t\t)\t\t\r\n\t\t\t\t\t\t)\t\t\t\r\n\t\t\t\t\tTHEN 'OFFCUT'\t\t\t\t\r\n\t\t\t\tELSE fld_d_bbs_bar_mark_info\t\t\t\t\t\r\n\t\t\t\tEND\t\t\t\t\t\r\n\t\t\t,isnull(fld_d_flag_info, ' ') AS fld_d_flag_info\t\t\t\t\t\t\r\n\t\tFROM sts.dbo.tbl_scm_sts_rms_cab_shear\t\t\t\t\t\t\t\r\n\t\tWHERE isnull(fld_r_run_no, '') <> ''\t\t\t\t\t\t\t\r\n\t\t\tAND fld_d_no_of_cuts > 0\t\t\t\t\t\t\r\n\t\t) AS A\t\t\t\t\t\t\t\r\n\tWHERE A.fld_d_bbs_bar_mark_info <> ''\t\t\t\t\t\t\t\t\r\n\t\t--AND fld_rec_type <> 'S'\t\t\t\t\t\t\t\r\n\t\tAND A.fld_r_run_no = 'H205184L0000'\t\t\t\t\t\r\n\t\tAND A.fld_r_dia_ref = 32.000000000\t\t\t\t\t\t\t\r\n\t\tAND A.fld_l_comb_no = 46\t\t\t\t\t\t\t\t\r\n\t\tAND A.fld_r_prod_type_ref = 'H'\t\t\t\t\t\t\t\r\n\tORDER BY A.fld_r_run_no\t\t\t\t\t\t\t\t\r\n\t\t,A.fld_r_dia_ref ASC\t\t\t\t\t\t\t\r\n\t\t,A.fld_l_comb_no ASC\t\t\t\t\t\t\t\r\n\t\t,A.fld_d_cutting_seq_no ASC\t",
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "FileServerWriteSettings",
+													"copyBehavior": "PreserveHierarchy"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"maxRowsPerFile": 1,
+													"fileNamePrefix": {
+														"value": "@{variables('RunNo')}",
+														"type": "Expression"
+													},
+													"quoteAllText": true,
+													"fileExtension": ".OUS"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "fld_d_no_of_cuts",
+															"type": "Decimal",
+															"physicalType": "decimal",
+															"scale": 0,
+															"precision": 18
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 1
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_section_no",
+															"type": "String",
+															"physicalType": "nvarchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 2
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_bin_number",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 3
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_cut_length",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 4
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_tag_ref_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 5
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_straight_bend_flag",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 6
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_bbs_bar_mark_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 7
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_tag_no",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 8
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_flag_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 9
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_cutting_seq_no",
+															"type": "Decimal",
+															"physicalType": "decimal",
+															"scale": 0,
+															"precision": 10
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 10
+														}
+													}
+												],
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "NSQADB2",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "CutTextFile",
+												"type": "DatasetReference"
+											}
+										]
+									}
+								]
+							}
 						}
 					]
 				}
@@ -434,6 +605,12 @@
 			},
 			"RunNo": {
 				"type": "String"
+			},
+			"countIDB": {
+				"type": "Integer"
+			},
+			"countSTS": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
