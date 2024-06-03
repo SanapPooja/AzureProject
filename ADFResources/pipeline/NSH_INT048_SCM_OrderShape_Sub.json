@@ -1182,7 +1182,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT048_Tagprint_Shape_Variant",
+						"referenceName": "INT048_ESB_Tagprint_Shape_Variant",
 						"type": "DatasetReference"
 					}
 				]

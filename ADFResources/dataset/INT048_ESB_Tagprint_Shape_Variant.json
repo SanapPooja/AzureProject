@@ -1,5 +1,5 @@
 {
-	"name": "INT048_Tagprint_Shape_Variant",
+	"name": "INT048_ESB_Tagprint_Shape_Variant",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
