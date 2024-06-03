@@ -278,7 +278,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') from dbo.tbl_sts_scm_prodn_staging_upd_test where REF_ID = \n'@{variables('REF_ID')}'",
+								"value": "update  dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REF_ID = \n'@{variables('REF_ID')}'",
 								"type": "Expression"
 							}
 						}
@@ -289,6 +289,8 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Update tbl_sts_scm_prodn_staging_upd_test",
@@ -310,7 +312,31 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "REF_ID",
+					"value": {
+						"value": "@activity('Lookup2').output.value[0].ref_id\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup2",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -331,38 +357,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT top (10) ref_id, SAP_PO_NUM, SCM_Q_PO_NO, SCM_OPERATION_NO, \nSCM_ORD_QTY_KG, SCM_ORD_QTY_PCS, SAP_BATCH_ID, BATCH_QTY, \tBATCH_PCS,PRODN_MACHINE, \nSTART_TIME, END_TIME, \tPRODN_REC_DATE,CREATE_DATE, ISNULL(MODIFY_DATE, GETDATE()) AS MODIFY_DATE, PRODN_ORDER_NO_SCH , PRODN_STATUS, NR_OF_OPERATION , product_type FROM \tSTS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
+						"sqlReaderQuery": "SELECT ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_scm_prodn_staging_upd_test",
+						"referenceName": "NSH_INT070_SCM_PRODN_STAGING_DATASET",
 						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "REF_ID",
-					"value": {
-						"value": "@activity('Lookup1').output.value[0].ref_id",
-						"type": "Expression"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
