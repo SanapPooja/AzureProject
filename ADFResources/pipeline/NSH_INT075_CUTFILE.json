@@ -592,6 +592,9 @@
 			},
 			"Combi": {
 				"type": "Integer"
+			},
+			"Combi_Numr": {
+				"type": "String"
 			}
 		},
 		"annotations": []
