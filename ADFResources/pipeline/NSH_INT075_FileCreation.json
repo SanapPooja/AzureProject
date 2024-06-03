@@ -3,25 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Combi",
-					"value": {
-						"value": "@pipeline().parameters.CombNo",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "ForEach1",
 				"type": "ForEach",
 				"dependsOn": [
@@ -57,15 +38,15 @@
 									"type": "SqlServerSource",
 									"sqlReaderStoredProcedureName": "[dbo].[SP_INT075_SelectDlineData]",
 									"storedProcedureParameters": {
-										"CombNo": {
-											"type": "String",
+										"CombiNo": {
+											"type": "Int32",
 											"value": {
 												"value": "@item().Combi_Num",
 												"type": "Expression"
 											}
 										},
 										"Dia": {
-											"type": "String",
+											"type": "Int32",
 											"value": {
 												"value": "@item().Dia",
 												"type": "Expression"
