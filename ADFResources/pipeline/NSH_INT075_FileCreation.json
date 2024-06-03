@@ -284,9 +284,6 @@
 			"CombiiNo": {
 				"type": "String"
 			},
-			"Combi_no": {
-				"type": "Integer"
-			},
 			"Combi_No": {
 				"type": "Integer"
 			},
