@@ -41,7 +41,7 @@
 										"CombiNo": {
 											"type": "Int32",
 											"value": {
-												"value": "@item().Combi_Num",
+												"value": "@item().Combi_Numr",
 												"type": "Expression"
 											}
 										},
