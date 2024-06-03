@@ -330,44 +330,6 @@
 							}
 						},
 						{
-							"name": "Lookup9",
-							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "If Condition2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"sqlReaderQuery": {
-										"value": "UPDATE dbo.tbl_scm_sts_cab_bender_download\nSET REC_TYPE = 'Y'\nWHERE run_no = '@{variables('run_no')}';\n",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "SqlServerTable16",
-									"type": "DatasetReference"
-								},
-								"firstRowOnly": false
-							}
-						},
-						{
 							"name": "Lookup10",
 							"type": "Lookup",
 							"dependsOn": [
@@ -838,7 +800,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup9",
+									"activity": "Stored procedure1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1276,6 +1238,39 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Stored procedure1",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "If Condition2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[UpdateCabBenderDownload]",
+								"storedProcedureParameters": {
+									"run_no": {
+										"value": "",
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "NSQADB2Connection",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
