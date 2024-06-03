@@ -10,7 +10,7 @@
 			"aadResourceId": "https://servicebus.azure.net/"
 		},
 		"connectVia": {
-			"referenceName": "MESQARuntime",
+			"referenceName": "NSHQA",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
