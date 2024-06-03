@@ -27,6 +27,10 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('CutFileCreationDFile').output.pipelineReturnValue",
+						"type": "Expression"
+					},
 					"isSequential": true,
 					"activities": [
 						{
@@ -49,7 +53,7 @@
 										"CombNo": {
 											"type": "String",
 											"value": {
-												"value": "@{variables('CombNo')}",
+												"value": "@item().CombiNo",
 												"type": "Expression"
 											}
 										},
@@ -250,7 +254,7 @@
 		],
 		"parameters": {
 			"Dia": {
-				"type": "int",
+				"type": "string",
 				"defaultValue": "@item().Dia"
 			},
 			"ProdType": {
