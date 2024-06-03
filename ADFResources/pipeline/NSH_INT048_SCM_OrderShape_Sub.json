@@ -3,23 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Wait1",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "Copy data1",
+				"name": "queue to destination",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -1204,11 +1188,13 @@
 				]
 			},
 			{
-				"name": "DeleteServiceBusMessage",
-				"type": "WebActivity",
+				"name": "Insert into tag print shape variant",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Wait1",
+						"activity": "queue to destination",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1222,17 +1208,54 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"method": "DELETE",
-					"headers": {
-						"CustomHeader-Version": "\"1.0\"",
-						"Content-Type": "application/json"
-					},
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int048_order_shape/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO scm_admin.tagprint_shape_variant (\r\n    order_no,\r\n    item_no,\r\n    product_type,\r\n    segment_length_1,\r\n    shape_param_1,\r\n    param_ind_1,\r\n    coordinate_x_1,\r\n    coordinate_y_1,\r\n    critical_ind_1,\r\n    segment_length_2,\r\n    shape_param_2,\r\n    param_ind_2,\r\n    coordinate_x_2,\r\n    coordinate_y_2,\r\n    critical_ind_2,\r\n    segment_length_3,\r\n    shape_param_3,\r\n    critical_ind_3,\r\n    segment_length_4,\r\n    shape_param_4,\r\n    param_ind_4,\r\n    coordinate_x_4,\r\n    coordinate_y_4,\r\n    critical_ind_4,\r\n    segment_length_5,\r\n    shape_param_5,\r\n    param_ind_5,\r\n    coordinate_x_5,\r\n    coordinate_y_5,\r\n    critical_ind_5,\r\n    segment_length_6,\r\n    shape_param_6,\r\n    param_ind_6,\r\n    coordinate_x_6,\r\n    coordinate_y_6,\r\n    critical_ind_6,\r\n    segment_length_7,\r\n    shape_param_7,\r\n    param_ind_7,\r\n    coordinate_x_7,\r\n    coordinate_y_7,\r\n    critical_ind_7,\r\n    segment_length_8,\r\n    shape_param_8,\r\n    param_ind_8,\r\n    coordinate_x_8,\r\n    coordinate_y_8,\r\n    critical_ind_8,\r\n    segment_length_9,\r\n    shape_param_9,\r\n    param_ind_9,\r\n    coordinate_x_9,\r\n    coordinate_y_9,\r\n    critical_ind_9,\r\n    segment_length_10,\r\n    shape_param_10,\r\n    param_ind_10,\r\n    coordinate_x_10,\r\n    coordinate_y_10,\r\n    critical_ind_10,\r\n    segment_length_11,\r\n    shape_param_11,\r\n    param_ind_11,\r\n    coordinate_x_11,\r\n    coordinate_y_11,\r\n    critical_ind_11,\r\n    segment_length_12,\r\n    shape_param_12,\r\n    param_ind_12,\r\n    coordinate_x_12,\r\n    coordinate_y_12,\r\n    critical_ind_12,\r\n    segment_length_13,\r\n    shape_param_13,\r\n    param_ind_13,\r\n    coordinate_x_13,\r\n    coordinate_y_13,\r\n    critical_ind_13,\r\n    segment_length_14,\r\n    shape_param_14,\r\n    param_ind_14,\r\n    coordinate_x_14,\r\n    coordinate_y_14,\r\n    critical_ind_14,\r\n    segment_length_15,\r\n    shape_param_15,\r\n    param_ind_15,\r\n    coordinate_x_15,\r\n    coordinate_y_15,\r\n    critical_ind_15,\r\n    segment_length_16,\r\n    shape_param_16,\r\n    param_ind_16,\r\n    coordinate_x_16,\r\n    coordinate_y_16,\r\n    critical_ind_16,\r\n    segment_length_17,\r\n    shape_param_17,\r\n    param_ind_17,\r\n    coordinate_x_17,\r\n    coordinate_y_17,\r\n    critical_ind_17,\r\n    segment_length_18,\r\n    shape_param_18,\r\n    param_ind_18,\r\n    coordinate_x_18,\r\n    coordinate_y_18,\r\n    critical_ind_18,\r\n    segment_length_19,\r\n    shape_param_19,\r\n    param_ind_19,\r\n    coordinate_x_19,\r\n    coordinate_y_19,\r\n    critical_ind_19,\r\n    segment_length_20,\r\n    shape_param_20,\r\n    param_ind_20,\r\n    coordinate_x_20,\r\n    coordinate_y_20,\r\n    critical_ind_20,\r\n    param_ind_3,\r\n    coordinate_x_3,\r\n    coordinate_y_3,\r\n    last_export_timestamp,\r\n    rec_id,\r\n    sap_product_group\r\n) \r\nSELECT\r\n    order_no,\r\n    item_no,\r\n    product_type,\r\n    segment_length_1,\r\n    shape_param_1,\r\n    param_ind_1,\r\n    coordinate_x_1,\r\n    coordinate_y_1,\r\n    critical_ind_1,\r\n    segment_length_2,\r\n    shape_param_2,\r\n    param_ind_2,\r\n    coordinate_x_2,\r\n    coordinate_y_2,\r\n    critical_ind_2,\r\n    segment_length_3,\r\n    shape_param_3,\r\n    critical_ind_3,\r\n    segment_length_4,\r\n    shape_param_4,\r\n    param_ind_4,\r\n    coordinate_x_4,\r\n    coordinate_y_4,\r\n    critical_ind_4,\r\n    segment_length_5,\r\n    shape_param_5,\r\n    param_ind_5,\r\n    coordinate_x_5,\r\n    coordinate_y_5,\r\n    critical_ind_5,\r\n    segment_length_6,\r\n    shape_param_6,\r\n    param_ind_6,\r\n    coordinate_x_6,\r\n    coordinate_y_6,\r\n    critical_ind_6,\r\n    segment_length_7,\r\n    shape_param_7,\r\n    param_ind_7,\r\n    coordinate_x_7,\r\n    coordinate_y_7,\r\n    critical_ind_7,\r\n    segment_length_8,\r\n    shape_param_8,\r\n    param_ind_8,\r\n    coordinate_x_8,\r\n    coordinate_y_8,\r\n    critical_ind_8,\r\n    segment_length_9,\r\n    shape_param_9,\r\n    param_ind_9,\r\n    coordinate_x_9,\r\n    coordinate_y_9,\r\n    critical_ind_9,\r\n    segment_length_10,\r\n    shape_param_10,\r\n    param_ind_10,\r\n    coordinate_x_10,\r\n    coordinate_y_10,\r\n    critical_ind_10,\r\n    segment_length_11,\r\n    shape_param_11,\r\n    param_ind_11,\r\n    coordinate_x_11,\r\n    coordinate_y_11,\r\n    critical_ind_11,\r\n    segment_length_12,\r\n    shape_param_12,\r\n    param_ind_12,\r\n    coordinate_x_12,\r\n    coordinate_y_12,\r\n    critical_ind_12,\r\n    segment_length_13,\r\n    shape_param_13,\r\n    param_ind_13,\r\n    coordinate_x_13,\r\n    coordinate_y_13,\r\n    critical_ind_13,\r\n    segment_length_14,\r\n    shape_param_14,\r\n    param_ind_14,\r\n    coordinate_x_14,\r\n    coordinate_y_14,\r\n    critical_ind_14,\r\n    segment_length_15,\r\n    shape_param_15,\r\n    param_ind_15,\r\n    coordinate_x_15,\r\n    coordinate_y_15,\r\n    critical_ind_15,\r\n    segment_length_16,\r\n    shape_param_16,\r\n    param_ind_16,\r\n    coordinate_x_16,\r\n    coordinate_y_16,\r\n    critical_ind_16,\r\n    segment_length_17,\r\n    shape_param_17,\r\n    param_ind_17,\r\n    coordinate_x_17,\r\n    coordinate_y_17,\r\n    critical_ind_17,\r\n    segment_length_18,\r\n    shape_param_18,\r\n    param_ind_18,\r\n    coordinate_x_18,\r\n    coordinate_y_18,\r\n    critical_ind_18,\r\n    segment_length_19,\r\n    shape_param_19,\r\n    param_ind_19,\r\n    coordinate_x_19,\r\n    coordinate_y_19,\r\n    critical_ind_19,\r\n    segment_length_20,\r\n    shape_param_20,\r\n    param_ind_20,\r\n    coordinate_x_20,\r\n    coordinate_y_20,\r\n    critical_ind_20,\r\n    param_ind_3,\r\n    coordinate_x_3,\r\n    coordinate_y_3,\r\n    last_export_timestamp,\r\n    rec_id,\r\n    sap_product_group\r\nFROM\r\n    scm_admin.esb_tagprint_shape_variant;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "delete from ESB_TAGPRINT_SHAPE_VARIANT",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Insert into tag print shape variant",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
 					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM scm_admin.esb_tagprint_shape_variant;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
