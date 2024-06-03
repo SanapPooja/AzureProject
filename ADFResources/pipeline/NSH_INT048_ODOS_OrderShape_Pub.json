@@ -94,7 +94,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "DECLARE @cols AS NVARCHAR(MAX),\n \n        @query AS NVARCHAR(MAX),\n \n        @topN INT = 20, -- Number of dimension sets to pivot\n \n        @counter INT = 1, -- Counter for the loop\n \n        @maxCounter INT = 20; -- Maximum counter value for the loop\n-- Initialize the column strings\n \nSET @cols = '';\n-- Loop to generate column aliases\n \nWHILE @counter <= @maxCounter\n \nBEGIN\n \n    SET @cols = @cols +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN DIM_X END) AS DIM_X' + CAST(@counter AS VARCHAR(10)) + ', ' +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN DIM_Y END) AS DIM_Y' + CAST(@counter AS VARCHAR(10)) + ', ' +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN DIM_CHAR END) AS DIM_CHAR' + CAST(@counter AS VARCHAR(10)) + ', ' +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN DIM_TYPE END) AS DIM_TYPE' + CAST(@counter AS VARCHAR(10)) + ', ' +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN DIM_VALUE END) AS DIM_VALUE' + CAST(@counter AS VARCHAR(10)) + ', ' +\n \n        'MAX(CASE WHEN GroupedRowNum = ' + CAST(@counter AS VARCHAR(10)) + ' THEN CRITICAL_IND END) AS CRITICAL_IND' + CAST(@counter AS VARCHAR(10)) + ', ';\n \n    SET @counter = @counter + 1;\n \nEND;\n-- Remove trailing comma and space\n \nSET @cols = LEFT(@cols, LEN(@cols) - 2);\n-- Generate the full dynamic SQL query\n \nSET @query = '\n \nWITH RankedData AS (\n \n    SELECT top 100\n \n        ORD_REQ_NO,\n \n        ITEM_NO,\n \n        DIM_X,\n \n        DIM_Y,\n \n        DIM_CHAR,\n \n        DIM_TYPE,\n \n        DIM_VALUE,\n \n        CRITICAL_IND,\n \n        ROW_NUMBER() OVER (PARTITION BY ORD_REQ_NO ORDER BY ITEM_NO) AS RowNum,\n \n        CEILING(CAST(ROW_NUMBER() OVER (PARTITION BY ORD_REQ_NO ORDER BY ITEM_NO) AS FLOAT) / ' + CAST(@topN AS NVARCHAR) + ') AS GroupNum,\n \n        ROW_NUMBER() OVER (PARTITION BY ORD_REQ_NO ORDER BY ITEM_NO) AS GroupedRowNum\n \n    FROM\n \n        SAP_ORD_SHAPE_VARIANT_DSS\n \n)\n \nSELECT\n \n    ORD_REQ_NO,\n \n    ITEM_NO,\n \n    ' + @cols + '\n \nFROM RankedData\n \nGROUP BY ORD_REQ_NO, ITEM_NO, GroupNum, GroupedRowNum\n \nORDER BY ORD_REQ_NO, GroupNum, GroupedRowNum;';\n-- Execute the dynamic SQL\n \nEXEC sp_executesql @query;",
+									"sqlReaderQuery": "select * from dimensions;",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -111,8 +111,1117 @@
 									"type": "TabularTranslator",
 									"mappings": [
 										{
+											"source": {
+												"name": "ORD_REQ_NO",
+												"type": "String"
+											},
 											"sink": {
-												"path": "$"
+												"path": "$ORD_REQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X1",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y1",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_1"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_1"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X2",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_2"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y2",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_2"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_2"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_2"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_2"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_2"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X3",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_3"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y3",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_3"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_3"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_3"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_3"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_3"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X4",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_4"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y4",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_4"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_4"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_4"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_4"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_4"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X5",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_5"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y5",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_5"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_5"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_5"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_5"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_5"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X6",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_6"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y6",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_6"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_6"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_6"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_6"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_6"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X7",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_7"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y7",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_7"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_7"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_7"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_7"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_7"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X8",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_8"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y8",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_8"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_8"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_8"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_8"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_8"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X9",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_9"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y9",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_9"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_9"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_9"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_9"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_9"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X10",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y10",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_10"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND10",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_10"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X11",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_11"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y11",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_11"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR11",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_11"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE11",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_11"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE11",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_11"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND11",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_11"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X12",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_12"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y12",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_12"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR12",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_12"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE12",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_12"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE12",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_12"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND12",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_12"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X13",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_13"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y13",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_13"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR13",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_13"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE13",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_13"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE13",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_13"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND13",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_13"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X14",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_14"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y14",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_14"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR14",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_14"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE14",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_14"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE14",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_14"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND14",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_14"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X15",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_15"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y15",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_15"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR15",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_15"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE15",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_15"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE15",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_15"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND15",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_15"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X16",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_16"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y16",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_16"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR16",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_16"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE16",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_16"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE16",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_16"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND16",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_16"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X17",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_17"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y17",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_17"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR17",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_17"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE17",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_17"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE17",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_17"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND17",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_17"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X18",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_18"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y18",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_18"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR18",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_18"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE18",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_18"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE18",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_18"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND18",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_18"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X19",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_19"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y19",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_19"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR19",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_19"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE19",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_19"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE19",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_19"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND19",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_19"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_X20",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_X_20"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_Y20",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$COORDINATE_Y_20"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_CHAR20",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_PARAM_20"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_TYPE20",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARAM_IND_20"
+											}
+										},
+										{
+											"source": {
+												"name": "DIM_VALUE20",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_LENGTH_20"
+											}
+										},
+										{
+											"source": {
+												"name": "CRITICAL_IND20",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRITICAL_IND_20"
+											}
+										},
+										{
+											"source": {
+												"name": "PROD_GRP"
+											},
+											"sink": {
+												"path": "$SAP_PRODUCT_GROUP"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCT_TYPE"
+											},
+											"sink": {
+												"path": "$PRODUCT_TYPE"
 											}
 										}
 									]
