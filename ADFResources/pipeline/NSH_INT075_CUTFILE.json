@@ -661,7 +661,7 @@
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "LookupLline",
+												"activity": "Comb_No",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -683,7 +683,7 @@
 													"CombNo": {
 														"type": "String",
 														"value": {
-															"value": "@item().fld_l_comb_no",
+															"value": "@{variables('CombNo')}",
 															"type": "Expression"
 														}
 													},
@@ -720,7 +720,7 @@
 												},
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
-													"maxRowsPerFile": 1,
+													"maxRowsPerFile": 10000,
 													"fileNamePrefix": {
 														"value": "@{variables('RunNo')}",
 														"type": "Expression"
@@ -877,6 +877,27 @@
 												"type": "DatasetReference"
 											}
 										]
+									},
+									{
+										"name": "Comb_No",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "LookupLline",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "CombNo",
+											"value": ""
+										}
 									}
 								]
 							}
@@ -953,6 +974,9 @@
 				"type": "Integer"
 			},
 			"countSTS": {
+				"type": "Integer"
+			},
+			"CombNo": {
 				"type": "Integer"
 			}
 		},
