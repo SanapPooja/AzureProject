@@ -814,6 +814,25 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Set filename",
+							"type": "SetVariable",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "r_no",
+								"value": {
+									"value": "@activity('Lookup10').output.value[0].RUN_NO",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -846,6 +865,9 @@
 			},
 			"RunNoArray": {
 				"type": "Array"
+			},
+			"r_no": {
+				"type": "String"
 			}
 		},
 		"annotations": []
