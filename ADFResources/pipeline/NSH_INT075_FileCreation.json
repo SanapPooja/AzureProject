@@ -24,7 +24,14 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
@@ -53,7 +60,7 @@
 										"CombNo": {
 											"type": "String",
 											"value": {
-												"value": "@item().CombiNo",
+												"value": "@item().Combi_no",
 												"type": "Expression"
 											}
 										},
@@ -250,24 +257,37 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Combi_No",
+					"value": {
+						"value": "@pipeline().parameters.CombNo",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
 			"Dia": {
-				"type": "string",
-				"defaultValue": "@item().Dia"
+				"type": "int"
 			},
 			"ProdType": {
-				"type": "string",
-				"defaultValue": "@item().ProdType"
+				"type": "string"
 			},
 			"RunNo": {
-				"type": "string",
-				"defaultValue": "@item().RunNo"
+				"type": "string"
 			},
 			"CombNo": {
-				"type": "string",
-				"defaultValue": "@{variables('CombNo')}"
+				"type": "int"
 			}
 		},
 		"variables": {
@@ -275,6 +295,18 @@
 				"type": "Array"
 			},
 			"Combi": {
+				"type": "Integer"
+			},
+			"CombiNo": {
+				"type": "Array"
+			},
+			"CombiiNo": {
+				"type": "String"
+			},
+			"Combi_no": {
+				"type": "Integer"
+			},
+			"Combi_No": {
 				"type": "Integer"
 			}
 		},
