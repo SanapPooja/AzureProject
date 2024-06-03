@@ -716,7 +716,7 @@
 												"type": "DelimitedTextSink",
 												"storeSettings": {
 													"type": "FileServerWriteSettings",
-													"copyBehavior": "PreserveHierarchy"
+													"copyBehavior": "MergeFiles"
 												},
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
