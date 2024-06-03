@@ -268,7 +268,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Combi_No",
+					"variableName": "Combi_Num",
 					"value": {
 						"value": "@pipeline().parameters.CombNo",
 						"type": "Expression"
@@ -307,6 +307,9 @@
 				"type": "Integer"
 			},
 			"Combi_No": {
+				"type": "Integer"
+			},
+			"Combi_Num": {
 				"type": "Integer"
 			}
 		},
