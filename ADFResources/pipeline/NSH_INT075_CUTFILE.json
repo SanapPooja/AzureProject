@@ -486,19 +486,19 @@
 											"waitOnCompletion": true,
 											"parameters": {
 												"Dia": {
-													"value": "@activity('LookupLline').output.value[0].Dia",
+													"value": "@item().Dia",
 													"type": "Expression"
 												},
 												"ProdType": {
-													"value": "@activity('LookupLline').output.value[0].ProdType",
+													"value": "@item().ProdType\n",
 													"type": "Expression"
 												},
 												"RunNo": {
-													"value": "@activity('LookupLline').output.value[0].RunNo",
+													"value": "@item().RunNo",
 													"type": "Expression"
 												},
 												"CombNo": {
-													"value": "@activity('LookupLline').output.value[0].CombiNo",
+													"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
 													"type": "Expression"
 												}
 											}
