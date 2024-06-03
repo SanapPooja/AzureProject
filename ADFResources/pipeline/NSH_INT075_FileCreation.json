@@ -272,21 +272,6 @@
 			}
 		},
 		"variables": {
-			"CombiNoArr": {
-				"type": "Array"
-			},
-			"Combi": {
-				"type": "Integer"
-			},
-			"CombiNo": {
-				"type": "Array"
-			},
-			"CombiiNo": {
-				"type": "String"
-			},
-			"Combi_No": {
-				"type": "Integer"
-			},
 			"Combi_Num": {
 				"type": "Integer"
 			}
