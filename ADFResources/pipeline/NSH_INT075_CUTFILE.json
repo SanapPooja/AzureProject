@@ -896,7 +896,10 @@
 										"userProperties": [],
 										"typeProperties": {
 											"variableName": "CombNo",
-											"value": ""
+											"value": {
+												"value": "@activity('LookupLline').output.value[0].CombNo",
+												"type": "Expression"
+											}
 										}
 									}
 								]
