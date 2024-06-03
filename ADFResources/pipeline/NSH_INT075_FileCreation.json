@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Combi_Num')",
+						"value": "@variables('Combi_Numr')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -249,7 +249,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Combi_Num",
+					"variableName": "Combi_Numr",
 					"value": {
 						"value": "@pipeline().parameters.CombNo",
 						"type": "Expression"
@@ -273,6 +273,9 @@
 		},
 		"variables": {
 			"Combi_Num": {
+				"type": "String"
+			},
+			"Combi_Numr": {
 				"type": "String"
 			}
 		},
