@@ -464,25 +464,6 @@
 										}
 									},
 									{
-										"name": "Comb_No",
-										"type": "SetVariable",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "CombNo",
-											"value": {
-												"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
-												"type": "Expression"
-											}
-										}
-									},
-									{
 										"name": "CreateCutFiles",
 										"type": "ExecutePipeline",
 										"dependsOn": [
