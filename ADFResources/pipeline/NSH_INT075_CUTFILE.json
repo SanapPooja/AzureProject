@@ -897,7 +897,7 @@
 										"typeProperties": {
 											"variableName": "CombNo",
 											"value": {
-												"value": "@activity('LookupLline').output.value[0].CombNo",
+												"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
 												"type": "Expression"
 											}
 										}
