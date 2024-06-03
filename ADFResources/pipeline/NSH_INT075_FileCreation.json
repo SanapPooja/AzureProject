@@ -268,12 +268,12 @@
 				"type": "string"
 			},
 			"CombNo": {
-				"type": "int"
+				"type": "string"
 			}
 		},
 		"variables": {
 			"Combi_Num": {
-				"type": "Integer"
+				"type": "String"
 			}
 		},
 		"annotations": []
