@@ -60,7 +60,7 @@
 										"CombNo": {
 											"type": "String",
 											"value": {
-												"value": "@item().Combi_no",
+												"value": "@item().Combi_Num",
 												"type": "Expression"
 											}
 										},
