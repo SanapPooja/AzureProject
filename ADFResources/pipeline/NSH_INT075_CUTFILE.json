@@ -230,9 +230,14 @@
 									{
 										"name": "CutFileCreation",
 										"type": "Copy",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Set variable1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -525,7 +530,7 @@
 										"typeProperties": {
 											"variableName": "CombiNumArry",
 											"value": {
-												"value": "@array([activity('LookupLline').output.value[0].fld_l_comb_no])",
+												"value": "@activity('LookupLline').output",
 												"type": "Expression"
 											}
 										}
