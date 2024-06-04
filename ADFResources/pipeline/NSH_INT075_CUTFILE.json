@@ -230,14 +230,9 @@
 									{
 										"name": "CutFileCreation",
 										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "LookupLline",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -529,6 +524,102 @@
 												"type": "Expression"
 											}
 										}
+									},
+									{
+										"name": "CutFileCreationDFile",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "LookupLline",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderStoredProcedureName": "[dbo].[SP_INT075_SelectDlineData]",
+												"storedProcedureParameters": {
+													"CombiNo": {
+														"type": "String",
+														"value": {
+															"value": "@variables('CombNo')",
+															"type": "Expression"
+														}
+													},
+													"Dia": {
+														"type": "Int32",
+														"value": {
+															"value": "@item().Dia",
+															"type": "Expression"
+														}
+													},
+													"GRADE": {
+														"type": "String",
+														"value": {
+															"value": "@item().ProdType",
+															"type": "Expression"
+														}
+													},
+													"RunNo": {
+														"type": "String",
+														"value": {
+															"value": "@item().RunNo",
+															"type": "Expression"
+														}
+													}
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "FileServerWriteSettings",
+													"copyBehavior": "PreserveHierarchy"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"maxRowsPerFile": 10000,
+													"fileNamePrefix": {
+														"value": "@pipeline().parameters.RunNo",
+														"type": "Expression"
+													},
+													"quoteAllText": true,
+													"fileExtension": ".OUS"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "NSQADB2",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "CutTextFile",
+												"type": "DatasetReference"
+											}
+										]
 									}
 								]
 							}
