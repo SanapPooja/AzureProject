@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('ComNoArr')",
+						"value": "@variables('CombiNumArry')",
 						"type": "Expression"
 					},
 					"isSequential": true,
