@@ -66,7 +66,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('RunNoArr')",
+						"value": "@activity('CutFiles').output.pipelineReturnValue",
 						"type": "Expression"
 					},
 					"isSequential": true,
