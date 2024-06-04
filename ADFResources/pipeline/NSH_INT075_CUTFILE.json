@@ -552,7 +552,7 @@
 													"CombNo": {
 														"type": "String",
 														"value": {
-															"value": "@activity('LookupLline').output.pipelineReturnValue",
+															"value": "@activity('LookupLline').output.value",
 															"type": "Expression"
 														}
 													},
