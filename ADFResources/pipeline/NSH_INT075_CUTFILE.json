@@ -434,7 +434,7 @@
 													"Dia": {
 														"type": "Int32",
 														"value": {
-															"value": "@item().Dia\n\n",
+															"value": "@item().Dia",
 															"type": "Expression"
 														}
 													},
