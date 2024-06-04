@@ -335,7 +335,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(int(activity('Lookup10').output.value[0].CNT), 1)\n",
+									"value": "@and(not(empty(activity('Lookup10').output.value)), greaterOrEquals(int(activity('Lookup10').output.value[0].CNT), 1))\n",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
