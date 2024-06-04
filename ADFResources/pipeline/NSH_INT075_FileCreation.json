@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('CutFileCreationDFile').output.pipelineReturnValue",
+						"value": "@variables('Combi_Numr')",
 						"type": "Expression"
 					},
 					"isSequential": true,
