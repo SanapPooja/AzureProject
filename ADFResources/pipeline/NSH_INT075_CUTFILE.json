@@ -230,11 +230,9 @@
 									{
 										"name": "CutFileCreation",
 										"type": "Copy",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
-												"activity": "Set variable1",
+												"activity": "LookupLline",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -518,14 +516,7 @@
 										"type": "SetVariable",
 										"state": "Inactive",
 										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [
-											{
-												"activity": "LookupLline",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"secureOutput": false,
 											"secureInput": false
