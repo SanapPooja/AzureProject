@@ -251,7 +251,7 @@
 				"typeProperties": {
 					"variableName": "Combi_NumrArr",
 					"value": {
-						"value": "@variables('ComNoArr')",
+						"value": "@variables('CombiNumArry')",
 						"type": "Expression"
 					}
 				}
@@ -282,6 +282,9 @@
 				"type": "Array"
 			},
 			"ComNoArr": {
+				"type": "Array"
+			},
+			"CombiNumArry": {
 				"type": "Array"
 			}
 		},
