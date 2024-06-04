@@ -230,6 +230,8 @@
 									{
 										"name": "CutFileCreation",
 										"type": "Copy",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "Set variable1",
@@ -514,6 +516,8 @@
 									{
 										"name": "Set variable1",
 										"type": "SetVariable",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "LookupLline",
