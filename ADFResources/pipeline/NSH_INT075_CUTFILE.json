@@ -552,7 +552,7 @@
 													"CombNo": {
 														"type": "String",
 														"value": {
-															"value": "@item().CombNo",
+															"value": "'@{variables('CombNo')}'",
 															"type": "Expression"
 														}
 													},
