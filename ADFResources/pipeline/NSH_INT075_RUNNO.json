@@ -252,38 +252,7 @@
 								"expression": {
 									"value": "@and(\n    equals(activity('Lookup2').output.value[0].count, activity('Lookup5').output.value[0].cnt),\n    equals(activity('Lookup6').output.value[0].count, activity('Lookup7').output.value[0].cnt)\n)\n\n",
 									"type": "Expression"
-								},
-								"ifTrueActivities": [
-									{
-										"name": "Lookup8",
-										"type": "Lookup",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "SqlServerSource",
-												"sqlReaderQuery": {
-													"value": "SELECT COUNT(DISTINCT rec_type) AS rec_type \nFROM [dbo].[tbl_scm_sts_cab_bender_download] \nWHERE run_no ='@{variables('run_no')}'\n",
-													"type": "Expression"
-												},
-												"queryTimeout": "02:00:00",
-												"partitionOption": "None"
-											},
-											"dataset": {
-												"referenceName": "SqlServerTable15",
-												"type": "DatasetReference"
-											},
-											"firstRowOnly": false
-										}
-									}
-								]
+								}
 							}
 						},
 						{
@@ -291,7 +260,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "If Condition1",
+									"activity": "Lookup8",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -338,7 +307,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "If Condition1",
+									"activity": "Lookup8",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -349,38 +318,7 @@
 								"expression": {
 									"value": "@equals(activity('Lookup8').output.value[0].rec_type, 1)\n",
 									"type": "Expression"
-								},
-								"ifTrueActivities": [
-									{
-										"name": "Lookup10",
-										"type": "Lookup",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "SqlServerSource",
-												"sqlReaderQuery": {
-													"value": "SELECT B.RUN_NO, A.GROUP_TAG_ID, COUNT(2) AS CNT\nFROM [tbl_scm_sts_cab_print_tag] A\nINNER JOIN [dbo].[tbl_scm_sts_cab_bender_download] B\nON A.run_no = B.run_no\nAND A.tag_no = B.tag_no\nWHERE A.run_no = '@{variables('run_no')}'\nAND ISNULL(A.group_tag_id,'') <> ''\nAND A.group_tag_id LIKE 'C%'\nGROUP BY B.RUN_NO, A.GROUP_TAG_ID\nHAVING COUNT(A.group_tag_id) > 1;\n",
-													"type": "Expression"
-												},
-												"queryTimeout": "02:00:00",
-												"partitionOption": "None"
-											},
-											"dataset": {
-												"referenceName": "SqlServerTable17",
-												"type": "DatasetReference"
-											},
-											"firstRowOnly": false
-										}
-									}
-								]
+								}
 							}
 						},
 						{
@@ -388,7 +326,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "If Condition3",
+									"activity": "Lookup10",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -918,6 +856,78 @@
 										}
 									}
 								]
+							}
+						},
+						{
+							"name": "Lookup8",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "SELECT COUNT(DISTINCT rec_type) AS rec_type \nFROM [dbo].[tbl_scm_sts_cab_bender_download] \nWHERE run_no ='@{variables('run_no')}'\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "SqlServerTable15",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Lookup10",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "If Condition3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "SELECT B.RUN_NO, A.GROUP_TAG_ID, COUNT(2) AS CNT\nFROM [tbl_scm_sts_cab_print_tag] A\nINNER JOIN [dbo].[tbl_scm_sts_cab_bender_download] B\nON A.run_no = B.run_no\nAND A.tag_no = B.tag_no\nWHERE A.run_no = '@{variables('run_no')}'\nAND ISNULL(A.group_tag_id,'') <> ''\nAND A.group_tag_id LIKE 'C%'\nGROUP BY B.RUN_NO, A.GROUP_TAG_ID\nHAVING COUNT(A.group_tag_id) > 1;\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "SqlServerTable17",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
