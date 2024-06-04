@@ -566,7 +566,7 @@
 													"GRADE": {
 														"type": "String",
 														"value": {
-															"value": "@item().Grade",
+															"value": "@item().ProdType",
 															"type": "Expression"
 														}
 													},
