@@ -549,10 +549,10 @@
 												"type": "SqlServerSource",
 												"sqlReaderStoredProcedureName": "[dbo].[SP_INT075_SelectDlineData]",
 												"storedProcedureParameters": {
-													"CombiNo": {
+													"CombNo": {
 														"type": "String",
 														"value": {
-															"value": "@variables('CombNo')",
+															"value": "@item().CombNo",
 															"type": "Expression"
 														}
 													},
@@ -566,7 +566,7 @@
 													"GRADE": {
 														"type": "String",
 														"value": {
-															"value": "@item().ProdType",
+															"value": "@item().Grade",
 															"type": "Expression"
 														}
 													},
@@ -591,7 +591,7 @@
 													"type": "DelimitedTextWriteSettings",
 													"maxRowsPerFile": 10000,
 													"fileNamePrefix": {
-														"value": "@pipeline().parameters.RunNo",
+														"value": "@item().RunNo",
 														"type": "Expression"
 													},
 													"quoteAllText": true,
@@ -601,6 +601,156 @@
 											"enableStaging": false,
 											"translator": {
 												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "fld_d_no_of_cuts",
+															"type": "Decimal",
+															"physicalType": "decimal",
+															"scale": 0,
+															"precision": 18
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 1
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_section_no",
+															"type": "String",
+															"physicalType": "nvarchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 2
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_bin_number",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 3
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_cut_length",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 4
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_tag_ref_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 5
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_straight_bend_flag",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 6
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_bbs_bar_mark_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 7
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_tag_no",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 8
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_flag_info",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 9
+														}
+													},
+													{
+														"source": {
+															"name": "fld_d_cutting_seq_no",
+															"type": "Decimal",
+															"physicalType": "decimal",
+															"scale": 0,
+															"precision": 10
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 10
+														}
+													},
+													{
+														"source": {
+															"name": "FirstRow",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 11
+														}
+													},
+													{
+														"source": {
+															"name": "combined_output",
+															"type": "String",
+															"physicalType": "varchar"
+														},
+														"sink": {
+															"type": "String",
+															"physicalType": "String",
+															"ordinal": 12
+														}
+													}
+												],
 												"typeConversion": true,
 												"typeConversionSettings": {
 													"allowDataTruncation": true,
