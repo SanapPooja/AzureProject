@@ -5,8 +5,6 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable2",
@@ -18,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Combi_NumrArr')",
+						"value": "@variables('ComNoArr')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -41,9 +39,9 @@
 									"sqlReaderStoredProcedureName": "[dbo].[SP_INT075_SelectDlineData]",
 									"storedProcedureParameters": {
 										"CombiNo": {
-											"type": "Int32",
+											"type": "String",
 											"value": {
-												"value": "@item().Combi_Numr",
+												"value": "@item().ComNoArr",
 												"type": "Expression"
 											}
 										},
@@ -244,8 +242,6 @@
 			{
 				"name": "Set variable2",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"secureOutput": false,
@@ -255,7 +251,7 @@
 				"typeProperties": {
 					"variableName": "Combi_NumrArr",
 					"value": {
-						"value": "@array('Combi_NumrArr')",
+						"value": "@variables('ComNoArr')",
 						"type": "Expression"
 					}
 				}
@@ -283,6 +279,9 @@
 				"type": "String"
 			},
 			"Combi_NumrArr": {
+				"type": "Array"
+			},
+			"ComNoArr": {
 				"type": "Array"
 			}
 		},
