@@ -498,7 +498,7 @@
 													"type": "Expression"
 												},
 												"CombNo": {
-													"value": "@variables('ComNoArr')",
+													"value": "@variables('CombiNumArry')",
 													"type": "Expression"
 												}
 											}
@@ -521,9 +521,9 @@
 										},
 										"userProperties": [],
 										"typeProperties": {
-											"variableName": "ComNoArr",
+											"variableName": "CombiNumArry",
 											"value": {
-												"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
+												"value": "@array([activity('LookupLline').output.value[0].fld_l_comb_no])",
 												"type": "Expression"
 											}
 										}
@@ -624,6 +624,9 @@
 				"type": "Array"
 			},
 			"ComNoArr": {
+				"type": "Array"
+			},
+			"CombiNumArry": {
 				"type": "Array"
 			}
 		},
