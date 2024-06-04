@@ -468,7 +468,7 @@
 										"type": "ExecutePipeline",
 										"dependsOn": [
 											{
-												"activity": "LookupLline",
+												"activity": "Set variable1",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -501,6 +501,30 @@
 													"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
 													"type": "Expression"
 												}
+											}
+										}
+									},
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "LookupLline",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "ComNoArr",
+											"value": {
+												"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
+												"type": "Expression"
 											}
 										}
 									}
@@ -595,6 +619,12 @@
 			},
 			"Combi_Numr": {
 				"type": "String"
+			},
+			"Combi_NumrArr": {
+				"type": "Array"
+			},
+			"ComNoArr": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
