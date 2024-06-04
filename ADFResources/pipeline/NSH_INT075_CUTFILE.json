@@ -66,7 +66,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('CutFiles').output.pipelineReturnValue",
+						"value": "@activity('CutFiles').output.value[0].RunNo",
 						"type": "Expression"
 					},
 					"isSequential": true,
