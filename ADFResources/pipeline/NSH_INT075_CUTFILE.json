@@ -490,7 +490,7 @@
 													"type": "Expression"
 												},
 												"ProdType": {
-													"value": "@item().ProdType\n",
+													"value": "@item().ProdType",
 													"type": "Expression"
 												},
 												"RunNo": {
