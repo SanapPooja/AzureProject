@@ -498,7 +498,7 @@
 													"type": "Expression"
 												},
 												"CombNo": {
-													"value": "@activity('LookupLline').output.value[0].fld_l_comb_no",
+													"value": "@variables('ComNoArr')",
 													"type": "Expression"
 												}
 											}
