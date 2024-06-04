@@ -212,8 +212,6 @@
 						{
 							"name": "CompairCount",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "CountSTS",
