@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT DISTINCT fld_r_run_no as RunNo\r\n    ,fld_r_dia_ref  as Dia\r\n    ,fld_r_prod_type_ref as ProdType\r\nFROM (\r\n    SELECT fld_r_run_no\r\n        ,fld_r_prod_type_ref = CASE\r\n            WHEN fld_r_prod_type_ref = 'H'\r\n                THEN 'H'\r\n            WHEN fld_r_prod_type_ref = 'T'\r\n                THEN 'H'\r\n            ELSE fld_r_prod_type_ref\r\n            END\r\n        ,fld_r_start_stock_len\r\n        ,fld_r_dia_ref\r\n        ,cast(fld_l_comb_no AS INT) AS fld_l_comb_no\r\n        ,fld_d_cutting_seq_no\r\n        ,fld_l_qty_of_segment\r\n        ,fld_l_stock_bars_len\r\n        ,convert(NUMERIC(18, 0), isnull(fld_d_no_of_cuts, 0)) AS fld_d_no_of_cuts\r\n        ,fld_d_section_no\r\n        ,fld_d_bin_number = CASE\r\n            WHEN (\r\n                    fld_d_bin_number = 'NULL'\r\n                    OR isnull(fld_d_bin_number, ' ') = ' '\r\n                    )\r\n                THEN ' '\r\n            ELSE fld_d_bin_number\r\n            END\r\n        ,fld_d_cut_length\r\n        ,fld_d_tag_ref_info\r\n        ,isnull(fld_d_straight_bend_flag, ' ') AS fld_d_straight_bend_flag\r\n        ,isnull(fld_d_tag_no, '0') AS fld_d_tag_no\r\n        ,fld_rec_type\r\n        ,fld_d_bbs_bar_mark_info = CASE\r\n            WHEN (\r\n                    fld_d_offcut_ind = 'Y'\r\n                    AND (\r\n                        fld_d_bin_number <> 'NULL'\r\n                        AND isnull(fld_d_bin_number, ' ') <> ' '\r\n                        )\r\n                    )\r\n                THEN 'OFFCUT'\r\n            ELSE fld_d_bbs_bar_mark_info\r\n            END\r\n        ,isnull(fld_d_flag_info, ' ') AS fld_d_flag_info\r\n    FROM sts.dbo.tbl_scm_sts_rms_cab_shear\r\n    WHERE isnull(fld_r_run_no, '') <> ''\r\n        AND fld_d_no_of_cuts > 0\r\n    ) AS A\r\nWHERE \r\nfld_r_run_no in ('M508123L0800','M509023L1400','M509163L0200') and\r\n A.fld_d_bbs_bar_mark_info <> ''\r\n    AND fld_rec_type <> 'S'\r\nORDER BY fld_r_run_no\r\n    ,fld_r_dia_ref",
+						"sqlReaderQuery": "SELECT DISTINCT fld_r_run_no as RunNo\r\n    ,fld_r_dia_ref  as Dia\r\n    ,fld_r_prod_type_ref as ProdType\r\nFROM (\r\n    SELECT fld_r_run_no\r\n        ,fld_r_prod_type_ref = CASE\r\n            WHEN fld_r_prod_type_ref = 'H'\r\n                THEN 'H'\r\n            WHEN fld_r_prod_type_ref = 'T'\r\n                THEN 'H'\r\n            ELSE fld_r_prod_type_ref\r\n            END\r\n        ,fld_r_start_stock_len\r\n        ,fld_r_dia_ref\r\n        ,cast(fld_l_comb_no AS INT) AS fld_l_comb_no\r\n        ,fld_d_cutting_seq_no\r\n        ,fld_l_qty_of_segment\r\n        ,fld_l_stock_bars_len\r\n        ,convert(NUMERIC(18, 0), isnull(fld_d_no_of_cuts, 0)) AS fld_d_no_of_cuts\r\n        ,fld_d_section_no\r\n        ,fld_d_bin_number = CASE\r\n            WHEN (\r\n                    fld_d_bin_number = 'NULL'\r\n                    OR isnull(fld_d_bin_number, ' ') = ' '\r\n                    )\r\n                THEN ' '\r\n            ELSE fld_d_bin_number\r\n            END\r\n        ,fld_d_cut_length\r\n        ,fld_d_tag_ref_info\r\n        ,isnull(fld_d_straight_bend_flag, ' ') AS fld_d_straight_bend_flag\r\n        ,isnull(fld_d_tag_no, '0') AS fld_d_tag_no\r\n        ,fld_rec_type\r\n        ,fld_d_bbs_bar_mark_info = CASE\r\n            WHEN (\r\n                    fld_d_offcut_ind = 'Y'\r\n                    AND (\r\n                        fld_d_bin_number <> 'NULL'\r\n                        AND isnull(fld_d_bin_number, ' ') <> ' '\r\n                        )\r\n                    )\r\n                THEN 'OFFCUT'\r\n            ELSE fld_d_bbs_bar_mark_info\r\n            END\r\n        ,isnull(fld_d_flag_info, ' ') AS fld_d_flag_info\r\n    FROM sts.dbo.tbl_scm_sts_rms_cab_shear\r\n    WHERE isnull(fld_r_run_no, '') <> ''\r\n        AND fld_d_no_of_cuts > 0\r\n    ) AS A\r\nWHERE \r\nfld_r_run_no in ('M508123L0800','M509023L1400','M509163L0200','M505314L1100') and\r\n A.fld_d_bbs_bar_mark_info <> ''\r\n    AND fld_rec_type <> 'S'\r\nORDER BY fld_r_run_no\r\n    ,fld_r_dia_ref",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -549,13 +549,6 @@
 												"type": "SqlServerSource",
 												"sqlReaderStoredProcedureName": "[dbo].[SP_INT075_SelectDlineData]",
 												"storedProcedureParameters": {
-													"CombNo": {
-														"type": "String",
-														"value": {
-															"value": "@activity('LookupLline').output.value[0].CombNo",
-															"type": "Expression"
-														}
-													},
 													"Dia": {
 														"type": "Int32",
 														"value": {
@@ -574,6 +567,13 @@
 														"type": "String",
 														"value": {
 															"value": "@item().RunNo",
+															"type": "Expression"
+														}
+													},
+													"CombNo": {
+														"type": "String",
+														"value": {
+															"value": "@activity('LookupLline').output.value[0].CombNo",
 															"type": "Expression"
 														}
 													}
@@ -604,138 +604,12 @@
 												"mappings": [
 													{
 														"source": {
-															"name": "fld_d_no_of_cuts",
-															"type": "Decimal",
-															"physicalType": "decimal",
-															"scale": 0,
-															"precision": 18
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 1
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_section_no",
-															"type": "String",
-															"physicalType": "nvarchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 2
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_bin_number",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 3
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_cut_length",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 4
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_tag_ref_info",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 5
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_straight_bend_flag",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 6
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_bbs_bar_mark_info",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 7
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_tag_no",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 8
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_flag_info",
-															"type": "String",
-															"physicalType": "varchar"
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 9
-														}
-													},
-													{
-														"source": {
-															"name": "fld_d_cutting_seq_no",
-															"type": "Decimal",
-															"physicalType": "decimal",
-															"scale": 0,
-															"precision": 10
-														},
-														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 10
-														}
-													},
-													{
-														"source": {
 															"name": "FirstRow",
 															"type": "String",
 															"physicalType": "varchar"
 														},
 														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 11
+															"ordinal": 1
 														}
 													},
 													{
@@ -745,9 +619,7 @@
 															"physicalType": "varchar"
 														},
 														"sink": {
-															"type": "String",
-															"physicalType": "String",
-															"ordinal": 12
+															"ordinal": 2
 														}
 													}
 												],
