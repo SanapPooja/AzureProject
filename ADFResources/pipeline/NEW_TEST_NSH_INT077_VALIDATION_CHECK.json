@@ -55,7 +55,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "NSH_INT077_YMPPT_LP_HDR_PUB",
+									"referenceName": "NEW_TEST_NSH_INT077_YMPPT_LP_HDR_PUB",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
