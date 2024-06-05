@@ -1,0 +1,1323 @@
+{
+	"name": "NEW_TEST_NSH_INT077_YMPPT_LP_HDR_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "SCM_STAGING_TABLE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_NO"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_ITEM"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ID"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NDS_SALE_ORDER"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "TALLY_BATCH_QTY"
+								},
+								"sink": {
+									"name": "TALLY_BATCH_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$NO_PIECES"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_NO"
+								},
+								"sink": {
+									"name": "TRAILER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CREATE_DATE"
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MODIFY_DATE"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "TARE_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NGWS_STATUS"
+								},
+								"sink": {
+									"name": "NGWS_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_PIECES"
+								},
+								"sink": {
+									"name": "ORDER_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$WEIGHT_IN_KG"
+								},
+								"sink": {
+									"name": "WEIGHT_IN_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_REQUEST_NO"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$QTY_IN_BASE_UOM"
+								},
+								"sink": {
+									"name": "QTY_IN_BASE_UOM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "DELD_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_PCS"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_PCS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_PCS"
+								},
+								"sink": {
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT077_STAGING_SUB",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script9",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "SAP_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT * FROM TBL_NSH_INT077_STAGING"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script10",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script11",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script11",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script9",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY L\r\nSET (L.LP_STATUS, L.STATUS, L.ERROR_CD, L.MODIFY_DATE, L.TRAILER_ID) = (\r\nSELECT S.LP_STATUS, S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID FROM\r\nTBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = L.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = L.LOAD_NO);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "FLATRACK_ID",
+									"type": "String"
+								}
+							},
+							{
+								"sink": {
+									"name": "CONTAINER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "THEORITICAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "ACTUAL_WEIGHT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "WEIGHING_TICKET_TIME",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NSH_INT077_LOAD_SAP_TALLY",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script12",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Set variable3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT \r\nto_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, \r\nto_char(Sum(NO_PIECES)) as NO_PIECES, \r\nSALES_ORDER, \r\nORDER_ITEM \r\nFROM SAPSR3.YMPPT_LP_BATCH_C \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_SAP_INT077_STAGING) \r\nGROUP BY \r\nLOAD_NO, \r\nSALES_ORDER, \r\nORDER_ITEM"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script10",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CURRENT_DATE",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),'dd-MM-yy'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Script13",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script12",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT \r\n    s.ID, \r\n    s.ORDER_PIECES, \r\n    s.WEIGHT_IN_KG, \r\n    s.ORDER_NO, \r\n    s.ORDER_REQUEST_NO, \r\n    s.QTY_IN_BASE_UOM,\r\n    t.LOAD_NO, \r\n    t.ORDER_ITEM\r\nFROM \r\n    SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD s\r\nJOIN \r\n    TBL_NSH_INT077_STAGING t\r\nON \r\n    s.LOAD_NO = t.LOAD_NO AND \r\n    s.ORDER_NO = t.ORDER_NO AND \r\n    s.ITEM_NO = t.ORDER_ITEM"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script14",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script13",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\n    (LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO)\r\nSELECT \r\n    LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO\r\nFROM \r\n    TBL_NSH_INT077_STAGING;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script15",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script14",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY T\r\nSET (T.DELD_LOAD_QNTY, \r\nT.DELD_LOAD_PCS,\r\nT.MODIFY_DATE) = (\r\nSELECT \r\nS.TALLY_BATCH_QTY, \r\nS.NO_PIECES, \r\nS.MODIFY_DATE \r\nFROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "If Condition2",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Script16",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Script16').output, 'Y')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Script17",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\nSELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID FROM\r\nTBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO);"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Script16",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script15",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT STATUS from LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script18",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "If Condition2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, \r\nT.TRAILER_ID, \r\nT.MODIFY_DATE ) = (\r\nSELECT S.LP_STATUS, \r\nS.TRAILER_ID, \r\nS.MODIFY_DATE FROM\r\nTBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO)\r\nWHERE EXISTS (\r\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\r\nWHERE S.LOAD_NO = T.LOAD_NO);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script19",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script18",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script20",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script19",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "SELECT STATUS from LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "If Condition3",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Script20",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Script20').output, 'T')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Script21",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET \r\n    T.LP_STATUS = 'P',\r\n    (T.STATUS, T.ERROR_CD, T.MODIFY_DATE, T.TRAILER_ID) = (\r\n        SELECT S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID\r\n        FROM TBL_NSH_INT077_STAGING S\r\n        WHERE S.LOAD_NO = T.LOAD_NO\r\n    )\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO\r\n);"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Script22",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "If Condition3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY T\nSET (T.DELD_LOAD_QNTY, \nT.DELD_LOAD_PCS, \nT.MODIFY_DATE) = (\nSELECT S.TALLY_BATCH_QTY,\n S.NO_PIECES, \n S.MODIFY_DATE FROM\nTBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = T.LOAD_NO)\nWHERE EXISTS (\nSELECT 1 FROM TBL_NSH_INT077_STAGING S\nWHERE S.LOAD_NO = T.LOAD_NO);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "SAP_STAGING_TABLE",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SCM_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_NO"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_ITEM"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ID"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NDS_SALE_ORDER"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TALLY_BATCH_QTY"
+								},
+								"sink": {
+									"name": "TALLY_BATCH_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$NO_PIECES"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_NO"
+								},
+								"sink": {
+									"name": "TRAILER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CREATE_DATE"
+								},
+								"sink": {
+									"name": "CREATE_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MODIFY_DATE"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "TARE_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NGWS_STATUS"
+								},
+								"sink": {
+									"name": "NGWS_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_PIECES"
+								},
+								"sink": {
+									"name": "ORDER_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$WEIGHT_IN_KG"
+								},
+								"sink": {
+									"name": "WEIGHT_IN_KG",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_REQUEST_NO"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$QTY_IN_BASE_UOM"
+								},
+								"sink": {
+									"name": "QTY_IN_BASE_UOM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_QNTY"
+								},
+								"sink": {
+									"name": "DELD_LOAD_QNTY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PLAN_LOAD_PCS"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_PCS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$DELD_LOAD_PCS"
+								},
+								"sink": {
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"LOAD_NO_VALUE": {
+				"type": "String"
+			},
+			"TIMESTAMP": {
+				"type": "String"
+			},
+			"NDS_ORDER": {
+				"type": "String"
+			},
+			"NDS_SALE_ORD": {
+				"type": "Array"
+			},
+			"LOAD_NO": {
+				"type": "Array"
+			},
+			"MODIFIED_DATE": {
+				"type": "String"
+			},
+			"ITEM_ON_LOAD": {
+				"type": "Array"
+			},
+			"ORDER_NO": {
+				"type": "Array"
+			},
+			"LP_STATUS": {
+				"type": "String"
+			},
+			"STATUS": {
+				"type": "String"
+			},
+			"ERROR_CD": {
+				"type": "String"
+			},
+			"MODIFY_DATE": {
+				"type": "String"
+			},
+			"TRAILER_ID": {
+				"type": "String"
+			},
+			"CURRENT_DATE": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
