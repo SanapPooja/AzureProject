@@ -318,7 +318,38 @@
 								"expression": {
 									"value": "@equals(activity('Lookup8').output.value[0].rec_type, 1)\n",
 									"type": "Expression"
-								}
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Lookup10_copy1",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "SELECT B.RUN_NO, A.GROUP_TAG_ID, COUNT(2) AS CNT\nFROM [tbl_scm_sts_cab_print_tag] A\nINNER JOIN [dbo].[tbl_scm_sts_cab_bender_download] B\nON A.run_no = B.run_no\nAND A.tag_no = B.tag_no\nWHERE A.run_no = '@{variables('run_no')}'\nAND ISNULL(A.group_tag_id,'') <> ''\nAND A.group_tag_id LIKE 'C%'\nGROUP BY B.RUN_NO, A.GROUP_TAG_ID\nHAVING COUNT(A.group_tag_id) > 1;\n",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"dataset": {
+												"referenceName": "SqlServerTable17",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									}
+								]
 							}
 						},
 						{
@@ -342,8 +373,6 @@
 									{
 										"name": "Lookup12",
 										"type": "Lookup",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
@@ -357,7 +386,7 @@
 											"source": {
 												"type": "SqlServerSource",
 												"sqlReaderQuery": {
-													"value": "SELECT tag_no,tag_qty,productbar,shapecode,prodn_len,spare1,bbs_no,barmark,\n              substring(CAST(prodn_TAG_WT AS VARCHAR(50)),1,charindex('.',CAST(prodn_TAG_WT AS VARCHAR(50)))+2),spare2,spare3,\n              pin_type =\n              case when pin_type in ('1','2') then 'S' \n              when pin_type ='3' then 'N' end               \n,pin_size,spare4,spare5,spare6,no_of_bending,spare7,run_no,spare8,\n              spare9,planduration,\nplan_machine,no_of_segments,spare12,bvbs_len,shape_bvbs_parameter+'@'\n              FROM sts.dbo.tbl_scm_sts_cab_bender_download\n              WHERE\n              run_no = '@{variables('run_no')}'\n              order by CAST ( substring(tag_no,2, len(tag_no)) as INT)",
+													"value": "SELECT \n    tag_no,\n    tag_qty,\n    productbar,\n    shapecode,\n    prodn_len,\n    spare1,\n    bbs_no,\n    barmark,\n    substring(CAST(prodn_TAG_WT AS VARCHAR(50)), 1, charindex('.', CAST(prodn_TAG_WT AS VARCHAR(50))) + 2) AS prodn_tag_wt,\n    spare2,\n    spare3,\n    CASE \n        WHEN pin_type IN ('1', '2') THEN 'S'\n        WHEN pin_type = '3' THEN 'N'\n        ELSE pin_type\n    END AS pin_type,\n    pin_size,\n    spare4,\n    spare5,\n    spare6,\n    no_of_bending,\n    spare7,\n    run_no,\n    spare8,\n    spare9,\n    planduration,\n    plan_machine,\n    no_of_segments,\n    spare12,\n    bvbs_len,\n    shape_bvbs_parameter + '@' AS shape_bvbs_parameter\nFROM \n    sts.dbo.tbl_scm_sts_cab_bender_download\nWHERE\n    run_no = '@{variables('run_no')}'\nORDER BY \n    CAST(substring(tag_no, 2, len(tag_no)) AS INT)\n",
 													"type": "Expression"
 												},
 												"queryTimeout": "02:00:00",
@@ -367,6 +396,37 @@
 												"referenceName": "NSQADB2",
 												"type": "DatasetReference"
 											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Lookup11_copy1",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "SELECT tag_no,\t\t\t\t\t\t\n  tag_qty,\t\t\t\t\t\t\n  productbar,\t\t\t\t\t\t\n  shapecode,\t\t\t\t\t\t\n  prodn_len,\t\t\t\t\t\t\n  spare1,\t\t\t\t\t\t\n  bbs_no,\t\t\t\t\t\t\n  barmark,\t\t\t\t\t\t\n  prodn_TAG_WT,\t\t\t\t\t\t\n  spare2,\t\t\t\t\t\t\n  spare3,\t\t\t\t\t\t\n  pin_type,\t\t\t\t\t\t\n  pin_size,\t\t\t\t\t\t\n  spare4,\t\t\t\t\t\t\n  spare5,\t\t\t\t\t\t\n  spare6,\t\t\t\t\t\t\n  no_of_bending,\t\t\t\t\t\t\n  spare7,\t\t\t\t\t\t\n  run_no,\t\t\t\t\t\t\n  spare8,\t\t\t\t\t\t\n  spare9,\t\t\t\t\t\t\n  planduration,\t\t\t\t\t\t\n  plan_machine,\t\t\t\t\t\t\n  no_of_segments,\t\t\t\t\t\t\n  spare12,\t\t\t\t\t\t\n  bvbs_len,\t\t\t\t\t\t\n  shape_bvbs_parameter\t\t\t\t\t\t\nFROM (\t\t\t\t\t\t\n  (SELECT tag_no,\t\t\t\t\t\t\n    tag_qty,\t\t\t\t\t\t\n    productbar,\t\t\t\t\t\t\n    shapecode,\t\t\t\t\t\t\n    prodn_len,\t\t\t\t\t\t\n    spare1,\t\t\t\t\t\t\n    bbs_no,\t\t\t\t\t\t\n    barmark,\t\t\t\t\t\t\n    substring(CAST(prodn_TAG_WT AS VARCHAR(50)),1,charindex('.',CAST(prodn_TAG_WT AS VARCHAR(50)))+2) prodn_tag_wt,\t\t\t\t\t\t\n    spare2,\t\t\t\t\t\t\n    spare3,\t\t\t\t\t\t\n    pin_type =\t\t\t\t\t\t\n    CASE\t\t\t\t\t\t\n      WHEN pin_type IN ('1','2')\t\t\t\t\t\t\n      THEN 'S'\t\t\t\t\t\t\n      WHEN pin_type ='3'\t\t\t\t\t\t\n      THEN 'N'\t\t\t\t\t\t\n    END ,\t\t\t\t\t\t\n    pin_size,\t\t\t\t\t\t\n    spare4,\t\t\t\t\t\t\n    spare5,\t\t\t\t\t\t\n    spare6,\t\t\t\t\t\t\n    no_of_bending,\t\t\t\t\t\t\n    spare7,\t\t\t\t\t\t\n    run_no,\t\t\t\t\t\t\n    spare8,\t\t\t\t\t\t\n    spare9,\t\t\t\t\t\t\n    planduration,\t\t\t\t\t\t\n    plan_machine,\t\t\t\t\t\t\n    no_of_segments,\t\t\t\t\t\t\n    spare12,\t\t\t\t\t\t\n    bvbs_len,\t\t\t\t\t\t\n    shape_bvbs_parameter+'@' shape_bvbs_parameter\t\t\t\t\t\t\n  FROM sts.dbo.tbl_scm_sts_cab_bender_download\t\t\t\t\t\t\n  WHERE run_no    = '@{variables('run_no')}'\t\t\t\t\t\n  AND tag_no NOT IN (\t\t\t\t\t\t\n    (SELECT d.tag_no\t\t\t\t\t\t\n    FROM\t\t\t\t\t\t\n      (SELECT B.RUN_NO,\t\t\t\t\t\t\n        A.GROUP_TAG_ID,\t\t\t\t\t\t\n        SUM(b.prodn_tag_wt) PRODN_TAG_WT,\t\t\t\t\t\t\n        SUM(b.PLANDURATION) PLANDURATION,\t\t\t\t\t\t\n        SUM(A.TAG_QTY) TAG_QTY,\t\t\t\t\t\t\n        COUNT(2) CNT\t\t\t\t\t\t\n      FROM [tbl_scm_sts_cab_print_tag] a\t\t\t\t\t\t\n      INNER JOIN [DBO].[tbl_scm_sts_cab_bender_download] b\t\t\t\t\t\t\n      ON a.run_no                    = b.run_no\t\t\t\t\t\t\n      AND a.tag_no                   = b.tag_no\t\t\t\t\t\t\n      WHERE a.run_no                 = '@{variables('run_no')}'\t\t\t\t\t\t\n      AND isnull(a.group_tag_id,'') <> ''\t\t\t\t\t\t\n      AND group_tag_id LIKE 'C%'\t\t\t\t\t\t\n      GROUP BY B.RUN_NO,\t\t\t\t\t\t\n        A.GROUP_TAG_ID\t\t\t\t\t\t\n      HAVING (COUNT(GROUP_TAG_ID) >1\t\t\t\t\t\t\n      OR COUNT(GROUP_TAG_ID)      =1 )\t\t\t\t\t\t\n      ) AS c\t\t\t\t\t\t\n    LEFT OUTER JOIN [tbl_scm_sts_cab_print_tag] d\t\t\t\t\t\t\n    ON c.run_no        = d.run_no\t\t\t\t\t\t\n    AND c.group_tag_id = d.group_tag_id\t\t\t\t\t\t\n    ) )\t\t\t\t\t\t\n  )\t\t\t\t\t\t\nUNION\t\t\t\t\t\t\n SELECT DISTINCT e.tag_no,\t\t\t\t\t\t\n    e.tag_qty,\t\t\t\t\t\t\n    b.grade_dia productbar,\t\t\t\t\t\t\n    e.shapecode,\t\t\t\t\t\t\n    e.prodn_len,\t\t\t\t\t\t\n    e.spare1,\t\t\t\t\t\t\n    B.bbs_no,\t\t\t\t\t\t\n    e.barmark,\t\t\t\t\t\t\n    e.prodn_tag_wt,\t\t\t\t\t\t\n    e.spare2,\t\t\t\t\t\t\n    e.spare3,\t\t\t\t\t\t\n    pin_type =\t\t\t\t\t\t\n    CASE\t\t\t\t\t\t\n      WHEN a.pin_type IN ('1','2')\t\t\t\t\t\t\n      THEN 'S'\t\t\t\t\t\t\n      WHEN a.pin_type ='3'\t\t\t\t\t\t\n      THEN 'N'\t\t\t\t\t\t\n    END ,\t\t\t\t\t\t\n    b.pin_size,\t\t\t\t\t\t\n    e.spare4,\t\t\t\t\t\t\n    e.spare5,\t\t\t\t\t\t\n    e.spare6,\t\t\t\t\t\t\n    e.no_of_bending,\t\t\t\t\t\t\n    e.spare7,\t\t\t\t\t\t\n    a.run_no,\t\t\t\t\t\t\n    e.spare8,\t\t\t\t\t\t\n    e.spare9,\t\t\t\t\t\t\n    e.planduration,\t\t\t\t\t\t\n    b.workcenter plan_machine,\t\t\t\t\t\t\n    e.no_of_segments,\t\t\t\t\t\t\n    e.spare12,\t\t\t\t\t\t\n    e.bvbs_len,\t\t\t\t\t\t\n    b.bvbs+'@' shape_bvbs_parameter\t\t\t\t\t\t\n  FROM sts.dbo.tbl_scm_sts_cab_bender_download a\t\t\t\t\t\t\n  INNER JOIN sts.dbo.tbl_scm_sts_cab_print_tag b\t\t\t\t\t\t\n  ON a.run_no = b.run_no\t\t\t\t\t\t\n  INNER JOIN\t\t\t\t\t\t\n    (SELECT DISTINCT c.RUN_NO,\t\t\t\t\t\t\n      c.PRODN_TAG_WT,\t\t\t\t\t\t\n      c.PLANDURATION,\t\t\t\t\t\t\n      c.TAG_QTY,\t\t\t\t\t\t\n      d.group_tag_id,\t\t\t\t\t\t\n      c.bvbs_len,\t\t\t\t\t\t\n      c.prodn_len,\t\t\t\t\t\t\n      c.shapecode,\t\t\t\t\t\t\n      c.barmark,\t\t\t\t\t\t\n\t  c.spare1,c.spare2,c.spare3,c.spare4,c.spare5,c.spare6,c.spare7,c.spare8,c.spare9,c.spare12,\t\t\t\t\t\n      c.no_of_segments,\t\t\t\t\t\t\n      c.no_of_bending,\t\t\t\t\t\t\n      TAG_NO =\t\t\t\t\t\t\n      CASE\t\t\t\t\t\t\n        WHEN CNT = '1'\t\t\t\t\t\t\n        THEN d.TAG_NO\t\t\t\t\t\t\n        WHEN CNT > '1'\t\t\t\t\t\t\n        THEN d.GROUP_TAG_ID\t\t\t\t\t\t\n      END\t\t\t\t\t\t\n     FROM\t\t\t\t\t\t\n\t\t(select run_no,group_tag_id,bvbs_len,shapecode,barmark,no_of_segments,no_of_bending,spare1,spare2,spare3,\t\t\t\t\n\t\t\tspare4,spare5,spare6,spare7,spare8,spare9,spare12,prodn_tag_wt1 as prodn_tag_wt, prodn_tag_wt1 as prodn_tag,planduration,\t\t\t\n\t\t\ttag_qty1 as tag_qty,\t\t\t\n\t\t\tprodn_len,cnt from (\t\t\t\n\t\t\tselect \t\t\t\n\t\t\trun_no,group_tag_id,bvbs_len,shapecode,barmark,no_of_segments,no_of_bending,spare1,spare2,spare3,\t\t\t\n\t\t\tspare4,spare5,spare6,spare7,spare8,spare9,spare12,prodn_tag_wt,planduration,tag_qty,\t\t\t\n\t\t\tprodn_len,cnt,row_number() over (partition by run_no,group_tag_id order by run_no,group_tag_id) as num,\t\t\t\n\t\t\tsum(planduration) over(partition by run_no,group_tag_id) as planduration1,\t\t\t\n\t\t\tsum(prodn_tag_wt) over(partition by run_no,group_tag_id) as prodn_tag_wt1,\t\t\t\n\t\t\tsum(tag_qty) over(partition by run_no,group_tag_id) as tag_qty1\t\t\t\n\t\t\tfrom \t\t\t\n\t\t\t(SELECT B.RUN_NO,\t\t\t\n\t\t\t\tA.GROUP_TAG_ID,\t\t\n\t\t\t\tb.bvbs_len,\t\t\n\t\t\t\tb.Shapecode,\t\t\n\t\t\t\tb.barmark,\t\t\n\t\t\t\tb.no_of_segments,\t\t\n\t\t\t\tb.no_of_bending,\t\t\n\t\t\t\tb.spare1,b.spare2,b.spare3,b.spare4,b.spare5,b.spare6,b.spare7,b.spare8,b.spare9,b.spare12,\t\t\n\t\t\t\tSUM(b.prodn_tag_wt) PRODN_TAG_WT,\t\t\n\t\t\t\tSUM(b.PLANDURATION) PLANDURATION,\t\t\n\t\t\t\tSUM(A.TAG_QTY) TAG_QTY,\t\t\n\t\t\t\tb.prodn_len PRODN_LEN,\t\t\n\t\t\t\tCOUNT(2) CNT\t\t\n\t\t\t  FROM [tbl_scm_sts_cab_print_tag] a\t\t\t\n\t\t\t  INNER JOIN [DBO].[tbl_scm_sts_cab_bender_download] b\t\t\t\n\t\t\t  ON a.run_no                    = b.run_no\t\t\t\n\t\t\t  AND a.tag_no                   = b.tag_no\t\t\t\n\t\t\t  WHERE a.run_no                 = '@{variables('run_no')}'\t\t\t\n\t\t\t  AND isnull(a.group_tag_id,'') <> ''\t\t\t\n\t\t\t  AND group_tag_id LIKE 'C%'\t\t\t\n\t\t\t  GROUP BY B.RUN_NO,\t\t\t\n\t\t\t\tA.GROUP_TAG_ID,\t\t\n\t\t\t\tb.bvbs_len,\t\t\n\t\t\t\tb.prodn_len,\t\t\n\t\t\t\tb.shapecode,\t\t\n\t\t\t\tb.barmark,\t\t\n\t\t\t\tb.no_of_segments,\t\t\n\t\t\t\tb.no_of_bending,\t\t\n\t\t\t\tb.spare1,b.spare2,b.spare3,b.spare4,b.spare5,b.spare6,b.spare7,b.spare8,b.spare9,b.spare12\t\t\n\t\t\t  HAVING (COUNT(GROUP_TAG_ID) >1\t\t\t\n\t\t\t  OR COUNT(GROUP_TAG_ID)      =1 )) as temp ) as inn where num = 1\t\t\t\n\t\t) AS c\t\t\t\t\n\t\t\tLEFT OUTER JOIN [tbl_scm_sts_cab_print_tag] d\t\t\t\n\t\t\tON c.run_no              = d.run_no\t\t\t\n\t\t\tAND c.group_tag_id       = d.group_tag_id\t\t\t\n    ) AS e ON e.group_tag_id = b.tag_no\t\t\t\t\t\t\n  AND b.group_tag_ind        = 'Y') AS tblMain\t\t\t\t\t\t\nORDER BY CAST ( substring(tag_no,2, LEN(tag_no)) AS INT)\t",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"dataset": {
+												"referenceName": "NSQADB2",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
 										}
 									}
 								]
