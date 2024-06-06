@@ -201,7 +201,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='T';",
+						"oracleReaderQuery": "select LOAD_NO from SAPSR3.YESB_LP_HDR where LP_STATUS='T';",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -217,7 +217,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Lookup12",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -241,7 +241,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Set variable9",
+						"activity": "Set variable11",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -413,7 +413,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Set variable3",
+						"activity": "Set variable10",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -571,7 +571,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='D';",
+						"oracleReaderQuery": "select LOAD_NO from SAPSR3.YESB_LP_HDR where LP_STATUS='D';",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -864,7 +864,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='A';",
+						"oracleReaderQuery": "select LOAD_NO from SAPSR3.YESB_LP_HDR where LP_STATUS='A';",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -1179,7 +1179,14 @@
 			{
 				"name": "Lookup41",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup42",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1191,7 +1198,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='PT';",
+						"oracleReaderQuery": "select LOAD_NO from SAPSR3.YESB_LP_HDR where LP_STATUS='PT';",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -1222,6 +1229,113 @@
 					"variableName": "LOAD_NO_ARR2",
 					"value": {
 						"value": "@activity('Lookup41').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup12",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT NDS_SALE_ORDER \r\nFROM SAPSR3.YMPPT_LP_BATCH_C \r\nWHERE LOAD_NO IN (\r\n    SELECT LOAD_NO \r\n    FROM SAPSR3.YESB_LP_HDR \r\n    WHERE LP_STATUS = 'T'\r\n);\r\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable10",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "NDS_ORDER_NO",
+					"value": {
+						"value": "@activity('Lookup12').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup42",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT NDS_SALE_ORDER \r\nFROM SAPSR3.YMPPT_LP_BATCH_C \r\nWHERE LOAD_NO IN (\r\n    SELECT LOAD_NO \r\n    FROM SAPSR3.YESB_LP_HDR \r\n    WHERE LP_STATUS = 'PT'\r\n);\r\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable11",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable9",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "NDS_ORDER_NO2",
+					"value": {
+						"value": "@activity('Lookup42').output.value",
 						"type": "Expression"
 					}
 				}
@@ -1266,6 +1380,12 @@
 			},
 			"LOAD_NO_VALUE4": {
 				"type": "String"
+			},
+			"NDS_ORDER_NO": {
+				"type": "Array"
+			},
+			"NDS_ORDER_NO2": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
