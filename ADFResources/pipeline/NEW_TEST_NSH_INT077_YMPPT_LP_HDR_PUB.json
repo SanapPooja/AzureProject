@@ -239,6 +239,8 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable11",
@@ -428,11 +430,11 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Lookup2_copy1",
+							"name": "Lookup200",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable4_copy1",
+									"activity": "Set variable400",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -464,11 +466,11 @@
 							}
 						},
 						{
-							"name": "Lookup3_copy1",
+							"name": "Lookup300",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup2_copy1",
+									"activity": "Lookup200",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -501,43 +503,7 @@
 							}
 						},
 						{
-							"name": "Lookup4_copy1",
-							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Lookup3_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
-							"name": "Set variable4_copy1",
+							"name": "Set variable400",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -559,7 +525,20 @@
 			{
 				"name": "Lookup21",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ForEach2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ForEach2_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -852,7 +831,22 @@
 			{
 				"name": "Lookup31",
 				"type": "Lookup",
-				"dependsOn": [],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ForEach2_copy1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -878,6 +872,8 @@
 			{
 				"name": "ForEach1_copy1_copy1",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable8",
@@ -1155,6 +1151,8 @@
 			{
 				"name": "Set variable8",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup31",
@@ -1179,6 +1177,8 @@
 			{
 				"name": "Lookup41",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup42",
@@ -1212,6 +1212,8 @@
 			{
 				"name": "Set variable9",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup41",
@@ -1293,7 +1295,16 @@
 			{
 				"name": "Lookup42",
 				"type": "Lookup",
-				"dependsOn": [],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ForEach1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1319,6 +1330,8 @@
 			{
 				"name": "Set variable11",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable9",
@@ -1338,6 +1351,210 @@
 						"value": "@activity('Lookup42').output.value",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "ForEach2_copy1",
+				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Set variable10",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('NDS_ORDER_NO')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Lookup3_copy1_copy1",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable12",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE5')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Set variable4_copy1_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE5",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable12",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set variable4_copy1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "NDS_ORDER_NO11",
+								"value": {
+									"value": "@item().NDS_ORDER_NO",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach2_copy1_copy1",
+				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Set variable11",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('NDS_ORDER_NO2')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Lookup3_copy1",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable22",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE6')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO2')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Set variable21",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE6",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable22",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set variable21",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "NDS_ORDER_NO12",
+								"value": {
+									"value": "@item().NDS_ORDER_NO",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
@@ -1386,6 +1603,18 @@
 			},
 			"NDS_ORDER_NO2": {
 				"type": "Array"
+			},
+			"LOAD_NO_VALUE5": {
+				"type": "String"
+			},
+			"LOAD_NO_VALUE6": {
+				"type": "String"
+			},
+			"NDS_ORDER_NO11": {
+				"type": "String"
+			},
+			"NDS_ORDER_NO12": {
+				"type": "String"
 			}
 		},
 		"annotations": []
