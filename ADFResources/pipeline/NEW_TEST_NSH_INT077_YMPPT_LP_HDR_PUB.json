@@ -239,8 +239,6 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable11",
@@ -831,8 +829,6 @@
 			{
 				"name": "Lookup31",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ForEach1",
@@ -872,8 +868,6 @@
 			{
 				"name": "ForEach1_copy1_copy1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable8",
@@ -1151,8 +1145,6 @@
 			{
 				"name": "Set variable8",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup31",
@@ -1177,8 +1169,6 @@
 			{
 				"name": "Lookup41",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup42",
@@ -1212,8 +1202,6 @@
 			{
 				"name": "Set variable9",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup41",
@@ -1295,8 +1283,6 @@
 			{
 				"name": "Lookup42",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ForEach1_copy1",
@@ -1330,8 +1316,6 @@
 			{
 				"name": "Set variable11",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable9",
@@ -1369,7 +1353,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('NDS_ORDER_NO')",
+						"value": "@variables('LOAD_NO_ARR')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -1397,7 +1381,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE5')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE5')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO11')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -1447,7 +1431,7 @@
 							"typeProperties": {
 								"variableName": "NDS_ORDER_NO11",
 								"value": {
-									"value": "@item().NDS_ORDER_NO",
+									"value": "@item().NDS_SALE_ORDER",
 									"type": "Expression"
 								}
 							}
@@ -1615,6 +1599,21 @@
 			},
 			"NDS_ORDER_NO12": {
 				"type": "String"
+			},
+			"one": {
+				"type": "Array"
+			},
+			"two": {
+				"type": "String"
+			},
+			"three": {
+				"type": "String"
+			},
+			"tttttt": {
+				"type": "String"
+			},
+			"four": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
