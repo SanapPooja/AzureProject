@@ -239,11 +239,9 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Set variable3",
+						"activity": "Set variable9",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -280,7 +278,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE4')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -316,7 +314,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE4')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -353,6 +351,178 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
+										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE4')}')\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Set variable4",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE4",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable6",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "NDS_SALE_ORD",
+								"value": {
+									"value": "@array(activity('Lookup3').output.firstRow.NDS_SALE_ORDER)",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach2",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARR')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Lookup2_copy1",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable4_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HD",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Lookup3_copy1",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Lookup2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Lookup4_copy1",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Lookup3_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
 										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
 										"type": "Expression"
 									},
@@ -367,11 +537,100 @@
 							}
 						},
 						{
-							"name": "Lookup5",
+							"name": "Set variable4_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup21",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='D';",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable7",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup21",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARR1",
+					"value": {
+						"value": "@activity('Lookup21').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1_copy1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARR1')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Lookup5_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup4",
+									"activity": "Set variable4_copy2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -389,7 +648,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP \r\nfrom SAPSR3.YMPPT_LOAD_VEHIC\r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select VEHICLE_ID, TARE_WT, GROSS_WT, TIMESTAMP \nfrom SAPSR3.YMPPT_LOAD_VEHIC\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE2')}}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -403,11 +662,11 @@
 							}
 						},
 						{
-							"name": "Lookup6",
+							"name": "Lookup6_copy1",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Lookup5",
+									"activity": "Lookup5_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -425,7 +684,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR \r\nwhere LOAD_NO =  ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "Select NGWS_STATUS from SAPSR3.YMPPT_LP_HDR \nwhere LOAD_NO =  ('@{variables('LOAD_NO_VALUE2')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -439,11 +698,225 @@
 							}
 						},
 						{
-							"name": "Copy data1",
+							"name": "Set variable4_copy2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE2",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable5_copy1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup6_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "TIMESTAMP",
+								"value": {
+									"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Script1_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Script2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SAPSR3.YMPPT_LP_HDR \nset LP_STATUS = 'Y', \ntimestamp=('@{variables('TIMESTAMP')}')  \nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE2')}')",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script2_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable5_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SAP_DEV_DEMO",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SAPSR3.YMPPT_LP_HDR \nset LP_STATUS = 'R', \ntimestamp=('@{variables('TIMESTAMP')}')  \nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE2')}')",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Lookup2_copy3",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Script1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE2')}')",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HD",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup31",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='A';",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1_copy1_copy1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARR3')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable4_copy2_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_VALUE3",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Copy data1_copy1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Script1",
+									"activity": "Lookup2_copy2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -641,176 +1114,11 @@
 							]
 						},
 						{
-							"name": "Set variable4",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "LOAD_NO_VALUE",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable5",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup6",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "TIMESTAMP",
-								"value": {
-									"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable6",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "NDS_SALE_ORD",
-								"value": {
-									"value": "@array(activity('Lookup3').output.firstRow.NDS_SALE_ORDER)",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Script2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SAP_DEV_DEMO",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'Y', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script2",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SAP_DEV_DEMO",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SAPSR3.YMPPT_LP_HDR \r\nset LP_STATUS = 'R', \r\ntimestamp=('@{variables('TIMESTAMP')}')  \r\nwhere LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [],
-							"userProperties": []
-						}
-					]
-				}
-			},
-			{
-				"name": "ForEach2",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Set variable3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('LOAD_NO_ARR')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Lookup2_copy1",
+							"name": "Lookup2_copy2",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable4_copy1",
+									"activity": "Set variable4_copy2_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -828,7 +1136,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE')}')",
+										"value": "select STATUS, TRAILER_NO, ERROR_CD from SAPSR3.YMPPT_LP_HDR where LOAD_NO in ('@{variables('LOAD_NO_VALUE3')}')",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -840,102 +1148,36 @@
 									"type": "DatasetReference"
 								}
 							}
-						},
-						{
-							"name": "Lookup3_copy1",
-							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Lookup2_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select distinct NDS_SALE_ORDER as NDS_SALE_ORDER FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO IN ('@{variables('LOAD_NO_VALUE')}')",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
-									"type": "DatasetReference"
-								},
-								"firstRowOnly": true
-							}
-						},
-						{
-							"name": "Lookup4_copy1",
-							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Lookup3_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
-							"name": "Set variable4_copy1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "LOAD_NO_VALUE",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Lookup4_copy1_copy1",
+				"name": "Set variable8",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup31",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARR3",
+					"value": {
+						"value": "@activity('Lookup31').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup41",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -949,17 +1191,38 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \r\nfrom SAPSR3.YMPPT_LP_BATCH_C t\r\n where t.load_no in ('@{variables('LOAD_NO_VALUE')}')\r\n and t.nds_sale_order in ('@{variables('NDS_SALE_ORD')}') \r\n group by t.order_item, t.nds_sale_order, t.load_no ",
-							"type": "Expression"
-						},
+						"oracleReaderQuery": "select MANDT, LOAD_NO, LP_STATUS from SAPSR3.YESB_LP_HDR where LP_STATUS='PT';",
 						"partitionOption": "None",
-						"convertDecimalToInteger": false,
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "NSH_INT077_YMPPT_LP_BATCH_C",
+						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
 						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable9",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup41",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARR2",
+					"value": {
+						"value": "@activity('Lookup41').output.value",
+						"type": "Expression"
 					}
 				}
 			}
@@ -985,6 +1248,24 @@
 			},
 			"NDS_SALE_ORD": {
 				"type": "Array"
+			},
+			"LOAD_NO_ARR1": {
+				"type": "Array"
+			},
+			"LOAD_NO_ARR3": {
+				"type": "Array"
+			},
+			"LOAD_NO_VALUE3": {
+				"type": "String"
+			},
+			"LOAD_NO_VALUE2": {
+				"type": "String"
+			},
+			"LOAD_NO_ARR2": {
+				"type": "Array"
+			},
+			"LOAD_NO_VALUE4": {
+				"type": "String"
 			}
 		},
 		"annotations": []

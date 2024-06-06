@@ -65,6 +65,26 @@
 				}
 			}
 		],
+		"variables": {
+			"LOAD_NO_ARR1": {
+				"type": "Array"
+			},
+			"LOAD_NO_ARR3": {
+				"type": "Array"
+			},
+			"LOAD_NO_VALUE3": {
+				"type": "String"
+			},
+			"LOAD_NO_VALUE2": {
+				"type": "String"
+			},
+			"LOAD_NO_ARR2": {
+				"type": "Array"
+			},
+			"LOAD_NO_VALUE4": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
