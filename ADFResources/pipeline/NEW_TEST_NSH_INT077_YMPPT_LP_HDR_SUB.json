@@ -5,6 +5,8 @@
 			{
 				"name": "SCM_STAGING_TABLE",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -961,6 +963,8 @@
 			{
 				"name": "SAP_STAGING_TABLE",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SCM_STAGING_TABLE",
