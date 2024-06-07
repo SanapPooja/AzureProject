@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "TBL_NSH_SAP_INT077_STAGING"
+			"table": "TBL_NSH_INT077_STAGING"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
