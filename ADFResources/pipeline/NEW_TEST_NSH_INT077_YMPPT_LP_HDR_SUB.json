@@ -5,8 +5,6 @@
 			{
 				"name": "SCM_STAGING_TABLE",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -582,7 +580,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT \r\nto_char(Sum(TALLY_BATCH_QTY)) as TALLY_BATCH_QTY, \r\nto_char(Sum(NO_PIECES)) as NO_PIECES, \r\nSALES_ORDER, \r\nORDER_ITEM \r\nFROM SAPSR3.YMPPT_LP_BATCH_C \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_SAP_INT077_STAGING) \r\nGROUP BY \r\nLOAD_NO, \r\nSALES_ORDER, \r\nORDER_ITEM"
+							"text": "SELECT \r\n    TO_CHAR(SUM(TALLY_BATCH_QTY)) AS TALLY_BATCH_QTY, \r\n    TO_CHAR(SUM(NO_PIECES)) AS NO_PIECES, \r\n    SALES_ORDER, \r\n    ORDER_ITEM\r\nFROM SAPSR3.YMPPT_LP_BATCH_C C\r\nWHERE C.LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_SAP_INT077_STAGING S\r\n    WHERE S.LP_STATUS = 'T'  \r\n)\r\nGROUP BY \r\n    C.SALES_ORDER, \r\n    C.ORDER_ITEM;\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -639,7 +637,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT \r\n    s.ID, \r\n    s.ORDER_PIECES, \r\n    s.WEIGHT_IN_KG, \r\n    s.ORDER_NO, \r\n    s.ORDER_REQUEST_NO, \r\n    s.QTY_IN_BASE_UOM,\r\n    t.LOAD_NO, \r\n    t.ORDER_ITEM\r\nFROM \r\n    SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD s\r\nJOIN \r\n    TBL_NSH_INT077_STAGING t\r\nON \r\n    s.LOAD_NO = t.LOAD_NO AND \r\n    s.ORDER_NO = t.ORDER_NO AND \r\n    s.ITEM_NO = t.ORDER_ITEM"
+							"text": "SELECT \r\n    s.ID, \r\n    s.ORDER_PIECES, \r\n    s.WEIGHT_IN_KG, \r\n    s.ORDER_NO, \r\n    s.ORDER_REQUEST_NO, \r\n    s.QTY_IN_BASE_UOM,\r\n    t.LOAD_NO, \r\n    t.ORDER_ITEM\r\nFROM \r\n    SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD s\r\nJOIN \r\n    TBL_NSH_INT077_STAGING t\r\nON \r\n    s.LOAD_NO = t.LOAD_NO AND \r\n    s.ORDER_NO = t.ORDER_NO AND \r\n    s.ITEM_NO = t.ORDER_ITEM\r\nWHERE \r\n    t.LP_STATUS = 'T'; "
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -648,14 +646,9 @@
 			{
 				"name": "Script14",
 				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script13",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -681,6 +674,8 @@
 			{
 				"name": "Script15",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script14",
@@ -758,7 +753,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script15",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -963,8 +958,6 @@
 			{
 				"name": "SAP_STAGING_TABLE",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SCM_STAGING_TABLE",
@@ -1327,10 +1320,47 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\n    SELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'OR S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D' S.LP_STATUS = 'A'\r\n);\r\n"
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\n    SELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'OR S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D' or S.LP_STATUS = 'A'\r\n);\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Script13",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT SCM_ADMIN.CALL_INT077_INSERT_UPDATE_ITEM_ON_LOAD_SAP_TALLY('4000000494') AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],

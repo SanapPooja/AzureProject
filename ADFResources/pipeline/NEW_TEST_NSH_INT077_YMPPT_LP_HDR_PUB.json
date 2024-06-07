@@ -1342,8 +1342,6 @@
 			{
 				"name": "ForEach2_copy1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable10",
@@ -1383,7 +1381,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE5')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO11')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces\nFROM SAPSR3.YMPPT_LP_BATCH_C t\nJOIN SAPSR3.YESB_LP_HDR h\n    ON t.load_no = h.LOAD_NO\nWHERE t.load_no IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR)\n  AND t.nds_sale_order IN ('@{variables('NDS_ORDER_NO11')}')\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -1398,33 +1396,9 @@
 							}
 						},
 						{
-							"name": "Set variable4_copy1_copy1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "LOAD_NO_VALUE5",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "Set variable12",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Set variable4_copy1_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -1444,8 +1418,6 @@
 			{
 				"name": "ForEach2_copy1_copy1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable11",
@@ -1485,7 +1457,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select distinct t.order_item,  t.nds_sale_order, t.load_no,  sum (t.tally_batch_qty), sum (t.no_pieces)  \nfrom SAPSR3.YMPPT_LP_BATCH_C t\n where t.load_no in ('@{variables('LOAD_NO_VALUE6')}')\n and t.nds_sale_order in ('@{variables('NDS_ORDER_NO2')}') \n group by t.order_item, t.nds_sale_order, t.load_no ",
+										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces\nFROM SAPSR3.YMPPT_LP_BATCH_C t\nJOIN SAPSR3.YESB_LP_HDR h\n    ON t.load_no = h.LOAD_NO\nWHERE t.load_no IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR)\n  AND t.nds_sale_order IN ('@{variables('NDS_ORDER_NO12')}')\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -1500,33 +1472,9 @@
 							}
 						},
 						{
-							"name": "Set variable21",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "LOAD_NO_VALUE6",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "Set variable22",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Set variable21",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
