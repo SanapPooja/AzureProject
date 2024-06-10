@@ -309,39 +309,6 @@
 				]
 			},
 			{
-				"name": "Script9",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "SAP_STAGING_TABLE",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT * FROM TBL_NSH_INT077_STAGING"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Script10",
 				"type": "Script",
 				"dependsOn": [
@@ -379,7 +346,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script9",
+						"activity": "SAP_STAGING_TABLE",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -402,192 +369,6 @@
 						{
 							"type": "Query",
 							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY L\r\nSET (L.LP_STATUS, L.STATUS, L.ERROR_CD, L.MODIFY_DATE, L.TRAILER_ID) = (\r\n    SELECT S.LP_STATUS, S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = L.LOAD_NO AND S.LP_STATUS = 'T'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = L.LOAD_NO AND S.LP_STATUS = 'T'\r\n);\r\n"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "POST",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
-					},
-					"sink": {
-						"type": "OracleSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "$LOAD_NO"
-								},
-								"sink": {
-									"name": "LOAD_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$LP_STATUS"
-								},
-								"sink": {
-									"name": "LP_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$STATUS"
-								},
-								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ERROR_CD"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "MODIFY_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$VEHICLE_ID"
-								},
-								"sink": {
-									"name": "VEHICLE_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TRAILER_ID"
-								},
-								"sink": {
-									"name": "TRAILER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "FLATRACK_ID",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "CONTAINER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$TARE_WT"
-								},
-								"sink": {
-									"name": "THEORITICAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$GROSS_WT"
-								},
-								"sink": {
-									"name": "ACTUAL_WEIGHT",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$TIMESTAMP"
-								},
-								"sink": {
-									"name": "WEIGHING_TICKET_TIME",
-									"type": "String"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "NSH_INT077_LOAD_SAP_TALLY",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Script12",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Set variable3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT \r\n    TO_CHAR(SUM(TALLY_BATCH_QTY)) AS TALLY_BATCH_QTY, \r\n    TO_CHAR(SUM(NO_PIECES)) AS NO_PIECES, \r\n    SALES_ORDER, \r\n    ORDER_ITEM\r\nFROM SAPSR3.YMPPT_LP_BATCH_C C\r\nWHERE C.LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_SAP_INT077_STAGING S\r\n    WHERE S.LP_STATUS = 'T'  \r\n)\r\nGROUP BY \r\n    C.SALES_ORDER, \r\n    C.ORDER_ITEM;\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -618,177 +399,6 @@
 				}
 			},
 			{
-				"name": "Script13",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script12",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT \r\n    s.ID, \r\n    s.ORDER_PIECES, \r\n    s.WEIGHT_IN_KG, \r\n    s.ORDER_NO, \r\n    s.ORDER_REQUEST_NO, \r\n    s.QTY_IN_BASE_UOM,\r\n    t.LOAD_NO, \r\n    t.ORDER_ITEM\r\nFROM \r\n    SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD s\r\nJOIN \r\n    TBL_NSH_INT077_STAGING t\r\nON \r\n    s.LOAD_NO = t.LOAD_NO AND \r\n    s.ORDER_NO = t.ORDER_NO AND \r\n    s.ITEM_NO = t.ORDER_ITEM\r\nWHERE \r\n    t.LP_STATUS = 'T'; "
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script14",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "INSERT INTO SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\n    (LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO)\r\nSELECT \r\n    LOAD_NO, ORDER_REQUEST_NO, ORDER_ITEM, ID, PLAN_LOAD_QNTY, DELD_LOAD_QNTY, PLAN_LOAD_PCS, DELD_LOAD_PCS, CREATE_DATE, MODIFY_DATE, ORDER_NO\r\nFROM \r\n    TBL_NSH_INT077_STAGING;"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script15",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Script14",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY T\r\nSET (T.DELD_LOAD_QNTY, T.DELD_LOAD_PCS, T.MODIFY_DATE) = (\r\n    SELECT S.TALLY_BATCH_QTY, S.NO_PIECES, S.MODIFY_DATE\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'T'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'T'\r\n);\r\n"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "If Condition2",
-				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@equals(activity('Script16').output, 'Y')",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "Script17",
-							"type": "Script",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\n    SELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'OR S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D' S.LP_STATUS = 'A'\r\n);\r\n"
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Script16",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT STATUS from LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
 				"name": "Script18",
 				"type": "Script",
 				"dependsOn": [
@@ -815,7 +425,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.TRAILER_ID, T.MODIFY_DATE) = (\r\n    SELECT S.LP_STATUS, S.TRAILER_ID, S.MODIFY_DATE\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A'\r\n);\r\n"
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.TRAILER_ID, T.MODIFY_DATE) = (\r\n    SELECT S.LP_STATUS, S.TRAILER_ID, S.MODIFY_DATE\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A' OR S.LP_STATUS = 'D'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A' OR S.LP_STATUS = 'D'\r\n);\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -848,85 +458,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_STAGING\r\n)\r\nAND LP_STATUS = 'A';\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script20",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Script19",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "SELECT STATUS from LOAD_SAP_TALLY \r\nWHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "If Condition3",
-				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@equals(activity('Script20').output, 'T')",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "Script21",
-							"type": "Script",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET \r\n    T.LP_STATUS = 'P',\r\n    (T.STATUS, T.ERROR_CD, T.MODIFY_DATE, T.TRAILER_ID) = (\r\n        SELECT S.STATUS, S.ERROR_CD, S.MODIFY_DATE, S.TRAILER_ID\r\n        FROM TBL_NSH_INT077_STAGING S\r\n        WHERE S.LOAD_NO = T.LOAD_NO\r\n          AND S.LP_STATUS = 'LT'\r\n    )\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO\r\n      AND S.LP_STATUS = 'LT'\r\n);\r\n"
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						}
-					]
 				}
 			},
 			{
@@ -1272,7 +807,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script20",
+						"activity": "Script19",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1305,7 +840,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script16",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1327,7 +862,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\n    SELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'OR S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D' or S.LP_STATUS = 'A'\r\n);\r\n"
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.VEHICLE_ID, T.THEORITICAL_WEIGHT, T.ACTUAL_WEIGHT, T.WEIGHING_TICKET_TIME, T.MODIFY_DATE, T.TRAILER_ID ) = (\r\n    SELECT S.LP_STATUS, S.VEHICLE_ID, S.TARE_WT, S.GROSS_WT, S.Timestamp, S.MODIFY_DATE, S.TRAILER_ID\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'Y'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'Y'\r\n);\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -1338,7 +873,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Script13",
+						"activity": "Set variable3",
 						"dependencyConditions": [
 							"Succeeded"
 						]
