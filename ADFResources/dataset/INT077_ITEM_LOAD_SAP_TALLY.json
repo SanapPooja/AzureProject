@@ -1,0 +1,12 @@
+{
+	"name": "INT077_ITEM_LOAD_SAP_TALLY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT077_ITEM_LOAD_SAP_TALLY",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
