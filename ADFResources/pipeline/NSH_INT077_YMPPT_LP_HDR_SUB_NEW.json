@@ -451,7 +451,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_STAGING\r\n)\r\nAND LP_STATUS = 'A';\r\n"
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_STAGING\r\n)\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -493,6 +493,8 @@
 			{
 				"name": "SAP_STAGING_TABLE",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SCM_STAGING_TABLE",
@@ -568,7 +570,7 @@
 									"path": "$NDS_SALE_ORDER"
 								},
 								"sink": {
-									"name": "NDS_SALE_ORDER",
+									"name": "ORDER_REQUEST_NO",
 									"type": "String"
 								}
 							},
@@ -577,8 +579,8 @@
 									"path": "$TALLY_BATCH_QTY"
 								},
 								"sink": {
-									"name": "TALLY_BATCH_QTY",
-									"type": "Decimal"
+									"name": "DELD_LOAD_QNTY",
+									"type": "String"
 								}
 							},
 							{
@@ -586,8 +588,8 @@
 									"path": "$NO_PIECES"
 								},
 								"sink": {
-									"name": "NO_PIECES",
-									"type": "Decimal"
+									"name": "DELD_LOAD_PCS",
+									"type": "String"
 								}
 							},
 							{
@@ -784,7 +786,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"referenceName": "int077_item_load_tally_head",
 						"type": "DatasetReference"
 					}
 				],
@@ -884,7 +886,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT SCM_ADMIN.CALL_INT077_INSERT_UPDATE_ITEM_ON_LOAD_SAP_TALLY('4000000494') AS Result FROM dual;",
+							"value": "SELECT SCM_ADMIN.CALL_INT077_INSERT_UPDATE_ITEM_ON_LOAD_SAP_TALLY AS Result FROM dual;",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -899,6 +901,7 @@
 				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"LOAD_NO_VALUE": {
 				"type": "String"

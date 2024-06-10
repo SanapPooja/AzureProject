@@ -1,0 +1,12 @@
+{
+	"name": "int077_item_load_tally_head",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "int077_item_load_tally_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
