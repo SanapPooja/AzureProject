@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "ORDER_ITEM_FABRICATION_PREFIX"
+			"table": "ESB_ORDER_ITEM_FABRICATION_PREFIX"
 		}
 	}
 }

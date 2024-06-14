@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "ORDER_ITEM"
+			"table": "ESB_ORDER_ITEM"
 		}
 	}
 }
