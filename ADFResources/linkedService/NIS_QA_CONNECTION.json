@@ -1,0 +1,16 @@
+{
+	"name": "NIS_QA_CONNECTION",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=NSQADB2.natsteel.corp;initial catalog=NIS;user id=stsapp",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NTZhM2VlMi1jMzhhLTRiYjktYTY0OS1mOWZjMDkzNDEwMjIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NSHQA",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
