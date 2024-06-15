@@ -23,6 +23,8 @@
 			{
 				"name": "order_header",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script4_copy1",
@@ -617,6 +619,8 @@
 			{
 				"name": "order_item_fabrication_head",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_header",
@@ -860,15 +864,6 @@
 							},
 							{
 								"source": {
-									"path": "$COMPONENT_PRODUCTION_WT_KG"
-								},
-								"sink": {
-									"name": "COMPONENT_PRODUCTION_WT_KG",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
 									"path": "$PRODUCT_MARKING"
 								},
 								"sink": {
@@ -1085,15 +1080,6 @@
 							},
 							{
 								"source": {
-									"path": "$CAB_DIA"
-								},
-								"sink": {
-									"name": "CAB_DIA",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
 									"path": "$CAB_BVBS"
 								},
 								"sink": {
@@ -1117,15 +1103,6 @@
 								"sink": {
 									"name": "CAB_COUPLER_END_NO",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$CAB_FORMER_SIZE"
-								},
-								"sink": {
-									"name": "CAB_FORMER_SIZE",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -1171,15 +1148,6 @@
 								"sink": {
 									"name": "CAB_NO_OF_BEND",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$MESH_LW_DIA"
-								},
-								"sink": {
-									"name": "MESH_LW_DIA",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -1238,15 +1206,6 @@
 							},
 							{
 								"source": {
-									"path": "$MESH_LW_WT_KG"
-								},
-								"sink": {
-									"name": "MESH_LW_WT_KG",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
 									"path": "$MESH_LW_TWIN_IND"
 								},
 								"sink": {
@@ -1261,15 +1220,6 @@
 								"sink": {
 									"name": "MESH_LW_BVBS",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$MESH_CW_DIA"
-								},
-								"sink": {
-									"name": "MESH_CW_DIA",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -1342,15 +1292,6 @@
 								"sink": {
 									"name": "MESH_CW_QTY",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$MESH_CW_WT_KG"
-								},
-								"sink": {
-									"name": "MESH_CW_WT_KG",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -1445,24 +1386,6 @@
 							},
 							{
 								"source": {
-									"path": "$MESHB_WIRE_DIA"
-								},
-								"sink": {
-									"name": "MESHB_WIRE_DIA",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$MESHB_WIRE_WT_KG"
-								},
-								"sink": {
-									"name": "MESHB_WIRE_WT_KG",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
 									"path": "$MESHB_WIRE_QTY"
 								},
 								"sink": {
@@ -1477,15 +1400,6 @@
 								"sink": {
 									"name": "MESHB_WIRE_SPACING",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$BPC_CAGE_DIA"
-								},
-								"sink": {
-									"name": "BPC_CAGE_DIA",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -1522,24 +1436,6 @@
 								"sink": {
 									"name": "BPC_END_LENGTH",
 									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$BPC_PILE_DIA"
-								},
-								"sink": {
-									"name": "BPC_PILE_DIA",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$BPC_L2_CAGE_DIA"
-								},
-								"sink": {
-									"name": "BPC_L2_CAGE_DIA",
-									"type": "Decimal"
 								}
 							},
 							{
@@ -2173,6 +2069,8 @@
 			{
 				"name": "Script3",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -2335,6 +2233,8 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_header",
@@ -2368,6 +2268,8 @@
 			{
 				"name": "Script4",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -2401,6 +2303,8 @@
 			{
 				"name": "Script4_copy1",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -2427,6 +2331,8 @@
 			{
 				"name": "Script5",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item",
@@ -2460,6 +2366,8 @@
 			{
 				"name": "Script6",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_item_fabrication_head",
@@ -2484,7 +2392,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "INSERT INTO scm_admin.order_item_fabrication_prefix (\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no,\r\n    id\r\n) SELECT\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no,\r\n    id\r\nFROM\r\n    scm_admin.esb_order_item_fabrication_prefix;"
+							"text": "INSERT INTO scm_admin.order_item_fabrication_prefix (\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\n) SELECT\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\nFROM\r\n    scm_admin.esb_order_item_fabrication_prefix;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -2493,6 +2401,8 @@
 			{
 				"name": "Script7",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script6",
@@ -2526,6 +2436,8 @@
 			{
 				"name": "Script8",
 				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script5",
