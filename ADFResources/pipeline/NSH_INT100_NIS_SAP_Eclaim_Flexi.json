@@ -1,0 +1,34 @@
+{
+	"name": "NSH_INT100_NIS_SAP_Eclaim_Flexi",
+	"properties": {
+		"activities": [
+			{
+				"name": "Notification_Query",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT \n    WMBblqsdkx.SECTION_CODE, \n    WMBblqsdkx.DOC_YYYYMM, \n    WMBblqsdkx.INP_TRAN_NO\nFROM \n    WMBblqsdkx\nJOIN \n    T_FI_GL_POST ON WMBblqsdkx.SECTION_CODE = T_FI_GL_POST.SECTION_CODE\n                 AND WMBblqsdkx.DOC_YYYYMM = T_FI_GL_POST.DOC_YYYYMM\n                 AND WMBblqsdkx.INP_TRAN_NO = T_FI_GL_POST.INP_TRAN_NO;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "INT100_NotificationQuery",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"annotations": []
+	}
+}

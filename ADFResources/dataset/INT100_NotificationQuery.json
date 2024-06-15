@@ -1,0 +1,12 @@
+{
+	"name": "INT100_NotificationQuery",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NIS_QA_CONNECTION",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
