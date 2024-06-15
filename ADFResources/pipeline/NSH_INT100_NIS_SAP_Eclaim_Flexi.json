@@ -27,6 +27,263 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Notification_Query",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Notification_Query').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "Select INTERFACE_ID, MANDT, ID_MESSAGE, SECTION_CODE, DOC_YYYYMM, INP_TRAN_NO, HEAD_TEXT, DEBIT_TOTAL, CREDIT_TOTAL, COMP_CODE, CURR_CODE, \r\nSTATUS, SAP_DOC_NO, ERROR_CD, DBUSER, OSUSER, TERMINALID, IPADDRESS, CREATION_TIME, PROC_TS, REC_TYPE \r\nFROM T_FI_GL_POST where SECTION_CODE IN \r\n(SELECT \r\n    WMBblqsdkx.SECTION_CODE\r\nFROM \r\n    WMBblqsdkx\r\nJOIN \r\n    T_FI_GL_POST ON WMBblqsdkx.SECTION_CODE = T_FI_GL_POST.SECTION_CODE\r\n                 AND WMBblqsdkx.DOC_YYYYMM = T_FI_GL_POST.DOC_YYYYMM\r\n                 AND WMBblqsdkx.INP_TRAN_NO = T_FI_GL_POST.INP_TRAN_NO)\r\nand (STATUS = 'N' OR STATUS = 'A' OR STATUS = '')",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "INTERFACE_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INTERFACE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "MANDT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MANDT"
+											}
+										},
+										{
+											"source": {
+												"name": "ID_MESSAGE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ID_MESSAGE"
+											}
+										},
+										{
+											"source": {
+												"name": "SECTION_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SECTION_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "DOC_YYYYMM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DOC_YYYYMM"
+											}
+										},
+										{
+											"source": {
+												"name": "INP_TRAN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INP_TRAN_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "HEAD_TEXT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$HEAD_TEXT"
+											}
+										},
+										{
+											"source": {
+												"name": "DEBIT_TOTAL",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$DEBIT_TOTAL"
+											}
+										},
+										{
+											"source": {
+												"name": "CREDIT_TOTAL",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$CREDIT_TOTAL"
+											}
+										},
+										{
+											"source": {
+												"name": "COMP_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMP_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "CURR_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CURR_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_DOC_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_DOC_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ERROR_CD",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ERROR_CD"
+											}
+										},
+										{
+											"source": {
+												"name": "DBUSER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DBUSER"
+											}
+										},
+										{
+											"source": {
+												"name": "OSUSER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$OSUSER"
+											}
+										},
+										{
+											"source": {
+												"name": "TERMINALID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TERMINALID"
+											}
+										},
+										{
+											"source": {
+												"name": "IPADDRESS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IPADDRESS"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATION_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CREATION_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "PROC_TS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROC_TS"
+											}
+										},
+										{
+											"source": {
+												"name": "REC_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REC_TYPE"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT100_T_FI_GL_POST",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT100_POST_QUEUE",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
