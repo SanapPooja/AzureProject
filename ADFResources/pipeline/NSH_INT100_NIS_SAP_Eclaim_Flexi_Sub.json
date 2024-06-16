@@ -279,7 +279,305 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "OracleTable10",
+						"referenceName": "INT100_YMFAT_01_HEADER",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "USERID",
+								"value": "ESB_INT100"
+							},
+							{
+								"name": "UDATE",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),\n'yyyyMMdd'\n)",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "UTIME",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$INTERFACE_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MANDT']"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ID_MESSAGE']"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SECTION_CODE']"
+								},
+								"sink": {
+									"name": "SECTION_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DOC_YYYYMM']"
+								},
+								"sink": {
+									"name": "DOC_YYYYMM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INP_TRAN_NO']"
+								},
+								"sink": {
+									"name": "INP_TRAN_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$AC_TYPE']"
+								},
+								"sink": {
+									"name": "AC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GL_ACCOUNT']"
+								},
+								"sink": {
+									"name": "GL_ACCOUNT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DC_IND']"
+								},
+								"sink": {
+									"name": "DC_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$AMOUNT']"
+								},
+								"sink": {
+									"name": "AMOUNT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ASSIGNMENT']"
+								},
+								"sink": {
+									"name": "ASSIGNMENT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$COST_CENTER']"
+								},
+								"sink": {
+									"name": "COST_CENTER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BUS_AREA']"
+								},
+								"sink": {
+									"name": "BUS_AREA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROFIT_CENTER']"
+								},
+								"sink": {
+									"name": "PROFIT_CENTER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INTERNAL_ORDER']"
+								},
+								"sink": {
+									"name": "INTERNAL_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_TEXT']"
+								},
+								"sink": {
+									"name": "ITEM_TEXT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_DOC_NO']"
+								},
+								"sink": {
+									"name": "SAP_DOC_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT100_ITEM_QUEUE_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT100_YMFAT_01_ITEM",
 						"type": "DatasetReference"
 					}
 				]

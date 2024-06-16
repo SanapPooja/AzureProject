@@ -1,5 +1,5 @@
 {
-	"name": "INT100_YMFAT_01_HEADER",
+	"name": "INT100_YMFAT_01_ITEM",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SAP_DEV_DEMO",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YMFAT_01_HEADER"
+			"table": "YMFAT_01_ITEM"
 		}
 	}
 }
