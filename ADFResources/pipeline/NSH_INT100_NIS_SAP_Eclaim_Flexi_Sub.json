@@ -517,7 +517,7 @@
 									"path": "$['$ERROR_CD']"
 								},
 								"sink": {
-									"name": "STATUS",
+									"name": "ERROR_CD",
 									"type": "String"
 								}
 							},
