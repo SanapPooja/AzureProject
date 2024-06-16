@@ -35,6 +35,10 @@
 									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "PROC_TS",
+								"value": "         "
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -63,7 +67,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$TIMESTAMP']"
+									"path": "$['$ID_MESSAGE']"
 								},
 								"sink": {
 									"name": "TIMESTAMP",
@@ -225,7 +229,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$PROC_TS']"
+									"path": "$['PROC_TS']"
 								},
 								"sink": {
 									"name": "PROC_TS",
@@ -324,6 +328,10 @@
 									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "PROC_TS",
+								"value": "                   "
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -523,7 +531,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$PROC_TS']"
+									"path": "$['PROC_TS']"
 								},
 								"sink": {
 									"name": "PROC_TS",
