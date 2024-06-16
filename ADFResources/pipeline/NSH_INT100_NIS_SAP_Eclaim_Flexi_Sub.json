@@ -1,6 +1,290 @@
 {
 	"name": "NSH_INT100_NIS_SAP_Eclaim_Flexi_Sub",
 	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "USERID",
+								"value": "ESB_INT100"
+							},
+							{
+								"name": "UDATE",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),\n'yyyyMMdd'\n)",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "UTIME",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TIMESTAMP']"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SECTION_CODE']"
+								},
+								"sink": {
+									"name": "SECTION_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DOC_YYYYMM']"
+								},
+								"sink": {
+									"name": "DOC_YYYYMM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INP_TRAN_NO']"
+								},
+								"sink": {
+									"name": "INP_TRAN_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$HEAD_TEXT']"
+								},
+								"sink": {
+									"name": "HEAD_TEXT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DEBIT_TOT']"
+								},
+								"sink": {
+									"name": "DEBIT_TOT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREDIT_TOT']"
+								},
+								"sink": {
+									"name": "CREDIT_TOT",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$COMP_CODE']"
+								},
+								"sink": {
+									"name": "COMP_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CURR_CODE']"
+								},
+								"sink": {
+									"name": "CURR_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_DOC_NO']"
+								},
+								"sink": {
+									"name": "SAP_DOC_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$STATUS']"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DBUSER']"
+								},
+								"sink": {
+									"name": "DBUSER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$OSUSER']"
+								},
+								"sink": {
+									"name": "OSUSER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TERMINALID']"
+								},
+								"sink": {
+									"name": "TERMINALID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$IPADDRESS']"
+								},
+								"sink": {
+									"name": "IPADDRESS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATION_TIME']"
+								},
+								"sink": {
+									"name": "CREATION_TIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NTERFACE_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT100_POST_QUEUE_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "OracleTable10",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
 		"annotations": []
 	}
 }
