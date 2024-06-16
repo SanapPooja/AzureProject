@@ -316,7 +316,264 @@
 									"writeBatchSize": 10000,
 									"httpCompressionType": "none"
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "INTERFACE_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INTERFACE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "MANDT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MANDT"
+											}
+										},
+										{
+											"source": {
+												"name": "ID_MESSAGE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ID_MESSAGE"
+											}
+										},
+										{
+											"source": {
+												"name": "SECTION_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SECTION_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "DOC_YYYYMM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DOC_YYYYMM"
+											}
+										},
+										{
+											"source": {
+												"name": "INP_TRAN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INP_TRAN_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "AC_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$AC_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "GL_ACCOUNT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$GL_ACCOUNT"
+											}
+										},
+										{
+											"source": {
+												"name": "DC_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DC_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "AMOUNT",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$AMOUNT"
+											}
+										},
+										{
+											"source": {
+												"name": "ASSIGNMENT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ASSIGNMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "COST_CENTER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COST_CENTER"
+											}
+										},
+										{
+											"source": {
+												"name": "BUS_AREA",
+												"type": "Int16"
+											},
+											"sink": {
+												"path": "$BUS_AREA"
+											}
+										},
+										{
+											"source": {
+												"name": "PROFIT_CENTER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROFIT_CENTER"
+											}
+										},
+										{
+											"source": {
+												"name": "INTERNAL_ORDER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INTERNAL_ORDER"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_TEXT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_TEXT"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_DOC_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_DOC_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "DBUSER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DBUSER"
+											}
+										},
+										{
+											"source": {
+												"name": "OSUSER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$OSUSER"
+											}
+										},
+										{
+											"source": {
+												"name": "TERMINALID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TERMINALID"
+											}
+										},
+										{
+											"source": {
+												"name": "IPADDRESS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IPADDRESS"
+											}
+										},
+										{
+											"source": {
+												"name": "STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "ERROR_CD",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ERROR_CD"
+											}
+										},
+										{
+											"source": {
+												"name": "PROC_TS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROC_TS"
+											}
+										},
+										{
+											"source": {
+												"name": "REC_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REC_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "PAYRUNCODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PAYRUNCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "PAYGROUPCODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PAYGROUPCODE"
+											}
+										}
+									]
+								}
 							},
 							"inputs": [
 								{
@@ -326,7 +583,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT100_POST_QUEUE",
+									"referenceName": "INT100_ITEM_QUEUE",
 									"type": "DatasetReference"
 								}
 							]
