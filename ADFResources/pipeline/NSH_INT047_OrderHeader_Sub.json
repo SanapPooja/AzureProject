@@ -23,8 +23,6 @@
 			{
 				"name": "order_header",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Script4_copy1",
@@ -48,14 +46,14 @@
 							{
 								"name": "TIME_STAMP_INSERT",
 								"value": {
-									"value": "activity('Script4_copy1').output.pipelineReturnValue@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "TIME_STAMP_INSERT_UPDATE",
 								"value": {
-									"value": "activity('Script4_copy1').output.pipelineReturnValue@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
 									"type": "Expression"
 								}
 							}
@@ -619,8 +617,6 @@
 			{
 				"name": "order_item_fabrication_head",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "order_header",
@@ -736,6 +732,461 @@
 				]
 			},
 			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "update dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update  dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_header/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Web2",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Wait3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Web3",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Wait2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item_fabrication_prefix/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
+			},
+			{
+				"name": "Wait2",
+				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "order_item_fabrication_head",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Wait3",
+				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "order_item",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "order_header",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT scm_admin.INT_Interface('USP_INT047') AS Result FROM dual;",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT047_ORDER_HEADER",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from ORDER_HEADER_INT047_STAGING"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script4_copy1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from ORDER_HEADER_INT047_STAGING"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "order_item",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO scm_admin.order_item (\r\n    order_request_no,\r\n    item_no,\r\n    parent_item_no,\r\n    sap_order_item,\r\n    material_no,\r\n    product_hierarchy,\r\n    order_qty,\r\n    sales_uom,\r\n    fg_production_wt_kg,\r\n    component_production_wt_kg,\r\n    product_marking,\r\n    component_prefix,\r\n    order_pieces,\r\n    delivered_pieces,\r\n    actual_del_date,\r\n    delivery_status,\r\n    cancellation_status,\r\n    no_of_points,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    proj_stage,\r\n    bbs_no,\r\n    bbs_desc,\r\n    needs_galvanizing_ind,\r\n    needs_production_ind,\r\n    cab_spiral_pitch,\r\n    cab_fleet_pitch,\r\n    cab_bar_grade,\r\n    cab_dia,\r\n    cab_bvbs,\r\n    cab_cut_length,\r\n    cab_coupler_end_no,\r\n    cab_former_size,\r\n    cab_shape_group,\r\n    shape_code,\r\n    cab_cou_end_type1,\r\n    cab_cou_end_type2,\r\n    cab_no_of_bend,\r\n    mesh_lw_dia,\r\n    mesh_lw_length,\r\n    mesh_lw_mat_code,\r\n    mesh_lw_mat_type,\r\n    mesh_lw_spacing,\r\n    mesh_lw_grade,\r\n    mesh_lw_oh1,\r\n    mesh_lw_oh2,\r\n    mesh_lw_qty,\r\n    mesh_lw_wt_kg,\r\n    mesh_lw_twin_ind,\r\n    mesh_lw_bvbs,\r\n    mesh_cw_dia,\r\n    mesh_cw_length,\r\n    mesh_cw_mat_code,\r\n    mesh_cw_mat_type,\r\n    mesh_cw_spacing,\r\n    mesh_cw_grade,\r\n    mesh_cw_oh1,\r\n    mesh_cw_oh2,\r\n    mesh_cw_qty,\r\n    mesh_cw_wt_kg,\r\n    mesh_cw_twin_ind,\r\n    mesh_cw_bvbs,\r\n    mesh_no_of_bend,\r\n    mesh_no_of_cut,\r\n    mesh_manual_trim_ind,\r\n    mesh_bom_ind,\r\n    meshb_wire_line_cross,\r\n    meshb_wire_seq_no,\r\n    meshb_wire_mat_code,\r\n    meshb_wire_length,\r\n    meshb_wire_dia,\r\n    meshb_wire_wt_kg,\r\n    meshb_wire_qty,\r\n    meshb_wire_spacing,\r\n    bpc_cage_dia,\r\n    bpc_cage_length,\r\n    bpc_cage_set_code,\r\n    bpc_lap_length,\r\n    bpc_end_length,\r\n    bpc_pile_dia,\r\n    bpc_l2_cage_dia,\r\n    bpc_no_rings_start,\r\n    bpc_no_rings_end,\r\n    bpc_sleeve_id,\r\n    bpc_jig_id,\r\n    bpc_add_jig_id,\r\n    bpc_centralizer_qty,\r\n    bpc_pile_seq_no,\r\n    bpc_micropile_ind,\r\n    pcg_cage_type,\r\n    pcg_assembly_ind,\r\n    remarks,\r\n    time_stamp,\r\n    st_element,\r\n    mesh_lw_cw_reversed_ind,\r\n    qty_in_base_uom,\r\n    base_uom,\r\n    time_stamp_insert,\r\n    delivery_qty,\r\n    bpc_pile_no,\r\n    cab_main_bar_angle,\r\n    bpc_layer_no,\r\n    drawing_no,\r\n    drawing_no_rev,\r\n    inv_len_in_mm,\r\n    grade_dia,\r\n    sap_product_group,\r\n    product_marking_rev_no,\r\n    cab_standard_end_no,\r\n    cab_former_type,\r\n    order_no,\r\n    product_type,\r\n    cab_extended_end_no,\r\n    cab_stud_end_no,\r\n    prc_bpc_layer_no,\r\n    bbs_page_no,\r\n    mesh_product_code,\r\n    mesh_lw_inv_len,\r\n    mesh_cw_inv_len,\r\n    mesh_inv_mo1,\r\n    mesh_inv_mo2,\r\n    mesh_inv_co1,\r\n    mesh_inv_co2,\r\n    mesh_slope_indicator,\r\n    mesh_num_of_links,\r\n    meshb_mesh_type,\r\n    meshb_start_pos,\r\n    meshb_no_pitch,\r\n    meshb_wire_spec,\r\n    meshb_rep_from,\r\n    meshb_rep_to,\r\n    meshb_num_of_repetition,\r\n    meshb_wire_prod_code,\r\n    meshb_twin_ind,\r\n    meshb_mach_wire_spec,\r\n    mesh_slope,\r\n    prc_panel_no,\r\n    prc_panel_seq_no,\r\n    identical_hashcode,\r\n    similar_mainbar_hashcode,\r\n    similar_extlink_hashcode,\r\n    time_stamp_insert_update,\r\n    complexity_ind,\r\n    bpc_cage_type,\r\n    bending_hr,\r\n    spare1,\r\n    spare2,\r\n    spare3,\r\n    spare4,\r\n    spare5\r\n) SELECT\r\n    order_request_no,\r\n    item_no,\r\n    parent_item_no,\r\n    sap_order_item,\r\n    material_no,\r\n    product_hierarchy,\r\n    order_qty,\r\n    sales_uom,\r\n    fg_production_wt_kg,\r\n    component_production_wt_kg,\r\n    product_marking,\r\n    component_prefix,\r\n    order_pieces,\r\n    delivered_pieces,\r\n    actual_del_date,\r\n    delivery_status,\r\n    cancellation_status,\r\n    no_of_points,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    proj_stage,\r\n    bbs_no,\r\n    bbs_desc,\r\n    needs_galvanizing_ind,\r\n    needs_production_ind,\r\n    cab_spiral_pitch,\r\n    cab_fleet_pitch,\r\n    cab_bar_grade,\r\n    cab_dia,\r\n    cab_bvbs,\r\n    cab_cut_length,\r\n    cab_coupler_end_no,\r\n    cab_former_size,\r\n    cab_shape_group,\r\n    shape_code,\r\n    cab_cou_end_type1,\r\n    cab_cou_end_type2,\r\n    cab_no_of_bend,\r\n    mesh_lw_dia,\r\n    mesh_lw_length,\r\n    mesh_lw_mat_code,\r\n    mesh_lw_mat_type,\r\n    mesh_lw_spacing,\r\n    mesh_lw_grade,\r\n    mesh_lw_oh1,\r\n    mesh_lw_oh2,\r\n    mesh_lw_qty,\r\n    mesh_lw_wt_kg,\r\n    mesh_lw_twin_ind,\r\n    mesh_lw_bvbs,\r\n    mesh_cw_dia,\r\n    mesh_cw_length,\r\n    mesh_cw_mat_code,\r\n    mesh_cw_mat_type,\r\n    mesh_cw_spacing,\r\n    mesh_cw_grade,\r\n    mesh_cw_oh1,\r\n    mesh_cw_oh2,\r\n    mesh_cw_qty,\r\n    mesh_cw_wt_kg,\r\n    mesh_cw_twin_ind,\r\n    mesh_cw_bvbs,\r\n    mesh_no_of_bend,\r\n    mesh_no_of_cut,\r\n    mesh_manual_trim_ind,\r\n    mesh_bom_ind,\r\n    meshb_wire_line_cross,\r\n    meshb_wire_seq_no,\r\n    meshb_wire_mat_code,\r\n    meshb_wire_length,\r\n    meshb_wire_dia,\r\n    meshb_wire_wt_kg,\r\n    meshb_wire_qty,\r\n    meshb_wire_spacing,\r\n    bpc_cage_dia,\r\n    bpc_cage_length,\r\n    bpc_cage_set_code,\r\n    bpc_lap_length,\r\n    bpc_end_length,\r\n    bpc_pile_dia,\r\n    bpc_l2_cage_dia,\r\n    bpc_no_rings_start,\r\n    bpc_no_rings_end,\r\n    bpc_sleeve_id,\r\n    bpc_jig_id,\r\n    bpc_add_jig_id,\r\n    bpc_centralizer_qty,\r\n    bpc_pile_seq_no,\r\n    bpc_micropile_ind,\r\n    pcg_cage_type,\r\n    pcg_assembly_ind,\r\n    remarks,\r\n    time_stamp,\r\n    st_element,\r\n    mesh_lw_cw_reversed_ind,\r\n    qty_in_base_uom,\r\n    base_uom,\r\n    time_stamp_insert,\r\n    delivery_qty,\r\n    bpc_pile_no,\r\n    cab_main_bar_angle,\r\n    bpc_layer_no,\r\n    drawing_no,\r\n    drawing_no_rev,\r\n    inv_len_in_mm,\r\n    grade_dia,\r\n    sap_product_group,\r\n    product_marking_rev_no,\r\n    cab_standard_end_no,\r\n    cab_former_type,\r\n    order_no,\r\n    product_type,\r\n    cab_extended_end_no,\r\n    cab_stud_end_no,\r\n    prc_bpc_layer_no,\r\n    bbs_page_no,\r\n    mesh_product_code,\r\n    mesh_lw_inv_len,\r\n    mesh_cw_inv_len,\r\n    mesh_inv_mo1,\r\n    mesh_inv_mo2,\r\n    mesh_inv_co1,\r\n    mesh_inv_co2,\r\n    mesh_slope_indicator,\r\n    mesh_num_of_links,\r\n    meshb_mesh_type,\r\n    meshb_start_pos,\r\n    meshb_no_pitch,\r\n    meshb_wire_spec,\r\n    meshb_rep_from,\r\n    meshb_rep_to,\r\n    meshb_num_of_repetition,\r\n    meshb_wire_prod_code,\r\n    meshb_twin_ind,\r\n    meshb_mach_wire_spec,\r\n    mesh_slope,\r\n    prc_panel_no,\r\n    prc_panel_seq_no,\r\n    identical_hashcode,\r\n    similar_mainbar_hashcode,\r\n    similar_extlink_hashcode,\r\n    time_stamp_insert_update,\r\n    complexity_ind,\r\n    bpc_cage_type,\r\n    bending_hr,\r\n    spare1,\r\n    spare2,\r\n    spare3,\r\n    spare4,\r\n    spare5\r\nFROM\r\n    scm_admin.esb_order_item;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script6",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "order_item_fabrication_head",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO scm_admin.order_item_fabrication_prefix (\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\n) SELECT\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\nFROM\r\n    scm_admin.esb_order_item_fabrication_prefix;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script7",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM_FABRICATION_PREFIX"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script8",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
 				"name": "order_item",
 				"type": "Copy",
 				"dependsOn": [
@@ -764,6 +1215,10 @@
 									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "MESH_WIRE_DIA",
+								"value": "0"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -1859,22 +2314,202 @@
 							},
 							{
 								"source": {
-									"path": "$['Column_3']"
+									"path": "$['$MESH_CW_DIA']"
+								},
+								"sink": {
+									"name": "MESH_CW_DIA"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_4']"
+									"path": "$['$MESH_CW_WT_KG']"
+								},
+								"sink": {
+									"name": "MESH_CW_WT_KG"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_5']"
+									"path": "$['$BPC_CAGE_DIA']"
+								},
+								"sink": {
+									"name": "BPC_CAGE_DIA"
 								}
 							},
 							{
 								"source": {
-									"path": "$['Column_6']"
+									"path": "$['$BPC_PILE_DIA']"
+								},
+								"sink": {
+									"name": "BPC_PILE_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BPC_L2_CAGE_DIA']"
+								},
+								"sink": {
+									"name": "BPC_L2_CAGE_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$COMPLEXITY_IND']"
+								},
+								"sink": {
+									"name": "COMPLEXITY_IND"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PCG_CAGE_TYPE']"
+								},
+								"sink": {
+									"name": "PCG_CAGE_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$COMPONENT_PRODUCTION_WT_KG']"
+								},
+								"sink": {
+									"name": "COMPONENT_PRODUCTION_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESHB_WIRE_DIA']"
+								},
+								"sink": {
+									"name": "MESHB_WIRE_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESHB_WIRE_WT_KG']"
+								},
+								"sink": {
+									"name": "MESHB_WIRE_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BPC_MICROPILE_IND']"
+								},
+								"sink": {
+									"name": "BPC_MICROPILE_IND"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PCG_ASSEMBLY_IND']"
+								},
+								"sink": {
+									"name": "PCG_ASSEMBLY_IND"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QTY_IN_BASE_UOM']"
+								},
+								"sink": {
+									"name": "QTY_IN_BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BASE_UOM']"
+								},
+								"sink": {
+									"name": "BASE_UOM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BPC_LAYER_NO']"
+								},
+								"sink": {
+									"name": "BPC_LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DRAWING_NO']"
+								},
+								"sink": {
+									"name": "DRAWING_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$DRAWING_NO_REV']"
+								},
+								"sink": {
+									"name": "DRAWING_NO_REV"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INV_LEN_IN_MM']"
+								},
+								"sink": {
+									"name": "INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GRADE_DIA']"
+								},
+								"sink": {
+									"name": "GRADE_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_PRODUCT_GROUP']"
+								},
+								"sink": {
+									"name": "SAP_PRODUCT_GROUP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_MARKING_REV_NO']"
+								},
+								"sink": {
+									"name": "PRODUCT_MARKING_REV_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_STANDARD_END_NO']"
+								},
+								"sink": {
+									"name": "CAB_STANDARD_END_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_FORMER_TYPE']"
+								},
+								"sink": {
+									"name": "CAB_FORMER_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESH_LW_CW_REVERSED_IND']"
+								},
+								"sink": {
+									"name": "MESH_LW_CW_REVERSED_IND"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_MAIN_BAR_ANGLE']"
+								},
+								"sink": {
+									"name": "CAB_MAIN_BAR_ANGLE"
 								}
 							}
 						]
@@ -1892,481 +2527,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Script7",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB5_ODOS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "update dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script2",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Script8",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB5_ODOS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update from dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script3",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB5_ODOS_Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update  dbo.SCM_Order_Header set transfer_status = 'T' where transfer_status='I';",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_header/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Web2",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Web3",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item_fabrication_prefix/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Wait2",
-				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "order_item_fabrication_head",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "Wait3",
-				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "order_item",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "Lookup1",
-				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "order_header",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT scm_admin.INT_Interface('USP_INT047') AS Result FROM dual;",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "NSH_INT047_ORDER_HEADER",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Script4",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "delete from ORDER_HEADER_INT047_STAGING"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script4_copy1",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "delete from ORDER_HEADER_INT047_STAGING"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script5",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "order_item",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "INSERT INTO scm_admin.order_item (\r\n    order_request_no,\r\n    item_no,\r\n    parent_item_no,\r\n    sap_order_item,\r\n    material_no,\r\n    product_hierarchy,\r\n    order_qty,\r\n    sales_uom,\r\n    fg_production_wt_kg,\r\n    component_production_wt_kg,\r\n    product_marking,\r\n    component_prefix,\r\n    order_pieces,\r\n    delivered_pieces,\r\n    actual_del_date,\r\n    delivery_status,\r\n    cancellation_status,\r\n    no_of_points,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    proj_stage,\r\n    bbs_no,\r\n    bbs_desc,\r\n    needs_galvanizing_ind,\r\n    needs_production_ind,\r\n    cab_spiral_pitch,\r\n    cab_fleet_pitch,\r\n    cab_bar_grade,\r\n    cab_dia,\r\n    cab_bvbs,\r\n    cab_cut_length,\r\n    cab_coupler_end_no,\r\n    cab_former_size,\r\n    cab_shape_group,\r\n    shape_code,\r\n    cab_cou_end_type1,\r\n    cab_cou_end_type2,\r\n    cab_no_of_bend,\r\n    mesh_lw_dia,\r\n    mesh_lw_length,\r\n    mesh_lw_mat_code,\r\n    mesh_lw_mat_type,\r\n    mesh_lw_spacing,\r\n    mesh_lw_grade,\r\n    mesh_lw_oh1,\r\n    mesh_lw_oh2,\r\n    mesh_lw_qty,\r\n    mesh_lw_wt_kg,\r\n    mesh_lw_twin_ind,\r\n    mesh_lw_bvbs,\r\n    mesh_cw_dia,\r\n    mesh_cw_length,\r\n    mesh_cw_mat_code,\r\n    mesh_cw_mat_type,\r\n    mesh_cw_spacing,\r\n    mesh_cw_grade,\r\n    mesh_cw_oh1,\r\n    mesh_cw_oh2,\r\n    mesh_cw_qty,\r\n    mesh_cw_wt_kg,\r\n    mesh_cw_twin_ind,\r\n    mesh_cw_bvbs,\r\n    mesh_no_of_bend,\r\n    mesh_no_of_cut,\r\n    mesh_manual_trim_ind,\r\n    mesh_bom_ind,\r\n    meshb_wire_line_cross,\r\n    meshb_wire_seq_no,\r\n    meshb_wire_mat_code,\r\n    meshb_wire_length,\r\n    meshb_wire_dia,\r\n    meshb_wire_wt_kg,\r\n    meshb_wire_qty,\r\n    meshb_wire_spacing,\r\n    bpc_cage_dia,\r\n    bpc_cage_length,\r\n    bpc_cage_set_code,\r\n    bpc_lap_length,\r\n    bpc_end_length,\r\n    bpc_pile_dia,\r\n    bpc_l2_cage_dia,\r\n    bpc_no_rings_start,\r\n    bpc_no_rings_end,\r\n    bpc_sleeve_id,\r\n    bpc_jig_id,\r\n    bpc_add_jig_id,\r\n    bpc_centralizer_qty,\r\n    bpc_pile_seq_no,\r\n    bpc_micropile_ind,\r\n    pcg_cage_type,\r\n    pcg_assembly_ind,\r\n    remarks,\r\n    time_stamp,\r\n    st_element,\r\n    mesh_lw_cw_reversed_ind,\r\n    qty_in_base_uom,\r\n    base_uom,\r\n    time_stamp_insert,\r\n    delivery_qty,\r\n    bpc_pile_no,\r\n    cab_main_bar_angle,\r\n    bpc_layer_no,\r\n    drawing_no,\r\n    drawing_no_rev,\r\n    inv_len_in_mm,\r\n    grade_dia,\r\n    sap_product_group,\r\n    product_marking_rev_no,\r\n    cab_standard_end_no,\r\n    cab_former_type,\r\n    order_no,\r\n    product_type,\r\n    cab_extended_end_no,\r\n    cab_stud_end_no,\r\n    prc_bpc_layer_no,\r\n    bbs_page_no,\r\n    mesh_product_code,\r\n    mesh_lw_inv_len,\r\n    mesh_cw_inv_len,\r\n    mesh_inv_mo1,\r\n    mesh_inv_mo2,\r\n    mesh_inv_co1,\r\n    mesh_inv_co2,\r\n    mesh_slope_indicator,\r\n    mesh_num_of_links,\r\n    meshb_mesh_type,\r\n    meshb_start_pos,\r\n    meshb_no_pitch,\r\n    meshb_wire_spec,\r\n    meshb_rep_from,\r\n    meshb_rep_to,\r\n    meshb_num_of_repetition,\r\n    meshb_wire_prod_code,\r\n    meshb_twin_ind,\r\n    meshb_mach_wire_spec,\r\n    mesh_slope,\r\n    prc_panel_no,\r\n    prc_panel_seq_no,\r\n    identical_hashcode,\r\n    similar_mainbar_hashcode,\r\n    similar_extlink_hashcode,\r\n    time_stamp_insert_update,\r\n    complexity_ind,\r\n    bpc_cage_type,\r\n    bending_hr,\r\n    spare1,\r\n    spare2,\r\n    spare3,\r\n    spare4,\r\n    spare5\r\n) SELECT\r\n    order_request_no,\r\n    item_no,\r\n    parent_item_no,\r\n    sap_order_item,\r\n    material_no,\r\n    product_hierarchy,\r\n    order_qty,\r\n    sales_uom,\r\n    fg_production_wt_kg,\r\n    component_production_wt_kg,\r\n    product_marking,\r\n    component_prefix,\r\n    order_pieces,\r\n    delivered_pieces,\r\n    actual_del_date,\r\n    delivery_status,\r\n    cancellation_status,\r\n    no_of_points,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    proj_stage,\r\n    bbs_no,\r\n    bbs_desc,\r\n    needs_galvanizing_ind,\r\n    needs_production_ind,\r\n    cab_spiral_pitch,\r\n    cab_fleet_pitch,\r\n    cab_bar_grade,\r\n    cab_dia,\r\n    cab_bvbs,\r\n    cab_cut_length,\r\n    cab_coupler_end_no,\r\n    cab_former_size,\r\n    cab_shape_group,\r\n    shape_code,\r\n    cab_cou_end_type1,\r\n    cab_cou_end_type2,\r\n    cab_no_of_bend,\r\n    mesh_lw_dia,\r\n    mesh_lw_length,\r\n    mesh_lw_mat_code,\r\n    mesh_lw_mat_type,\r\n    mesh_lw_spacing,\r\n    mesh_lw_grade,\r\n    mesh_lw_oh1,\r\n    mesh_lw_oh2,\r\n    mesh_lw_qty,\r\n    mesh_lw_wt_kg,\r\n    mesh_lw_twin_ind,\r\n    mesh_lw_bvbs,\r\n    mesh_cw_dia,\r\n    mesh_cw_length,\r\n    mesh_cw_mat_code,\r\n    mesh_cw_mat_type,\r\n    mesh_cw_spacing,\r\n    mesh_cw_grade,\r\n    mesh_cw_oh1,\r\n    mesh_cw_oh2,\r\n    mesh_cw_qty,\r\n    mesh_cw_wt_kg,\r\n    mesh_cw_twin_ind,\r\n    mesh_cw_bvbs,\r\n    mesh_no_of_bend,\r\n    mesh_no_of_cut,\r\n    mesh_manual_trim_ind,\r\n    mesh_bom_ind,\r\n    meshb_wire_line_cross,\r\n    meshb_wire_seq_no,\r\n    meshb_wire_mat_code,\r\n    meshb_wire_length,\r\n    meshb_wire_dia,\r\n    meshb_wire_wt_kg,\r\n    meshb_wire_qty,\r\n    meshb_wire_spacing,\r\n    bpc_cage_dia,\r\n    bpc_cage_length,\r\n    bpc_cage_set_code,\r\n    bpc_lap_length,\r\n    bpc_end_length,\r\n    bpc_pile_dia,\r\n    bpc_l2_cage_dia,\r\n    bpc_no_rings_start,\r\n    bpc_no_rings_end,\r\n    bpc_sleeve_id,\r\n    bpc_jig_id,\r\n    bpc_add_jig_id,\r\n    bpc_centralizer_qty,\r\n    bpc_pile_seq_no,\r\n    bpc_micropile_ind,\r\n    pcg_cage_type,\r\n    pcg_assembly_ind,\r\n    remarks,\r\n    time_stamp,\r\n    st_element,\r\n    mesh_lw_cw_reversed_ind,\r\n    qty_in_base_uom,\r\n    base_uom,\r\n    time_stamp_insert,\r\n    delivery_qty,\r\n    bpc_pile_no,\r\n    cab_main_bar_angle,\r\n    bpc_layer_no,\r\n    drawing_no,\r\n    drawing_no_rev,\r\n    inv_len_in_mm,\r\n    grade_dia,\r\n    sap_product_group,\r\n    product_marking_rev_no,\r\n    cab_standard_end_no,\r\n    cab_former_type,\r\n    order_no,\r\n    product_type,\r\n    cab_extended_end_no,\r\n    cab_stud_end_no,\r\n    prc_bpc_layer_no,\r\n    bbs_page_no,\r\n    mesh_product_code,\r\n    mesh_lw_inv_len,\r\n    mesh_cw_inv_len,\r\n    mesh_inv_mo1,\r\n    mesh_inv_mo2,\r\n    mesh_inv_co1,\r\n    mesh_inv_co2,\r\n    mesh_slope_indicator,\r\n    mesh_num_of_links,\r\n    meshb_mesh_type,\r\n    meshb_start_pos,\r\n    meshb_no_pitch,\r\n    meshb_wire_spec,\r\n    meshb_rep_from,\r\n    meshb_rep_to,\r\n    meshb_num_of_repetition,\r\n    meshb_wire_prod_code,\r\n    meshb_twin_ind,\r\n    meshb_mach_wire_spec,\r\n    mesh_slope,\r\n    prc_panel_no,\r\n    prc_panel_seq_no,\r\n    identical_hashcode,\r\n    similar_mainbar_hashcode,\r\n    similar_extlink_hashcode,\r\n    time_stamp_insert_update,\r\n    complexity_ind,\r\n    bpc_cage_type,\r\n    bending_hr,\r\n    spare1,\r\n    spare2,\r\n    spare3,\r\n    spare4,\r\n    spare5\r\nFROM\r\n    scm_admin.esb_order_item;"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script6",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "order_item_fabrication_head",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "INSERT INTO scm_admin.order_item_fabrication_prefix (\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\n) SELECT\r\n    order_request_no,\r\n    parent_item_no,\r\n    mb_prefix,\r\n    component_prefix,\r\n    fabrication_pts,\r\n    mb_item_no,\r\n    component_item_no\r\nFROM\r\n    scm_admin.esb_order_item_fabrication_prefix;"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script7",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Script6",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM_FABRICATION_PREFIX"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script8",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Script5",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
 			}
 		],
 		"parameters": {

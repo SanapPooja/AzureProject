@@ -1195,7 +1195,7 @@
 							},
 							{
 								"source": {
-									"path": "$['MESHB_WIRE_WT_KG']"
+									"path": "$['$MESHB_WIRE_WT_KG']"
 								},
 								"sink": {
 									"name": "MESHB_WIRE_WT_KG"
@@ -1336,6 +1336,29 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "DELETE",
+					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int047_order_item/messages/head",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://servicebus.azure.net/"
+					}
+				}
 			}
 		],
 		"annotations": []

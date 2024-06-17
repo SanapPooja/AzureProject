@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "ORDER_HEADER_INT047_STAGING"
+			"table": "ESB_ORDER_HEADER"
 		}
 	}
 }
