@@ -864,15 +864,6 @@
 							},
 							{
 								"source": {
-									"path": "$PRODUCT_MARKING"
-								},
-								"sink": {
-									"name": "PRODUCT_MARKING",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$COMPONENT_PREFIX"
 								},
 								"sink": {
@@ -1503,33 +1494,6 @@
 							},
 							{
 								"source": {
-									"path": "$BPC_MICROPILE_IND"
-								},
-								"sink": {
-									"name": "BPC_MICROPILE_IND",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$PCG_CAGE_TYPE"
-								},
-								"sink": {
-									"name": "PCG_CAGE_TYPE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$PCG_ASSEMBLY_IND"
-								},
-								"sink": {
-									"name": "PCG_ASSEMBLY_IND",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$REMARKS"
 								},
 								"sink": {
@@ -1561,114 +1525,6 @@
 								},
 								"sink": {
 									"name": "TIME_STAMP_INSERT",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$QTY_IN_BASE_UOM"
-								},
-								"sink": {
-									"name": "QTY_IN_BASE_UOM",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$BASE_UOM"
-								},
-								"sink": {
-									"name": "BASE_UOM",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$DRAWING_NO"
-								},
-								"sink": {
-									"name": "DRAWING_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$DRAWING_NO_REV"
-								},
-								"sink": {
-									"name": "DRAWING_NO_REV",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$INV_LEN_IN_MM"
-								},
-								"sink": {
-									"name": "INV_LEN_IN_MM",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$GRADE_DIA"
-								},
-								"sink": {
-									"name": "GRADE_DIA",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$BPC_LAYER_NO"
-								},
-								"sink": {
-									"name": "BPC_LAYER_NO",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$CAB_MAIN_BAR_ANGLE"
-								},
-								"sink": {
-									"name": "CAB_MAIN_BAR_ANGLE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$SAP_PRODUCT_GROUP"
-								},
-								"sink": {
-									"name": "SAP_PRODUCT_GROUP",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$PRODUCT_MARKING_REV_NO"
-								},
-								"sink": {
-									"name": "PRODUCT_MARKING_REV_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$CAB_STANDARD_END_NO"
-								},
-								"sink": {
-									"name": "CAB_STANDARD_END_NO",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"path": "$CAB_FORMER_TYPE"
-								},
-								"sink": {
-									"name": "CAB_FORMER_TYPE",
 									"type": "String"
 								}
 							},
@@ -1908,14 +1764,6 @@
 							},
 							{
 								"source": {
-									"path": "$COMPLEXITY_IND"
-								},
-								"sink": {
-									"name": "COMPLEXITY_IND"
-								}
-							},
-							{
-								"source": {
 									"path": "$SIMILAR_MAINBAR_HASHCODE"
 								},
 								"sink": {
@@ -1975,6 +1823,58 @@
 								"sink": {
 									"name": "PRODUCT_TYPE",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_DIA']"
+								},
+								"sink": {
+									"name": "CAB_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CAB_FORMER_SIZE']"
+								},
+								"sink": {
+									"name": "CAB_FORMER_SIZE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESH_LW_DIA']"
+								},
+								"sink": {
+									"name": "MESH_LW_DIA"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESH_LW_WT_KG']"
+								},
+								"sink": {
+									"name": "MESH_LW_WT_KG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_3']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_4']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_5']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_6']"
 								}
 							}
 						]
