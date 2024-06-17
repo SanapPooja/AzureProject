@@ -2056,19 +2056,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"MANDT": {
-				"type": "String",
-				"defaultValue": "110"
-			},
-			"cust_code": {
-				"type": "String"
-			},
-			"order_request_no": {
-				"type": "String",
-				"defaultValue": "order_request_no"
-			}
-		},
 		"annotations": []
 	}
 }
