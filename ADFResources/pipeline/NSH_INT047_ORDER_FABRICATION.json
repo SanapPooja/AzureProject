@@ -1,0 +1,118 @@
+{
+	"name": "NSH_INT047_ORDER_FABRICATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "order_item_fabrication_head",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 100
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$ORDER_REQUEST_NO"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$PARENT_ITEM_NO"
+								},
+								"sink": {
+									"name": "PARENT_ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MB_PREFIX"
+								},
+								"sink": {
+									"name": "MB_PREFIX",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$COMPONENT_PREFIX"
+								},
+								"sink": {
+									"name": "COMPONENT_PREFIX",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$FABRICATION_PTS"
+								},
+								"sink": {
+									"name": "FABRICATION_PTS",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$MB_ITEM_NO"
+								},
+								"sink": {
+									"name": "MB_ITEM_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$COMPONENET_ITEM_NO"
+								},
+								"sink": {
+									"name": "COMPONENT_ITEM_NO",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "int047_order_item_fabrication_head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT047_order_item_fabrication_oracle",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
