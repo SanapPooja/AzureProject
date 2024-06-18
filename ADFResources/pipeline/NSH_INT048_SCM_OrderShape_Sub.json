@@ -47,7 +47,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$ORDER_NO"
+									"path": "$ORD_REQ_NO"
 								},
 								"sink": {
 									"name": "ORDER_NO",
