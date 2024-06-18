@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'A' AND wmb.transfer_status = 'A';\r\n",
+						"oracleReaderQuery": "SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'A'and wmb.transfer_status='A';\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -658,7 +658,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    CASE \r\n        WHEN COUNT(1) > 0 THEN (COUNT(1) + 99) / 100 \r\n        ELSE 0 \r\n    END AS recordcount\r\nFROM \r\n    dbo.SCM_ORDER_HEADER\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no\r\n        FROM \r\n            dbo.SCM_ORDER_HEADER \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
+									"sqlReaderQuery": "SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/100 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\nFROM \r\n    dbo.SCM_ORDER_HEADER\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no\r\n        FROM \r\n            dbo.SCM_ORDER_HEADER \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -670,7 +670,7 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "RowCount",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -700,7 +700,7 @@
 							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "RowCount",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -2096,7 +2096,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    CASE \r\n        WHEN COUNT(1) > 0 THEN (COUNT(1) + 49) / 50\r\n        ELSE 0 \r\n    END AS recordcount\r\nFROM \r\n    dbo.SCM_Order_Item\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
+									"sqlReaderQuery": "SELECT \r\n    Case When count(1)>0 Then     \r\n    cast(count(1)/50 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\nFROM \r\n    dbo.SCM_Order_Item\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -2108,7 +2108,7 @@
 							}
 						},
 						{
-							"name": "Set variable2",
+							"name": "item_rowcount",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -2138,7 +2138,7 @@
 							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "item_rowcount",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -2188,7 +2188,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT\r\n    order_request_no, \r\n    parent_item_no, \r\n    coalesce(MB_prefix,'')as MB_prefix, \r\n    component_prefix, \r\n    fabrication_pts, \r\n    coalesce(MB_item_no,'0')as MB_item_no,\r\n    component_item_no \r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'I';\r\n);\r\n",
+									"sqlReaderQuery": "SELECT\r\n    order_request_no, \r\n    parent_item_no, \r\n    coalesce(MB_prefix,'')as MB_prefix, \r\n    component_prefix, \r\n    fabrication_pts, \r\n    coalesce(MB_item_no,'0')as MB_item_no,\r\n    component_item_no \r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'I'\r\n);\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -2305,7 +2305,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    CASE \r\n        WHEN COUNT(1) > 0 THEN (COUNT(1) + 99) / 100\r\n        ELSE 0 \r\n    END AS batch_count\r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            TRANSFER_STATUS = 'I'\r\n    );\r\n",
+									"sqlReaderQuery": "SELECT \r\n    Case When count(1)>0 Then     \r\n    cast(count(1)/100 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            TRANSFER_STATUS = 'I'\r\n    );\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -2323,7 +2323,7 @@
 							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Set variable3",
+									"activity": "fabrication_row_count",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -2352,7 +2352,7 @@
 							}
 						},
 						{
-							"name": "Set variable3",
+							"name": "fabrication_row_count",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
