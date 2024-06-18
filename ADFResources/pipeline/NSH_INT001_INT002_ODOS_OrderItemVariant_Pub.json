@@ -1087,6 +1087,14 @@
 				"defaultValue": "ORD_REQ_NO"
 			}
 		},
+		"variables": {
+			"Order_request_number": {
+				"type": "String"
+			},
+			"ORDER_R_NO": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

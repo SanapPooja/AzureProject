@@ -1452,6 +1452,12 @@
 			},
 			"ord_req_num_var": {
 				"type": "Array"
+			},
+			"Order_request_number": {
+				"type": "String"
+			},
+			"ORDER_R_NO": {
+				"type": "String"
 			}
 		},
 		"annotations": []

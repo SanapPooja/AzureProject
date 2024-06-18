@@ -39,7 +39,7 @@
 					},
 					"sink": {
 						"type": "OracleSink",
-						"writeBatchSize": 10000
+						"writeBatchSize": 50
 					},
 					"enableStaging": false,
 					"translator": {
@@ -1188,7 +1188,7 @@
 				]
 			},
 			{
-				"name": "Insert into tag print shape variant",
+				"name": "Insert into tag print shape variant_BACKUP",
 				"type": "Script",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -1223,13 +1223,13 @@
 				}
 			},
 			{
-				"name": "delete from ESB_TAGPRINT_SHAPE_VARIANT",
+				"name": "delete from ESB_TAGPRINT_SHAPE_VARIANT_BACKUP",
 				"type": "Script",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Insert into tag print shape variant",
+						"activity": "Insert into tag print shape variant_BACKUP",
 						"dependencyConditions": [
 							"Succeeded",
 							"Failed"
@@ -1278,7 +1278,10 @@
 			"fld_Gr_id": {
 				"type": "String"
 			},
-			"fld_GR_id": {
+			"Order_request_number": {
+				"type": "String"
+			},
+			"ORDER_R_NO": {
 				"type": "String"
 			}
 		},
