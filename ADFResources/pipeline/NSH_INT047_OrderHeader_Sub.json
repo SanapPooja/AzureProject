@@ -2511,6 +2511,14 @@
 								"sink": {
 									"name": "CAB_MAIN_BAR_ANGLE"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_MARKING']"
+								},
+								"sink": {
+									"name": "PRODUCT_MARKING"
+								}
 							}
 						]
 					}
