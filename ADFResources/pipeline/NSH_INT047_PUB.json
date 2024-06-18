@@ -2355,7 +2355,7 @@
 							}
 						},
 						{
-							"name": "Script3_copy1",
+							"name": "Error_order_header",
 							"type": "Script",
 							"dependsOn": [
 								{
@@ -2388,7 +2388,7 @@
 							}
 						},
 						{
-							"name": "Script4_copy1",
+							"name": "Error_Order_Item",
 							"type": "Script",
 							"dependsOn": [
 								{
@@ -2421,7 +2421,7 @@
 							}
 						},
 						{
-							"name": "Script5_copy1",
+							"name": "Error_order_item_fabrication",
 							"type": "Script",
 							"dependsOn": [
 								{
@@ -2452,6 +2452,63 @@
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
 							}
+						},
+						{
+							"name": "Lookup5",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Script2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "select distinct order_request_no FROM SCM_ORDER_HEADER WHERE transfer_status ='T'",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "INT047_SCM_Order_Item",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "order_request_no",
+								"value": {
+									"value": "@activity('Lookup5').output.value",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -2469,9 +2526,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "order_item",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -2502,9 +2564,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('item_rowcount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline2",
+							"name": "order_header",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -2535,9 +2602,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('fabrication_row_count')",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline3",
+							"name": "order_fabrication",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -2568,6 +2640,11 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('Order_Request_no')",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "insert_into_order_fabrication",
@@ -2750,9 +2827,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "Order_Request_no",
+								"variableName": "Order_Request_number",
 								"value": {
-									"value": "@item().ord_req_no",
+									"value": "@item().order_request_no",
 									"type": "Expression"
 								}
 							}
@@ -2771,7 +2848,10 @@
 			"fabrication_row_count": {
 				"type": "Array"
 			},
-			"Order_Request_no": {
+			"order_request_no": {
+				"type": "Array"
+			},
+			"Order_Request_number": {
 				"type": "String"
 			}
 		},
