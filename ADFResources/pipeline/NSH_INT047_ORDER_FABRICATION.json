@@ -113,6 +113,11 @@
 				]
 			}
 		],
+		"variables": {
+			"Order_Request_no": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
