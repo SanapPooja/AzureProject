@@ -9,8 +9,8 @@
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "scm_admin",
-			"table": "esb_tagprint_shape_variant"
+			"schema": "SCM_ADMIN",
+			"table": "ESB_TAGPRINT_SHAPE_VARIANT"
 		}
 	}
 }
