@@ -118,7 +118,7 @@
 							{
 								"name": "TIMESTAMP",
 								"value": {
-									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(),\n8\n),\n00\n),\n'yyyy-MM-dd-HH.mm.ss'\n),\n'.'\n, substring(formatDateTime(utcNow(),\n'fffffff'\n),\n1\n,\n3\n))",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
 									"type": "Expression"
 								}
 							},
@@ -133,7 +133,7 @@
 							{
 								"name": "IDB_START_CR_DATE",
 								"value": {
-									"value": "@concat(formatDateTime(addMinutes(addHours(utcNow(),\n8\n),\n00\n),\n'yyyy-MM-dd-HH.mm.ss'\n),\n'.'\n, substring(formatDateTime(utcNow(),\n'fffffff'\n),\n1\n,\n3\n))",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
 									"type": "Expression"
 								}
 							}
