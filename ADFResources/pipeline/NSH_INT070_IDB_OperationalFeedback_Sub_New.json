@@ -1,0 +1,317 @@
+{
+	"name": "NSH_INT070_IDB_OperationalFeedback_Sub_New",
+	"properties": {
+		"activities": [
+			{
+				"name": "Queue_To_Staging",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "UOM",
+								"value": "KG"
+							},
+							{
+								"name": "REMARKS",
+								"value": "UPD_DNS_ON"
+							},
+							{
+								"name": "TIMESTAMP",
+								"value": {
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "IS_CLOSED_IND",
+								"value": "Y"
+							},
+							{
+								"name": "REQ_TECO_IND",
+								"value": "Y"
+							},
+							{
+								"name": "IDB_START_CR_DATE",
+								"value": {
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$SAP_PO_NUM']"
+								},
+								"sink": {
+									"name": "SAP_PRODN_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SCM_Q_PO_NO']"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SCM_OPERATION_NO']"
+								},
+								"sink": {
+									"name": "SEQ_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SCM_ORD_QTY_KG']"
+								},
+								"sink": {
+									"name": "OPEN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SCM_ORD_QTY_PCS']"
+								},
+								"sink": {
+									"name": "OPEN_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_BATCH_ID']"
+								},
+								"sink": {
+									"name": "BATCH_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BATCH_QTY']"
+								},
+								"sink": {
+									"name": "CUM_PRODN_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BATCH_PCS']"
+								},
+								"sink": {
+									"name": "CUM_PRODN_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_MACHINE']"
+								},
+								"sink": {
+									"name": "PHYSICAL_RESOURCE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$START_TIME']"
+								},
+								"sink": {
+									"name": "PRODN_START",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$END_TIME']"
+								},
+								"sink": {
+									"name": "PRODN_END",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_REC_DATE']"
+								},
+								"sink": {
+									"name": "PRODN_CRDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_DATE']"
+								},
+								"sink": {
+									"name": "STAGING_CRDATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MODIFY_DATE']"
+								},
+								"sink": {
+									"name": "STS_END_DATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_ORDER_NO_SCH']"
+								},
+								"sink": {
+									"name": "PRODN_ORDER_NO_SCH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODN_STATUS']"
+								},
+								"sink": {
+									"name": "FEEDBACK_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NR_OF_OPERATION']"
+								},
+								"sink": {
+									"name": "NR_OF_OPERATION",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$product_type']"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SAP_BATCH_ID_TAG_NO']"
+								},
+								"sink": {
+									"name": "TAG_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CREATE_DATE__STS_START_CRDATE']"
+								},
+								"sink": {
+									"name": "STS_START_CRDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UOM']"
+								},
+								"sink": {
+									"name": "UOM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REMARKS']"
+								},
+								"sink": {
+									"name": "REMARKS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TIMESTAMP']"
+								},
+								"sink": {
+									"name": "TIME_STAMP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['IS_CLOSED_IND']"
+								},
+								"sink": {
+									"name": "IS_CLOSED_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REQ_TECO_IND']"
+								},
+								"sink": {
+									"name": "REQ_TECO_IND",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['IDB_START_CR_DATE']"
+								},
+								"sink": {
+									"name": "IDB_START_CRDATE"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT070_QueueHead",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT070_OperationFeedback_Ontag_Staging",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
