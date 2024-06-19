@@ -469,7 +469,7 @@
 										"userProperties": [],
 										"typeProperties": {
 											"expression": {
-												"value": "@equals(item().LP_STATUS, 'A')\n",
+												"value": "@equals(item().LP_STATUS, 'PT')\n",
 												"type": "Expression"
 											},
 											"ifTrueActivities": [
@@ -489,7 +489,7 @@
 														"source": {
 															"type": "OracleSource",
 															"oracleReaderQuery": {
-																"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD,\n    h.LOAD_NO\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR);",
+																"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD,\n    h.LOAD_NO\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT');",
 																"type": "Expression"
 															},
 															"partitionOption": "None",
@@ -583,7 +583,7 @@
 														"source": {
 															"type": "OracleSource",
 															"oracleReaderQuery": {
-																"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;\n",
+																"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT'))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;\n",
 																"type": "Expression"
 															},
 															"partitionOption": "None",
@@ -849,7 +849,7 @@
 										"userProperties": [],
 										"typeProperties": {
 											"expression": {
-												"value": "@equals(item().LP_STATUS, 'PT')\n",
+												"value": "@equals(item().LP_STATUS, 'A')\n",
 												"type": "Expression"
 											},
 											"ifTrueActivities": [
@@ -869,7 +869,7 @@
 														"source": {
 															"type": "OracleSource",
 															"oracleReaderQuery": {
-																"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR);",
+																"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='A');",
 																"type": "Expression"
 															},
 															"partitionOption": "None",
@@ -943,14 +943,9 @@
 												{
 													"name": "Copy data4_1",
 													"type": "Copy",
-													"dependsOn": [
-														{
-															"activity": "Copy data4",
-															"dependencyConditions": [
-																"Succeeded"
-															]
-														}
-													],
+													"state": "Inactive",
+													"onInactiveMarkAs": "Succeeded",
+													"dependsOn": [],
 													"policy": {
 														"timeout": "0.12:00:00",
 														"retry": 0,
