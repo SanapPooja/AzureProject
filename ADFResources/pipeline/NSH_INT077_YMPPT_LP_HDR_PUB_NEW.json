@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT LP_STATUS, LOAD_NO \r\nFROM SAPSR3.YESB_LP_HDR \r\nWHERE ROWNUM <= 1;\r\n",
+						"oracleReaderQuery": "SELECT LP_STATUS, LOAD_NO \r\nFROM SAPSR3.YESB_LP_HDR\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
