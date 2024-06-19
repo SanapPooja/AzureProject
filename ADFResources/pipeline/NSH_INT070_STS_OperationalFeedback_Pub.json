@@ -23,7 +23,7 @@
 								"value": "Y"
 							}
 						],
-						"sqlReaderQuery": "SELECT top (10) ref_id, SAP_PO_NUM, SCM_Q_PO_NO, SCM_OPERATION_NO, \nSCM_ORD_QTY_KG, SCM_ORD_QTY_PCS, SAP_BATCH_ID, BATCH_QTY, \tBATCH_PCS,PRODN_MACHINE, \nSTART_TIME, END_TIME, \tPRODN_REC_DATE,CREATE_DATE, ISNULL(MODIFY_DATE, GETDATE()) AS MODIFY_DATE, PRODN_ORDER_NO_SCH , PRODN_STATUS, NR_OF_OPERATION , product_type, SAP_BATCH_ID as SAP_BATCH_ID_TAG_NO, CREATE_DATE as CREATE_DATE__STS_START_CRDATE FROM \tSTS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
+						"sqlReaderQuery": "SELECT TOP (300)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\nCONVERT(varchar, CAST(START_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(START_TIME AS datetime), 108) AS START_TIME,\n    CONVERT(varchar, CAST(END_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(END_TIME AS datetime), 108) AS END_TIME,  \n       CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 100), 2) AS PRODN_REC_DATE,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE,\n    CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 101) + ' ' + CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 108) + ' ' + RIGHT(CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 100), 2) AS MODIFY_DATE,\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'A'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -278,7 +278,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update  dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'A', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REF_ID = \n'@{variables('REF_ID')}'",
+								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'A' and REF_ID = \n'@{variables('REF_ID')}'",
 								"type": "Expression"
 							}
 						}
