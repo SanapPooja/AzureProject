@@ -7,7 +7,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Update_to_P",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -30,7 +30,7 @@
 								"value": "Y"
 							}
 						],
-						"sqlReaderQuery": "SELECT TOP (300)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\nCONVERT(varchar, CAST(START_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(START_TIME AS datetime), 108) AS START_TIME,\n    CONVERT(varchar, CAST(END_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(END_TIME AS datetime), 108) AS END_TIME,  \n       CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 100), 2) AS PRODN_REC_DATE,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE,\n    CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 101) + ' ' + CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 108) + ' ' + RIGHT(CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 100), 2) AS MODIFY_DATE,\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'P'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
+						"sqlReaderQuery": "SELECT TOP (300)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\nCONVERT(varchar, CAST(START_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(START_TIME AS datetime), 108) AS START_TIME,\n    CONVERT(varchar, CAST(END_TIME AS datetime), 101) + ' ' + CONVERT(varchar, CAST(END_TIME AS datetime), 108) AS END_TIME,  \n       CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(PRODN_REC_DATE AS datetime), 100), 2) AS PRODN_REC_DATE,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE,\n    CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 101) + ' ' + CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 108) + ' ' + RIGHT(CONVERT(varchar, ISNULL(CAST(MODIFY_DATE AS datetime), GETDATE()), 100), 2) AS MODIFY_DATE,\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    CONVERT(varchar, CAST(CREATE_DATE AS datetime), 101) + ' ' + CONVERT(varchar, CAST(CREATE_DATE AS datetime), 108) + ' ' + RIGHT(CONVERT(varchar, CAST(CREATE_DATE AS datetime), 100), 2) AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'P' ",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -284,7 +284,7 @@
 				}
 			},
 			{
-				"name": "Script1",
+				"name": "Update_to_P",
 				"type": "Script",
 				"dependsOn": [
 					{
@@ -310,7 +310,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where REC_TYPE = 'A'"
+							"text": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where WHERE\r\n    REC_TYPE = 'A'  \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -333,13 +333,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT070_IDB_OperationalFeedback_Sub",
+						"referenceName": "NSH_INT070_IDB_OperationalFeedback_Sub_New",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			}
 		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
