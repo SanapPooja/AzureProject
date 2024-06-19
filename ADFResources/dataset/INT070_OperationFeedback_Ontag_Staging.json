@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "OPERATION_FEEDBACK_ONTAG_STAGING"
+			"table": "ESB_OPERATION_FEEDBACK_ONTAG"
 		}
 	}
 }
