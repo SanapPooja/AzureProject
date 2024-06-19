@@ -80,7 +80,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
+						"sqlReaderQuery": "SELECT top (300) ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -477,7 +477,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REF_ID = \n'@{variables('REF_ID')}'",
+											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'P' and REF_ID = '@{variables('REF_ID')}' ",
 											"type": "Expression"
 										}
 									}
