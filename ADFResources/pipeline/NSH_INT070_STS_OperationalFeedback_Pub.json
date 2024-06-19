@@ -278,7 +278,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'A' and REF_ID = \n'@{variables('REF_ID')}'",
+								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'A'",
 								"type": "Expression"
 							}
 						}
@@ -314,6 +314,8 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup2",
