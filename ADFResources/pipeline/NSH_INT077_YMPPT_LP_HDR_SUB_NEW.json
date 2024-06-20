@@ -130,7 +130,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING)"
+							"text": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO in (SELECT DISTINCT LOAD_NO FROM TBL_NSH_INT077_STAGING where LP_STATUS='T')"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
