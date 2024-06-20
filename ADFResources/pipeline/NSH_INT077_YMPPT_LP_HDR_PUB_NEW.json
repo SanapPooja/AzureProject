@@ -704,12 +704,6 @@
 										"type": "IfCondition",
 										"dependsOn": [
 											{
-												"activity": "Lookup2",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											},
-											{
 												"activity": "Set variable5",
 												"dependencyConditions": [
 													"Succeeded"
