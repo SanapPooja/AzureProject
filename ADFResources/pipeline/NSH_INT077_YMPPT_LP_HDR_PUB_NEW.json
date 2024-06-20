@@ -419,11 +419,6 @@
 											"sink": {
 												"path": "$GROSS_WT"
 											}
-										},
-										{
-											"sink": {
-												"path": "$['Column_1']"
-											}
 										}
 									]
 								}
