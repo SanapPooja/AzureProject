@@ -233,11 +233,11 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "ORDER_ITEM",
+												"name": "LOAD_NO",
 												"type": "String"
 											},
 											"sink": {
-												"path": "$ORDER_ITEM"
+												"path": "$LOAD_NO"
 											}
 										},
 										{
@@ -251,29 +251,29 @@
 										},
 										{
 											"source": {
-												"name": "TALLY_BATCH_QTY",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$TALLY_BATCH_QTY"
-											}
-										},
-										{
-											"source": {
-												"name": "NO_PIECES",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$NO_PIECES"
-											}
-										},
-										{
-											"source": {
-												"name": "LOAD_NO",
+												"name": "ORDER_ITEM",
 												"type": "String"
 											},
 											"sink": {
-												"path": "$['$LOAD_NO']"
+												"path": "$ORDER_ITEM"
+											}
+										},
+										{
+											"source": {
+												"name": "SUM_TALLY_BATCH_QTY",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$DELD_LOAD_QNTY"
+											}
+										},
+										{
+											"source": {
+												"name": "SUM_NO_PIECES",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$DELD_LOAD_PCS"
 											}
 										}
 									]
