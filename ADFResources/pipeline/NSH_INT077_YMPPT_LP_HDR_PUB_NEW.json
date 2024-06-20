@@ -757,7 +757,14 @@
 												{
 													"name": "Copy data1_copy1_copy1_copy2_copy1_copy1",
 													"type": "Copy",
-													"dependsOn": [],
+													"dependsOn": [
+														{
+															"activity": "Script1_copy1_copy1_copy1",
+															"dependencyConditions": [
+																"Succeeded"
+															]
+														}
+													],
 													"policy": {
 														"timeout": "0.12:00:00",
 														"retry": 0,
@@ -776,7 +783,7 @@
 																}
 															],
 															"oracleReaderQuery": {
-																"value": "SELECT  \n    v.VEHICLE_ID,\n    v.TARE_WT,\n    v.GROSS_WT\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y ON h.LOAD_NO = y.LOAD_NO\nJOIN \n    SAPSR3.YMPPT_LOAD_VEHIC v ON h.LOAD_NO = v.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+																"value": "SELECT  \n    v.VEHICLE_ID,\n    v.TARE_WT,\n    v.GROSS_WT\n    FROM SAPSR3.YMPPT_LOAD_VEHIC V WHERE V.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
 																"type": "Expression"
 															},
 															"partitionOption": "None",
@@ -837,6 +844,35 @@
 															"type": "DatasetReference"
 														}
 													]
+												},
+												{
+													"name": "Script1_copy1_copy1_copy1",
+													"type": "Script",
+													"dependsOn": [],
+													"policy": {
+														"timeout": "0.12:00:00",
+														"retry": 0,
+														"retryIntervalInSeconds": 30,
+														"secureOutput": false,
+														"secureInput": false
+													},
+													"userProperties": [],
+													"linkedServiceName": {
+														"referenceName": "SCM_IDB_Connect",
+														"type": "LinkedServiceReference"
+													},
+													"typeProperties": {
+														"scripts": [
+															{
+																"type": "Query",
+																"text": {
+																	"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'Y', \n    TIMESTAMP = ('@{variables('TIMESTAMP')}')  \nWHERE LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+																	"type": "Expression"
+																}
+															}
+														],
+														"scriptBlockExecutionTimeout": "02:00:00"
+													}
 												}
 											]
 										}
