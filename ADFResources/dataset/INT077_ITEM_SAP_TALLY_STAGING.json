@@ -7,6 +7,10 @@
 		},
 		"annotations": [],
 		"type": "OracleTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "TBL_NSH_INT077_ITEM_SAP_TALLY_STAGING"
+		}
 	}
 }
