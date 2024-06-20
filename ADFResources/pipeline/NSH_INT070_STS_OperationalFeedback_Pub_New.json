@@ -33,7 +33,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "ForEach1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -49,14 +49,7 @@
 						{
 							"name": "Select_STS_to_Queue",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Update_to_P",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -302,39 +295,6 @@
 							]
 						},
 						{
-							"name": "Update_to_P",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \r\n    REC_TYPE = 'A'  and ref_id= '@{variables('REF_ID')}' \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));"
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
 							"name": "Execute Pipeline1_copy1",
 							"type": "ExecutePipeline",
 							"state": "Inactive",
@@ -358,18 +318,28 @@
 								},
 								"waitOnCompletion": true
 							}
-						},
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Update_to_P_copy2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
 						{
-							"name": "Set variable1",
+							"name": "Set variable2",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -378,15 +348,22 @@
 							"typeProperties": {
 								"variableName": "REF_ID",
 								"value": {
-									"value": "@activity('Lookup2').output.value[0].ref_id\n",
+									"value": "@item().ref_id",
 									"type": "Expression"
 								}
 							}
 						},
 						{
-							"name": "Lookup2",
-							"type": "Lookup",
-							"dependsOn": [],
+							"name": "Update_to_P_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -395,21 +372,84 @@
 								"secureInput": false
 							},
 							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSQADB2Connection",
+								"type": "LinkedServiceReference"
+							},
 							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT Top (300) ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT070_SCM_PRODN_STAGING_DATASET",
-									"type": "DatasetReference"
-								},
-								"firstRowOnly": false
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \n    REC_TYPE = 'A'  and ref_id= '@{variables('REF_ID')}' \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));\n        ",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Update_to_P_copy2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Set variable1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB2Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \r\n    REC_TYPE = 'A'  and ref_id= '@{variables('REF_ID')}' \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ref_id",
+					"value": {
+						"value": "@activity('Lookup2').output.value[0].ref_id\n",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -419,6 +459,9 @@
 			},
 			"REF_ID": {
 				"type": "Integer"
+			},
+			"ref_id": {
+				"type": "String"
 			}
 		},
 		"annotations": []
