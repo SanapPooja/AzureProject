@@ -212,7 +212,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='T'))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
+										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    t.SALES_ORDER,\n    t.LP_STATUS,\n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='T'))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no,\n    t.SALES_ORDER,\n    t.LP_STATUS;",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -232,48 +232,8 @@
 									"type": "TabularTranslator",
 									"mappings": [
 										{
-											"source": {
-												"name": "LOAD_NO",
-												"type": "String"
-											},
 											"sink": {
-												"path": "$LOAD_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "NDS_SALE_ORDER",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$NDS_SALE_ORDER"
-											}
-										},
-										{
-											"source": {
-												"name": "ORDER_ITEM",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ORDER_ITEM"
-											}
-										},
-										{
-											"source": {
-												"name": "SUM_TALLY_BATCH_QTY",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$DELD_LOAD_QNTY"
-											}
-										},
-										{
-											"source": {
-												"name": "SUM_NO_PIECES",
-												"type": "Double"
-											},
-											"sink": {
-												"path": "$DELD_LOAD_PCS"
+												"path": "$"
 											}
 										}
 									]
