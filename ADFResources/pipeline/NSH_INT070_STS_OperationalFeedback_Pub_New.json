@@ -327,7 +327,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Update_to_P_copy2",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -335,6 +335,11 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('REF_ID')",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Set variable2",
@@ -346,9 +351,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "REF_ID",
+								"variableName": "ref_id_1",
 								"value": {
-									"value": "@item().ref_id",
+									"value": "@item().ref_id_1",
 									"type": "Expression"
 								}
 							}
@@ -391,66 +396,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "Update_to_P_copy2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Set variable1_copy1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB2Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \r\n    REC_TYPE = 'A'  and ref_id= '@{variables('REF_ID')}' \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Set variable1_copy1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ref_id",
-					"value": {
-						"value": "@activity('Lookup2').output.value[0].ref_id\n",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {
@@ -460,8 +405,8 @@
 			"REF_ID": {
 				"type": "Integer"
 			},
-			"ref_id": {
-				"type": "String"
+			"ref_id_1": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
