@@ -232,8 +232,66 @@
 									"type": "TabularTranslator",
 									"mappings": [
 										{
+											"source": {
+												"name": "LOAD_NO",
+												"type": "String"
+											},
 											"sink": {
-												"path": "$"
+												"path": "$LOAD_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "NDS_SALE_ORDER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NDS_SALE_ORDER"
+											}
+										},
+										{
+											"source": {
+												"name": "SALES_ORDER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SALES_ORDER"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_ITEM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_ITEM"
+											}
+										},
+										{
+											"source": {
+												"name": "LP_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LP_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "SUM_TALLY_BATCH_QTY",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$SUM_TALLY_BATCH_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "SUM_NO_PIECES",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$SUM_NO_PIECES"
 											}
 										}
 									]
