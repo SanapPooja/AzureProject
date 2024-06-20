@@ -688,7 +688,7 @@
 										"typeProperties": {
 											"source": {
 												"type": "OracleSource",
-												"oracleReaderQuery": "SELECT NGWS_STATUS \r\nFROM SAPSR3.YMPPT_LP_HDR \r\nWHERE LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+												"oracleReaderQuery": "SELECT distinct NGWS_STATUS \nFROM SAPSR3.YMPPT_LP_HDR \nWHERE LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D')",
 												"partitionOption": "None",
 												"queryTimeout": "02:00:00"
 											},
