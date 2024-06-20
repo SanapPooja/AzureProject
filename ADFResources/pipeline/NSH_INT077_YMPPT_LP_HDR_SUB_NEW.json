@@ -297,7 +297,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "SCM_STAGING_TABLE",
+						"activity": "ITEM_SAP_TALLY_STAGING",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -340,113 +340,40 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$LOAD_NO"
-								},
-								"sink": {
-									"name": "LOAD_NO",
-									"type": "String"
+									"path": "$['$ORDER_ITEM']"
 								}
 							},
 							{
 								"source": {
-									"path": "$ORDER_ITEM"
-								},
-								"sink": {
-									"name": "ORDER_ITEM",
-									"type": "String"
+									"path": "$['$NDS_SALE_ORDER']"
 								}
 							},
 							{
 								"source": {
-									"path": "$ID"
-								},
-								"sink": {
-									"name": "ID",
-									"type": "String"
+									"path": "$['$TALLY_BATCH_QTY']"
 								}
 							},
 							{
 								"source": {
-									"path": "$NDS_SALE_ORDER"
-								},
-								"sink": {
-									"name": "ORDER_REQUEST_NO",
-									"type": "String"
+									"path": "$['$NO_PIECES']"
 								}
 							},
 							{
 								"source": {
-									"path": "$TALLY_BATCH_QTY"
-								},
-								"sink": {
-									"name": "DELD_LOAD_QNTY",
-									"type": "String"
+									"path": "$['$LOAD_NO']"
 								}
 							},
 							{
 								"source": {
-									"path": "$NO_PIECES"
-								},
-								"sink": {
-									"name": "DELD_LOAD_PCS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "MANDT"
-								},
-								"sink": {
-									"name": "MANDT",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$CREATE_DATE"
-								},
-								"sink": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "MODIFY_DATE"
+									"path": "$['MODIFY_DATE']"
 								},
 								"sink": {
 									"name": "MODIFY_DATE",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$PLAN_LOAD_QNTY"
-								},
-								"sink": {
-									"name": "PLAN_LOAD_QNTY",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$PLAN_LOAD_PCS"
-								},
-								"sink": {
-									"name": "PLAN_LOAD_PCS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ORDER_ITEM']"
-								},
-								"sink": {
-									"name": "ORDER_ITEM",
-									"type": "String"
-								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
@@ -564,6 +491,54 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ITEM_SAP_TALLY_STAGING",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SCM_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "int077_item_load_tally_head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT077_ITEM_SAP_TALLY_STAGING",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"concurrency": 1,
