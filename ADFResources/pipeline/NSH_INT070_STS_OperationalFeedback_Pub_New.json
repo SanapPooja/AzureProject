@@ -327,7 +327,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Set variable3",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -336,7 +336,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('REF_ID')",
+						"value": "@variables('ref_id_1')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -396,6 +396,63 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select top (300) ref_id from STS.dbo.tbl_sts_scm_prodn_staging_upd_test  where REC_TYPE = 'A'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT070_SCM_PRODN_STAGING_DATASET",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ref_id_1",
+					"value": {
+						"value": "@activity('Lookup2').output.value",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -403,10 +460,10 @@
 				"type": "String"
 			},
 			"REF_ID": {
-				"type": "Integer"
+				"type": "Array"
 			},
 			"ref_id_1": {
-				"type": "Integer"
+				"type": "Array"
 			}
 		},
 		"annotations": []
