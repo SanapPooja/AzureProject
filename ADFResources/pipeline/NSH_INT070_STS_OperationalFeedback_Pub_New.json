@@ -386,7 +386,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \n    REC_TYPE = 'A'  and ref_id= '@{variables('REF_ID')}' \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));\n        ",
+											"value": "UPDATE TOP (300) dbo.tbl_sts_scm_prodn_staging_upd_test\nSET REC_TYPE = 'P'\nWHERE REC_TYPE = 'A'\n    AND (\n        SAP_BATCH_ID LIKE 'O%'\n        OR SAP_BATCH_ID LIKE 'F%'\n        OR SAP_BATCH_ID LIKE 'M%'\n        OR SAP_BATCH_ID LIKE 'P%'\n        OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G')\n    );\n        ",
 											"type": "Expression"
 										}
 									}
