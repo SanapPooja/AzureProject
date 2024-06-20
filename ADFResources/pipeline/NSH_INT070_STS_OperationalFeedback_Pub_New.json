@@ -321,7 +321,7 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where WHERE\r\n    REC_TYPE = 'A'  \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));"
+										"text": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \r\n    REC_TYPE = 'A'  \r\n    AND (SAP_BATCH_ID LIKE 'O%'\r\n         OR SAP_BATCH_ID LIKE 'F%'\r\n         OR SAP_BATCH_ID LIKE 'M%'    \r\n         OR SAP_BATCH_ID LIKE 'P%'\r\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
