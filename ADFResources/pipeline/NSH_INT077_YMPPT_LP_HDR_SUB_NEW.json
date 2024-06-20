@@ -79,7 +79,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$TIMESTAMP']"
+									"path": "$['$MODIFY_DATE']"
 								},
 								"sink": {
 									"name": "TIMESTAMP",
@@ -295,6 +295,8 @@
 			{
 				"name": "SAP_STAGING_TABLE",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ITEM_SAP_TALLY_STAGING",
@@ -591,7 +593,7 @@
 							},
 							{
 								"source": {
-									"path": "$TIMESTAMP"
+									"path": "$MODIFY_DATE"
 								},
 								"sink": {
 									"name": "TIMESTAMP",
