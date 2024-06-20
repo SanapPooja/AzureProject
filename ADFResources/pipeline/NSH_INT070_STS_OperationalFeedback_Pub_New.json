@@ -351,7 +351,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "ref_id_1",
+								"variableName": "REF_ID",
 								"value": {
 									"value": "@item().ref_id_1",
 									"type": "Expression"
