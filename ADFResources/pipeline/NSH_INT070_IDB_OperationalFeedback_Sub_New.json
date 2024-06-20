@@ -333,7 +333,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT SCM_ADMIN.INT070_Interface('USP_INT070') AS Result FROM dual;",
+						"oracleReaderQuery": "SELECT INT070_Interface('USP_INT070') AS Result FROM dual;",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
