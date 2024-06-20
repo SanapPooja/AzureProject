@@ -427,6 +427,15 @@
 											"sink": {
 												"path": "$GROSS_WT"
 											}
+										},
+										{
+											"source": {
+												"name": "TIMESTAMP",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TIMESTAMP"
+											}
 										}
 									]
 								}
