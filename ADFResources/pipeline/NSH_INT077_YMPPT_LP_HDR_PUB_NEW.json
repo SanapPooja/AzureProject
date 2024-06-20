@@ -50,14 +50,9 @@
 			{
 				"name": "Lookup1_copy1",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "If Condition6",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -69,7 +64,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select LP_STATUS,LOAD_NO from SAPSR3.YESB_LP_HDR ;",
+						"oracleReaderQuery": "select LP_STATUS, LOAD_NO from SAPSR3.YESB_LP_HDR ",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -85,7 +80,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1_copy1",
+						"activity": "If Condition6",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -94,7 +89,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1_copy1').output.value[0].LP_STATUS, 'T')",
+						"value": "@equals(activity('Lookup1').output.value[0].LP_STATUS, 'T')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -305,7 +300,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1_copy1",
+						"activity": "If Condition6",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -314,7 +309,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1_copy1').output.value[0].LP_STATUS, 'D')",
+						"value": "@equals(activity('Lookup1').output.value[0].LP_STATUS, 'D')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -449,7 +444,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1_copy1",
+						"activity": "If Condition6",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -458,7 +453,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1_copy1').output.value[0].LP_STATUS, 'PT')",
+						"value": "@equals(activity('Lookup1').output.value[0].LP_STATUS, 'PT')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -921,7 +916,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1_copy1",
+						"activity": "If Condition6",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -930,7 +925,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1_copy1').output.value[0].LP_STATUS, 'A')\n",
+						"value": "@equals(activity('Lookup1').output.value[0].LP_STATUS, 'A')\n",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
