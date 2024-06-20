@@ -709,6 +709,8 @@
 						{
 							"name": "Script1_copy1_copy1",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Set variable5_copy1",
@@ -745,6 +747,8 @@
 						{
 							"name": "Set variable5_copy1",
 							"type": "SetVariable",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
@@ -855,6 +859,8 @@
 						{
 							"name": "UpdateQuery",
 							"type": "Script",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Set variable5",
@@ -891,6 +897,8 @@
 						{
 							"name": "Set variable5",
 							"type": "SetVariable",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
