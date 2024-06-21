@@ -872,11 +872,20 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "VEHICLE_ID",
+												"name": "VEHICLE_TYPE",
 												"type": "String"
 											},
 											"sink": {
-												"path": "$VEHICLE_ID"
+												"path": "$VEHICLE_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "GROSS_WT",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$GROSS_WT"
 											}
 										},
 										{
@@ -890,11 +899,11 @@
 										},
 										{
 											"source": {
-												"name": "GROSS_WT",
-												"type": "Decimal"
+												"name": "LP_STATUS",
+												"type": "String"
 											},
 											"sink": {
-												"path": "$GROSS_WT"
+												"path": "$LP_STATUS"
 											}
 										}
 									]
