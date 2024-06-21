@@ -659,9 +659,6 @@
 			"NDS_SALE_ORD": {
 				"type": "Array"
 			},
-			"LOAD_NO": {
-				"type": "Array"
-			},
 			"MODIFIED_DATE": {
 				"type": "String"
 			},
@@ -687,6 +684,12 @@
 				"type": "String"
 			},
 			"CURRENT_DATE": {
+				"type": "String"
+			},
+			"Load_NoArr": {
+				"type": "Array"
+			},
+			"Load_No": {
 				"type": "String"
 			}
 		},
