@@ -851,7 +851,7 @@
 										}
 									],
 									"oracleReaderQuery": {
-										"value": "SELECT  \n    v.VEHICLE_ID,\n    v.TARE_WT,\n    v.GROSS_WT\n    FROM SAPSR3.YMPPT_LOAD_VEHIC V WHERE V.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+										"value": "SELECT  \n    v.VEHICLE_TYPE,\n    v.TARE_WT,\n    v.GROSS_WT\n    FROM SAPSR3.YMPPT_LOAD_VEHIC V WHERE V.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
