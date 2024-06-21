@@ -760,7 +760,7 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1_copy1_copy1_copy2_copy1_copy1",
+							"name": "Copy_data_Load_SAP_Tally_D",
 							"type": "Copy",
 							"dependsOn": [
 								{
