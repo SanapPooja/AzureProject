@@ -67,21 +67,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@not(empty(activity('LookupStatusT').output.value))",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set_Load_No",
+							"name": "Set_Load_NoT",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -102,7 +88,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set_Load_No",
+									"activity": "Set_Load_NoT",
 									"dependencyConditions": [
 										"Succeeded"
 									]
