@@ -337,7 +337,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT \n    h.STATUS, \n    h.LP_STATUS,\n    h.LOAD_NO, \n    h.TRAILER_NO, \n    h.ERROR_CD,\n    v.VEHICLE_ID,\n    v.TARE_WT,\n    v.GROSS_WT,\n     TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') AS timestamp\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y ON h.LOAD_NO = y.LOAD_NO\nJOIN \n    SAPSR3.YMPPT_LOAD_VEHIC v ON h.LOAD_NO = v.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+										"value": "SELECT \n    v.VEHICLE_ID,\n    v.TARE_WT,\n    v.GROSS_WT,\n    v.TIMESTAMP,\n    h.STATUS,\n    h.TRAILER_NO, \n    h.ERROR_CD, \n    y.LOAD_NO, \n    y.LP_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y ON h.LOAD_NO = y.LOAD_NO\nJOIN \n    SAPSR3.YMPPT_LOAD_VEHIC v ON h.LOAD_NO = v.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT DISTINCT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
