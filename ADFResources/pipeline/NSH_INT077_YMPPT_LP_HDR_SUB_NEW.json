@@ -58,33 +58,6 @@
 									"name": "ERROR_CD",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['$LOAD_NO']"
-								},
-								"sink": {
-									"name": "LOAD_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$LP_STATUS']"
-								},
-								"sink": {
-									"name": "LP_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$MODIFY_DATE']"
-								},
-								"sink": {
-									"name": "TIMESTAMP",
-									"type": "String"
-								}
 							}
 						],
 						"collectionReference": ""
