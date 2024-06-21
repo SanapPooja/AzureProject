@@ -611,7 +611,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT077_ITEM_SAP_TALLY_STAGING",
+						"referenceName": "SCM_IDB_DB",
 						"type": "DatasetReference"
 					}
 				]
