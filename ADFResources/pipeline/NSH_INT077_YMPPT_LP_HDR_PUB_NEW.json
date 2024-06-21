@@ -943,7 +943,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'Y', \n    TIMESTAMP = ('@{variables('TIMESTAMP')}')  \nWHERE LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
+											"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'Y', \n    MODIFY_DATE = ('@{variables('TIMESTAMP')}')  \nWHERE LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='D');",
 											"type": "Expression"
 										}
 									}
