@@ -253,7 +253,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_STAGING WHERE LP_STATUS='A'\r\n)\r\n"
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_ITEM_SAP_TALLY_STAGING WHERE LP_STATUS='A'\r\n)\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
