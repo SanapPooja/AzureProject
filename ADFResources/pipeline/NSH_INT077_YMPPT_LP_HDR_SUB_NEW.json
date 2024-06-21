@@ -527,7 +527,112 @@
 						"type": "OracleSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_NO"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_ITEM"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NDS_SALE_ORDER"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TALLY_BATCH_QTY"
+								},
+								"sink": {
+									"name": "TALLY_BATCH_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$NO_PIECES"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_ID"
+								},
+								"sink": {
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MODIFY_DATE"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
 				},
 				"inputs": [
 					{
