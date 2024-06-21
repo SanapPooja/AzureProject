@@ -527,81 +527,7 @@
 						"type": "OracleSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "$LOAD_NO"
-								},
-								"sink": {
-									"name": "LOAD_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$NDS_SALE_ORDER"
-								},
-								"sink": {
-									"name": "NDS_SALE_ORDER",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ORDER_NO"
-								},
-								"sink": {
-									"name": "ORDER_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ORDER_ITEM"
-								},
-								"sink": {
-									"name": "ORDER_ITEM",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$LP_STATUS"
-								},
-								"sink": {
-									"name": "LP_STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"sink": {
-									"name": "TALLY_BATCH_QTY",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$NO_PIECES"
-								},
-								"sink": {
-									"name": "NO_PIECES",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$MODIFY_DATE"
-								},
-								"sink": {
-									"name": "TIMESTAMP",
-									"type": "String"
-								}
-							}
-						]
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
@@ -611,7 +537,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SCM_IDB_DB",
+						"referenceName": "IDB_SAP_ITEM_On_LOAD",
 						"type": "DatasetReference"
 					}
 				]

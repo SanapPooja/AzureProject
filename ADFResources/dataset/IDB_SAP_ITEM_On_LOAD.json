@@ -1,0 +1,16 @@
+{
+	"name": "IDB_SAP_ITEM_On_LOAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_IDB_Connect",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "TBL_NSH_INT077_ITEM_SAP_TALLY_STAGING"
+		}
+	}
+}
