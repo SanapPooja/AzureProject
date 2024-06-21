@@ -66,7 +66,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1",
+							"name": "Copy_data_Load_SAP_T",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -171,11 +171,11 @@
 							]
 						},
 						{
-							"name": "Copy data1_1",
+							"name": "Copy_data_Load_SAP_Tally_T",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Copy_data_Load_SAP_T",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -322,7 +322,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data2",
+							"name": "Copy_data_Load_SAP_D",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -475,7 +475,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data3",
+							"name": "Copy_data_Load_SAP_PT",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -544,11 +544,11 @@
 							]
 						},
 						{
-							"name": "Copy data3_1",
+							"name": "Copy_data_Load_SAP_Tally_PT",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data3",
+									"activity": "Copy_data_Load_SAP_PT",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -938,7 +938,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data4",
+							"name": "Copy_data_Load_SAP_A",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
