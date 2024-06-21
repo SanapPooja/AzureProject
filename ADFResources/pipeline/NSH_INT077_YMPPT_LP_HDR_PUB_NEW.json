@@ -587,11 +587,11 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "LOAD_NO",
+												"name": "ORDER_ITEM",
 												"type": "String"
 											},
 											"sink": {
-												"path": "$LOAD_NO"
+												"path": "$ORDER_ITEM"
 											}
 										},
 										{
@@ -605,29 +605,11 @@
 										},
 										{
 											"source": {
-												"name": "SALES_ORDER",
+												"name": "LOAD_NO",
 												"type": "String"
 											},
 											"sink": {
-												"path": "$SALES_ORDER"
-											}
-										},
-										{
-											"source": {
-												"name": "ORDER_ITEM",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ORDER_ITEM"
-											}
-										},
-										{
-											"source": {
-												"name": "LP_STATUS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LP_STATUS"
+												"path": "$LOAD_NO"
 											}
 										},
 										{
@@ -646,15 +628,6 @@
 											},
 											"sink": {
 												"path": "$NO_PIECES"
-											}
-										},
-										{
-											"source": {
-												"name": "TIMESTAMP",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TIMESTAMP"
 											}
 										}
 									]
