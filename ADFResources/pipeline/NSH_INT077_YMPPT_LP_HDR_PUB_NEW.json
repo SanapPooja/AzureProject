@@ -566,7 +566,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no, \n    t.SALES_ORDER,\n    t.LP_STATUS, \n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces,\n    TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') AS TIMESTAMP\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT'))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no,\n    t.SALES_ORDER,\n    t.LP_STATUS;\n",
+										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,\n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE \n    EXISTS (SELECT 1 \n            FROM SAPSR3.YMPPT_LP_BATCH_C sub_t\n            WHERE sub_t.nds_sale_order = t.nds_sale_order\n              AND sub_t.load_no IN (SELECT load_no \n                                    FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT'))\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
