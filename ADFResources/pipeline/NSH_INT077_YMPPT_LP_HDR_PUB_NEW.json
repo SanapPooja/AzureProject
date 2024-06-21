@@ -490,7 +490,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD,\n    h.LOAD_NO,\n    h.LP_STATUS,\n       TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') AS TIMESTAMP\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT');",
+										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nJOIN \n    SAPSR3.YESB_LP_HDR y\nON \n    h.LOAD_NO = y.LOAD_NO\nWHERE \n    h.LOAD_NO IN (SELECT DISTINCT LOAD_NO FROM SAPSR3.YESB_LP_HDR WHERE LP_STATUS='PT');",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -511,24 +511,6 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "LOAD_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LOAD_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "LP_STATUS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LP_STATUS"
-											}
-										},
-										{
-											"source": {
 												"name": "STATUS",
 												"type": "String"
 											},
@@ -538,29 +520,11 @@
 										},
 										{
 											"source": {
-												"name": "TRAILER_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TRAILER_NO"
-											}
-										},
-										{
-											"source": {
 												"name": "ERROR_CD",
 												"type": "String"
 											},
 											"sink": {
 												"path": "$ERROR_CD"
-											}
-										},
-										{
-											"source": {
-												"name": "TIMESTAMP",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TIMESTAMP"
 											}
 										}
 									]
