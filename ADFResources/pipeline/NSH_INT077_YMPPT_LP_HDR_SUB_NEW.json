@@ -98,7 +98,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "NSH_INT077_STAGING_SUB",
+						"referenceName": "SCM_IDB_DB",
 						"type": "DatasetReference"
 					}
 				]
