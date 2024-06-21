@@ -34,7 +34,25 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$STATUS']"
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
 								},
 								"sink": {
 									"name": "STATUS",
@@ -43,19 +61,28 @@
 							},
 							{
 								"source": {
-									"path": "$['$TRAILER_NO']"
+									"path": "$ERROR_CD"
 								},
 								"sink": {
-									"name": "TRAILER_NO",
+									"name": "ERROR_CD",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$ERROR_CD']"
+									"path": "$TRAILER_ID"
 								},
 								"sink": {
-									"name": "ERROR_CD",
+									"name": "TRAILER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "MODIFY_DATE",
 									"type": "String"
 								}
 							}
@@ -65,7 +92,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT077_YMPPT_LP_HDR_HEAD",
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
 						"type": "DatasetReference"
 					}
 				],
