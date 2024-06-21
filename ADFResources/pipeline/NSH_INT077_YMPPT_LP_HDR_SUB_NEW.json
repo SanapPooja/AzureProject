@@ -220,7 +220,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.TRAILER_ID, T.MODIFY_DATE) = (\r\n    SELECT S.LP_STATUS, S.TRAILER_ID, S.MODIFY_DATE\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A' OR S.LP_STATUS = 'D'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A' OR S.LP_STATUS = 'D'\r\n);\r\n"
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\r\nSET (T.LP_STATUS, T.TRAILER_ID, T.MODIFY_DATE) = (\r\n    SELECT S.LP_STATUS, S.TRAILER_ID, S.MODIFY_DATE\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A'\r\n)\r\nWHERE EXISTS (\r\n    SELECT 1\r\n    FROM TBL_NSH_INT077_STAGING S\r\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'A'\r\n);\r\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -231,7 +231,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script18",
+						"activity": "Script23",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -615,6 +615,39 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Script23",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script18",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T\nSET (T.LP_STATUS, T.TRAILER_ID, T.MODIFY_DATE) = (\n    SELECT S.LP_STATUS, S.TRAILER_ID, S.MODIFY_DATE\n    FROM TBL_NSH_INT077_STAGING S\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'\n)\nWHERE EXISTS (\n    SELECT 1\n    FROM TBL_NSH_INT077_STAGING S\n    WHERE S.LOAD_NO = T.LOAD_NO AND S.LP_STATUS = 'D'\n);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"concurrency": 1,
