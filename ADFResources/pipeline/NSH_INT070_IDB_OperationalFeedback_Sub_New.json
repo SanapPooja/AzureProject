@@ -29,7 +29,7 @@
 							{
 								"name": "TIMESTAMP",
 								"value": {
-									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'yyyy-MM-dd HH:mm:ss')\n)\n",
 									"type": "Expression"
 								}
 							},
@@ -44,7 +44,7 @@
 							{
 								"name": "IDB_START_CR_DATE",
 								"value": {
-									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'yyyy-MM-dd HH:mm:ss')\n)",
 									"type": "Expression"
 								}
 							}
