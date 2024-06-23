@@ -594,7 +594,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "SELECT distinct NGWS_STATUS \nFROM SAPSR3.YMPPT_LP_HDR \nWHERE LOAD_NO IN ('@{variables('Load_No')}')",
+									"oracleReaderQuery": {
+										"value": "SELECT distinct NGWS_STATUS \nFROM SAPSR3.YMPPT_LP_HDR \nWHERE LOAD_NO IN ('@{variables('Load_No')}')",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -1339,6 +1342,62 @@
 						"value": "@activity('LookupA').output.value",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "ForEachExecuteSubscriber",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEachD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ForEachPT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ForEachA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ForEachT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Load_NoArr')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute PipelineInt077Subscriber",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			}
 		],
