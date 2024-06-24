@@ -1551,7 +1551,7 @@
 				"typeProperties": {
 					"variableName": "RecordCntArrT",
 					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountT').output.value[0].recordcount))",
+						"value": "@range(1, int(activity('LookupCheckCountT').output.firstRow.recordcount))",
 						"type": "Expression"
 					}
 				}
@@ -1611,7 +1611,7 @@
 				"typeProperties": {
 					"variableName": "RecordCntArrD",
 					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountD').output.value[0].recordcount))",
+						"value": "@range(1, int(activity('LookupCheckCountD').output.firstRow.recordcount))",
 						"type": "Expression"
 					}
 				}
@@ -1671,7 +1671,7 @@
 				"typeProperties": {
 					"variableName": "RecordCntArrPT",
 					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountPT').output.value[0].recordcount))",
+						"value": "@range(1, int(activity('LookupCheckCountPT').output.firstRow.recordcount))\n",
 						"type": "Expression"
 					}
 				}
@@ -1731,7 +1731,7 @@
 				"typeProperties": {
 					"variableName": "RecordCntArrAA",
 					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountA').output.value[0].recordcount))",
+						"value": "@range(1, int(activity('LookupCheckCountA').output.firstRow.recordcount))",
 						"type": "Expression"
 					}
 				}
