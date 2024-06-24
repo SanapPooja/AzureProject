@@ -61,7 +61,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Load_NoArr')",
+						"value": "@variables('Load_NoArrT')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -345,7 +345,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Load_NoArr",
+					"variableName": "Load_NoArrT",
 					"value": {
 						"value": "@activity('LookupT').output.value",
 						"type": "Expression"
@@ -411,7 +411,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Load_NoArr')",
+						"value": "@variables('Load_NoArrD')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -857,7 +857,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Load_NoArr",
+					"variableName": "Load_NoArrD",
 					"value": {
 						"value": "@activity('LookupD').output.value",
 						"type": "Expression"
@@ -923,7 +923,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Load_NoArr')",
+						"value": "@variables('Load_NoArrPT')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -1144,7 +1144,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Load_NoArr",
+					"variableName": "Load_NoArrPT",
 					"value": {
 						"value": "@activity('LookupPT').output.value",
 						"type": "Expression"
@@ -1210,7 +1210,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Load_NoArr')",
+						"value": "@variables('Load_NoArrA')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -1337,7 +1337,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Load_NoArr",
+					"variableName": "Load_NoArrA",
 					"value": {
 						"value": "@activity('LookupA').output.value",
 						"type": "Expression"
@@ -1345,27 +1345,9 @@
 				}
 			},
 			{
-				"name": "ForEachExecuteSubscriber",
+				"name": "ForEachExecuteSubscriberT",
 				"type": "ForEach",
 				"dependsOn": [
-					{
-						"activity": "ForEachD",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "ForEachPT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "ForEachA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
 					{
 						"activity": "ForEachT",
 						"dependencyConditions": [
@@ -1376,13 +1358,127 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Load_NoArr')",
+						"value": "@variables('Load_NoArrT')",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute PipelineInt077Subscriber",
+							"name": "Execute PipelineInt077SubscriberT",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEachExecuteSubscriberD",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEachD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Load_NoArrD')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute PipelineInt077SubscriberD",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEachExecuteSubscriberPT",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEachPT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Load_NoArrPT')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute PipelineInt077SubscriberPT",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEachExecuteSubscriberA",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEachA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Load_NoArrA')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute PipelineInt077SubscriberA",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -1413,6 +1509,18 @@
 			},
 			"Load_No": {
 				"type": "String"
+			},
+			"Load_NoArrT": {
+				"type": "Array"
+			},
+			"Load_NoArrD": {
+				"type": "Array"
+			},
+			"Load_NoArrPT": {
+				"type": "Array"
+			},
+			"Load_NoArrA": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
