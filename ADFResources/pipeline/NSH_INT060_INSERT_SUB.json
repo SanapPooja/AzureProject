@@ -125,7 +125,7 @@
 								},
 								"ifFalseActivities": [
 									{
-										"name": "YMPPT_LP_HDR_Copy_copy1",
+										"name": "YMPPT_LP_HDR",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -141,46 +141,46 @@
 												"type": "RestSource",
 												"additionalColumns": [
 													{
-														"name": "LP_STATUS",
+														"name": "$LP_STATUS",
 														"value": "A"
 													},
 													{
-														"name": "STATUS",
+														"name": "$STATUS",
 														"value": "Y"
 													},
 													{
-														"name": "USER_NAME",
+														"name": "$USER_NAME",
 														"value": "ESB_INT060"
 													},
 													{
-														"name": "ERROR_CD",
+														"name": "$ERROR_CD",
 														"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
 													},
 													{
-														"name": "EMAIL_ALERT_IND",
+														"name": "$EMAIL_ALERT_IND",
 														"value": "N"
 													},
 													{
-														"name": "DELIVERY_SQN",
+														"name": "$DELIVERY_SQN",
 														"value": "0"
 													},
 													{
-														"name": "MANDT",
+														"name": "$MANDT",
 														"value": "600"
 													},
 													{
-														"name": "USER_NAME",
+														"name": "$USER_NAME",
 														"value": "ESB_INT060"
 													},
 													{
-														"name": "UPDATION_DATE",
+														"name": "$UPDATION_DATE",
 														"value": {
 															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
 															"type": "Expression"
 														}
 													},
 													{
-														"name": "PROC-TS",
+														"name": "$PROC-TS",
 														"value": {
 															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
 															"type": "Expression"
@@ -204,7 +204,7 @@
 												"mappings": [
 													{
 														"source": {
-															"path": "$LOAD_NO"
+															"path": "LOAD_NO"
 														},
 														"sink": {
 															"name": "LOAD_NO",
@@ -213,7 +213,7 @@
 													},
 													{
 														"source": {
-															"path": "$VEHICLE_TYPE_NAME"
+															"path": "VEHICLE_TYPE_NAME"
 														},
 														"sink": {
 															"name": "VEHICLE_TYPE",
@@ -222,7 +222,7 @@
 													},
 													{
 														"source": {
-															"path": "$DELIVERY_DATE"
+															"path": "DELIVERY_DATE"
 														},
 														"sink": {
 															"name": "PLAN_DELIV_DATE",
@@ -231,7 +231,7 @@
 													},
 													{
 														"source": {
-															"path": "$REMARK1"
+															"path": "REMARK1"
 														},
 														"sink": {
 															"name": "PLANNER_REMARKS",
@@ -313,7 +313,7 @@
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "YMPPT_LP_HDR_Copy_copy1",
+												"activity": "YMPPT_LP_HDR",
 												"dependencyConditions": [
 													"Succeeded"
 												]
