@@ -1,0 +1,16 @@
+{
+	"name": "NSH_LOAD_SAP_TALLY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_DEV_DEMO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "YMPPT_LP_BATCH_C"
+		}
+	}
+}
