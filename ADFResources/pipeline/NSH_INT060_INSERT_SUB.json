@@ -546,7 +546,7 @@
 										"typeProperties": {
 											"variableName": "LP_STATUS",
 											"value": {
-												"value": "@int(activity('Lookup3').output.firstRow.LP_STATUS)\n",
+												"value": "@activity('Lookup3').output.firstRow.LP_STATUS\n",
 												"type": "Expression"
 											}
 										}
@@ -663,7 +663,118 @@
 									]
 								}
 							],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(variables('LP_STATUS'), 'D')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Lookup4",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										}
+									},
+									{
+										"name": "Set variable4",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Lookup4",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "LOAD_NUMBER_D",
+											"value": {
+												"value": "@activity('Lookup4').output.firstRow.LOAD_NO\n",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition5",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(equals(variables('LOAD_NUMBER_D'), null))\n",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "UPDATE TO Y",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "Update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS = 'Y' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								]
+							}
 						}
 					]
 				}
@@ -680,6 +791,9 @@
 				"type": "String"
 			},
 			"LP_STATUS": {
+				"type": "String"
+			},
+			"LOAD_NUMBER_D": {
 				"type": "String"
 			}
 		},
