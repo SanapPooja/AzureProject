@@ -569,16 +569,67 @@
 							},
 							{
 								"source": {
-									"path": "$ ORDER_REQUEST_NO"
+									"path": "$NDS_SALE_ORDER"
 								},
 								"sink": {
 									"name": "NDS_SALE_ORDER",
 									"type": "String"
 								}
 							},
-							null,
-							null,
-							null
+							{
+								"source": {
+									"path": "$SALES_ORDER"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_ITEM"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SUM_TALLY_BATCH_QTY"
+								},
+								"sink": {
+									"name": "TALLY_BATCH_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$SUM_NO_PIECES"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							}
 						],
 						"collectionReference": ""
 					}
