@@ -61,6 +61,15 @@
 							},
 							{
 								"source": {
+									"path": "$TRAILER_NO"
+								},
+								"sink": {
+									"name": "TRAILER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$ERROR_CD"
 								},
 								"sink": {
@@ -79,16 +88,7 @@
 							},
 							{
 								"source": {
-									"path": "$VEHICLE_TYPE"
-								},
-								"sink": {
-									"name": "TRAILER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ THEORITICAL_WEIGHT"
+									"path": "$TARE_WT"
 								},
 								"sink": {
 									"name": "TARE_WT",
@@ -97,7 +97,7 @@
 							},
 							{
 								"source": {
-									"path": "$ACTUAL_WEIGHT"
+									"path": "$GROSS_WT"
 								},
 								"sink": {
 									"name": "GROSS_WT",
@@ -106,7 +106,7 @@
 							},
 							{
 								"source": {
-									"path": "$ WEIGHING_TICKET_TIME"
+									"path": "$TIMESTAMP"
 								},
 								"sink": {
 									"name": "TIMESTAMP",
@@ -569,58 +569,16 @@
 							},
 							{
 								"source": {
-									"path": "$ORDER_NO"
-								},
-								"sink": {
-									"name": "ORDER_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$ORDER_ITEM"
-								},
-								"sink": {
-									"name": "ORDER_ITEM",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$NDS_SALE_ORDER"
+									"path": "$ ORDER_REQUEST_NO"
 								},
 								"sink": {
 									"name": "NDS_SALE_ORDER",
 									"type": "String"
 								}
 							},
-							{
-								"source": {
-									"path": "$TALLY_BATCH_QTY"
-								},
-								"sink": {
-									"name": "TALLY_BATCH_QTY",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$NO_PIECES"
-								},
-								"sink": {
-									"name": "NO_PIECES",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$TIMESTAMP"
-								},
-								"sink": {
-									"name": "MODIFY_DATE",
-									"type": "String"
-								}
-							}
+							null,
+							null,
+							null
 						],
 						"collectionReference": ""
 					}
