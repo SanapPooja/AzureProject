@@ -600,7 +600,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nWHERE \n    h.LOAD_NO IN ('@{variables('Load_No')}')",
+										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\nWHERE \n    h.LP_STATUS= 'PT'",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -676,7 +676,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,\n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nWHERE t.LOAD_NO IN ('@{variables('Load_No')}') \nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
+										"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,\n    SUM(t.tally_batch_qty) AS tally_batch_qty, \n    SUM(t.no_pieces) AS no_pieces\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nWHERE t.LP_STATUS = 'PT'\nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no;",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -884,56 +884,12 @@
 					"expression": {
 						"value": "@not(empty(activity('LookupA').output.value))",
 						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "ForEachA",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Set variableA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Load_NoArrA')",
-						"type": "Expression"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Set_Load_NoA",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "Load_No",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
+					"ifTrueActivities": [
 						{
 							"name": "Copy_data_Load_SAP_A",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set_Load_NoA",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -1007,32 +963,91 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "LookupCheckCountA",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy_data_Load_SAP_A",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "SELECT Case When count(1)>0 Then     \n    cast(count(1)/100 as int) + 1 \n    Else 0\n    end as recordcount\nFROM \n     SAPSR3.YESB_LP_HDR\nWHERE \n    load_no IN (\n        SELECT \n        distinct load_no FROM \n             SAPSR3.YESB_LP_HDR\n        WHERE \n            lp_status = 'A'\n    );",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "CheckRecordCount",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "RecordCountA",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "LookupCheckCountA",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RecordCntArrAA",
+								"value": {
+									"value": "@range(1, int(activity('LookupCheckCountA').output.firstRow.recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Execute PipelineInt077SubscriberA",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "RecordCountA",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
-				}
-			},
-			{
-				"name": "Set variableA",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "If ConditionA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Load_NoArrA",
-					"value": {
-						"value": "@activity('LookupA').output.value",
-						"type": "Expression"
-					}
 				}
 			},
 			{
@@ -1056,57 +1071,6 @@
 					"activities": [
 						{
 							"name": "Execute PipelineInt077SubscriberD",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "ForEachExecuteSubscriberPT",
-				"type": "ForEach",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('RecordCntArrPT')",
-						"type": "Expression"
-					},
-					"isSequential": true
-				}
-			},
-			{
-				"name": "ForEachExecuteSubscriberA",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "RecordCountA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('RecordCntArrAA')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Execute PipelineInt077SubscriberA",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -1180,66 +1144,6 @@
 					"variableName": "RecordCntArrD",
 					"value": {
 						"value": "@range(1, int(activity('LookupCheckCountD').output.firstRow.recordcount))",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "LookupCheckCountA",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "ForEachA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT Case When count(1)>0 Then     \n    cast(count(1)/100 as int) + 1 \n    Else 0\n    end as recordcount\nFROM \n     SAPSR3.YESB_LP_HDR\nWHERE \n    load_no IN (\n        SELECT \n        distinct load_no FROM \n             SAPSR3.YESB_LP_HDR\n        WHERE \n            lp_status = 'A'\n    );",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "CheckRecordCount",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "RecordCountA",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "LookupCheckCountA",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "RecordCntArrAA",
-					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountA').output.firstRow.recordcount))",
 						"type": "Expression"
 					}
 				}
