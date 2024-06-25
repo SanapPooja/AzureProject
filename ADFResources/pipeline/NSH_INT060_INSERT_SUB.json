@@ -149,7 +149,7 @@
 														"value": "Y"
 													},
 													{
-														"name": "$USER_NAME",
+														"name": "$UNAME",
 														"value": "ESB_INT060"
 													},
 													{
@@ -204,7 +204,7 @@
 												"mappings": [
 													{
 														"source": {
-															"path": "LOAD_NO"
+															"path": "$['LOAD_NO']"
 														},
 														"sink": {
 															"name": "LOAD_NO",
@@ -213,7 +213,7 @@
 													},
 													{
 														"source": {
-															"path": "VEHICLE_TYPE_NAME"
+															"path": "$['VEHICLE_TYPE_NAME']"
 														},
 														"sink": {
 															"name": "VEHICLE_TYPE",
@@ -222,7 +222,7 @@
 													},
 													{
 														"source": {
-															"path": "DELIVERY_DATE"
+															"path": "$['DELIVERY_DATE']"
 														},
 														"sink": {
 															"name": "PLAN_DELIV_DATE",
@@ -231,7 +231,7 @@
 													},
 													{
 														"source": {
-															"path": "REMARK1"
+															"path": "$['REMARK1']"
 														},
 														"sink": {
 															"name": "PLANNER_REMARKS",
@@ -258,7 +258,7 @@
 													},
 													{
 														"source": {
-															"path": "$USER_NAME"
+															"path": "$UNAME"
 														},
 														"sink": {
 															"name": "USER_NAME",
