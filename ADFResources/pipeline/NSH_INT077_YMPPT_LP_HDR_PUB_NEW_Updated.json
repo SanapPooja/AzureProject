@@ -533,6 +533,8 @@
 						{
 							"name": "Execute PipelineInt077SubscriberD",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "RecordCountD",
@@ -552,52 +554,23 @@
 								},
 								"waitOnCompletion": true
 							}
+						},
+						{
+							"name": "ForEachExecuteSubscriberD",
+							"type": "ForEach",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"items": {
+									"value": "@variables('RecordCntArrD')",
+									"type": "Expression"
+								},
+								"isSequential": true
+							}
 						}
 					]
-				}
-			},
-			{
-				"name": "ForEachD",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Set variableD",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Load_NoArrD')",
-						"type": "Expression"
-					},
-					"isSequential": true
-				}
-			},
-			{
-				"name": "Set variableD",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "If ConditionD",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Load_NoArrD",
-					"value": {
-						"value": "@activity('LookupD').output.value",
-						"type": "Expression"
-					}
 				}
 			},
 			{
@@ -1108,19 +1081,6 @@
 							}
 						}
 					]
-				}
-			},
-			{
-				"name": "ForEachExecuteSubscriberD",
-				"type": "ForEach",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('RecordCntArrD')",
-						"type": "Expression"
-					},
-					"isSequential": true
 				}
 			},
 			{
