@@ -430,49 +430,18 @@
 												"type": "DatasetReference"
 											}
 										]
-									}
-								]
-							}
-						},
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "iterate_load_no",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "If Condition2",
-							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "If Condition1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@greater(length(activity('validation').output.value), 0)",
-									"type": "Expression"
-								},
-								"ifFalseActivities": [
+									},
 									{
-										"name": "count_check",
+										"name": "count_check_copy1",
 										"type": "Lookup",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Load_sap_tally_copy_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -499,11 +468,11 @@
 										}
 									},
 									{
-										"name": "count_validation",
+										"name": "count_validation_copy1",
 										"type": "SetVariable",
 										"dependsOn": [
 											{
-												"activity": "count_check",
+												"activity": "count_check_copy1",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -526,11 +495,28 @@
 							}
 						},
 						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "iterate_load_no",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
 							"name": "If Condition3",
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "If Condition2",
+									"activity": "If Condition1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -541,7 +527,69 @@
 								"expression": {
 									"value": "@greater(int(variables('count')), 0)\n",
 									"type": "Expression"
-								}
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Update if count zero",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "update if true",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								]
 							}
 						}
 					]
