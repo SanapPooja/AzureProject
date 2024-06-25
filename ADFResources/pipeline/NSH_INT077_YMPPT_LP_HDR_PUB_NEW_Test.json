@@ -1175,6 +1175,8 @@
 			{
 				"name": "LookupD",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -1201,6 +1203,8 @@
 			{
 				"name": "If ConditionD",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupD",
@@ -1220,6 +1224,8 @@
 			{
 				"name": "ForEachD",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variableD",
@@ -1240,6 +1246,8 @@
 			{
 				"name": "Set variableD",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If ConditionD",
@@ -1264,6 +1272,8 @@
 			{
 				"name": "LookupPT",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -1290,6 +1300,8 @@
 			{
 				"name": "If ConditionPT",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupPT",
@@ -1309,6 +1321,8 @@
 			{
 				"name": "ForEachPT",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variablePT",
@@ -1329,6 +1343,8 @@
 			{
 				"name": "Set variablePT",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If ConditionPT",
@@ -1353,6 +1369,8 @@
 			{
 				"name": "LookupA",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -1379,6 +1397,8 @@
 			{
 				"name": "If ConditionA",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupA",
@@ -1398,6 +1418,8 @@
 			{
 				"name": "ForEachA",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variableA",
@@ -1418,6 +1440,8 @@
 			{
 				"name": "Set variableA",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If ConditionA",
@@ -1480,6 +1504,8 @@
 			{
 				"name": "ForEachExecuteSubscriberD",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "RecordCountD",
@@ -1518,6 +1544,8 @@
 			{
 				"name": "ForEachExecuteSubscriberPT",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "RecordCountPT",
@@ -1556,6 +1584,8 @@
 			{
 				"name": "ForEachExecuteSubscriberA",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "RecordCountA",
@@ -1654,6 +1684,8 @@
 			{
 				"name": "LookupCheckCountD",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ForEachD",
@@ -1690,6 +1722,8 @@
 			{
 				"name": "RecordCountD",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupCheckCountD",
@@ -1714,6 +1748,8 @@
 			{
 				"name": "LookupCheckCountPT",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ForEachPT",
@@ -1750,6 +1786,8 @@
 			{
 				"name": "RecordCountPT",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupCheckCountPT",
@@ -1774,6 +1812,8 @@
 			{
 				"name": "LookupCheckCountA",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ForEachA",
@@ -1810,6 +1850,8 @@
 			{
 				"name": "RecordCountA",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LookupCheckCountA",
