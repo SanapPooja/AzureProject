@@ -2,15 +2,15 @@
 	"name": "NSH_INT077_YESB_LP_HDR_QUERY",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "SAPSR3",
-			"table": "YESB_LP_HDR"
+			"schema": "SCM_ADMIN",
+			"table": "TBL_NSH_INT077_STAGING"
 		}
 	}
 }
