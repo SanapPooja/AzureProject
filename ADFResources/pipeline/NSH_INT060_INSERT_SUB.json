@@ -486,7 +486,67 @@
 										"typeProperties": {
 											"variableName": "count",
 											"value": {
-												"value": "@int(activity('count_check').output.firstRow.count)\n",
+												"value": "@int(activity('count_check_copy1').output.firstRow.count)\n",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Lookup3",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "count_validation_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT DISTINCT LP_STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										}
+									},
+									{
+										"name": "Set variable3",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Lookup3",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "LP_STATUS",
+											"value": {
+												"value": "@int(activity('Lookup3').output.firstRow.LP_STATUS)\n",
 												"type": "Expression"
 											}
 										}
@@ -617,6 +677,9 @@
 				"type": "String"
 			},
 			"count": {
+				"type": "String"
+			},
+			"LP_STATUS": {
 				"type": "String"
 			}
 		},
