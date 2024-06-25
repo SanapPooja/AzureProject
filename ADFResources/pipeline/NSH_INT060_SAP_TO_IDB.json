@@ -1,0 +1,585 @@
+{
+	"name": "NSH_INT060_SAP_TO_IDB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_ONHOLD, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Queue1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "select \t\t\t\t\t\t\t\t\nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION,\t\t\t\t\t\t\t\t\nLOAD.SHAPE_CODE,\t\t\t\t\t\t\t\t\nLOAD.WBS1,\t\t\t\t\t\t\t\t\nLOAD.WBS2,\t\t\t\t\t\t\t\t\nLOAD.WBS3,\t\t\t\t\t\t\t\t\nLOAD.WBS4,\t\t\t\t\t\t\t\t\nLOAD.WBS5,\t\t\t\t\t\t\t\t\nLOAD.INV_LEN_IN_MM,\t\t\t\t\t\t\t\t\nLOAD.ENV_LENGTH,\t\t\t\t\t\t\t\t\nLOAD.ENV_WIDTH,\t\t\t\t\t\t\t\t\nLOAD.ENV_HEIGHT,\t\t\t\t\t\t\t\t\nLOAD.BBS_NO,\t\t\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' '),\t\t\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\t\t\nDECIMAL(10, 3)),\t\t\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0),\t\t\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.LOAD_NO IN (Select LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL)\t\t\t\t\t\t\t\t",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "100",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "SAP_ORDER_ITEM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_ORDER_ITEM"
+											}
+										},
+										{
+											"source": {
+												"name": "MATERIAL_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MATERIAL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PROJ_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PROJ_NAME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_NAME"
+											}
+										},
+										{
+											"source": {
+												"name": "CUST_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "CUST_NAME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_NAME"
+											}
+										},
+										{
+											"source": {
+												"name": "PROJ_COORDINATOR",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_COORDINATOR"
+											}
+										},
+										{
+											"source": {
+												"name": "JOB_SITE_LOCATION",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$JOB_SITE_LOCATION"
+											}
+										},
+										{
+											"source": {
+												"name": "SHAPE_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS1"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS2"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS3"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS4"
+											}
+										},
+										{
+											"source": {
+												"name": "WBS5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS5"
+											}
+										},
+										{
+											"source": {
+												"name": "INV_LEN_IN_MM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$INV_LEN_IN_MM"
+											}
+										},
+										{
+											"source": {
+												"name": "ENV_LENGTH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ENV_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "ENV_WIDTH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ENV_WIDTH"
+											}
+										},
+										{
+											"source": {
+												"name": "ENV_HEIGHT",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ENV_HEIGHT"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ITEM_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_PIECES",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$ORDER_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "LOAD_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LOAD_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "LAYER_NO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$LAYER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCT_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCT_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "WEIGHT_IN_MT",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$WEIGHT_IN_MT"
+											}
+										},
+										{
+											"source": {
+												"name": "NVL(SUBSTR(TRIM(ORDH.JOB_SITE_LOCATION),0,3),'')",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NVL(SUBSTR(TRIM(ORDH.JOB_SITE_LOCATION),0,3),'')"
+											}
+										},
+										{
+											"source": {
+												"name": "CAST(((ORDI.ORDER_QTY*LOAD.ORDER_PIECES)/ORDI.ORDER_PIECES)ASDECIMAL(10,3))",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$CAST(((ORDI.ORDER_QTY*LOAD.ORDER_PIECES)/ORDI.ORDER_PIECES)ASDECIMAL(10,3))"
+											}
+										},
+										{
+											"source": {
+												"name": "CONTRACT_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONTRACT_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_QTY",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$ORDER_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "IS_DELETED",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$IS_DELETED"
+											}
+										},
+										{
+											"source": {
+												"name": "NVL(LOAD.NR_OF_BUNDLE,0)",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$NVL(LOAD.NR_OF_BUNDLE,0)"
+											}
+										},
+										{
+											"source": {
+												"name": "ORDER_REQUEST_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_REQUEST_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "ID",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$['$ID']"
+											}
+										},
+										{
+											"source": {
+												"name": "QTY_IN_BASE_UOM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$['$QTY_IN_BASE_UOM']"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT060_ESB_LOAD_TBL",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT060_Queue",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": "select NVL(L.REMARK1,' ') AS REMARK1,NVL(TO_char(L.DELIVERY_DATE,'YYYYMMDD'), ' ') AS DELIVERY_DATE, NVL(L.VEHICLE_TYPE_NAME, ' ') AS VEHICLE_TYPE_NAME, NVL(L.TRAILER_NO, ' ') AS TRAILER_NO, NVL(L.DELIVERY_DATE_STRING, ' ') AS DELIVERY_DATE_STRING, EL. LOAD_NO, EL.IS_ONHOLD, EL.IS_CANCELLED, EL.VIRTUAL_VEHICLE_TYPE,EL.WM_SENDTIME, EL.ACTION  from scm_admin.LOAD L JOIN SCM_ADMIN.ESB_LOAD_TBL EL\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nON L.LOAD_NO = EL.LOAD_NO\t\t\t\t\t\t\t\t\t\t\t\r\n\r\n",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "REMARK1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "REMARK1"
+											}
+										},
+										{
+											"source": {
+												"name": "DELIVERY_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "DELIVERY_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "VEHICLE_TYPE_NAME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "VEHICLE_TYPE_NAME"
+											}
+										},
+										{
+											"source": {
+												"name": "TRAILER_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "TRAILER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "DELIVERY_DATE_STRING",
+												"type": "String"
+											},
+											"sink": {
+												"path": "DELIVERY_DATE_STRING"
+											}
+										},
+										{
+											"source": {
+												"name": "LOAD_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "LOAD_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "IS_ONHOLD",
+												"type": "String"
+											},
+											"sink": {
+												"path": "IS_ONHOLD"
+											}
+										},
+										{
+											"source": {
+												"name": "IS_CANCELLED",
+												"type": "String"
+											},
+											"sink": {
+												"path": "IS_CANCELLED"
+											}
+										},
+										{
+											"source": {
+												"name": "VIRTUAL_VEHICLE_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "VIRTUAL_VEHICLE_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "WM_SENDTIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "WM_SENDTIME"
+											}
+										},
+										{
+											"source": {
+												"name": "ACTION",
+												"type": "String"
+											},
+											"sink": {
+												"path": "ACTION"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SCM_IDB_DB",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "RestResource6",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"LOAD_NO_ARRAY": {
+				"type": "Array"
+			},
+			"iterate_load_no": {
+				"type": "String"
+			},
+			"count": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

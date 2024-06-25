@@ -1,0 +1,564 @@
+{
+	"name": "NSH_INT060_INSERT_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select DISTINCT LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARRAY",
+					"value": {
+						"value": "@activity('Lookup2').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARRAY')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "validation",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "Select MANDT SAPSR3.YMPPT_LP_HDR where LOAD_NO = '@{variables('iterate_load_no')}'",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "INT060_YMPPT_LP_HDR",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "validation",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('validation').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "YMPPT_LP_HDR_Copy_copy1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "USER_NAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "ERROR_CD",
+														"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
+													},
+													{
+														"name": "EMAIL_ALERT_IND",
+														"value": "N"
+													},
+													{
+														"name": "DELIVERY_SQN",
+														"value": "0"
+													},
+													{
+														"name": "MANDT",
+														"value": "600"
+													},
+													{
+														"name": "USER_NAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "UPDATION_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "PROC-TS",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$LOAD_NO"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$VEHICLE_TYPE_NAME"
+														},
+														"sink": {
+															"name": "VEHICLE_TYPE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$DELIVERY_DATE"
+														},
+														"sink": {
+															"name": "PLAN_DELIV_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$REMARK1"
+														},
+														"sink": {
+															"name": "PLANNER_REMARKS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$LP_STATUS"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$STATUS"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$USER_NAME"
+														},
+														"sink": {
+															"name": "USER_NAME",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$ERROR_CD"
+														},
+														"sink": {
+															"name": "ERROR_CD",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$EMAIL_ALERT_IND"
+														},
+														"sink": {
+															"name": "EMAIL_ALERT_IND",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$DELIVERY_SQN"
+														},
+														"sink": {
+															"name": "DELIVERY_SQN",
+															"type": "String"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										]
+									},
+									{
+										"name": "Load_sap_tally_copy_copy1",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "YMPPT_LP_HDR_Copy_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "CREATE_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MODIFY_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['$LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$LP_STATUS']"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['STATUS']"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['CREATE_DATE']"
+														},
+														"sink": {
+															"name": "CREATE_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['MODIFY_DATE']"
+														},
+														"sink": {
+															"name": "MODIFY_DATE",
+															"type": "String"
+														}
+													}
+												],
+												"collectionReference": ""
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Int060_Load_SAP_Tally",
+												"type": "DatasetReference"
+											}
+										]
+									}
+								]
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "iterate_load_no",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition2",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('validation').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "count_check",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT COUNT(*) as count \nFROM sapsr3.ymppt_lp_batch_c yb \nJOIN sapsr3.ymppt_lp_hdr yh \nON yb.LOAD_NO = yh.LOAD_NO\nWHERE yh.LP_STATUS='A' AND yh.STATUS='A' and yb.LOAD_NO='@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										}
+									},
+									{
+										"name": "count_validation",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "count_check",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "count",
+											"value": {
+												"value": "@int(activity('count_check').output.firstRow.count)\n",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition3",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(int(variables('count')), 0)\n",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"LOAD_NO_ARRAY": {
+				"type": "Array"
+			},
+			"iterate_load_no": {
+				"type": "String"
+			},
+			"count": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
