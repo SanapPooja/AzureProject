@@ -29,68 +29,6 @@
 				}
 			},
 			{
-				"name": "If ConditionT",
-				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@not(empty(activity('LookupT').output.value))",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "ForEachT",
-				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Set variableT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Load_NoArrT')",
-						"type": "Expression"
-					},
-					"isSequential": true
-				}
-			},
-			{
-				"name": "Set variableT",
-				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "If ConditionT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Load_NoArrT",
-					"value": {
-						"value": "@activity('LookupT').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "LookupD",
 				"type": "Lookup",
 				"dependsOn": [],
@@ -644,56 +582,12 @@
 					"expression": {
 						"value": "@not(empty(activity('LookupPT').output.value))",
 						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "ForEachPT",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Set variablePT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Load_NoArrPT')",
-						"type": "Expression"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Set_Load_NoPT",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "Load_No",
-								"value": {
-									"value": "@item().LOAD_NO",
-									"type": "Expression"
-								}
-							}
-						},
+					"ifTrueActivities": [
 						{
 							"name": "Copy_data_Load_SAP_PT",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set_Load_NoPT",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -861,32 +755,91 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "LookupCheckCountPT",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy_data_Load_SAP_Tally_PT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "SELECT Case When count(1)>0 Then     \n    cast(count(1)/100 as int) + 1 \n    Else 0\n    end as recordcount\nFROM \n     SAPSR3.YESB_LP_HDR\nWHERE \n    load_no IN (\n        SELECT \n        distinct load_no FROM \n             SAPSR3.YESB_LP_HDR\n        WHERE \n            lp_status = 'PT'\n    );",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "CheckRecordCount",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "RecordCountPT",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "LookupCheckCountPT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RecordCntArrPT",
+								"value": {
+									"value": "@range(1, int(activity('LookupCheckCountPT').output.firstRow.recordcount))\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Execute PipelineInt077SubscriberPT",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "RecordCountPT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
-				}
-			},
-			{
-				"name": "Set variablePT",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "If ConditionPT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Load_NoArrPT",
-					"value": {
-						"value": "@activity('LookupPT').output.value",
-						"type": "Expression"
-					}
 				}
 			},
 			{
@@ -1083,44 +1036,6 @@
 				}
 			},
 			{
-				"name": "ForEachExecuteSubscriberT",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Condition6",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('RecordCntArrT')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Execute PipelineInt077SubscriberT",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						}
-					]
-				}
-			},
-			{
 				"name": "ForEachExecuteSubscriberD",
 				"type": "ForEach",
 				"dependsOn": [
@@ -1161,39 +1076,14 @@
 			{
 				"name": "ForEachExecuteSubscriberPT",
 				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "RecordCountPT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
 						"value": "@variables('RecordCntArrPT')",
 						"type": "Expression"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Execute PipelineInt077SubscriberPT",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						}
-					]
+					"isSequential": true
 				}
 			},
 			{
@@ -1295,66 +1185,6 @@
 				}
 			},
 			{
-				"name": "LookupCheckCountPT",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "ForEachPT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "SELECT Case When count(1)>0 Then     \n    cast(count(1)/100 as int) + 1 \n    Else 0\n    end as recordcount\nFROM \n     SAPSR3.YESB_LP_HDR\nWHERE \n    load_no IN (\n        SELECT \n        distinct load_no FROM \n             SAPSR3.YESB_LP_HDR\n        WHERE \n            lp_status = 'PT'\n    );",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"dataset": {
-						"referenceName": "CheckRecordCount",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "RecordCountPT",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "LookupCheckCountPT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "RecordCntArrPT",
-					"value": {
-						"value": "@range(1, int(activity('LookupCheckCountPT').output.firstRow.recordcount))\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "LookupCheckCountA",
 				"type": "Lookup",
 				"dependsOn": [
@@ -1415,26 +1245,7 @@
 				}
 			},
 			{
-				"name": "Set_Load_NoT",
-				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Load_No",
-					"value": {
-						"value": "@item().LOAD_NO",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "If Condition6",
+				"name": "If ConditionT",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -1745,6 +1556,29 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Execute PipelineInt077SubscriberT",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "RecordCountT_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_SUB_NEW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}
