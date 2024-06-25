@@ -561,21 +561,6 @@
 								},
 								"waitOnCompletion": true
 							}
-						},
-						{
-							"name": "ForEachExecuteSubscriberD",
-							"type": "ForEach",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"items": {
-									"value": "@variables('RecordCntArrD')",
-									"type": "Expression"
-								},
-								"isSequential": true
-							}
 						}
 					]
 				}
