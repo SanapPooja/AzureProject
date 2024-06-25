@@ -253,7 +253,7 @@
 											"source": {
 												"type": "OracleSource",
 												"oracleReaderQuery": {
-													"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    t.SALES_ORDER,\n    t.LP_STATUS,\n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces,\n    TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') AS TIMESTAMP\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE\nt.load_no in ('@{variables('Load_No')}')  \nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no,\n    t.SALES_ORDER,\n    t.LP_STATUS;",
+													"value": "SELECT DISTINCT \n    t.order_item,  \n    t.nds_sale_order, \n    t.load_no,  \n    t.SALES_ORDER,\n    t.LP_STATUS,\n    SUM(t.tally_batch_qty) AS sum_tally_batch_qty, \n    SUM(t.no_pieces) AS sum_no_pieces,\n    TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') AS TIMESTAMP\nFROM \n    SAPSR3.YMPPT_LP_BATCH_C t\nJOIN \n    SAPSR3.YESB_LP_HDR h ON t.load_no = h.LOAD_NO\nWHERE\nt.load_no in ('@{variables('Load_No')}') \nGROUP BY \n    t.order_item, \n    t.nds_sale_order, \n    t.load_no,\n    t.SALES_ORDER,\n    t.LP_STATUS;",
 													"type": "Expression"
 												},
 												"partitionOption": "None",
@@ -349,7 +349,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "NSH_INT077_YESB_LP_HDR_QUERY",
+												"referenceName": "NSH_LOAD_SAP_TALLY",
 												"type": "DatasetReference"
 											}
 										],
