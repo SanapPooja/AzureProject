@@ -691,6 +691,24 @@
 			},
 			"Load_No": {
 				"type": "String"
+			},
+			"RecordCntArr": {
+				"type": "Array"
+			},
+			"RecordCntArrD": {
+				"type": "Array"
+			},
+			"RecordCntArrT": {
+				"type": "Array"
+			},
+			"RecordCntArrPT": {
+				"type": "Array"
+			},
+			"RecordCntArrA": {
+				"type": "Array"
+			},
+			"RecordCntArrAA": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
