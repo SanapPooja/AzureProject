@@ -636,7 +636,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT077_ITEM_LOAD_SAP_TALLY",
+						"referenceName": "int077_item_load_tally_head",
 						"type": "DatasetReference"
 					}
 				],
