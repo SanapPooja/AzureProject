@@ -70,7 +70,16 @@
 							},
 							{
 								"source": {
-									"path": "$TRAILER_ID"
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_TYPE"
 								},
 								"sink": {
 									"name": "TRAILER_ID",
@@ -79,10 +88,28 @@
 							},
 							{
 								"source": {
-									"path": "$TIMESTAMP"
+									"path": "$ THEORITICAL_WEIGHT"
 								},
 								"sink": {
-									"name": "MODIFY_DATE",
+									"name": "TARE_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$ACTUAL_WEIGHT"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$ WEIGHING_TICKET_TIME"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
 									"type": "String"
 								}
 							}
