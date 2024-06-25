@@ -591,6 +591,19 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "If Condition4",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": []
 						}
 					]
 				}
