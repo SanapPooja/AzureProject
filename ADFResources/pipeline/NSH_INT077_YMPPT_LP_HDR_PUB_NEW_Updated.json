@@ -846,7 +846,7 @@
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Copy_data_Load_SAP_Tally_T_copy1",
+									"activity": "Copy_data_Load_SAP_Tally_T",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -878,7 +878,7 @@
 							}
 						},
 						{
-							"name": "RecordCountT_copy1",
+							"name": "RecordCountT",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -902,7 +902,7 @@
 							}
 						},
 						{
-							"name": "Copy_data_Load_SAP_T_copy1",
+							"name": "Copy_data_Load_SAP_T",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -1007,11 +1007,11 @@
 							]
 						},
 						{
-							"name": "Copy_data_Load_SAP_Tally_T_copy1",
+							"name": "Copy_data_Load_SAP_Tally_T",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy_data_Load_SAP_T_copy1",
+									"activity": "Copy_data_Load_SAP_T",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1141,7 +1141,7 @@
 							"type": "ExecutePipeline",
 							"dependsOn": [
 								{
-									"activity": "RecordCountT_copy1",
+									"activity": "RecordCountT",
 									"dependencyConditions": [
 										"Succeeded"
 									]
