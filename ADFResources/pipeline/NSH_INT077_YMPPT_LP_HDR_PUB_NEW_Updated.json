@@ -82,14 +82,7 @@
 						{
 							"name": "Copy_data_Load_SAP_D",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "If Condition5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -217,265 +210,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Lookup2",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "SELECT distinct NGWS_STATUS \nFROM SAPSR3.YMPPT_LP_HDR h\n JOIN SAPSR3.YESB_LP_HDR y ON h.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'D'",
-										"type": "Expression"
-									},
-									"partitionOption": "None",
-									"convertDecimalToInteger": false,
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
-									"type": "DatasetReference"
-								},
-								"firstRowOnly": false
-							}
-						},
-						{
-							"name": "If Condition5",
-							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "Lookup2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@greater(length(activity('Lookup2').output.value), 0)",
-									"type": "Expression"
-								},
-								"ifFalseActivities": [
-									{
-										"name": "UpdateLoadSapTallyR",
-										"type": "Script",
-										"dependsOn": [
-											{
-												"activity": "Set variable",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"linkedServiceName": {
-											"referenceName": "SCM_IDB_Connect",
-											"type": "LinkedServiceReference"
-										},
-										"typeProperties": {
-											"scripts": [
-												{
-													"type": "Query",
-													"text": {
-														"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'R', \n    MODIFY_DATE = ('@{variables('TIMESTAMP')}')  \nWHERE LP_STATUS = 'D'",
-														"type": "Expression"
-													}
-												}
-											],
-											"scriptBlockExecutionTimeout": "02:00:00"
-										}
-									},
-									{
-										"name": "Set variable",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "TIMESTAMP",
-											"value": {
-												"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
-												"type": "Expression"
-											}
-										}
-									}
-								],
-								"ifTrueActivities": [
-									{
-										"name": "Copy_data_Load_SAP_Tally_D",
-										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "UpdateLoadSapTallyY",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "OracleSource",
-												"additionalColumns": [
-													{
-														"name": "LP_STATUS",
-														"value": "Y"
-													}
-												],
-												"oracleReaderQuery": {
-													"value": "SELECT  \n    v.VEHICLE_TYPE,\n    v.TARE_WT,\n    v.GROSS_WT\n    FROM SAPSR3.YMPPT_LOAD_VEHIC V \n     JOIN SAPSR3.YESB_LP_HDR y ON V.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'D' ",
-													"type": "Expression"
-												},
-												"partitionOption": "None",
-												"convertDecimalToInteger": false,
-												"queryTimeout": "02:00:00"
-											},
-											"sink": {
-												"type": "RestSink",
-												"httpRequestTimeout": "00:05:00",
-												"requestInterval": 10,
-												"requestMethod": "POST",
-												"writeBatchSize": 10000,
-												"httpCompressionType": "none"
-											},
-											"enableStaging": false,
-											"translator": {
-												"type": "TabularTranslator",
-												"mappings": [
-													{
-														"source": {
-															"name": "VEHICLE_TYPE",
-															"type": "String"
-														},
-														"sink": {
-															"path": "$VEHICLE_TYPE"
-														}
-													},
-													{
-														"source": {
-															"name": "GROSS_WT",
-															"type": "Decimal"
-														},
-														"sink": {
-															"path": "$GROSS_WT"
-														}
-													},
-													{
-														"source": {
-															"name": "TARE_WT",
-															"type": "Decimal"
-														},
-														"sink": {
-															"path": "$TARE_WT"
-														}
-													},
-													{
-														"source": {
-															"name": "LP_STATUS",
-															"type": "String"
-														},
-														"sink": {
-															"path": "$LP_STATUS"
-														}
-													}
-												]
-											}
-										},
-										"inputs": [
-											{
-												"referenceName": "NSH_INT077_YESB_LP_HDR_QUERY",
-												"type": "DatasetReference"
-											}
-										],
-										"outputs": [
-											{
-												"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
-												"type": "DatasetReference"
-											}
-										]
-									},
-									{
-										"name": "UpdateLoadSapTallyY",
-										"type": "Script",
-										"dependsOn": [
-											{
-												"activity": "Set variable5",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"linkedServiceName": {
-											"referenceName": "SCM_IDB_Connect",
-											"type": "LinkedServiceReference"
-										},
-										"typeProperties": {
-											"scripts": [
-												{
-													"type": "Query",
-													"text": {
-														"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'Y', \n    MODIFY_DATE = ('@{variables('TIMESTAMP')}')  \nWHERE LP_STATUS = 'D'",
-														"type": "Expression"
-													}
-												}
-											],
-											"scriptBlockExecutionTimeout": "02:00:00"
-										}
-									},
-									{
-										"name": "Set variable5",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "TIMESTAMP",
-											"value": {
-												"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')",
-												"type": "Expression"
-											}
-										}
-									}
-								]
-							}
 						},
 						{
 							"name": "LookupCheckCountD",
@@ -1423,6 +1157,272 @@
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "LookupD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT distinct NGWS_STATUS \nFROM SAPSR3.YMPPT_LP_HDR h\n JOIN SAPSR3.YESB_LP_HDR y ON h.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'D'",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT077_YESB_LP_HDR_DS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition5",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup2').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "UpdateLoadSapTallyR",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'R', \n    MODIFY_DATE = ('@{variables('TIMESTAMP')}')  \nWHERE LP_STATUS = 'D'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "TIMESTAMP",
+								"value": {
+									"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')\n",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Copy_data_Load_SAP_Tally_D",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "UpdateLoadSapTallyY",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"additionalColumns": [
+										{
+											"name": "LP_STATUS",
+											"value": "Y"
+										}
+									],
+									"oracleReaderQuery": {
+										"value": "SELECT  \n    v.VEHICLE_TYPE,\n    v.TARE_WT,\n    v.GROSS_WT\n    FROM SAPSR3.YMPPT_LOAD_VEHIC V \n     JOIN SAPSR3.YESB_LP_HDR y ON V.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'D' ",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "VEHICLE_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$VEHICLE_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "GROSS_WT",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$GROSS_WT"
+											}
+										},
+										{
+											"source": {
+												"name": "TARE_WT",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$TARE_WT"
+											}
+										},
+										{
+											"source": {
+												"name": "LP_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LP_STATUS"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "NSH_INT077_YESB_LP_HDR_QUERY",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "UpdateLoadSapTallyY",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set variable5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_IDB_Connect",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE LOAD_SAP_TALLY\nSET LP_STATUS = 'Y', \n    MODIFY_DATE = ('@{variables('TIMESTAMP')}')  \nWHERE LP_STATUS = 'D'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "TIMESTAMP",
+								"value": {
+									"value": "@formatDateTime(addHours(utcNow(), 8), 'yyyy-MM-dd HH:mm:ss')",
+									"type": "Expression"
+								}
 							}
 						}
 					]
