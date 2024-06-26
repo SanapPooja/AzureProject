@@ -95,7 +95,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT distinct\nv.VEHICLE_ID,\nv.TARE_WT,\nv.GROSS_WT,\nv.TIMESTAMP,\nh.STATUS,\nh.TRAILER_NO, \nh.ERROR_CD, \ny.LOAD_NO, \ny.LP_STATUS\nFROM SAPSR3.YMPPT_LP_HDR h\nJOIN SAPSR3.YESB_LP_HDR y ON h.LOAD_NO = y.LOAD_NO\nJOIN SAPSR3.YMPPT_LOAD_VEHIC v ON h.LOAD_NO = v.LOAD_NO\nWHERE y.LP_STATUS = 'D'",
+										"value": "SELECT distinct\n CASE \n        WHEN INSTR(VEHICLE_ID, '/') > 0 THEN SUBSTR(VEHICLE_ID, 1, INSTR(VEHICLE_ID, '/') - 1) \n        ELSE \n            CASE \n                WHEN INSTR(VEHICLE_TYPE, 'TR') > 0 THEN VEHICLE_ID \n                ELSE NULL \n            END\n    END AS TRAILER_ID,\n    CASE \n        WHEN INSTR(VEHICLE_ID, '/') > 0 THEN SUBSTR(VEHICLE_ID, INSTR(VEHICLE_ID, '/') + 1) \n        ELSE \n            CASE \n                WHEN INSTR(VEHICLE_TYPE, 'TR') = 0 THEN VEHICLE_ID \n                ELSE NULL \n            END\n    END AS VEHICLE_ID,\n    v.VEHICLE_TYPE,\n    v.TARE_WT, \n    v.GROSS_WT, \n    v.TIMESTAMP,\ny.LOAD_NO, \ny.LP_STATUS\nFROM SAPSR3.YMPPT_LOAD_VEHIC v\nJOIN SAPSR3.YESB_LP_HDR y ON v.LOAD_NO = y.LOAD_NO\nWHERE y.LP_STATUS = 'D';",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -116,56 +116,29 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "LOAD_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LOAD_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "LP_STATUS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$LP_STATUS"
-											}
-										},
-										{
-											"source": {
-												"name": "STATUS",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$STATUS"
-											}
-										},
-										{
-											"source": {
-												"name": "TRAILER_NO",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$TRAILER_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "ERROR_CD",
-												"type": "String"
-											},
-											"sink": {
-												"path": "$ERROR_CD"
-											}
-										},
-										{
-											"source": {
 												"name": "VEHICLE_ID",
 												"type": "String"
 											},
 											"sink": {
 												"path": "$VEHICLE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "TRAILER_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TRAILER_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "VEHICLE_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$VEHICLE_TYPE"
 											}
 										},
 										{
@@ -193,6 +166,24 @@
 											},
 											"sink": {
 												"path": "$TIMESTAMP"
+											}
+										},
+										{
+											"source": {
+												"name": "LOAD_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LOAD_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "LP_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LP_STATUS"
 											}
 										}
 									]
