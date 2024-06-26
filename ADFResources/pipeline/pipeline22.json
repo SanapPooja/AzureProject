@@ -1,0 +1,552 @@
+{
+	"name": "pipeline22",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T1\r\nSET\r\n    T1.LP_STATUS = S.LP_STATUS,\r\n    T1.VEHICLE_ID = S.VEHICLE_ID,\r\n    T1.THEORITICAL_WEIGHT = S.THEORITICAL_WEIGHT,\r\n    T1.ACTUAL_WEIGHT = S.ACTUAL_WEIGHT,\r\n    T1.WEIGHING_TICKET_TIME = S.WEIGHING_TICKET_TIME,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE,\r\n    T1.TRAILER_ID = S.TRAILER_ID\r\nFROM\r\n    TBL_NSH_INT077_STAGING S\r\nWHERE\r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND S.LP_STATUS = 'Y';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T1\r\nSET\r\n    T1.LP_STATUS = S.LP_STATUS,\r\n    T1.TRAILER_ID = S.TRAILER_ID,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE\r\nFROM\r\n    SCM_ADMIN.TBL_NSH_INT077_STAGING S\r\nwhere \r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND S.LP_STATUS = 'A';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T1\r\nSET\r\n    T1.LP_STATUS = S.LP_STATUS,\r\n    T1.TRAILER_ID = S.TRAILER_ID,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE\r\nFROM\r\n    SCM_ADMIN.TBL_NSH_INT077_STAGING S\r\nwhere \r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND S.LP_STATUS = 'D';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script4",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T1\r\nSET\r\n    T1.LP_STATUS = 'P', -- Setting LP_STATUS to 'P'\r\n    T1.STATUS = S.STATUS,\r\n    T1.ERROR_CD = S.ERROR_CD,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE,\r\n    T1.TRAILER_ID = S.TRAILER_ID\r\nFROM\r\n    SCM_ADMIN.TBL_NSH_INT077_STAGING S\r\nWHERE\r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND S.LP_STATUS = 'PT';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "SCM_STAGING_TABLE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TRAILER_NO"
+								},
+								"sink": {
+									"name": "TRAILER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ERROR_CD"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$VEHICLE_ID"
+								},
+								"sink": {
+									"name": "VEHICLE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$TARE_WT"
+								},
+								"sink": {
+									"name": "TARE_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$GROSS_WT"
+								},
+								"sink": {
+									"name": "GROSS_WT",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT077_YMPPT_LP_HDR_QUEUE",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ITEM_SAP_TALLY_STAGING",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SCM_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$LOAD_NO"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$NDS_SALE_ORDER"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SALES_ORDER"
+								},
+								"sink": {
+									"name": "ORDER_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORDER_ITEM"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$LP_STATUS"
+								},
+								"sink": {
+									"name": "LP_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$SUM_TALLY_BATCH_QTY"
+								},
+								"sink": {
+									"name": "TALLY_BATCH_QTY",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$SUM_NO_PIECES"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$TIMESTAMP"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "int077_item_load_tally_head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "IDB_SAP_ITEM_On_LOAD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ITEM_SAP_TALLY_STAGING",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY T1\r\nSET\r\n    T1.STATUS = S.STATUS,\r\n    T1.ERROR_CD = S.ERROR_CD,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE,\r\n    T1.TRAILER_ID = S.TRAILER_ID\r\nFROM\r\n    SCM_ADMIN.TBL_NSH_INT077_STAGING S\r\nWHERE\r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND S.LP_STATUS = 'T';"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable3",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentTime",
+					"value": {
+						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),'dd-MM-yy'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Script5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT SCM_ADMIN.CALL_INT077_INSERT_UPDATE_ITEM_ON_LOAD_SAP_TALLY AS Result FROM dual;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Script6",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "UPDATE SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY T1\r\nSET\r\n    T1.DELD_LOAD_QNTY = S.DELD_LOAD_QNTY,\r\n    T1.DELD_LOAD_PCS = S.DELD_LOAD_PCS,\r\n    T1.MODIFY_DATE = S.MODIFY_DATE\r\nFROM\r\n    SCM_ADMIN.TBL_NSH_INT077_STAGING S\r\nWHERE\r\n    T1.LOAD_NO = S.LOAD_NO\r\n    AND T1.ORDER_REQUEST_NO = S.ORDER_REQUEST_NO\r\n    AND T1.ORDER_ITEM = S.ORDER_ITEM\r\n    AND S.LP_STATUS = 'PT';\r\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script7",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY \r\nWHERE LOAD_NO IN (\r\n    SELECT DISTINCT LOAD_NO \r\n    FROM TBL_NSH_INT077_ITEM_SAP_TALLY_STAGING WHERE LP_STATUS='A'\r\n)\r\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"variables": {
+			"CurrentTime": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
