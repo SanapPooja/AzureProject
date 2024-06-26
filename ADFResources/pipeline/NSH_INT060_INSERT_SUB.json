@@ -775,6 +775,129 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "If Condition6",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('validation').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"enableStaging": false
+										}
+									},
+									{
+										"name": "Lookup5",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "Copy data1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('iterate_load_no')}'and order_request_no = (select distinct order_request_no from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY) and order_item = (select distinct order_item from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY)",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "SCM_IDB_DB",
+												"type": "DatasetReference"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition7",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition6",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('Lookup5').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Lookup6",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='@{variables('iterate_load_no')}' AND SALES_ORDER = (select distinct order_no from esb_YMPPT_LP_ITEM_C ) AND ORDER_ITEM = (select distinct ORDER_ITEM from esb_YMPPT_LP_ITEM_C ) GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "SCM_IDB_DB",
+												"type": "DatasetReference"
+											}
+										}
+									}
+								]
+							}
 						}
 					]
 				}
