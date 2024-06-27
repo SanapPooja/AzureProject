@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YMPPT_LP_ITEM_C"
+			"table": "ESB_YMPPT_LP_ITEM_C"
 		}
 	}
 }
