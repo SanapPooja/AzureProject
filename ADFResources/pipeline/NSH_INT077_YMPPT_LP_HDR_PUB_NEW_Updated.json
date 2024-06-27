@@ -700,7 +700,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD\nFROM \n    SAPSR3.YMPPT_LP_HDR h\n    JOIN SAPSR3.YESB_LP_HDR y ON h.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'A';",
+										"value": "SELECT \n    h.STATUS, \n    h.TRAILER_NO, \n    h.ERROR_CD,\n    y.LOAD_NO,\n    y.LP_STATUS\nFROM \n    SAPSR3.YMPPT_LP_HDR h\n    JOIN SAPSR3.YESB_LP_HDR y ON h.load_no = y.load_no \nWHERE \n    y.LP_STATUS= 'A';",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -744,6 +744,22 @@
 											},
 											"sink": {
 												"path": "$ERROR_CD"
+											}
+										},
+										{
+											"source": {
+												"name": "LOAD_NO"
+											},
+											"sink": {
+												"path": "$['$LOAD_NO']"
+											}
+										},
+										{
+											"source": {
+												"name": "LP_STATUS"
+											},
+											"sink": {
+												"path": "$['$LP_STATUS']"
 											}
 										}
 									]
