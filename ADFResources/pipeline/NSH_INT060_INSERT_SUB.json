@@ -1213,7 +1213,8 @@
 										"typeProperties": {
 											"scripts": [
 												{
-													"type": "Query"
+													"type": "Query",
+													"text": "INSERT INTO SAPSR3.ymppt_lp_item_c (\r\n    shape_code,\r\n    no_pieces,\r\n    nds_sale_order,\r\n    plan_load_qty,\r\n    sap_order_item,\r\n    material_no,\r\n    proj_no,\r\n    order_no,\r\n    proj_name,\r\n    cust_code,\r\n    cust_name,\r\n    proj_coordinator,\r\n    job_site_location,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    inv_len_in_mm,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    bbs_no,\r\n    item_no,\r\n    order_pieces,\r\n    load_no,\r\n    layer_no,\r\n    product_type,\r\n    weight_in_mt,\r\n    job_site_loc_prefix,\r\n    calc_order_qty,\r\n    contract_no,\r\n    order_qty,\r\n    is_deleted,\r\n    nr_of_bundle,\r\n    order_request_no,\r\n    qty_in_base_uom\r\n) SELECT\r\n    shape_code,\r\n    no_pieces,\r\n    nds_sale_order,\r\n    plan_load_qty,\r\n    sap_order_item,\r\n    material_no,\r\n    proj_no,\r\n    order_no,\r\n    proj_name,\r\n    cust_code,\r\n    cust_name,\r\n    proj_coordinator,\r\n    job_site_location,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    inv_len_in_mm,\r\n    env_length,\r\n    env_width,\r\n    env_height,\r\n    bbs_no,\r\n    item_no,\r\n    order_pieces,\r\n    load_no,\r\n    layer_no,\r\n    product_type,\r\n    weight_in_mt,\r\n    job_site_loc_prefix,\r\n    calc_order_qty,\r\n    contract_no,\r\n    order_qty,\r\n    is_deleted,\r\n    nr_of_bundle,\r\n    order_request_no,\r\n    id,\r\n    qty_in_base_uom\r\nFROM\r\n    SAPSR3.esb_ymppt_lp_item_c;"
 												}
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
@@ -1245,7 +1246,8 @@
 										"typeProperties": {
 											"scripts": [
 												{
-													"type": "Query"
+													"type": "Query",
+													"text": "DELETE FROM SAPSR3.esb_ymppt_lp_item_c;"
 												}
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
