@@ -520,6 +520,14 @@
 											"sink": {
 												"path": "$NO_PIECES"
 											}
+										},
+										{
+											"source": {
+												"name": "LP_STATUS"
+											},
+											"sink": {
+												"path": "$['$LP_STATUS']"
+											}
 										}
 									]
 								}
