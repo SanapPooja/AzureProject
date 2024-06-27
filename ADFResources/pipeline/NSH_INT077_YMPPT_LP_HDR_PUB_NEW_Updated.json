@@ -576,6 +576,8 @@
 						{
 							"name": "Execute PipelineInt077SubscriberPT",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "RecordCountPT",
@@ -791,6 +793,8 @@
 						{
 							"name": "Execute PipelineInt077SubscriberA",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "RecordCountA",
@@ -1130,6 +1134,8 @@
 						{
 							"name": "Execute PipelineInt077SubscriberT",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "RecordCountT",
