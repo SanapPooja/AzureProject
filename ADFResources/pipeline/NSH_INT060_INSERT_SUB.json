@@ -799,7 +799,7 @@
 										"type": "Lookup",
 										"dependsOn": [
 											{
-												"activity": "QUEUE TO SAP STAGING",
+												"activity": "Script2",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -876,18 +876,6 @@
 													},
 													{
 														"name": "PROC_TS",
-														"value": ""
-													},
-													{
-														"name": "NO_PIECES",
-														"value": ""
-													},
-													{
-														"name": "NDS_SALE_ORDER",
-														"value": ""
-													},
-													{
-														"name": "PLAN_LOAD_QTY",
 														"value": ""
 													},
 													{
@@ -1150,15 +1138,6 @@
 													},
 													{
 														"source": {
-															"path": "$['$DELIVERY_DATE']"
-														},
-														"sink": {
-															"name": "DELIVERY_DATE",
-															"type": "String"
-														}
-													},
-													{
-														"source": {
 															"path": "$['$LOAD_DATE']"
 														},
 														"sink": {
@@ -1172,15 +1151,6 @@
 														},
 														"sink": {
 															"name": "TIMESTAMP",
-															"type": "String"
-														}
-													},
-													{
-														"source": {
-															"path": "$['$PROC_TS']"
-														},
-														"sink": {
-															"name": "PROC_TS",
 															"type": "String"
 														}
 													},
@@ -1200,23 +1170,6 @@
 														"sink": {
 															"name": "PLAN_LOAD_QTY"
 														}
-													},
-													{
-														"source": {
-															"path": "$['$DESP_LOAD_QTY']"
-														},
-														"sink": {
-															"name": "DESP_LOAD_QTY"
-														}
-													},
-													{
-														"source": {
-															"path": "$['$INTERMEDIATE_QTY']"
-														},
-														"sink": {
-															"name": "INTERMEDIATE_QTY",
-															"type": "Decimal"
-														}
 													}
 												]
 											}
@@ -1233,6 +1186,70 @@
 												"type": "DatasetReference"
 											}
 										]
+									},
+									{
+										"name": "Script1",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "QUEUE TO SAP STAGING",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "Script2",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Script1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
 									}
 								]
 							}
