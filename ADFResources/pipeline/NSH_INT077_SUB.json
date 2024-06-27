@@ -248,6 +248,14 @@
 									"name": "TIMESTAMP",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['MANDT']"
+								},
+								"sink": {
+									"name": "MANDT"
+								}
 							}
 						],
 						"collectionReference": ""
