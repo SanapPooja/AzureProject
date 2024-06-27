@@ -1291,7 +1291,7 @@
 								},
 								"ifFalseActivities": [
 									{
-										"name": "Lookup6",
+										"name": "sp for idb",
 										"type": "Lookup",
 										"dependsOn": [],
 										"policy": {
@@ -1306,7 +1306,7 @@
 											"source": {
 												"type": "OracleSource",
 												"oracleReaderQuery": {
-													"value": "SELECT to_char(Sum(TALLY_BATCH_QTY)) as TALLY_BACTH_QTY, to_char(Sum(NO_PIECES)) as NO_PIECES, SALES_ORDER, ORDER_ITEM FROM SAPSR3.YMPPT_LP_BATCH_C WHERE LOAD_NO ='@{variables('iterate_load_no')}' AND SALES_ORDER = (select distinct order_no from esb_YMPPT_LP_ITEM_C ) AND ORDER_ITEM = (select distinct ORDER_ITEM from esb_YMPPT_LP_ITEM_C ) GROUP BY LOAD_NO, SALES_ORDER, ORDER_ITEM",
+													"value": "SELECT INT_Interface('USP_INT060') AS Result FROM dual;",
 													"type": "Expression"
 												},
 												"partitionOption": "None",
