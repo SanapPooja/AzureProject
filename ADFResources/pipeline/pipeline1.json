@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Script1",
-				"type": "Script",
+				"name": "SOURCE TO QUEUE_copy1",
+				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
@@ -16,39 +16,378 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"parameters": [
-								{
-									"name": "BEND_PER_TON",
-									"type": "Int16",
-									"value": "0",
-									"direction": "Input"
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select \t\t\nnvl(LOAD.SHAPE_CODE,' ') as SHAPE_CODE,\nCASE\n        WHEN LOAD.NR_OF_BUNDLE > 0 THEN LOAD.NR_OF_BUNDLE  --nr_of_bundle\n        ELSE LOAD.ORDER_PIECES  --order_pieces instead of 1000\n        END AS NO_PIECES,\nCASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.ORDER_NO\n        ELSE ''\n    END AS NDS_SALE_ORDER,\n    CASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.WEIGHT_IN_MT\n        ELSE 0\n    END AS PLAN_LOAD_QTY,        \nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION AS LOAD_JOB_SITE_LOCATION,\t\t\t\t\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS1,' ') as WBS1,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS2,' ') as WBS2,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS3,' ') as WBS3,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS4,' ') as WBS4,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS5,' ') as WBS5,\t\t\t\t\t\t\t\t\nnvl(LOAD.INV_LEN_IN_MM,'') as INV_LEN_IN_MM,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_LENGTH,'') as ENV_LENGTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_WIDTH,'') as ENV_WIDTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_HEIGHT,'') as ENV_HEIGHT,\t\t\t\t\t\t\t\t\nnvl(LOAD.BBS_NO,'') as BBS_NO,\t\t\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' ') AS ORDH_JOB_SITE_LOCATION,\t\t\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\t\t\nDECIMAL(10, 3)) as deldLoadPcs,\t\t\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0) as NR_OF_BUNDLE,\t\t\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "RestSink",
+						"httpRequestTimeout": "00:05:00",
+						"requestInterval": 10,
+						"requestMethod": "POST",
+						"writeBatchSize": "100",
+						"httpCompressionType": "none"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SAP_ORDER_ITEM",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SAP_ORDER_ITEM"
 								}
-							],
-							"type": "Query",
-							"text": {
-								"value": "SELECT @{pipeline().parameters.ACH_MATL_NO},@{pipeline().parameters.AIM_MATL_NO},@{pipeline().parameters.BASE_UOM},BEND_PER_TON = coalesce('pipeline().parameters.BEND_PER_TON','fallback'),@{pipeline().parameters.CHARG},@{pipeline().parameters.CUT_PER_TON},@{pipeline().parameters.DOCU_DATE},@{pipeline().parameters.ID_MESSAGE},@{pipeline().parameters.LINK_PER_TON},@{pipeline().parameters.MANDT},@{pipeline().parameters.ACH_MATL_NO},@{pipeline().parameters.AIM_MATL_NO},@{pipeline().parameters.BASE_UOM},@{pipeline().parameters.BEND_PER_TON},@{pipeline().parameters.CHARG},@{pipeline().parameters.CUT_PER_TON},@{pipeline().parameters.DOCU_DATE},@{pipeline().parameters.ID_MESSAGE},@{pipeline().parameters.LINK_PER_TON},@{pipeline().parameters.MANDT},@{pipeline().parameters.STATUS} FROM [dbo].[T_NSA_GR] where STATUS = 'A'",
-								"type": "Expression"
+							},
+							{
+								"source": {
+									"name": "MATERIAL_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$MATERIAL_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "CUST_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "CUST_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "PROJ_COORDINATOR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PROJ_COORDINATOR"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_JOB_SITE_LOCATION"
+								},
+								"sink": {
+									"path": "$LOAD_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"name": "SHAPE_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$SHAPE_CODE"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS1",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS1"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS2",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS2"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS3",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS3"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS4",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS4"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS5",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$WBS5"
+								}
+							},
+							{
+								"source": {
+									"name": "INV_LEN_IN_MM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"name": "ENV_LENGTH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ENV_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"name": "ENV_WIDTH",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ENV_WIDTH"
+								}
+							},
+							{
+								"source": {
+									"name": "ENV_HEIGHT",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ENV_HEIGHT"
+								}
+							},
+							{
+								"source": {
+									"name": "BBS_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$BBS_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ITEM_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_PIECES",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ORDER_PIECES"
+								}
+							},
+							{
+								"source": {
+									"name": "LOAD_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$LOAD_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "LAYER_NO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "WEIGHT_IN_MT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$WEIGHT_IN_MT"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDH_JOB_SITE_LOCATION"
+								},
+								"sink": {
+									"path": "$ORDH_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRACT_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$CONTRACT_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_QTY",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$ORDER_QTY"
+								}
+							},
+							{
+								"source": {
+									"name": "IS_DELETED",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$IS_DELETED"
+								}
+							},
+							{
+								"source": {
+									"name": "NR_OF_BUNDLE"
+								},
+								"sink": {
+									"path": "$NR_OF_BUNDLE"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"name": "ID",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$['$ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "QTY_IN_BASE_UOM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"path": "$['$QTY_IN_BASE_UOM']"
+								}
+							},
+							{
+								"source": {
+									"name": "NO_PIECES"
+								},
+								"sink": {
+									"path": "$['$NO_PIECES']"
+								}
+							},
+							{
+								"source": {
+									"name": "NDS_SALE_ORDER"
+								},
+								"sink": {
+									"path": "$['$NDS_SALE_ORDER']"
+								}
+							},
+							{
+								"source": {
+									"name": "PLAN_LOAD_QTY"
+								},
+								"sink": {
+									"path": "$['$PLAN_LOAD_QTY']"
+								}
 							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT060_ESB_LOAD_TBL",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT060_Queue",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
-				"name": "UpdatetoY_Success",
-				"type": "Script",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
+				"name": "QUEUE TO SAP STAGING",
+				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "SOURCE TO QUEUE_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -62,79 +401,61 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "IgnitionQA",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"parameters": [
-								{
-									"name": "STATUS",
-									"type": "String",
-									"value": "A",
-									"direction": "Output",
-									"size": "4"
-								}
-							],
-							"type": "Query",
-							"text": {
-								"value": "update [dbo].[T_NSA_GR] set status='T' where status = @{activity('Script1').output.resultSets.STATUS}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int011_contract_master/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT *\nFROM SAPSR3.YMSDT_ORDER_HDR;\n",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "SHIFT",
+								"value": "QQ"
+							},
+							{
+								"name": "UNDERLOAD_CHARG",
+								"value": "No"
+							},
+							{
+								"name": "STATUS",
+								"value": "Y"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "RD RECODELETED AND THEN SUCCESSFULLY POSTED"
+							},
+							{
+								"name": "DELIVERY_DATE",
+								"value": ""
+							},
+							{
+								"name": "LOAD_DATE",
+								"value": ""
+							},
+							{
+								"name": "TIMESTAMP",
+								"value": ""
+							},
+							{
+								"name": "PROC_TS",
+								"value": ""
+							},
+							{
+								"name": "DESP_LOAD_QTY",
+								"value": ""
+							},
+							{
+								"name": "INTERMEDIATE_QTY",
+								"value": ""
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
 					},
 					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
+						"type": "OracleSink",
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
 					"translator": {
@@ -142,163 +463,252 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "MSD"
+									"path": "$['$SAP_ORDER_ITEM']"
 								},
 								"sink": {
-									"path": "$['PRODUCT_TYPE'][*]['MSD']"
+									"name": "SAP_ORDER_ITEM"
 								}
 							},
 							{
 								"source": {
-									"name": "PRODUCT_TYPE",
-									"type": "String"
+									"path": "$['$MATERIAL_NO']"
 								},
 								"sink": {
-									"path": "$['PRODUCT_TYPE'][*]['MSD'][*]['MSB']"
+									"name": "MATERIAL_NO"
 								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "INT046_YMSDT_ORDER_HDR",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT046_SAPY_ODOS_OrderHeader",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Script1_copy1",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 31,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "Oracle2",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "SELECT NAME1 FROM SAPSR3.KNA1 WHERE MANDT = @{pipeline().parameters.MANDT} AND KUNNR = (SELECT KUNNR FROM SAPSR3.VBPA WHERE MANDT = @{pipeline().parameters.MANDT} AND VBELN =@{pipeline().parameters.VBELN}",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "OracleLinkedServerDemo",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "UPDATE YESB_PROJ_HDR \nSET \n    TIMESTAMP = TIMESTAMP,\n    PROJ_DESC1 = PROJ_DESC1,\n    PROJ_DESC2 = PROJ_DESC2,\n    SITE_ADRRS = SITE_ADRRS,\n    PROJ_COORD = PROJ_COORD,\n    SITE_CONT_NAME1 = SITE_CONT_NAME1,\n    SITE_CONT_TEL1 = SITE_CONT_TEL1,\n    SITE_CONT_NAME2 = SITE_CONT_NAME2,\n    SITE_CONT_TEL2 = SITE_CONT_TEL2,\n    GEO_FENCE_ID = GEO_FENCE_ID,\n    CONTRY_KEY = CONTRY_KEY,\n    CITY = CITY,\n    POST_CODE = POST_CODE,\n    REGION = REGION,\n    SORT_FIELD = SORT_FIELD,\n    TELE_NO = TELE_NO,\n    FAX_NO = FAX_NO,\n    STATUS = STATUS,\n    INTER_ID = INTER_ID,\n    ERROR_CD = ERROR_CD,\n    PROC_TS = PROC_TS,\n    REC_TYPE = REC_TYPE,\n    USERID = USERID,\n    UDATE = UDATE,\n    UTIME = UTIME\nWHERE EXISTS (\n    SELECT 1\n    FROM YMSDT_PROJ_HDR \n    WHERE MANDT = @{pipeline().parameters.MANDT}\n);",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Web1_copy1",
-				"type": "WebActivity",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sapy_nds_orderheader/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Copy data1_copy1",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": "select order_request_no, sales_order from sapsr3.YESB_SOR_SO where \t\t\t\t\t\nsales_order is not NULL and trim(sales_order) is not NULL\t\t\t\t\t",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
+							},
 							{
 								"source": {
-									"name": "ORDER_REQUEST_NO",
-									"type": "String"
+									"path": "$['$PROJ_NO']"
 								},
 								"sink": {
+									"name": "PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_NO']"
+								},
+								"sink": {
+									"name": "ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NAME']"
+								},
+								"sink": {
+									"name": "PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_CODE']"
+								},
+								"sink": {
+									"name": "CUST_CODE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_NAME']"
+								},
+								"sink": {
+									"name": "CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_COORDINATOR']"
+								},
+								"sink": {
+									"name": "PROJ_COORDINATOR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_JOB_SITE_LOCATION']"
+								},
+								"sink": {
+									"name": "LOAD_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHAPE_CODE']"
+								},
+								"sink": {
+									"name": "SHAPE_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS1']"
+								},
+								"sink": {
+									"name": "WBS1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS2']"
+								},
+								"sink": {
+									"name": "WBS2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS3']"
+								},
+								"sink": {
+									"name": "WBS3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS4']"
+								},
+								"sink": {
+									"name": "WBS4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS5']"
+								},
+								"sink": {
+									"name": "WBS5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INV_LEN_IN_MM']"
+								},
+								"sink": {
+									"name": "INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_LENGTH']"
+								},
+								"sink": {
+									"name": "ENV_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_WIDTH']"
+								},
+								"sink": {
+									"name": "ENV_WIDTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_HEIGHT']"
+								},
+								"sink": {
+									"name": "ENV_HEIGHT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BBS_NO']"
+								},
+								"sink": {
+									"name": "BBS_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_NO']"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LAYER_NO']"
+								},
+								"sink": {
+									"name": "LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_TYPE']"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CONTRACT_NO']"
+								},
+								"sink": {
+									"name": "CONTRACT_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NDS_SALE_ORDER']"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NO_PIECES']"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLAN_LOAD_QTY']"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDH_JOB_SITE_LOCATION']"
+								},
+								"sink": {
+									"name": "ORDH_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
 									"path": "$['$ORDER_REQUEST_NO']"
-								}
-							},
-							{
-								"source": {
-									"name": "SALES_ORDER",
-									"type": "String"
 								},
 								"sink": {
-									"path": "$['$SALES_ORDER']"
+									"name": "ORDER_REQUEST_NO"
 								}
 							}
 						]
@@ -306,13 +716,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Demo_YESB_SOR_SO",
+						"referenceName": "Int060_ESB_Load_Tally_Head",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DemoQueueDataset",
+						"referenceName": "INT060_YMPPT_LP_ITEM_C",
 						"type": "DatasetReference"
 					}
 				]
