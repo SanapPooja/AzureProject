@@ -428,7 +428,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select NVL(L.REMARK1,' ') AS REMARK1,NVL(TO_char(L.DELIVERY_DATE,'YYYYMMDD'), ' ') AS DELIVERY_DATE, NVL(L.VEHICLE_TYPE_NAME, ' ') AS VEHICLE_TYPE_NAME, NVL(L.TRAILER_NO, ' ') AS TRAILER_NO, NVL(L.DELIVERY_DATE_STRING, ' ') AS DELIVERY_DATE_STRING, EL. LOAD_NO, EL.IS_ONHOLD, EL.IS_CANCELLED, EL.VIRTUAL_VEHICLE_TYPE,EL.WM_SENDTIME, EL.ACTION  from scm_admin.LOAD L JOIN SCM_ADMIN.ESB_LOAD_TBL EL\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nON L.LOAD_NO = EL.LOAD_NO\t\t\t\t\t\t\t\t\t\t\t\r\n\r\n",
+									"oracleReaderQuery": "select LOAD_NO,NVL(REMARK1,' ') as REMARK1,NVL(TO_char(DELIVERY_DATE,'YYYYMMDD'), ' ') as DELIVERY_DATE, NVL(VEHICLE_TYPE_NAME, ' ') as VEHICLE_TYPE_NAME, NVL(TRAILER_NO, ' ') as TRAILER_NO, NVL(DELIVERY_DATE_STRING, ' ') as DELIVERY_DATE_STRING from scm_admin.LOAD",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -450,7 +450,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "REMARK1"
+												"path": "$['$REMARK1']"
 											}
 										},
 										{
@@ -459,7 +459,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "DELIVERY_DATE"
+												"path": "$['$DELIVERY_DATE']"
 											}
 										},
 										{
@@ -468,7 +468,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "VEHICLE_TYPE_NAME"
+												"path": "$['$VEHICLE_TYPE_NAME']"
 											}
 										},
 										{
@@ -477,7 +477,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "TRAILER_NO"
+												"path": "$['$TRAILER_NO']"
 											}
 										},
 										{
@@ -486,7 +486,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "DELIVERY_DATE_STRING"
+												"path": "$['$DELIVERY_DATE_STRING']"
 											}
 										},
 										{
@@ -495,52 +495,7 @@
 												"type": "String"
 											},
 											"sink": {
-												"path": "LOAD_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "IS_ONHOLD",
-												"type": "String"
-											},
-											"sink": {
-												"path": "IS_ONHOLD"
-											}
-										},
-										{
-											"source": {
-												"name": "IS_CANCELLED",
-												"type": "String"
-											},
-											"sink": {
-												"path": "IS_CANCELLED"
-											}
-										},
-										{
-											"source": {
-												"name": "VIRTUAL_VEHICLE_TYPE",
-												"type": "String"
-											},
-											"sink": {
-												"path": "VIRTUAL_VEHICLE_TYPE"
-											}
-										},
-										{
-											"source": {
-												"name": "WM_SENDTIME",
-												"type": "String"
-											},
-											"sink": {
-												"path": "WM_SENDTIME"
-											}
-										},
-										{
-											"source": {
-												"name": "ACTION",
-												"type": "String"
-											},
-											"sink": {
-												"path": "ACTION"
+												"path": "$['$LOAD_NO']"
 											}
 										}
 									]
