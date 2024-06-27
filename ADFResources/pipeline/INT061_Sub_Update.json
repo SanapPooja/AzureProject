@@ -284,7 +284,40 @@
 											"scripts": [
 												{
 													"type": "Query",
-													"text": "update sapsr3.YMPPT_LP_HDR\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nset PROC_TS = '%yyyy-MM-dd HH:mm:ss.DDDDDD%' , UPDATION_DATE = '%yyyyMMdd%' , TRAILER_NO='%QUEUE/Detail/LoadHeader/TRAILER_NO%',\r\nPLANNER_REMARKS= '%QUEUE/Detail/LoadHeader/REMARK1%', PLAN_DELIV_DATE = '%QUEUE/PLAN_DELIV_DATE%',\r\nVEHICLE_TYPE = '%QUEUE/Detail/LoadHeader/VEHICLE_TYPE_NAME%', USER_name = 'ESB_INT060' where LOAD_NO = '%QUEUE/Detail/LoadHeader/LOAD_NO%' and LP_STATUS = 'A'\r\n\r\n"
+													"text": "update sapsr3.YMPPT_LP_HDR\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nset PROC_TS = '@formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss.ffffff')' , UPDATION_DATE = '@formatDateTime(utcnow(), 'yyyyMMdd')' , PLANNER_REMARKS= '%QUEUE/Detail/LoadHeader/REMARK1%',\r\nPLAN_DELIV_DATE = '%QUEUE/PLAN_DELIV_DATE%', USER_NAME = 'ESB_INT060' \t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nwhere LOAD_NO = '@{variables('iterate_load_no')}'\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\r\n                                                        \r\n\r\n"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "Script2",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Script1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "update sapsr3.YMPPT_LP_HDR\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\nset PROC_TS = '@formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss.ffffff')' , UPDATION_DATE = '@formatDateTime(utcnow(), 'yyyyMMdd')' , TRAILER_NO='%QUEUE/Detail/LoadHeader/TRAILER_NO%',\r\nVEHICLE_TYPE = '%QUEUE/Detail/LoadHeader/VEHICLE_TYPE_NAME%',\r\nUSER_NAME = 'ESB_INT060' where LOAD_NO = LOAD_NO = '@{variables('iterate_load_no')}' and LP_STATUS = 'A'\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\r\n\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
 												}
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
