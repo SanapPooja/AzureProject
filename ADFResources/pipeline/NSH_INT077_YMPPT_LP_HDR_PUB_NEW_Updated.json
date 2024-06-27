@@ -409,6 +409,14 @@
 											"sink": {
 												"path": "$['$LP_STATUS']"
 											}
+										},
+										{
+											"source": {
+												"name": "TRAILER_NO"
+											},
+											"sink": {
+												"path": "$['$TRAILER_NO']"
+											}
 										}
 									]
 								}
