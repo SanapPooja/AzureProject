@@ -47,7 +47,79 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Queue1",
+							"name": "get load",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": "Select LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "SCM_IDB_DB",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Distinct laod no",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "get load",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LOAD_NO_ARRAY",
+								"value": {
+									"value": "@activity('get load').output.value",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARRAY')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Queue1_copy1",
 							"type": "Copy",
 							"state": "Inactive",
 							"onInactiveMarkAs": "Succeeded",
@@ -414,7 +486,7 @@
 							]
 						},
 						{
-							"name": "Copy data1",
+							"name": "Copy data1_copy1",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -428,8 +500,12 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "select LOAD_NO,NVL(REMARK1,' ') as REMARK1,NVL(TO_char(DELIVERY_DATE,'YYYYMMDD'), ' ') as DELIVERY_DATE, NVL(VEHICLE_TYPE_NAME, ' ') as VEHICLE_TYPE_NAME, NVL(TRAILER_NO, ' ') as TRAILER_NO, NVL(DELIVERY_DATE_STRING, ' ') as DELIVERY_DATE_STRING from scm_admin.LOAD",
+									"oracleReaderQuery": {
+										"value": "select LOAD_NO,NVL(REMARK1,' ') as REMARK1,NVL(TO_char(DELIVERY_DATE,'YYYYMMDD'), ' ') as DELIVERY_DATE, NVL(VEHICLE_TYPE_NAME, ' ') as VEHICLE_TYPE_NAME, NVL(TRAILER_NO, ' ') as TRAILER_NO, NVL(DELIVERY_DATE_STRING, ' ') as DELIVERY_DATE_STRING from scm_admin.LOAD where LOAD_NO='@{item().LOAD_NO}'",
+										"type": "Expression"
+									},
 									"partitionOption": "None",
+									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
 								},
 								"sink": {
@@ -515,11 +591,11 @@
 							]
 						},
 						{
-							"name": "SOURCE TO QUEUE",
+							"name": "SOURCE TO QUEUE_copy1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Copy data1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -537,7 +613,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "select \t\t\nnvl(LOAD.SHAPE_CODE,' ') as SHAPE_CODE,\nCASE\n        WHEN LOAD.NR_OF_BUNDLE > 0 THEN LOAD.NR_OF_BUNDLE  --nr_of_bundle\n        ELSE LOAD.ORDER_PIECES  --order_pieces instead of 1000\n        END AS NO_PIECES,\nCASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.ORDER_NO\n        ELSE ''\n    END AS NDS_SALE_ORDER,\n    CASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.WEIGHT_IN_MT\n        ELSE 0\n    END AS PLAN_LOAD_QTY,        \nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION,\t\t\t\t\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS1,' ') as WBS1,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS2,' ') as WBS2,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS3,' ') as WBS3,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS4,' ') as WBS4,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS5,' ') as WBS5,\t\t\t\t\t\t\t\t\nnvl(LOAD.INV_LEN_IN_MM,'') as INV_LEN_IN_MM,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_LENGTH,'') as ENV_LENGTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_WIDTH,'') as ENV_WIDTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_HEIGHT,'') as ENV_HEIGHT,\t\t\t\t\t\t\t\t\nnvl(LOAD.BBS_NO,'') as BBS_NO,\t\t\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' '),\t\t\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\t\t\nDECIMAL(10, 3)),\t\t\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0) as NR_OF_BUNDLE,\t\t\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.LOAD_NO IN (Select LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL)",
+										"value": "select \t\t\nnvl(LOAD.SHAPE_CODE,' ') as SHAPE_CODE,\nCASE\n        WHEN LOAD.NR_OF_BUNDLE > 0 THEN LOAD.NR_OF_BUNDLE  --nr_of_bundle\n        ELSE LOAD.ORDER_PIECES  --order_pieces instead of 1000\n        END AS NO_PIECES,\nCASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.ORDER_NO\n        ELSE ''\n    END AS NDS_SALE_ORDER,\n    CASE\n        WHEN LOAD.PRODUCT_TYPE = 'BAR' THEN LOAD.WEIGHT_IN_MT\n        ELSE 0\n    END AS PLAN_LOAD_QTY,        \nLOAD.SAP_ORDER_ITEM,\t\t\t\t\t\t\t\t\nLOAD.MATERIAL_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_NO,\t\t\t\t\t\t\t\t\nLOAD.PROJ_NAME,\t\t\t\t\t\t\t\t\nLOAD.CUST_CODE,\t\t\t\t\t\t\t\t\nLOAD.CUST_NAME,\t\t\t\t\t\t\t\t\nLOAD.PROJ_COORDINATOR,\t\t\t\t\t\t\t\t\nLOAD.JOB_SITE_LOCATION,\t\t\t\t\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS1,' ') as WBS1,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS2,' ') as WBS2,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS3,' ') as WBS3,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS4,' ') as WBS4,\t\t\t\t\t\t\t\t\nnvl(LOAD.WBS5,' ') as WBS5,\t\t\t\t\t\t\t\t\nnvl(LOAD.INV_LEN_IN_MM,'') as INV_LEN_IN_MM,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_LENGTH,'') as ENV_LENGTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_WIDTH,'') as ENV_WIDTH,\t\t\t\t\t\t\t\t\nnvl(LOAD.ENV_HEIGHT,'') as ENV_HEIGHT,\t\t\t\t\t\t\t\t\nnvl(LOAD.BBS_NO,'') as BBS_NO,\t\t\t\t\t\t\t\t\nLOAD.ITEM_NO,\t\t\t\t\t\t\t\t\nLOAD.ORDER_PIECES,\t\t\t\t\t\t\t\t\nLOAD.LOAD_NO,\t\t\t\t\t\t\t\t\nLOAD.LAYER_NO,\t\t\t\t\t\t\t\t\nLOAD.PRODUCT_TYPE,\t\t\t\t\t\t\t\t\nLOAD.WEIGHT_IN_MT,\t\t\t\t\t\t\t\t\nNvl(SubStr(Trim(ORDH.JOB_SITE_LOCATION),0,3),' '),\t\t\t\t\t\t\t\t\nCAST(((ORDI.ORDER_QTY * LOAD.ORDER_PIECES) / ORDI.ORDER_PIECES) AS\t\t\t\t\t\t\t\t\nDECIMAL(10, 3)),\t\t\t\t\t\t\t\t\nORDH.CONTRACT_NO,\t\t\t\t\t\t\t\t\nORDI.ORDER_QTY,\t\t\t\t\t\t\t\t\nLOAD.IS_DELETED,\t\t\t\t\t\t\t\t\nNVL(LOAD.NR_OF_BUNDLE, 0) as NR_OF_BUNDLE,\t\t\t\t\t\t\t\t\nLOAD.ORDER_REQUEST_NO,\t\t\t\t\t\t\t\t\nLOAD.ID,\t\t\t\t\t\t\t\t\nLOAD.QTY_IN_BASE_UOM\t\t\t\t\t\t\t\t\nfrom SCM_ADMIN.SALES_ORDER_LINE_ON_LOAD_VIEW LOAD,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_ITEM ORDI,\t\t\t\t\t\t\t\t\nSCM_ADMIN.ORDER_HEADER ORDH\t\t\t\t\t\t\t\t\nWHERE LOAD.ORDER_REQUEST_NO = ORDI.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.ITEM_NO = ORDI.ITEM_NO\t\t\t\t\t\t\t\t\nAND ORDH.ORDER_REQUEST_NO = LOAD.ORDER_REQUEST_NO\t\t\t\t\t\t\t\t\nAND LOAD.LOAD_NO ='@{item().LOAD_NO}'",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
