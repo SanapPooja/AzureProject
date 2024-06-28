@@ -772,6 +772,63 @@
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
 										}
+									},
+									{
+										"name": "validate_is_deleted",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "UPDATE TO Y",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": "select is_deleted from sapsr3.esb_ymppt_lp_item_c where rownum<=1;",
+												"partitionOption": "None",
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									},
+									{
+										"name": "Set variable5",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "validate_is_deleted",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "is_deleted",
+											"value": {
+												"value": "@activity('validate_is_deleted').output.value",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
@@ -790,7 +847,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(length(activity('validation').output.value), 0)",
+									"value": "@equals(variables('is_deleted'), 'N')",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -1423,6 +1480,9 @@
 				"type": "String"
 			},
 			"LOAD_NUMBER_D": {
+				"type": "String"
+			},
+			"is_deleted": {
 				"type": "String"
 			}
 		},
