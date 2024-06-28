@@ -675,7 +675,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "update sapsr3.ITEM_ON_LOAD_SAP_TALLY\nset LOAD_NO = ('X'+'@{variables('Iterate_LoadNo')}'), ORDER_NO = ('X'+'@{variables('ORDER_NO')}')\nwhere",
+														"value": "MERGE INTO sapsr3.ITEM_ON_LOAD_SAP_TALLY itm\nUSING sapsr3.ESB_ITEM_ON_LOAD_SAP_TALLY stg\nON (itm.LOAD_NO = stg.LOAD_NO AND itm.LOAD_NO=('X'+itm.LOAD_NO) AND itm.SALES_ORDER=('X'+stg.ORDER_NO)) )\nWHEN MATCHED THEN\nUPDATE SET\n    set LOAD_NO = stg.LOAD_NO, ORDER_NO = stg.ORDER_NO\n    ",
 														"type": "Expression"
 													}
 												}
@@ -686,6 +686,8 @@
 									{
 										"name": "Copy data1",
 										"type": "Copy",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "Script13",
