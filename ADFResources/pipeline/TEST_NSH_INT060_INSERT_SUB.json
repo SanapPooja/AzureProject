@@ -1,0 +1,1645 @@
+{
+	"name": "TEST_NSH_INT060_INSERT_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "Select DISTINCT LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL WHERE LOAD_NO='2406306570'",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "SCM_IDB_DB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LOAD_NO_ARRAY",
+					"value": {
+						"value": "@activity('Lookup2').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('LOAD_NO_ARRAY')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "validation",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "Select MANDT FROM SAPSR3.YMPPT_LP_HDR where LOAD_NO = '@{variables('iterate_load_no')}'",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "INT060_YMPPT_LP_HDR",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "validation",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('validation').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "YMPPT_LP_HDR",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "$LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "$STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "$UNAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "$ERROR_CD",
+														"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
+													},
+													{
+														"name": "$EMAIL_ALERT_IND",
+														"value": "N"
+													},
+													{
+														"name": "$DELIVERY_SQN",
+														"value": "0"
+													},
+													{
+														"name": "$MANDT",
+														"value": "600"
+													},
+													{
+														"name": "$USER_NAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "$UPDATION_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "$PROC-TS",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MANDT",
+														"value": "110"
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['VEHICLE_TYPE_NAME']"
+														},
+														"sink": {
+															"name": "VEHICLE_TYPE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['DELIVERY_DATE']"
+														},
+														"sink": {
+															"name": "PLAN_DELIV_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['REMARK1']"
+														},
+														"sink": {
+															"name": "PLANNER_REMARKS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$LP_STATUS"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$STATUS"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$UNAME"
+														},
+														"sink": {
+															"name": "USER_NAME",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$ERROR_CD"
+														},
+														"sink": {
+															"name": "ERROR_CD",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$EMAIL_ALERT_IND"
+														},
+														"sink": {
+															"name": "EMAIL_ALERT_IND",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$DELIVERY_SQN"
+														},
+														"sink": {
+															"name": "DELIVERY_SQN",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['MANDT']"
+														},
+														"sink": {
+															"name": "MANDT"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										]
+									},
+									{
+										"name": "Load_sap_tally_copy_copy1",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "TRUNCATE esb_ymppt_lp_hdr",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "CREATE_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MODIFY_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['$LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$LP_STATUS']"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['STATUS']"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['CREATE_DATE']"
+														},
+														"sink": {
+															"name": "CREATE_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['MODIFY_DATE']"
+														},
+														"sink": {
+															"name": "MODIFY_DATE",
+															"type": "String"
+														}
+													}
+												],
+												"collectionReference": ""
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Int060_Load_SAP_Tally",
+												"type": "DatasetReference"
+											}
+										]
+									},
+									{
+										"name": "count_check_copy1",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "TRUNCATE ESB_load_sap_tally",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT COUNT(*) as count \nFROM sapsr3.ymppt_lp_batch_c yb \nJOIN sapsr3.ymppt_lp_hdr yh \nON yb.LOAD_NO = yh.LOAD_NO\nWHERE yh.LP_STATUS='A' AND yh.STATUS='A' and yb.LOAD_NO='@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									},
+									{
+										"name": "count_validation_copy1",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "count_check_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "count",
+											"value": {
+												"value": "@int(activity('count_check_copy1').output.firstRow.count)\n",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Lookup3",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "count_validation_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT DISTINCT LP_STATUS FROM sapsr3.ymppt_lp_hdr WHERE LOAD_NO  = '@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									},
+									{
+										"name": "Set variable3",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Lookup3",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "LP_STATUS",
+											"value": {
+												"value": "@activity('Lookup3').output.firstRow.LP_STATUS\n",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "INSERT INTO ymppt_lp_hdr",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "YMPPT_LP_HDR",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "INSERT INTO sapsr3.ymppt_lp_hdr (\r\n    mandt,\r\n    load_no,\r\n    plan_deliv_date,\r\n    delivery_sqn,\r\n    vehicle_type,\r\n    trailer_no,\r\n    planner_remarks,\r\n    lp_status,\r\n    status,\r\n    user_name,\r\n    updation_date,\r\n    error_cd,\r\n    inter_id,\r\n    timestamp,\r\n    proc_ts,\r\n    rec_type,\r\n    ngws_status,\r\n    email_alert_ind\r\n) SELECT\r\n    mandt,\r\n    load_no,\r\n    plan_deliv_date,\r\n    delivery_sqn,\r\n    vehicle_type,\r\n    trailer_no,\r\n    planner_remarks,\r\n    lp_status,\r\n    status,\r\n    user_name,\r\n    updation_date,\r\n    error_cd,\r\n    inter_id,\r\n    timestamp,\r\n    proc_ts,\r\n    rec_type,\r\n    ngws_status,\r\n    email_alert_ind\r\nFROM\r\n    sapsr3.esb_ymppt_lp_hdr;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "TRUNCATE esb_ymppt_lp_hdr",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "INSERT INTO ymppt_lp_hdr",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "delete from sapsr3.esb_ymppt_lp_hdr;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "INSERT INTO load_sap_tally",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Load_sap_tally_copy_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "INSERT INTO scm_admin.load_sap_tally (\r\n    load_no,\r\n    lp_status,\r\n    status,\r\n    error_cd,\r\n    create_date,\r\n    modify_date,\r\n    vehicle_id,\r\n    trailer_id,\r\n    flatrack_id,\r\n    container_id,\r\n    theoritical_weight,\r\n    actual_weight,\r\n    weighing_ticket_time,\r\n    loading_actual_start,\r\n    loading_actual_end\r\n) SELECT\r\n    load_no,\r\n    lp_status,\r\n    status,\r\n    error_cd,\r\n    create_date,\r\n    modify_date,\r\n    vehicle_id,\r\n    trailer_id,\r\n    flatrack_id,\r\n    container_id,\r\n    theoritical_weight,\r\n    actual_weight,\r\n    weighing_ticket_time,\r\n    loading_actual_start,\r\n    loading_actual_end\r\nFROM\r\n    scm_admin.esb_load_sap_tally;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "TRUNCATE ESB_load_sap_tally",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "INSERT INTO load_sap_tally",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "delete from scm_admin.esb_load_sap_tally;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "iterate_load_no",
+								"value": {
+									"value": "@item().LOAD_NO",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition3",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(int(variables('count')), 0)\n",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Update if count zero",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "update if true",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition4",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(variables('LP_STATUS'), 'D')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Lookup4",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT LOAD_NO FROM sapsr3.ymppt_load_vehic WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									},
+									{
+										"name": "Set variable4",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Lookup4",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "LOAD_NUMBER_D",
+											"value": {
+												"value": "@activity('Lookup4').output.firstRow.LOAD_NO\n",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition5",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(equals(variables('LOAD_NUMBER_D'), null))\n",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "UPDATE TO Y",
+										"type": "Script",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "Update SCM_ADMIN.LOAD_SAP_TALLY set LP_STATUS = 'Y' WHERE LOAD_NO = '@{variables('iterate_load_no')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "validate_is_deleted",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "UPDATE TO Y",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": "select is_deleted from sapsr3.esb_ymppt_lp_item_c where rownum<=1;",
+												"partitionOption": "None",
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
+												"type": "DatasetReference"
+											},
+											"firstRowOnly": false
+										}
+									},
+									{
+										"name": "Set variable5",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "validate_is_deleted",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "is_deleted",
+											"value": {
+												"value": "@activity('validate_is_deleted').output.value",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition6",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(variables('is_deleted'), 'N')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Lookup5",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "Script2",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": {
+													"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('iterate_load_no')}'and order_request_no = (select distinct order_request_no from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY) and order_item = (select distinct order_item from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY)",
+													"type": "Expression"
+												},
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "SCM_IDB_DB",
+												"type": "DatasetReference"
+											}
+										}
+									},
+									{
+										"name": "QUEUE TO SAP STAGING",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "SHIFT",
+														"value": "QQ"
+													},
+													{
+														"name": "UNDERLOAD_CHARG",
+														"value": "No"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "ERROR_CD",
+														"value": "RD RECODELETED AND THEN SUCCESSFULLY POSTED"
+													},
+													{
+														"name": "DELIVERY_DATE",
+														"value": ""
+													},
+													{
+														"name": "LOAD_DATE",
+														"value": ""
+													},
+													{
+														"name": "TIMESTAMP",
+														"value": ""
+													},
+													{
+														"name": "PROC_TS",
+														"value": ""
+													},
+													{
+														"name": "DESP_LOAD_QTY",
+														"value": ""
+													},
+													{
+														"name": "INTERMEDIATE_QTY",
+														"value": ""
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['$SAP_ORDER_ITEM']"
+														},
+														"sink": {
+															"name": "SAP_ORDER_ITEM"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$MATERIAL_NO']"
+														},
+														"sink": {
+															"name": "MATERIAL_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$PROJ_NO']"
+														},
+														"sink": {
+															"name": "PROJ_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ORDER_NO']"
+														},
+														"sink": {
+															"name": "ORDER_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$PROJ_NAME']"
+														},
+														"sink": {
+															"name": "PROJ_NAME"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$CUST_CODE']"
+														},
+														"sink": {
+															"name": "CUST_CODE"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$CUST_NAME']"
+														},
+														"sink": {
+															"name": "CUST_NAME"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$PROJ_COORDINATOR']"
+														},
+														"sink": {
+															"name": "PROJ_COORDINATOR"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$LOAD_JOB_SITE_LOCATION']"
+														},
+														"sink": {
+															"name": "LOAD_JOB_SITE_LOCATION"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$SHAPE_CODE']"
+														},
+														"sink": {
+															"name": "SHAPE_CODE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$WBS1']"
+														},
+														"sink": {
+															"name": "WBS1",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$WBS2']"
+														},
+														"sink": {
+															"name": "WBS2",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$WBS3']"
+														},
+														"sink": {
+															"name": "WBS3",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$WBS4']"
+														},
+														"sink": {
+															"name": "WBS4",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$WBS5']"
+														},
+														"sink": {
+															"name": "WBS5",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$INV_LEN_IN_MM']"
+														},
+														"sink": {
+															"name": "INV_LEN_IN_MM"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ENV_LENGTH']"
+														},
+														"sink": {
+															"name": "ENV_LENGTH"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ENV_WIDTH']"
+														},
+														"sink": {
+															"name": "ENV_WIDTH"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ENV_HEIGHT']"
+														},
+														"sink": {
+															"name": "ENV_HEIGHT"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$BBS_NO']"
+														},
+														"sink": {
+															"name": "BBS_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ITEM_NO']"
+														},
+														"sink": {
+															"name": "ITEM_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$LAYER_NO']"
+														},
+														"sink": {
+															"name": "LAYER_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$PRODUCT_TYPE']"
+														},
+														"sink": {
+															"name": "PRODUCT_TYPE"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$CONTRACT_NO']"
+														},
+														"sink": {
+															"name": "CONTRACT_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$NDS_SALE_ORDER']"
+														},
+														"sink": {
+															"name": "NDS_SALE_ORDER",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$NO_PIECES']"
+														},
+														"sink": {
+															"name": "NO_PIECES",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$PLAN_LOAD_QTY']"
+														},
+														"sink": {
+															"name": "PLAN_LOAD_QTY"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$ORDH_JOB_SITE_LOCATION']"
+														},
+														"sink": {
+															"name": "ORDH_JOB_SITE_LOCATION"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
+												"type": "DatasetReference"
+											}
+										]
+									},
+									{
+										"name": "Script1",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "QUEUE TO SAP STAGING",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "INSERT INTO SAPSR3.ymppt_lp_item_c (\r\nmandt,             \r\nload_no,           \r\nnds_sale_order,    \r\norder_item,        \r\nsales_order,       \r\nclbd_item,         \r\nmatnr,             \r\nload_date,         \r\nload_sqn,          \r\nshift,             \r\ndelivery_date,     \r\nplan_load_qnty,    \r\ndesp_load_qnty,    \r\ndestination_code,  \r\nkunnr,             \r\nname_we,           \r\nkunag,             \r\nname_ag,           \r\nproj_coord,        \r\ntransport_zone,    \r\ncontract,          \r\nprod_grp,          \r\nunderload_charge,  \r\nno_pieces,         \r\nshape_code,        \r\nwbs1,              \r\nwbs2,              \r\nwbs3,              \r\nwbs4,              \r\nwbs5,              \r\ninvoice_length,    \r\next_dimension_l,   \r\next_dimension_w,   \r\next_dimension_h,   \r\nbbs_no,            \r\nstatus,            \r\nerror_cd,          \r\nproc_ts,           \r\nintermediate_qty,\r\ntimestamp\r\n) SELECT\r\n'600',\r\nload_no,\r\nnds_sale_order,\r\nitem_no,\r\norder_no,\r\nsap_order_item,\r\nmaterial_no,\r\n'2024-06-27',  -- take from headerdelivery_date\r\nlayer_no,\r\n'QQ',\r\n'2024-06-27',  -- take from headerdelivery_date\r\nplan_load_qty,\r\nplan_load_qty,\r\nLOAD_JOB_SITE_LOCATION,\r\nproj_no,\r\nproj_name,\r\ncust_code,\r\ncust_name,\r\nproj_coordinator,\r\nordh_job_site_location,\r\ncontract_no,\r\nproduct_type,\r\n'No',\r\nno_pieces,\r\nshape_code,\r\nwbs1,\r\nwbs2,\r\nwbs3,\r\nwbs4,\r\nwbs5,\r\ninv_len_in_mm,\r\nenv_length,\r\nenv_width,\r\nenv_height,\r\nbbs_no,\r\n'Y',\r\n'RD RECODELETED AND THEN SUCCESSFULLY POSTED',\r\nTO_CHAR(SYSDATE, 'YYYY-MM-DD-HH24-MI-SS'),\r\nplan_load_qty,\r\nTO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD-HH24-MI-SS.FF6')\r\nFROM SAPSR3.esb_ymppt_lp_item_c;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "Script2",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Script1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "DELETE FROM SAPSR3.esb_ymppt_lp_item_c;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "If Condition7",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition6",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(length(activity('Lookup5').output.value), 0)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"additionalColumns": [
+													{
+														"name": "CREATE_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MODIFY_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+															"type": "Expression"
+														}
+													}
+												],
+												"oracleReaderQuery": "SELECT \r\n    TO_CHAR(SUM(YBC.TALLY_BATCH_QTY)) AS TALLY_BATCH_QTY,\r\n    TO_CHAR(SUM(YBC.NO_PIECES)) AS NO_PIECES,\r\n    YBC.SALES_ORDER, \r\n    YBC.ORDER_ITEM,\r\n    YS.LOAD_NO,\r\n    YS.ORDER_NO,\r\n    YS.ITEM_NO,\r\n    YS.PLAN_LOAD_QTY,\r\n    YS.ORDER_REQUEST_NO,\r\n    (YS.ORDER_PIECES * SUM(YBC.TALLY_BATCH_QTY)) AS loadPcsCalc,\r\n    ((YS.ORDER_PIECES * SUM(YBC.TALLY_BATCH_QTY)) / YS.QTY_IN_BASE_UOM) AS deldLoadPcs,\r\n    ((YS.ORDER_PIECES * SUM(YBC.TALLY_BATCH_QTY)) / YS.QTY_IN_BASE_UOM) AS deld_load_qty\r\nFROM \r\n    SAPSR3.YMPPT_LP_BATCH_C YBC \r\nJOIN\r\n    SAPSR3.ESB_YMPPT_LP_ITEM_C YS \r\nON \r\n    YBC.LOAD_NO = YS.LOAD_NO \r\n    AND YBC.SALES_ORDER = YS.ORDER_NO \r\n    AND YBC.ORDER_ITEM = YS.ITEM_NO\r\nGROUP BY \r\n    YBC.SALES_ORDER, \r\n    YBC.ORDER_ITEM,\r\n    YS.LOAD_NO, \r\n    YS.ORDER_NO, \r\n    YS.ITEM_NO, \r\n    YS.PLAN_LOAD_QTY, \r\n    YS.ORDER_REQUEST_NO, \r\n    YS.ORDER_PIECES, \r\n    YS.QTY_IN_BASE_UOM;",
+												"partitionOption": "None",
+												"queryTimeout": "02:00:00"
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "LOAD_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_REQUEST_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_REQUEST_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_ITEM",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_ITEM",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "PLAN_LOAD_QTY",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "PLAN_LOAD_QNTY",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "deld_load_qty"
+														},
+														"sink": {
+															"name": "DELD_LOAD_QNTY",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "LOADPCSCALC",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "PLAN_LOAD_PCS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "DELDLOADPCS",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "DELD_LOAD_PCS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "CREATE_DATE"
+														},
+														"sink": {
+															"name": "CREATE_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "MODIFY_DATE"
+														},
+														"sink": {
+															"name": "MODIFY_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_NO",
+															"type": "String"
+														}
+													}
+												],
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "nsh_int60_ITEM_ON_LOAD_SAP_TALLY",
+												"type": "DatasetReference"
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"LOAD_NO_ARRAY": {
+				"type": "Array"
+			},
+			"iterate_load_no": {
+				"type": "String"
+			},
+			"count": {
+				"type": "String"
+			},
+			"LP_STATUS": {
+				"type": "String"
+			},
+			"LOAD_NUMBER_D": {
+				"type": "String"
+			},
+			"is_deleted": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
