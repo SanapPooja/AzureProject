@@ -483,7 +483,7 @@
 												"referenceName": "INT060_YMPPT_LP_HDR",
 												"type": "DatasetReference"
 											},
-											"firstRowOnly": false
+											"firstRowOnly": true
 										}
 									},
 									{
@@ -505,7 +505,7 @@
 										"typeProperties": {
 											"variableName": "count",
 											"value": {
-												"value": "@int(activity('count_check_copy1').output.firstRow.count)\n",
+												"value": "@string(activity('count_check_copy1').output.firstRow.count)\n",
 												"type": "Expression"
 											}
 										}
@@ -544,7 +544,7 @@
 												"referenceName": "INT060_YMPPT_LP_HDR",
 												"type": "DatasetReference"
 											},
-											"firstRowOnly": false
+											"firstRowOnly": true
 										}
 									},
 									{
@@ -1350,7 +1350,7 @@
 												"referenceName": "INT060_YMPPT_LP_ITEM_C",
 												"type": "DatasetReference"
 											},
-											"firstRowOnly": false
+											"firstRowOnly": true
 										}
 									},
 									{
@@ -1372,7 +1372,7 @@
 										"typeProperties": {
 											"variableName": "is_deleted",
 											"value": {
-												"value": "@activity('validate_is_deleted').output.value",
+												"value": "@activity('validate_is_deleted').output.firstRow.value",
 												"type": "Expression"
 											}
 										}
@@ -1437,6 +1437,8 @@
 									{
 										"name": "QUEUE TO SAP STAGING",
 										"type": "Copy",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
@@ -1746,6 +1748,14 @@
 														},
 														"sink": {
 															"name": "ORDH_JOB_SITE_LOCATION"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$IS_DELETED']"
+														},
+														"sink": {
+															"name": "IS_DELETED"
 														}
 													}
 												]
