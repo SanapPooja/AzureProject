@@ -1248,8 +1248,8 @@
 								},
 								"ifFalseActivities": [
 									{
-										"name": "sp for idb",
-										"type": "Lookup",
+										"name": "Copy data1",
+										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
@@ -1262,19 +1262,145 @@
 										"typeProperties": {
 											"source": {
 												"type": "OracleSource",
-												"oracleReaderQuery": {
-													"value": "SELECT INT_Interface('USP_INT060') AS Result FROM dual;",
-													"type": "Expression"
-												},
+												"additionalColumns": [
+													{
+														"name": "CURRENTDATETIME",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+															"type": "Expression"
+														}
+													}
+												],
+												"oracleReaderQuery": "SELECT \r\n    TO_CHAR(SUM(YBC.TALLY_BATCH_QTY)) AS TALLY_BATCH_QTY,\r\n    TO_CHAR(SUM(YBC.NO_PIECES)) AS NO_PIECES,\r\n    YBC.SALES_ORDER, \r\n    YBC.ORDER_ITEM,\r\n    YS.LOAD_NO,\r\n    YS.ORDER_NO,\r\n    YS.ITEM_NO,\r\n    YS.PLAN_LOAD_QTY,\r\n    YS.ORDER_REQUEST_NO,\r\n    (YS.ORDER_PIECES * SUM(YBC.TALLY_BATCH_QTY)) AS loadPcsCalc,\r\n    ((YS.ORDER_PIECES * SUM(YBC.TALLY_BATCH_QTY)) / YS.QTY_IN_BASE_UOM) AS deldLoadPcs\r\nFROM \r\n    SAPSR3.YMPPT_LP_BATCH_C YBC \r\nJOIN\r\n    SAPSR3.ESB_YMPPT_LP_ITEM_C YS \r\nON \r\n    YBC.LOAD_NO = YS.LOAD_NO \r\n    AND YBC.SALES_ORDER = YS.ORDER_NO \r\n    AND YBC.ORDER_ITEM = YS.ITEM_NO\r\nGROUP BY \r\n    YBC.SALES_ORDER, \r\n    YBC.ORDER_ITEM,\r\n    YS.LOAD_NO, \r\n    YS.ORDER_NO, \r\n    YS.ITEM_NO, \r\n    YS.PLAN_LOAD_QTY, \r\n    YS.ORDER_REQUEST_NO, \r\n    YS.ORDER_PIECES, \r\n    YS.QTY_IN_BASE_UOM;",
 												"partitionOption": "None",
-												"convertDecimalToInteger": false,
 												"queryTimeout": "02:00:00"
 											},
-											"dataset": {
-												"referenceName": "SCM_IDB_DB",
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "LOAD_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_REQUEST_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_REQUEST_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_ITEM",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_ITEM",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "PLAN_LOAD_QTY",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "PLAN_LOAD_QNTY",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "DELDLOADPCS",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "DELD_LOAD_QNTY",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "LOADPCSCALC",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "PLAN_LOAD_PCS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "DELDLOADPCS",
+															"type": "Double"
+														},
+														"sink": {
+															"name": "DELD_LOAD_PCS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "CURRENTDATETIME"
+														},
+														"sink": {
+															"name": "CREATE_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "CURRENTDATETIME"
+														},
+														"sink": {
+															"name": "MODIFY_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "ORDER_NO",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ORDER_NO",
+															"type": "String"
+														}
+													}
+												],
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
 												"type": "DatasetReference"
 											}
-										}
+										],
+										"outputs": [
+											{
+												"referenceName": "nsh_int60_ITEM_ON_LOAD_SAP_TALLY",
+												"type": "DatasetReference"
+											}
+										]
 									}
 								]
 							}

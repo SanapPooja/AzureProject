@@ -1,5 +1,5 @@
 {
-	"name": "SCM_IDB_DB",
+	"name": "nsh_int60_ITEM_ON_LOAD_SAP_TALLY",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
@@ -10,8 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "TBL_NSH_INT077_ITEM_SAP_TALLY_STAGING"
+			"table": "ITEM_ON_LOAD_SAP_TALLY"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }
