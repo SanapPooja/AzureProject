@@ -507,9 +507,14 @@
 									{
 										"name": "Script9_copy1",
 										"type": "Script",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Script7",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -527,7 +532,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'T',  MODIFY_DATE = '@{variables('PROC_TS')}' WHERE LOAD_NO = '@{variables('LOAD_NO')}' and LP_STATUS  <> 'Y'",
+														"value": "MERGE INTO SCM_ADMIN.LOAD_SAP_TALLY T1\nUSING SCM_ADMIN.ESB_LOAD_SAP_TALLY S\nON (T1.LOAD_NO = S.Iterate_LoadNo and T1.LP_STATUS  <> 'Y')\nWHEN MATCHED THEN\nUPDATE SET\n    T1.MODIFY_DATE = stg.PROC_TS,\n    T1.STATUS='T';",
 														"type": "Expression"
 													}
 												}
