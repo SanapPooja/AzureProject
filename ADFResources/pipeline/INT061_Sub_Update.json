@@ -285,7 +285,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "update sapsr3.YMPPT_LP_HDR\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nset PROC_TS = '@formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss.ffffff')' , UPDATION_DATE = ' @formatDateTime(utcnow(), 'yyyyMMdd')' , PLANNER_REMARKS= '%QUEUE/Detail/LoadHeader/REMARK1% ',\nPLAN_DELIV_DATE = '%QUEUE/PLAN_DELIV_DATE%', USER_NAME = ' ESB_INT060' \t\t\t\t\t\t\t\t\t\t\t\t\t\t\nwhere LOAD_NO = '@{variables('Iterate_LoadNo')}'\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\tMERGE INTO SCM_ADMIN.LOAD_SAP_TALLY T1\nUSING SCM_ADMIN.TBL_NSH_INT077_STAGING S\nON (T1.LOAD_NO = S.LOAD_NO AND S.LP_STATUS = 'D')\nWHEN MATCHED THEN\nUPDATE SET\n    T1.LP_STATUS = S.LP_STATUS,\n    T1.TRAILER_ID = S.TRAILER_ID,\n    T1.MODIFY_DATE = S.MODIFY_DATE;\t\t\t\t\t\t\t\t\t\t\t\n\n                                                        \n\n",
+														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo)\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')',\n    T1.PLANNER_REMARKS = S.REMARK1,\n    T1.USER_NAME = ''ESB_INT060'',\n    T1.PLAN_DELIV_DATE = S.PLAN_DELIV_DATE;\t\t\t\t\t\t\t\t\t\t\t\n\n                                                        \n\n",
 														"type": "Expression"
 													}
 												}
