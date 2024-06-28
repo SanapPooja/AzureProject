@@ -424,7 +424,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "select LP_STATUS from SCM_ADMIN.LOAD_SAP_TALLY where LOAD_NO = '@{variables('LOAD_NO')}'",
+														"value": "MERGE INTO SCM_ADMIN.LOAD_SAP_TALLY hdr\nUSING SCM_ADMIN.ESB_LOAD_SAP_TALLY stg\nON (hdr.LOAD_NO = stg.LOAD_NO and hdr.LP_STATUS <> 'Y')\nWHEN MATCHED THEN\nUPDATE SET\n    hdr.MODIFY_DATE = stg.PROC_TS,\n    hdr.UPDATION_DATE = TO_CHAR(CURRENT_DATE, 'YYYYMMDD'),\n    hdr.LP_STATUS = stg.LP_STATUS,\n    stg.STATUS='A',\n    hdr.USER_NAME = 'ESB_INT060';",
 														"type": "Expression"
 													}
 												}
