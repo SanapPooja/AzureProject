@@ -285,7 +285,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo)\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')',\n    T1.PLANNER_REMARKS = S.REMARK1,\n    T1.USER_NAME = ''ESB_INT060'',\n    T1.PLAN_DELIV_DATE = S.PLAN_DELIV_DATE;\t\t\t\t\t\t\t\t\t\t\t\n\n                                                        \n\n",
+														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo)\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')}',\n    S.UPDATION_DATE='@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')}',\n    T1.PLANNER_REMARKS = S.REMARK1,\n    T1.USER_NAME = ''ESB_INT060'',\n    T1.PLAN_DELIV_DATE = S.PLAN_DELIV_DATE;",
 														"type": "Expression"
 													}
 												}
@@ -321,7 +321,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo AND T1.LP_STATUS ='A')\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')',\n    S.TRAILER_NO = T1.TRAILER_NO,\n    S.USER_NAME = ''ESB_INT060'',\n    T1.VEHICLE_TYPE_NAME = S.VEHICLE_TYPE;\t\t\t\t\t\t\t\t\t\t\t\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo AND T1.LP_STATUS ='A')\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')}',\n    S.TRAILER_NO = T1.TRAILER_NO,\n    S.USER_NAME = ''ESB_INT060'',\n    T1.VEHICLE_TYPE_NAME = S.VEHICLE_TYPE;\t\t\t\t\t\t\t\t\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
 														"type": "Expression"
 													}
 												}
