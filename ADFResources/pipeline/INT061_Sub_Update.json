@@ -321,7 +321,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "update sapsr3.YMPPT_LP_HDR\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nset PROC_TS = '@formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss.ffffff')' , UPDATION_DATE = '@formatDateTime(utcnow(), 'yyyyMMdd')' , TRAILER_NO='%QUEUE/Detail/LoadHeader/TRAILER_NO%',\nVEHICLE_TYPE = '%QUEUE/Detail/LoadHeader/VEHICLE_TYPE_NAME%',\nUSER_NAME = 'ESB_INT060' where LOAD_NO = LOAD_NO = '@{variables('Iterate_LoadNo')}' and LP_STATUS = 'A'\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+														"value": "MERGE INTO sapsr3.ESB_YMPPT_LP_HDR T1\nUSING sapsr3.ESB_YMPPT_LP_HDR S\nON (T1.LOAD_NO = S.Iterate_LoadNo AND T1.LP_STATUS ='A')\nWHEN MATCHED THEN\nUPDATE SET\n    S.PROC_TS='@formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')',\n    S.TRAILER_NO = T1.TRAILER_NO,\n    S.USER_NAME = ''ESB_INT060'',\n    T1.VEHICLE_TYPE_NAME = S.VEHICLE_TYPE;\t\t\t\t\t\t\t\t\t\t\t\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
 														"type": "Expression"
 													}
 												}
