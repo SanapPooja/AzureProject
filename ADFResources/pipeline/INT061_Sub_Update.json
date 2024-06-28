@@ -674,14 +674,9 @@
 									{
 										"name": "Script14",
 										"type": "Script",
-										"dependsOn": [
-											{
-												"activity": "Copy data1",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -703,9 +698,54 @@
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
 										}
+									},
+									{
+										"name": "Lookup2",
+										"type": "Lookup",
+										"dependsOn": [
+											{
+												"activity": "Copy data1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"oracleReaderQuery": "select itm.SALES_ORDER,itm.ORDER_ITEM from sapsr3.ymppt_lp_item_c itm\r\njoin ESB_YMPPT_LP_ITEM_C stg\r\nON (itm.LOAD_NO=stg.LOAD_NO)\r\nwhere (itm.load_no = '@{variables('Iterate_LoadNo')}' ) and \r\n(itm.sales_order = stg.ORDER_NO ) and \r\nitm.order_item = stg.ITEM_NO;",
+												"partitionOption": "None",
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "INT060_YMPPT_LP_ITEM_C",
+												"type": "DatasetReference"
+											}
+										}
 									}
 								]
 							}
+						},
+						{
+							"name": "If Condition2",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": []
 						}
 					]
 				}
