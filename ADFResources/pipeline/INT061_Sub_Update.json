@@ -728,7 +728,8 @@
 											"dataset": {
 												"referenceName": "INT060_YMPPT_LP_ITEM_C",
 												"type": "DatasetReference"
-											}
+											},
+											"firstRowOnly": false
 										}
 									}
 								]
