@@ -5,7 +5,14 @@
 			{
 				"name": "Lookup2",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "QUEUE TO SAP STAGING_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1372,7 +1379,7 @@
 										"typeProperties": {
 											"variableName": "is_deleted",
 											"value": {
-												"value": "@activity('validate_is_deleted').output.firstRow.value",
+												"value": "@activity('validate_is_deleted').output.firstRow.is_deleted",
 												"type": "Expression"
 											}
 										}
@@ -2027,6 +2034,352 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "QUEUE TO SAP STAGING_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "SHIFT",
+								"value": "QQ"
+							},
+							{
+								"name": "UNDERLOAD_CHARG",
+								"value": "No"
+							},
+							{
+								"name": "STATUS",
+								"value": "Y"
+							},
+							{
+								"name": "ERROR_CD",
+								"value": "RD RECODELETED AND THEN SUCCESSFULLY POSTED"
+							},
+							{
+								"name": "DELIVERY_DATE",
+								"value": ""
+							},
+							{
+								"name": "LOAD_DATE",
+								"value": ""
+							},
+							{
+								"name": "TIMESTAMP",
+								"value": ""
+							},
+							{
+								"name": "PROC_TS",
+								"value": ""
+							},
+							{
+								"name": "DESP_LOAD_QTY",
+								"value": ""
+							},
+							{
+								"name": "INTERMEDIATE_QTY",
+								"value": ""
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$SAP_ORDER_ITEM']"
+								},
+								"sink": {
+									"name": "SAP_ORDER_ITEM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MATERIAL_NO']"
+								},
+								"sink": {
+									"name": "MATERIAL_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NO']"
+								},
+								"sink": {
+									"name": "PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_NO']"
+								},
+								"sink": {
+									"name": "ORDER_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_NAME']"
+								},
+								"sink": {
+									"name": "PROJ_NAME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_CODE']"
+								},
+								"sink": {
+									"name": "CUST_CODE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CUST_NAME']"
+								},
+								"sink": {
+									"name": "CUST_NAME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PROJ_COORDINATOR']"
+								},
+								"sink": {
+									"name": "PROJ_COORDINATOR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_JOB_SITE_LOCATION']"
+								},
+								"sink": {
+									"name": "LOAD_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHAPE_CODE']"
+								},
+								"sink": {
+									"name": "SHAPE_CODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS1']"
+								},
+								"sink": {
+									"name": "WBS1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS2']"
+								},
+								"sink": {
+									"name": "WBS2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS3']"
+								},
+								"sink": {
+									"name": "WBS3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS4']"
+								},
+								"sink": {
+									"name": "WBS4",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$WBS5']"
+								},
+								"sink": {
+									"name": "WBS5",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$INV_LEN_IN_MM']"
+								},
+								"sink": {
+									"name": "INV_LEN_IN_MM"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_LENGTH']"
+								},
+								"sink": {
+									"name": "ENV_LENGTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_WIDTH']"
+								},
+								"sink": {
+									"name": "ENV_WIDTH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ENV_HEIGHT']"
+								},
+								"sink": {
+									"name": "ENV_HEIGHT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BBS_NO']"
+								},
+								"sink": {
+									"name": "BBS_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ITEM_NO']"
+								},
+								"sink": {
+									"name": "ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LOAD_NO']"
+								},
+								"sink": {
+									"name": "LOAD_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$LAYER_NO']"
+								},
+								"sink": {
+									"name": "LAYER_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PRODUCT_TYPE']"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$CONTRACT_NO']"
+								},
+								"sink": {
+									"name": "CONTRACT_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NDS_SALE_ORDER']"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$NO_PIECES']"
+								},
+								"sink": {
+									"name": "NO_PIECES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLAN_LOAD_QTY']"
+								},
+								"sink": {
+									"name": "PLAN_LOAD_QTY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDH_JOB_SITE_LOCATION']"
+								},
+								"sink": {
+									"name": "ORDH_JOB_SITE_LOCATION"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_REQUEST_NO']"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$IS_DELETED']"
+								},
+								"sink": {
+									"name": "IS_DELETED"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Int060_ESB_Load_Tally_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT060_YMPPT_LP_ITEM_C",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {
