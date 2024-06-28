@@ -433,7 +433,7 @@
 										}
 									},
 									{
-										"name": "Script8",
+										"name": "Script6",
 										"type": "Script",
 										"dependsOn": [
 											{
@@ -461,6 +461,42 @@
 													"type": "Query",
 													"text": {
 														"value": "SELECT UPPER (COUNT(*)) as COUNT FROM sapsr3.ymppt_lp_batch_c WHERE LOAD_NO = '@{variables('Iterate_LoadNo')}'",
+														"type": "Expression"
+													}
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "Script7",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Script6",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": {
+														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'A',  MODIFY_DATE = '@{variables('PROC_TS')}' WHERE LOAD_NO = '@{variables('LOAD_NO')}'\n\nMERGE INTO SCM_ADMIN.LOAD_SAP_TALLY T1\nUSING SCM_ADMIN.ESB_LOAD_SAP_TALLY S\nON (T1.LOAD_NO = S.Iterate_LoadNo)\nWHEN MATCHED THEN\nUPDATE SET\n    T1.MODIFY_DATE = stg.PROC_TS,\n    T1.STATUS='A';",
 														"type": "Expression"
 													}
 												}
