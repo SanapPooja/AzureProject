@@ -614,6 +614,8 @@
 									{
 										"name": "TRUNCATE esb_ymppt_lp_hdr",
 										"type": "Script",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "INSERT INTO ymppt_lp_hdr",
@@ -680,6 +682,8 @@
 									{
 										"name": "TRUNCATE ESB_load_sap_tally",
 										"type": "Script",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "INSERT INTO load_sap_tally",
@@ -1428,7 +1432,7 @@
 											"source": {
 												"type": "OracleSource",
 												"oracleReaderQuery": {
-													"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('iterate_load_no')}'and order_request_no = (select distinct order_request_no from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY) and order_item = (select distinct order_item from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY)",
+													"value": "SELECT * FROM SCM_ADMIN.ITEM_ON_LOAD_SAP_TALLY WHERE LOAD_NO =  '@{variables('iterate_load_no')}'and order_request_no in (select distinct order_request_no from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY) and order_item in (select distinct order_item from scm_admin.esb_ITEM_ON_LOAD_SAP_TALLY)",
 													"type": "Expression"
 												},
 												"partitionOption": "None",
@@ -1438,7 +1442,8 @@
 											"dataset": {
 												"referenceName": "SCM_IDB_DB",
 												"type": "DatasetReference"
-											}
+											},
+											"firstRowOnly": false
 										}
 									},
 									{
@@ -1808,7 +1813,7 @@
 											"scripts": [
 												{
 													"type": "Query",
-													"text": "INSERT INTO SAPSR3.ymppt_lp_item_c (\r\nmandt,             \r\nload_no,           \r\nnds_sale_order,    \r\norder_item,        \r\nsales_order,       \r\nclbd_item,         \r\nmatnr,             \r\nload_date,         \r\nload_sqn,          \r\nshift,             \r\ndelivery_date,     \r\nplan_load_qnty,    \r\ndesp_load_qnty,    \r\ndestination_code,  \r\nkunnr,             \r\nname_we,           \r\nkunag,             \r\nname_ag,           \r\nproj_coord,        \r\ntransport_zone,    \r\ncontract,          \r\nprod_grp,          \r\nunderload_charge,  \r\nno_pieces,         \r\nshape_code,        \r\nwbs1,              \r\nwbs2,              \r\nwbs3,              \r\nwbs4,              \r\nwbs5,              \r\ninvoice_length,    \r\next_dimension_l,   \r\next_dimension_w,   \r\next_dimension_h,   \r\nbbs_no,            \r\nstatus,            \r\nerror_cd,          \r\nproc_ts,           \r\nintermediate_qty,\r\ntimestamp\r\n) SELECT\r\n'600',\r\nload_no,\r\nNVL(TRIM(nds_sale_order),' '),\r\nTRIM(item_no),\r\norder_no,\r\nsap_order_item,\r\nTRIM(material_no),\r\nNVL((SELECT PLAN_DELIV_DATE FROM ESB_ymppt_lp_hdr),' '),  -- take from headerdelivery_date\r\nlayer_no,\r\n'QQ',\r\nNVL((SELECT PLAN_DELIV_DATE FROM ESB_ymppt_lp_hdr),' '),   -- take from headerdelivery_date\r\nplan_load_qty,\r\nplan_load_qty,\r\nTRIM(LOAD_JOB_SITE_LOCATION),\r\nproj_no,\r\nTRIM(proj_name),\r\ncust_code,\r\nTRIM(cust_name),\r\nproj_coordinator,\r\nTRIM(ordh_job_site_location), \r\ncontract_no,\r\nTRIM(product_type),\r\n'No',\r\nno_pieces,\r\nTRIM(shape_code),\r\nwbs1,\r\nwbs2,\r\nwbs3,\r\nwbs4,\r\nwbs5,\r\ninv_len_in_mm,\r\nenv_length,\r\nenv_width,\r\nenv_height,\r\nbbs_no,\r\n'Y',\r\n'RD RECODELETED AND THEN SUCCESSFULLY POSTED',\r\nTO_CHAR(SYSDATE, 'YYYY-MM-DD-HH24-MI-SS'),\r\nplan_load_qty,\r\nTO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD-HH24-MI-SS.FF6')\r\nFROM SAPSR3.esb_ymppt_lp_item_c;"
+													"text": "INSERT INTO SAPSR3.ymppt_lp_item_c (\r\nmandt,             \r\nload_no,           \r\nnds_sale_order,    \r\norder_item,        \r\nsales_order,       \r\nclbd_item,         \r\nmatnr,             \r\nload_date,         \r\nload_sqn,          \r\nshift,             \r\ndelivery_date,     \r\nplan_load_qnty,    \r\ndesp_load_qnty,    \r\ndestination_code,  \r\nkunnr,             \r\nname_we,           \r\nkunag,             \r\nname_ag,           \r\nproj_coord,        \r\ntransport_zone,    \r\ncontract,          \r\nprod_grp,          \r\nunderload_charge,  \r\nno_pieces,         \r\nshape_code,        \r\nwbs1,              \r\nwbs2,              \r\nwbs3,              \r\nwbs4,              \r\nwbs5,              \r\ninvoice_length,    \r\next_dimension_l,   \r\next_dimension_w,   \r\next_dimension_h,   \r\nbbs_no,            \r\nstatus,            \r\nerror_cd,          \r\nproc_ts,           \r\nintermediate_qty,\r\ntimestamp\r\n) SELECT\r\n'600',\r\nload_no,\r\nNVL(TRIM(nds_sale_order),' '),\r\nTRIM(item_no),\r\norder_no,\r\nsap_order_item,\r\nTRIM(material_no),\r\nNVL((SELECT PLAN_DELIV_DATE FROM SAPSR3.ESB_ymppt_lp_hdr),' '),  -- take from headerdelivery_date\r\nlayer_no,\r\n'QQ',\r\nNVL((SELECT PLAN_DELIV_DATE FROM SAPSR3.ESB_ymppt_lp_hdr),' '),   -- take from headerdelivery_date\r\nplan_load_qty,\r\nplan_load_qty,\r\nTRIM(LOAD_JOB_SITE_LOCATION),\r\nproj_no,\r\nTRIM(proj_name),\r\ncust_code,\r\nTRIM(cust_name),\r\nproj_coordinator,\r\nTRIM(ordh_job_site_location), \r\ncontract_no,\r\nTRIM(product_type),\r\n'No',\r\nno_pieces,\r\nTRIM(shape_code),\r\nwbs1,\r\nwbs2,\r\nwbs3,\r\nwbs4,\r\nwbs5,\r\ninv_len_in_mm,\r\nenv_length,\r\nenv_width,\r\nenv_height,\r\nbbs_no,\r\n'Y',\r\n'RD RECODELETED AND THEN SUCCESSFULLY POSTED',\r\nTO_CHAR(SYSDATE, 'YYYY-MM-DD-HH24-MI-SS'),\r\nplan_load_qty,\r\nTO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD-HH24-MI-SS.FF6')\r\nFROM SAPSR3.esb_ymppt_lp_item_c;"
 												}
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
@@ -1817,6 +1822,8 @@
 									{
 										"name": "Script2",
 										"type": "Script",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "Script1",
@@ -2038,7 +2045,14 @@
 			{
 				"name": "QUEUE TO SAP STAGING_copy1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "truncate esb_ymppt_lp_item_c",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -2364,6 +2378,22 @@
 								"sink": {
 									"name": "IS_DELETED"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$ORDER_PIECES']"
+								},
+								"sink": {
+									"name": "ORDER_PIECES"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QTY_IN_BASE_UOM']"
+								},
+								"sink": {
+									"name": "QTY_IN_BASE_UOM"
+								}
 							}
 						]
 					}
@@ -2380,6 +2410,98 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "truncate esb_ymppt_lp_item_c",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE esb_ymppt_lp_hdr_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM SAPSR3.esb_ymppt_lp_item_c;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "TRUNCATE esb_ymppt_lp_hdr_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE ESB_load_sap_tally_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_DEV_DEMO",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from sapsr3.esb_ymppt_lp_hdr;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "TRUNCATE ESB_load_sap_tally_copy1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from scm_admin.esb_load_sap_tally;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"variables": {
