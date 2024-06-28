@@ -640,7 +640,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "update sapsr3.ITEM_ON_LOAD_SAP_TALLY\nset LOAD_NO = ('X'+'@{variables('Iterate_LoadNo')}'), ORDER_NO = ('X'+'@{variables('ORDER_NO')}')",
+														"value": "update sapsr3.ITEM_ON_LOAD_SAP_TALLY\nset LOAD_NO = ('X'+'@{variables('Iterate_LoadNo')}'), ORDER_NO = ('X'+'@{variables('ORDER_NO')}')\nwhere",
 														"type": "Expression"
 													}
 												}
