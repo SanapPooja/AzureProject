@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_ONHOLD, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL",
+						"oracleReaderQuery": "Select LOAD_NO, VEHICLE_TYPE_NAME, IS_ONHOLD, IS_CANCELLED, VIRTUAL_VEHICLE_TYPE, WM_ROWID, WM_SENDTIME, ACTION from SCM_ADMIN.ESB_LOAD_TBL WHERE LOAD_NO='2406306570'",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -61,7 +61,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "Select LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL",
+									"oracleReaderQuery": "Select LOAD_NO from SCM_ADMIN.ESB_LOAD_TBL WHERE LOAD_NO='2406306570'",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -875,14 +875,6 @@
 										},
 										{
 											"source": {
-												"name": "deldLoadPcs"
-											},
-											"sink": {
-												"path": "$deldLoadPcs"
-											}
-										},
-										{
-											"source": {
 												"name": "CONTRACT_NO",
 												"type": "String"
 											},
@@ -923,15 +915,6 @@
 											},
 											"sink": {
 												"path": "$ORDER_REQUEST_NO"
-											}
-										},
-										{
-											"source": {
-												"name": "ID",
-												"type": "Decimal"
-											},
-											"sink": {
-												"path": "$['$ID']"
 											}
 										},
 										{
