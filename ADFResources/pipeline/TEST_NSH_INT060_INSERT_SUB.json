@@ -128,6 +128,8 @@
 									{
 										"name": "YMPPT_LP_HDR",
 										"type": "Copy",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
@@ -142,27 +144,27 @@
 												"type": "RestSource",
 												"additionalColumns": [
 													{
-														"name": "$LP_STATUS",
+														"name": "LP_STATUS",
 														"value": "A"
 													},
 													{
-														"name": "$STATUS",
+														"name": "STATUS",
 														"value": "Y"
 													},
 													{
-														"name": "$UNAME",
+														"name": "UNAME",
 														"value": "ESB_INT060"
 													},
 													{
-														"name": "$ERROR_CD",
+														"name": "ERROR_CD",
 														"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
 													},
 													{
-														"name": "$EMAIL_ALERT_IND",
+														"name": "EMAIL_ALERT_IND",
 														"value": "N"
 													},
 													{
-														"name": "$DELIVERY_SQN",
+														"name": "DELIVERY_SQN",
 														"value": "0"
 													},
 													{
@@ -170,18 +172,18 @@
 														"value": "600"
 													},
 													{
-														"name": "$USER_NAME",
+														"name": "USER_NAME",
 														"value": "ESB_INT060"
 													},
 													{
-														"name": "$UPDATION_DATE",
+														"name": "UPDATION_DATE",
 														"value": {
 															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
 															"type": "Expression"
 														}
 													},
 													{
-														"name": "$PROC-TS",
+														"name": "PROC-TS",
 														"value": {
 															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
 															"type": "Expression"
@@ -209,7 +211,7 @@
 												"mappings": [
 													{
 														"source": {
-															"path": "$['LOAD_NO']"
+															"path": "$['$LOAD_NO']"
 														},
 														"sink": {
 															"name": "LOAD_NO",
@@ -218,7 +220,7 @@
 													},
 													{
 														"source": {
-															"path": "$['VEHICLE_TYPE_NAME']"
+															"path": "$['$VEHICLE_TYPE_NAME']"
 														},
 														"sink": {
 															"name": "VEHICLE_TYPE",
@@ -227,7 +229,7 @@
 													},
 													{
 														"source": {
-															"path": "$['DELIVERY_DATE']"
+															"path": "$['$DELIVERY_DATE']"
 														},
 														"sink": {
 															"name": "PLAN_DELIV_DATE",
@@ -236,7 +238,7 @@
 													},
 													{
 														"source": {
-															"path": "$['REMARK1']"
+															"path": "$['$REMARK1']"
 														},
 														"sink": {
 															"name": "PLANNER_REMARKS",
@@ -245,7 +247,7 @@
 													},
 													{
 														"source": {
-															"path": "$LP_STATUS"
+															"path": "LP_STATUS"
 														},
 														"sink": {
 															"name": "LP_STATUS",
@@ -254,7 +256,7 @@
 													},
 													{
 														"source": {
-															"path": "$STATUS"
+															"path": "STATUS"
 														},
 														"sink": {
 															"name": "STATUS",
@@ -263,7 +265,7 @@
 													},
 													{
 														"source": {
-															"path": "$UNAME"
+															"path": "UNAME"
 														},
 														"sink": {
 															"name": "USER_NAME",
@@ -272,7 +274,7 @@
 													},
 													{
 														"source": {
-															"path": "$ERROR_CD"
+															"path": "ERROR_CD"
 														},
 														"sink": {
 															"name": "ERROR_CD",
@@ -281,7 +283,7 @@
 													},
 													{
 														"source": {
-															"path": "$EMAIL_ALERT_IND"
+															"path": "EMAIL_ALERT_IND"
 														},
 														"sink": {
 															"name": "EMAIL_ALERT_IND",
@@ -290,7 +292,7 @@
 													},
 													{
 														"source": {
-															"path": "$DELIVERY_SQN"
+															"path": "DELIVERY_SQN"
 														},
 														"sink": {
 															"name": "DELIVERY_SQN",
@@ -304,13 +306,21 @@
 														"sink": {
 															"name": "MANDT"
 														}
+													},
+													{
+														"source": {
+															"path": "$['$TRAILER_NO']"
+														},
+														"sink": {
+															"name": "TRAILER_NO"
+														}
 													}
 												]
 											}
 										},
 										"inputs": [
 											{
-												"referenceName": "Int060_ESB_Load_Tally_Head",
+												"referenceName": "INT60_HEADER_QUEUE_HEAD",
 												"type": "DatasetReference"
 											}
 										],
@@ -324,14 +334,9 @@
 									{
 										"name": "Load_sap_tally_copy_copy1",
 										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "TRUNCATE esb_ymppt_lp_hdr",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -571,7 +576,7 @@
 										"type": "Script",
 										"dependsOn": [
 											{
-												"activity": "YMPPT_LP_HDR",
+												"activity": "YMPPT_LP_HDR_copy1",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -637,7 +642,7 @@
 										"type": "Script",
 										"dependsOn": [
 											{
-												"activity": "Load_sap_tally_copy_copy1",
+												"activity": "Load_sap_tally_copy_copy1_copy1",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -697,6 +702,400 @@
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
 										}
+									},
+									{
+										"name": "YMPPT_LP_HDR_copy1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "UNAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "ERROR_CD",
+														"value": "RECORD DELETED AND THEN SUCCESSFULLY POSTED"
+													},
+													{
+														"name": "EMAIL_ALERT_IND",
+														"value": "N"
+													},
+													{
+														"name": "DELIVERY_SQN",
+														"value": "0"
+													},
+													{
+														"name": "$MANDT",
+														"value": "600"
+													},
+													{
+														"name": "USER_NAME",
+														"value": "ESB_INT060"
+													},
+													{
+														"name": "UPDATION_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "PROC_TS",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MANDT",
+														"value": "110"
+													},
+													{
+														"name": "TIMESTAMP",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),\n5\n),\n30\n),\n'yyyy-MM-dd HH:mm:ss'\n),\n'.'\n, formatDateTime(utcnow(),\n'fff'\n))",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "INTER_ID",
+														"value": " "
+													},
+													{
+														"name": "REC_TYPE",
+														"value": " "
+													},
+													{
+														"name": "NGWS_STATUS",
+														"value": " "
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['$LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$VEHICLE_TYPE_NAME']"
+														},
+														"sink": {
+															"name": "VEHICLE_TYPE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$DELIVERY_DATE']"
+														},
+														"sink": {
+															"name": "PLAN_DELIV_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$REMARK1']"
+														},
+														"sink": {
+															"name": "PLANNER_REMARKS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['LP_STATUS']"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['STATUS']"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['UNAME']"
+														},
+														"sink": {
+															"name": "USER_NAME",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['ERROR_CD']"
+														},
+														"sink": {
+															"name": "ERROR_CD",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['EMAIL_ALERT_IND']"
+														},
+														"sink": {
+															"name": "EMAIL_ALERT_IND",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['DELIVERY_SQN']"
+														},
+														"sink": {
+															"name": "DELIVERY_SQN",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['MANDT']"
+														},
+														"sink": {
+															"name": "MANDT"
+														}
+													},
+													{
+														"source": {
+															"path": "$['$TRAILER_NO']"
+														},
+														"sink": {
+															"name": "TRAILER_NO"
+														}
+													},
+													{
+														"source": {
+															"path": "$['UPDATION_DATE']"
+														},
+														"sink": {
+															"name": "UPDATION_DATE"
+														}
+													},
+													{
+														"source": {
+															"path": "$['TIMESTAMP']"
+														},
+														"sink": {
+															"name": "TIMESTAMP"
+														}
+													},
+													{
+														"source": {
+															"path": "$['INTER_ID']"
+														},
+														"sink": {
+															"name": "INTER_ID"
+														}
+													},
+													{
+														"source": {
+															"path": "$['PROC_TS']"
+														},
+														"sink": {
+															"name": "PROC_TS"
+														}
+													},
+													{
+														"source": {
+															"path": "$['REC_TYPE']"
+														},
+														"sink": {
+															"name": "REC_TYPE"
+														}
+													},
+													{
+														"source": {
+															"path": "$['NGWS_STATUS']"
+														},
+														"sink": {
+															"name": "NGWS_STATUS"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "INT60_HEADER_QUEUE_HEAD",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "INT060_YMPPT_LP_HDR",
+												"type": "DatasetReference"
+											}
+										]
+									},
+									{
+										"name": "Load_sap_tally_copy_copy1_copy1",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "TRUNCATE esb_ymppt_lp_hdr",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "RestSource",
+												"additionalColumns": [
+													{
+														"name": "LP_STATUS",
+														"value": "A"
+													},
+													{
+														"name": "STATUS",
+														"value": "Y"
+													},
+													{
+														"name": "CREATE_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "MODIFY_DATE",
+														"value": {
+															"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n ",
+															"type": "Expression"
+														}
+													}
+												],
+												"httpRequestTimeout": "00:01:40",
+												"requestInterval": "00.00:00:00.010",
+												"requestMethod": "POST",
+												"paginationRules": {
+													"supportRFC5988": "true"
+												}
+											},
+											"sink": {
+												"type": "OracleSink",
+												"writeBatchSize": 10000
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['$LOAD_NO']"
+														},
+														"sink": {
+															"name": "LOAD_NO",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['LP_STATUS']"
+														},
+														"sink": {
+															"name": "LP_STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['STATUS']"
+														},
+														"sink": {
+															"name": "STATUS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['CREATE_DATE']"
+														},
+														"sink": {
+															"name": "CREATE_DATE",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"path": "$['MODIFY_DATE']"
+														},
+														"sink": {
+															"name": "MODIFY_DATE",
+															"type": "String"
+														}
+													}
+												],
+												"collectionReference": ""
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "INT60_HEADER_QUEUE_HEAD",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Int060_Load_SAP_Tally",
+												"type": "DatasetReference"
+											}
+										]
 									}
 								]
 							}

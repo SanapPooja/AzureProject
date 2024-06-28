@@ -1,0 +1,12 @@
+{
+	"name": "INT60_HEADER_QUEUE_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService12",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

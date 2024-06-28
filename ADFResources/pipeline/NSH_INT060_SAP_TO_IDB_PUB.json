@@ -996,6 +996,9 @@
 			},
 			"count": {
 				"type": "String"
+			},
+			"is_deleted": {
+				"type": "String"
 			}
 		},
 		"annotations": []
