@@ -313,7 +313,7 @@
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "YMPPT_LP_HDR",
+												"activity": "TRUNCATE esb_ymppt_lp_hdr",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -436,7 +436,7 @@
 										"type": "Lookup",
 										"dependsOn": [
 											{
-												"activity": "Load_sap_tally_copy_copy1",
+												"activity": "TRUNCATE ESB_load_sap_tally",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -549,6 +549,138 @@
 												"value": "@activity('Lookup3').output.firstRow.LP_STATUS\n",
 												"type": "Expression"
 											}
+										}
+									},
+									{
+										"name": "INSERT INTO ymppt_lp_hdr",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "YMPPT_LP_HDR",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "INSERT INTO sapsr3.ymppt_lp_hdr (\r\n    mandt,\r\n    load_no,\r\n    plan_deliv_date,\r\n    delivery_sqn,\r\n    vehicle_type,\r\n    trailer_no,\r\n    planner_remarks,\r\n    lp_status,\r\n    status,\r\n    user_name,\r\n    updation_date,\r\n    error_cd,\r\n    inter_id,\r\n    timestamp,\r\n    proc_ts,\r\n    rec_type,\r\n    ngws_status,\r\n    email_alert_ind\r\n) SELECT\r\n    mandt,\r\n    load_no,\r\n    plan_deliv_date,\r\n    delivery_sqn,\r\n    vehicle_type,\r\n    trailer_no,\r\n    planner_remarks,\r\n    lp_status,\r\n    status,\r\n    user_name,\r\n    updation_date,\r\n    error_cd,\r\n    inter_id,\r\n    timestamp,\r\n    proc_ts,\r\n    rec_type,\r\n    ngws_status,\r\n    email_alert_ind\r\nFROM\r\n    sapsr3.esb_ymppt_lp_hdr;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "TRUNCATE esb_ymppt_lp_hdr",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "INSERT INTO ymppt_lp_hdr",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SAP_DEV_DEMO",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "delete from sapsr3.esb_ymppt_lp_hdr;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "INSERT INTO load_sap_tally",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "Load_sap_tally_copy_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "INSERT INTO scm_admin.load_sap_tally (\r\n    load_no,\r\n    lp_status,\r\n    status,\r\n    error_cd,\r\n    create_date,\r\n    modify_date,\r\n    vehicle_id,\r\n    trailer_id,\r\n    flatrack_id,\r\n    container_id,\r\n    theoritical_weight,\r\n    actual_weight,\r\n    weighing_ticket_time,\r\n    loading_actual_start,\r\n    loading_actual_end\r\n) SELECT\r\n    load_no,\r\n    lp_status,\r\n    status,\r\n    error_cd,\r\n    create_date,\r\n    modify_date,\r\n    vehicle_id,\r\n    trailer_id,\r\n    flatrack_id,\r\n    container_id,\r\n    theoritical_weight,\r\n    actual_weight,\r\n    weighing_ticket_time,\r\n    loading_actual_start,\r\n    loading_actual_end\r\nFROM\r\n    scm_admin.esb_load_sap_tally;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
+										}
+									},
+									{
+										"name": "TRUNCATE ESB_load_sap_tally",
+										"type": "Script",
+										"dependsOn": [
+											{
+												"activity": "INSERT INTO load_sap_tally",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"linkedServiceName": {
+											"referenceName": "SCM_IDB_Connect",
+											"type": "LinkedServiceReference"
+										},
+										"typeProperties": {
+											"scripts": [
+												{
+													"type": "Query",
+													"text": "delete from scm_admin.esb_load_sap_tally;"
+												}
+											],
+											"scriptBlockExecutionTimeout": "02:00:00"
 										}
 									}
 								]

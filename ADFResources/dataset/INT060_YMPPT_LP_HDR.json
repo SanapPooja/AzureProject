@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YMPPT_LP_HDR"
+			"table": "ESB_YMPPT_LP_HDR"
 		}
 	}
 }

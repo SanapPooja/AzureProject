@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "LOAD_SAP_TALLY"
+			"table": "ESB_LOAD_SAP_TALLY"
 		}
 	}
 }
