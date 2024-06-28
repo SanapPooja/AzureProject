@@ -806,7 +806,7 @@
 											"scripts": [
 												{
 													"type": "Query",
-													"text": "MERGE INTO sapsr3.YMPPT_LP_ITEM_C itm\r\nUSING sapsr3.ESB_YMPPT_LP_ITEM_C stg\r\nON (itm.LOAD_NO = stg.LOAD_NO AND itm.LOAD_NO=('X'+itm.LOAD_NO) AND itm.SALES_ORDER=('X'+itm.ORDER_NO)) AND itm.ORDER_ITEM=stg.ITEM_NO)\r\nWHEN MATCHED THEN\r\nUPDATE SET\r\n    itm.NDS_SALE_ORDER=stg.nds_sales_order,\r\n    itm.CONTRACT=stg.CONTRACT_NO,\r\n    itm.NO_PIECES=stg.NO_PIECES,\r\n    itm.LOAD_SQN=stg.LAYER_NO,\r\n    itm.PROC_TS=stg.NO_PIECES,\r\n    itm.PLAN_LOAD_QNTY=stg.PLAN_LOAD_QNTY,\r\n    itm.DESP_LOAD_QNTY=stg.DESP_LOAD_QNTY,\r\n    itm.INTERMEDIATE_QTY=stg.INTERMEDIATE_QTY,\r\n    itm.PROD_GRP=stg.PRODUCT_TYPE,\r\n    itm.DELIVERY_DATE=stg.DELIVERY_DATE,\r\n    itm.LOAD_DATE=stg.DELIVERY_DATE;\r\n\r\n"
+													"text": "MERGE INTO sapsr3.YMPPT_LP_ITEM_C itm\r\nUSING sapsr3.ESB_YMPPT_LP_ITEM_C stg\r\nON (itm.LOAD_NO = stg.LOAD_NO AND itm.LOAD_NO=('X'+itm.LOAD_NO) AND itm.SALES_ORDER=('X'+itm.ORDER_NO)) AND itm.ORDER_ITEM=stg.ITEM_NO)\r\nWHEN MATCHED THEN\r\nUPDATE SET\r\n    itm.NDS_SALE_ORDER=stg.nds_sales_order,\r\n    itm.CONTRACT=stg.CONTRACT_NO,\r\n    itm.NO_PIECES=stg.NO_PIECES,\r\n    itm.LOAD_SQN=stg.LAYER_NO,\r\n    itm.PROC_TS=@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss.ffffff')},\r\n    itm.PLAN_LOAD_QNTY=stg.PLAN_LOAD_QNTY,\r\n    itm.DESP_LOAD_QNTY=stg.DESP_LOAD_QNTY,\r\n    itm.INTERMEDIATE_QTY=stg.INTERMEDIATE_QTY,\r\n    itm.PROD_GRP=stg.PRODUCT_TYPE,\r\n    itm.DELIVERY_DATE=stg.DELIVERY_DATE,\r\n    itm.LOAD_DATE=stg.DELIVERY_DATE;\r\n\r\n"
 												}
 											],
 											"scriptBlockExecutionTimeout": "02:00:00"
