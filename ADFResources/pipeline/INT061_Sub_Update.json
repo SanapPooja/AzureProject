@@ -604,7 +604,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "UPDATE SCM_ADMIN.LOAD_SAP_TALLY SET LP_STATUS = 'Y',  MODIFY_DATE = '@{variables('PROC_TS')}' WHERE LOAD_NO = '@{variables('LOAD_NO')}'",
+														"value": "MERGE INTO SCM_ADMIN.LOAD_SAP_TALLY T1\nUSING SCM_ADMIN.ESB_LOAD_SAP_TALLY S\nON (T1.LOAD_NO = S.Iterate_LoadNo)\nWHEN MATCHED THEN\nUPDATE SET\n    T1.MODIFY_DATE = stg.PROC_TS,\n    T1.STATUS='Y';",
 														"type": "Expression"
 													}
 												}
