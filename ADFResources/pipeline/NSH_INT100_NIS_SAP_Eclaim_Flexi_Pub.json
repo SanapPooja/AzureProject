@@ -615,7 +615,7 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "Update T_FI_GL_POST SET STATUS = 'E' where SECTION_CODE IN (SELECT \r\n    WMBblqsdkx.SECTION_CODE\r\nFROM \r\n    WMBblqsdkx\r\nJOIN \r\n    T_FI_GL_POST ON WMBblqsdkx.SECTION_CODE = T_FI_GL_POST.SECTION_CODE\r\n                 AND WMBblqsdkx.DOC_YYYYMM = T_FI_GL_POST.DOC_YYYYMM\r\n                 AND WMBblqsdkx.INP_TRAN_NO = T_FI_GL_POST.INP_TRAN_NO) and DOC_YYYYMM IN (SELECT  \r\n    WMBblqsdkx.DOC_YYYYMM \r\nFROM \r\n    WMBblqsdkx\r\nJOIN \r\n    T_FI_GL_POST ON WMBblqsdkx.SECTION_CODE = T_FI_GL_POST.SECTION_CODE\r\n                 AND WMBblqsdkx.DOC_YYYYMM = T_FI_GL_POST.DOC_YYYYMM\r\n                 AND WMBblqsdkx.INP_TRAN_NO = T_FI_GL_POST.INP_TRAN_NO)  and INP_TRAN_NO IN (SELECT \r\n    WMBblqsdkx.INP_TRAN_NO\r\nFROM \r\n    WMBblqsdkx\r\nJOIN \r\n    T_FI_GL_POST ON WMBblqsdkx.SECTION_CODE = T_FI_GL_POST.SECTION_CODE\r\n                 AND WMBblqsdkx.DOC_YYYYMM = T_FI_GL_POST.DOC_YYYYMM\r\n                 AND WMBblqsdkx.INP_TRAN_NO = T_FI_GL_POST.INP_TRAN_NO)"
+										"text": "Update T_FI_GL_POST SET STATUS = 'E' where (STATUS = 'N' OR STATUS = 'A' OR STATUS = '') "
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
