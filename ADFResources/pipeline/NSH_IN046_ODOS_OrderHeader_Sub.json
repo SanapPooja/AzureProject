@@ -3,58 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DeleteServiceBusMessage",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait_For_60sec",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"headers": {
-						"CustomHeader-Version": "\"1.0\"",
-						"Content-Type": "application/json"
-					},
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/sapy_nds_orderheader/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
-				"name": "Wait_For_60sec",
-				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "CopyData_FromQueueToScmOrderHeader_copy1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
 				"name": "CopyData_FromQueueToScmOrderHeader_copy1",
 				"type": "Copy",
 				"dependsOn": [],
@@ -73,13 +21,13 @@
 							{
 								"name": "id_message",
 								"value": {
-									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFFFFFF')}",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd HH:mm:ss.FFF')}",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "QA_transfer_status",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "create_by",
@@ -88,17 +36,17 @@
 							{
 								"name": "create_date",
 								"value": {
-									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFFFFF')}",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyyMMddHHmmssFF')}\n",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "update_by",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "update_date",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "transfer_status",
@@ -110,18 +58,18 @@
 							},
 							{
 								"name": "remarks",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "time_stamp",
 								"value": {
-									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyyMMddHHmmssFF')}",
+									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd HH:mm:ss.FFF')}",
 									"type": "Expression"
 								}
 							},
 							{
 								"name": "allow_partial_delivery_ind",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "cancellation_status",
@@ -133,11 +81,11 @@
 							},
 							{
 								"name": "approval_status",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "credit_status",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "delivered_pieces",
@@ -149,7 +97,7 @@
 							},
 							{
 								"name": "actual_del_date",
-								"value": ""
+								"value": " "
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -161,6 +109,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
+						"writeBatchSize": 100,
 						"writeBehavior": "upsert",
 						"upsertSettings": {
 							"useTempDB": true,
@@ -714,6 +663,78 @@
 									"name": "create_date",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$cust_class']"
+								},
+								"sink": {
+									"name": "cust_class"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$account_mgr']"
+								},
+								"sink": {
+									"name": "account_mgr"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$segment_mgr']"
+								},
+								"sink": {
+									"name": "segment_mgr"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$proj_coordinator']"
+								},
+								"sink": {
+									"name": "proj_coordinator"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$unit_tag_mode_ind']"
+								},
+								"sink": {
+									"name": "UNIT_TAG_MODE_IND"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$physical_proj_no']"
+								},
+								"sink": {
+									"name": "PHYSICAL_PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$physical_delivery_proj_no']"
+								},
+								"sink": {
+									"name": "PHYSICAL_DELIVERY_PROJ_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$vehicle_type']"
+								},
+								"sink": {
+									"name": "vehicle_type"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$group_member_count']"
+								},
+								"sink": {
+									"name": "group_member_count"
+								}
 							}
 						],
 						"collectionReference": ""
@@ -721,7 +742,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT046_SAP_ODOS_Head",
+						"referenceName": "NSH_INT046_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -733,6 +754,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "Prod_Env"
+		},
 		"annotations": []
 	}
 }
