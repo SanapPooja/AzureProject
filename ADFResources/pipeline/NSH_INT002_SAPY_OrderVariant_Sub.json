@@ -86,7 +86,7 @@
 					},
 					"sink": {
 						"type": "OracleSink",
-						"writeBatchSize": 1000
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
 					"translator": {
@@ -97,8 +97,7 @@
 									"path": "$MANDT"
 								},
 								"sink": {
-									"name": "MANDT",
-									"type": "String"
+									"name": "MANDT"
 								}
 							},
 							{
@@ -106,8 +105,7 @@
 									"path": "$ORD_REQ_NO"
 								},
 								"sink": {
-									"name": "ORDER_REQUEST_NO",
-									"type": "String"
+									"name": "ORD_REQ_NO"
 								}
 							},
 							{
@@ -115,8 +113,7 @@
 									"path": "$ITEM_NO"
 								},
 								"sink": {
-									"name": "ORDER_ITEM",
-									"type": "String"
+									"name": "ITEM_NO"
 								}
 							},
 							{
@@ -124,8 +121,7 @@
 									"path": "$CHRSTICS"
 								},
 								"sink": {
-									"name": "ATNAM",
-									"type": "String"
+									"name": "CHRSTICS"
 								}
 							},
 							{
@@ -133,8 +129,7 @@
 									"path": "$['SALES_ORDER']"
 								},
 								"sink": {
-									"name": "SALES_ORDER",
-									"type": "String"
+									"name": "SALES_ORDER"
 								}
 							},
 							{
@@ -142,8 +137,7 @@
 									"path": "$MATL_NO"
 								},
 								"sink": {
-									"name": "MATNR",
-									"type": "String"
+									"name": "MATL_NO"
 								}
 							},
 							{
@@ -151,8 +145,7 @@
 									"path": "$CHRSTICS_VAL"
 								},
 								"sink": {
-									"name": "ATWRT",
-									"type": "String"
+									"name": "CHRSTICS_VAL"
 								}
 							},
 							{
@@ -160,8 +153,7 @@
 									"path": "$BASE_UOM"
 								},
 								"sink": {
-									"name": "MEINS",
-									"type": "String"
+									"name": "BASE_UOM"
 								}
 							},
 							{
@@ -169,8 +161,7 @@
 									"path": "$STATUS"
 								},
 								"sink": {
-									"name": "STATUS",
-									"type": "String"
+									"name": "STATUS"
 								}
 							},
 							{
@@ -178,8 +169,7 @@
 									"path": "$INTERFACE_ID"
 								},
 								"sink": {
-									"name": "INTER_ID",
-									"type": "String"
+									"name": "INTERFACE_ID"
 								}
 							},
 							{
@@ -187,8 +177,7 @@
 									"path": "$ID_MESSAGE"
 								},
 								"sink": {
-									"name": "TIMESTAMP",
-									"type": "String"
+									"name": "ID_MESSAGE"
 								}
 							},
 							{
@@ -196,8 +185,7 @@
 									"path": "$['ERROR_CD']"
 								},
 								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
+									"name": "ERROR_CD"
 								}
 							},
 							{
@@ -205,8 +193,7 @@
 									"path": "$['PROC_TS']"
 								},
 								"sink": {
-									"name": "PROC_TS",
-									"type": "String"
+									"name": "PROC_TS"
 								}
 							},
 							{
@@ -214,8 +201,7 @@
 									"path": "$REC_TYPE"
 								},
 								"sink": {
-									"name": "REC_TYPE",
-									"type": "String"
+									"name": "REC_TYPE"
 								}
 							},
 							{
@@ -223,8 +209,7 @@
 									"path": "$['USERID']"
 								},
 								"sink": {
-									"name": "USERID",
-									"type": "String"
+									"name": "USERID"
 								}
 							},
 							{
@@ -232,8 +217,7 @@
 									"path": "$['UDATE']"
 								},
 								"sink": {
-									"name": "UDATE",
-									"type": "String"
+									"name": "UDATE"
 								}
 							},
 							{
@@ -241,8 +225,7 @@
 									"path": "$['UTIME']"
 								},
 								"sink": {
-									"name": "UTIME",
-									"type": "String"
+									"name": "UTIME"
 								}
 							},
 							{
@@ -282,7 +265,7 @@
 									"path": "$['NDS_SALES_ORDER']"
 								},
 								"sink": {
-									"name": "NDS_SALE_ORDER"
+									"name": "NDS_SALES_ORDER"
 								}
 							}
 						]
@@ -291,6 +274,12 @@
 				"inputs": [
 					{
 						"referenceName": "INT002_NDS_SAPY_OrderVariant_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "int002_sap_variant",
 						"type": "DatasetReference"
 					}
 				]

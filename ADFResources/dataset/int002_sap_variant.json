@@ -1,5 +1,5 @@
 {
-	"name": "INT001_ESB_YMSDT_ORDER_ITEM",
+	"name": "int002_sap_variant",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SAP_QA_Connection",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "ESB_YMSDT_ORDER_ITEM"
+			"table": "ESB_YMSDT_OR_VARIANT"
 		}
 	}
 }
