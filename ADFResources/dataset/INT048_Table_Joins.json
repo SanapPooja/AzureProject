@@ -2,11 +2,18 @@
 	"name": "INT048_Table_Joins",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSQADB5_ODOS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SCM_Order_Header"
+		}
 	}
 }

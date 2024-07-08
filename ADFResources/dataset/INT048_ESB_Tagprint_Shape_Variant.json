@@ -2,8 +2,11 @@
 	"name": "INT048_ESB_Tagprint_Shape_Variant",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_IDB_Connect",
+			"referenceName": "SCM_CONNECTION_PROD",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "OracleTable",
