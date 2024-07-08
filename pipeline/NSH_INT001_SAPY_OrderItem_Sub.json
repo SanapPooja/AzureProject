@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Queue_To_YMSDT_ORDER_ITEM",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -24,31 +24,37 @@
 							},
 							{
 								"name": "STATUS_DSS",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "UOM_NET",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "UOM_GROSS",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "PSTYV",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "USERID",
-								"value": ""
+								"value": " "
 							},
 							{
-								"name": "UDATE",
-								"value": "000000"
+								"name": "UDATE_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),\n'yyyyMMdd'\n)",
+									"type": "Expression"
+								}
 							},
 							{
-								"name": "UTIME",
-								"value": "000000"
+								"name": "UTIME_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
+									"type": "Expression"
+								}
 							},
 							{
 								"name": "NET_WT",
@@ -60,19 +66,35 @@
 							},
 							{
 								"name": "NDS_SALE_ORDER",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "SALES_ORDER",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "ERROR_CD",
-								"value": ""
+								"value": " "
 							},
 							{
 								"name": "PROC_TS",
-								"value": ""
+								"value": " "
+							},
+							{
+								"name": "CONF_DEL_DATE",
+								"value": " "
+							},
+							{
+								"name": "PRODUCT_TYPE",
+								"value": " "
+							},
+							{
+								"name": "UDATE",
+								"value": "0"
+							},
+							{
+								"name": "UTIME",
+								"value": "0"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -551,7 +573,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$CLBD_ITEM']"
+									"path": "$['CLBD_ITEM']"
 								},
 								"sink": {
 									"name": "CLBD_ITEM",
@@ -560,7 +582,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$STATUS_DSS']"
+									"path": "$['STATUS_DSS']"
 								},
 								"sink": {
 									"name": "STATUS_DSS",
@@ -569,7 +591,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UOM_NET']"
+									"path": "$['UOM_NET']"
 								},
 								"sink": {
 									"name": "UOM_NET",
@@ -578,7 +600,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UOM_GROSS']"
+									"path": "$['UOM_GROSS']"
 								},
 								"sink": {
 									"name": "UOM_GROSS",
@@ -587,7 +609,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$PSTYV']"
+									"path": "$['PSTYV']"
 								},
 								"sink": {
 									"name": "PSTYV",
@@ -596,7 +618,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$USERID']"
+									"path": "$['USERID']"
 								},
 								"sink": {
 									"name": "USERID",
@@ -605,7 +627,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UDATE']"
+									"path": "$['UDATE']"
 								},
 								"sink": {
 									"name": "UDATE",
@@ -614,7 +636,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UTIME']"
+									"path": "$['UTIME']"
 								},
 								"sink": {
 									"name": "UTIME",
@@ -623,7 +645,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$NET_WT']"
+									"path": "$['NET_WT']"
 								},
 								"sink": {
 									"name": "NET_WT",
@@ -632,7 +654,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$GROSS_WT']"
+									"path": "$['GROSS_WT']"
 								},
 								"sink": {
 									"name": "GROSS_WT",
@@ -641,7 +663,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$NDS_SALE_ORDER']"
+									"path": "$['NDS_SALE_ORDER']"
 								},
 								"sink": {
 									"name": "NDS_SALE_ORDER",
@@ -650,7 +672,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$SALES_ORDER']"
+									"path": "$['SALES_ORDER']"
 								},
 								"sink": {
 									"name": "SALES_ORDER",
@@ -659,7 +681,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ERROR_CD']"
+									"path": "$['ERROR_CD']"
 								},
 								"sink": {
 									"name": "ERROR_CD",
@@ -668,11 +690,27 @@
 							},
 							{
 								"source": {
-									"path": "$['$PROC_TS']"
+									"path": "$['PROC_TS']"
 								},
 								"sink": {
 									"name": "PROC_TS",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['CONF_DEL_DATE']"
+								},
+								"sink": {
+									"name": "CONF_DEL_DATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PRODUCT_TYPE']"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE"
 								}
 							}
 						]
@@ -686,33 +724,19 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT001_YMSDT_ORDER_ITEM",
+						"referenceName": "INT001_ESB_YMSDT_ORDER_ITEM",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Wait1",
-				"type": "Wait",
+				"name": "INSERT INTO ymsdt_order_item",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "DeleteServiceBusMessage",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
+						"activity": "Queue_To_YMSDT_ORDER_ITEM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -726,22 +750,60 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"method": "DELETE",
-					"headers": {
-						"CustomHeader-Version": "\"1.0\"",
-						"Content-Type": "application/json"
-					},
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_orderitem/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO sapsr3.ymsdt_order_item (\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    contr_no,\r\n    contr_item_no,\r\n    matnr,\r\n    kwmeng,\r\n    meins,\r\n    conv_ratio,\r\n    hg_item_no,\r\n    ind_item_no,\r\n    werks,\r\n    reqd_del_date,\r\n    prod_grp,\r\n    conf_del_date,\r\n    nds_dtl_no,\r\n    no_pieces,\r\n    theo_weight_kg,\r\n    product_type,\r\n    product_marking,\r\n    group_marking,\r\n    st_element_type,\r\n    bbs_no,\r\n    bbs_desc,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    shape_code,\r\n    invoice_length,\r\n    ext_dimension_l,\r\n    ext_dimension_w,\r\n    ext_dimension_h,\r\n    vehi_type,\r\n    nds_sale_order,\r\n    sales_order,\r\n    status,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime,\r\n    net_wt,\r\n    gross_wt,\r\n    uom_net,\r\n    uom_gross,\r\n    pstyv,\r\n    no_variant,\r\n    no_item,\r\n    clbd_item,\r\n    z_shape_surcharg,\r\n    z_no_of_cut_pc,\r\n    z_no_of_bend_pc,\r\n    z_no_rolling,\r\n    z_cou_type_1,\r\n    z_cou_type_2,\r\n    z_pieces,\r\n    ref_ord_itm_no,\r\n    status_dss,\r\n    act_wt_per_pc,\r\n    identical_hcode,\r\n    similar_mb_hcode,\r\n    similar_el_hcode\r\n) SELECT\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    contr_no,\r\n    contr_item_no,\r\n    matnr,\r\n    kwmeng,\r\n    meins,\r\n    conv_ratio,\r\n    hg_item_no,\r\n    ind_item_no,\r\n    werks,\r\n    reqd_del_date,\r\n    prod_grp,\r\n    conf_del_date,\r\n    nds_dtl_no,\r\n    no_pieces,\r\n    theo_weight_kg,\r\n    product_type,\r\n    product_marking,\r\n    group_marking,\r\n    st_element_type,\r\n    bbs_no,\r\n    bbs_desc,\r\n    wbs1,\r\n    wbs2,\r\n    wbs3,\r\n    wbs4,\r\n    wbs5,\r\n    shape_code,\r\n    invoice_length,\r\n    ext_dimension_l,\r\n    ext_dimension_w,\r\n    ext_dimension_h,\r\n    vehi_type,\r\n    nds_sale_order,\r\n    sales_order,\r\n    status,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime,\r\n    net_wt,\r\n    gross_wt,\r\n    uom_net,\r\n    uom_gross,\r\n    pstyv,\r\n    no_variant,\r\n    no_item,\r\n    clbd_item,\r\n    z_shape_surcharg,\r\n    z_no_of_cut_pc,\r\n    z_no_of_bend_pc,\r\n    z_no_rolling,\r\n    z_cou_type_1,\r\n    z_cou_type_2,\r\n    z_pieces,\r\n    ref_ord_itm_no,\r\n    status_dss,\r\n    act_wt_per_pc,\r\n    identical_hcode,\r\n    similar_mb_hcode,\r\n    similar_el_hcode\r\nFROM sapsr3.esb_ymsdt_order_item\r\nwhere (order_request_no,  order_item) in \r\n(Select order_request_no,  order_item \r\nFROM sapsr3.esb_ymsdt_order_item \r\nminus \r\nSelect order_request_no,  order_item \r\nFROM sapsr3.ymsdt_order_item);"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DELETE FROM esb_ymsdt_order_item",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "INSERT INTO ymsdt_order_item",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
 					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM sapsr3.esb_ymsdt_order_item;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
-		"annotations": [],
-		"lastPublishTime": "2024-02-21T12:39:41Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": []
+	}
 }

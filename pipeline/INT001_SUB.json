@@ -1,0 +1,82 @@
+{
+	"name": "INT001_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "INSERT INTO ymsdt_order_item",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO sapsr3.ymsdt_order_item (\n    mandt,\n    order_request_no,\n    order_item,\n    contr_no,\n    contr_item_no,\n    matnr,\n    kwmeng,\n    meins,\n    conv_ratio,\n    hg_item_no,\n    ind_item_no,\n    werks,\n    reqd_del_date,\n    prod_grp,\n    conf_del_date,\n    nds_dtl_no,\n    no_pieces,\n    theo_weight_kg,\n    product_type,\n    product_marking,\n    group_marking,\n    st_element_type,\n    bbs_no,\n    bbs_desc,\n    wbs1,\n    wbs2,\n    wbs3,\n    wbs4,\n    wbs5,\n    shape_code,\n    invoice_length,\n    ext_dimension_l,\n    ext_dimension_w,\n    ext_dimension_h,\n    vehi_type,\n    nds_sale_order,\n    sales_order,\n    status,\n    inter_id,\n    timestamp,\n    error_cd,\n    proc_ts,\n    rec_type,\n    userid,\n    udate,\n    utime,\n    net_wt,\n    gross_wt,\n    uom_net,\n    uom_gross,\n    pstyv,\n    no_variant,\n    no_item,\n    clbd_item,\n    z_shape_surcharg,\n    z_no_of_cut_pc,\n    z_no_of_bend_pc,\n    z_no_rolling,\n    z_cou_type_1,\n    z_cou_type_2,\n    z_pieces,\n    ref_ord_itm_no,\n    status_dss,\n    act_wt_per_pc,\n    identical_hcode,\n    similar_mb_hcode,\n    similar_el_hcode\n) SELECT\n    mandt,\n    order_request_no,\n    order_item,\n    contr_no,\n    contr_item_no,\n    matnr,\n    kwmeng,\n    meins,\n    conv_ratio,\n    hg_item_no,\n    ind_item_no,\n    werks,\n    reqd_del_date,\n    prod_grp,\n    conf_del_date,\n    nds_dtl_no,\n    no_pieces,\n    theo_weight_kg,\n    product_type,\n    product_marking,\n    group_marking,\n    st_element_type,\n    bbs_no,\n    bbs_desc,\n    wbs1,\n    wbs2,\n    wbs3,\n    wbs4,\n    wbs5,\n    shape_code,\n    invoice_length,\n    ext_dimension_l,\n    ext_dimension_w,\n    ext_dimension_h,\n    vehi_type,\n    nds_sale_order,\n    sales_order,\n    status,\n    inter_id,\n    timestamp,\n    error_cd,\n    proc_ts,\n    rec_type,\n    userid,\n    udate,\n    utime,\n    net_wt,\n    gross_wt,\n    uom_net,\n    uom_gross,\n    pstyv,\n    no_variant,\n    no_item,\n    clbd_item,\n    z_shape_surcharg,\n    z_no_of_cut_pc,\n    z_no_of_bend_pc,\n    z_no_rolling,\n    z_cou_type_1,\n    z_cou_type_2,\n    z_pieces,\n    ref_ord_itm_no,\n    status_dss,\n    act_wt_per_pc,\n    identical_hcode,\n    similar_mb_hcode,\n    similar_el_hcode\nFROM sapsr3.esb_ymsdt_order_item\nwhere (order_request_no,  order_item) in \n(Select order_request_no,  order_item \nFROM sapsr3.esb_ymsdt_order_item \nminus \nSelect order_request_no,  order_item \nFROM sapsr3.ymsdt_order_item) and order_request_no = '@{pipeline().parameters.ORDER_REQUEST_NUMBER}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DELETE FROM esb_ymsdt_order_item",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "INSERT INTO ymsdt_order_item",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM sapsr3.esb_ymsdt_order_item where order_request_no = '@{pipeline().parameters.ORDER_REQUEST_NUMBER}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_REQUEST_NUMBER": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": []
+	}
+}

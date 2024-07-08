@@ -1,0 +1,381 @@
+{
+	"name": "NSH_INT002_SAPY_OrderVariant_Sub",
+	"properties": {
+		"activities": [
+			{
+				"name": "Queue_To_YMSDT_OR_VARIANT",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "ATINN",
+								"value": "0000000000"
+							},
+							{
+								"name": "SALES_ORDER",
+								"value": " "
+							},
+							{
+								"name": "ERROR_CD",
+								"value": " "
+							},
+							{
+								"name": "PROC_TS",
+								"value": " "
+							},
+							{
+								"name": "USERID",
+								"value": " "
+							},
+							{
+								"name": "UDATE_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'yyyyMMdd')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "UTIME_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "HG_ITEM_NO",
+								"value": ""
+							},
+							{
+								"name": "PROD_GRP",
+								"value": " "
+							},
+							{
+								"name": "SUB_PROD_GRP",
+								"value": " "
+							},
+							{
+								"name": "NDS_SALES_ORDER",
+								"value": ""
+							},
+							{
+								"name": "UDATE",
+								"value": "0"
+							},
+							{
+								"name": "UTIME",
+								"value": "0"
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 1000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$MANDT"
+								},
+								"sink": {
+									"name": "MANDT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ORD_REQ_NO"
+								},
+								"sink": {
+									"name": "ORDER_REQUEST_NO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ITEM_NO"
+								},
+								"sink": {
+									"name": "ORDER_ITEM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CHRSTICS"
+								},
+								"sink": {
+									"name": "ATNAM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SALES_ORDER']"
+								},
+								"sink": {
+									"name": "SALES_ORDER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$MATL_NO"
+								},
+								"sink": {
+									"name": "MATNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CHRSTICS_VAL"
+								},
+								"sink": {
+									"name": "ATWRT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BASE_UOM"
+								},
+								"sink": {
+									"name": "MEINS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$INTERFACE_ID"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ID_MESSAGE"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$REC_TYPE"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ATINN']"
+								},
+								"sink": {
+									"name": "ATINN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['HG_ITEM_NO']"
+								},
+								"sink": {
+									"name": "HG_ITEM_NO"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROD_GRP']"
+								},
+								"sink": {
+									"name": "PROD_GRP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['SUB_PROD_GRP']"
+								},
+								"sink": {
+									"name": "SUB_PROD_GRP"
+								}
+							},
+							{
+								"source": {
+									"path": "$['NDS_SALES_ORDER']"
+								},
+								"sink": {
+									"name": "NDS_SALE_ORDER"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "INT002_NDS_SAPY_OrderVariant_Head",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT002_ESB_YMSDT_OR_VARIANT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "INSERT INTO ymsdt_or_variant",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "Queue_To_YMSDT_OR_VARIANT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO sapsr3.ymsdt_or_variant (\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    atnam,\r\n    atinn,\r\n    nds_sale_order,\r\n    sales_order,\r\n    matnr,\r\n    atwrt,\r\n    meins,\r\n    status,\r\n    hg_item_no,\r\n    prod_grp,\r\n    sub_prod_grp,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime\r\n)SELECT\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    atnam,\r\n    atinn,\r\n    nds_sale_order,\r\n    sales_order,\r\n    matnr,\r\n    atwrt,\r\n    meins,\r\n    status,\r\n    hg_item_no,\r\n    prod_grp,\r\n    sub_prod_grp,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime\r\nFROM sapsr3.esb_ymsdt_or_variant\r\nwhere (order_request_no,  order_item, atnam) in \r\n(Select order_request_no,  order_item, atnam\r\nFROM sapsr3.esb_ymsdt_or_variant \r\nminus \r\nSelect order_request_no,  order_item, atnam\r\nFROM sapsr3.ymsdt_or_variant)"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DELETE FROM ESB_YMSDT_OR_VARIANT",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "INSERT INTO ymsdt_or_variant",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM sapsr3.esb_ymsdt_or_variant;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": []
+	}
+}
