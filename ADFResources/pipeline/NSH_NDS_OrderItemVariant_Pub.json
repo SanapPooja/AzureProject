@@ -704,7 +704,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "NSH_INT001_SAPY_OrderItem_Sub",
+						"referenceName": "NSH_INT001_SAPY_Sub",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
