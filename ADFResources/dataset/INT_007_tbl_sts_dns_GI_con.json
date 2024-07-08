@@ -2,8 +2,11 @@
 	"name": "INT_007_tbl_sts_dns_GI_con",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSQADB2Connection",
+			"referenceName": "NSDB11_STS",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",

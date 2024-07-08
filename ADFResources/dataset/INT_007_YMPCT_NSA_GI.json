@@ -2,15 +2,18 @@
 	"name": "INT_007_YMPCT_NSA_GI",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SAP_ODBC_PRODUCTION",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YMPCT_NSA_GI"
+			"table": "ESB_YMPCT_NSA_GI"
 		}
 	}
 }
