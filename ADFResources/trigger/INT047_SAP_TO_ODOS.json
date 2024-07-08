@@ -1,0 +1,17 @@
+{
+	"name": "INT047_SAP_TO_ODOS",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2024-08-08T12:04:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
