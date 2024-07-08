@@ -2,7 +2,7 @@
 	"name": "Int047_scm_order_header",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NDSQADB5_NDS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

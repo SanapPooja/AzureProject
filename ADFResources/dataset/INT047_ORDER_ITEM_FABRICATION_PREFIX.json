@@ -2,7 +2,7 @@
 	"name": "INT047_ORDER_ITEM_FABRICATION_PREFIX",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NDSQADB5_NDS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

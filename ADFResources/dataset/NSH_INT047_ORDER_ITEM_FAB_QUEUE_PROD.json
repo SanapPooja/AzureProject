@@ -1,0 +1,15 @@
+{
+	"name": "NSH_INT047_ORDER_ITEM_FAB_QUEUE_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT047_ORDER_ITEM_FAB_QUEUE_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

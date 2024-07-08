@@ -2,7 +2,7 @@
 	"name": "INT047_SCM_Order_Item",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NDSQADB5_NDS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -733,7 +733,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "SCM_Order_Item"
+			"table": "SAP_ORDER_ITEM"
 		}
 	}
 }
