@@ -3,40 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DeleteServiceBusMessage",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait_60_sec",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"headers": {
-						"CustomHeader-Version": "\"1.0\"",
-						"Content-Type": "application/json"
-					},
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nds_sapy_ordervariant/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
-			},
-			{
 				"name": "Queue_To_YMSDT_OR_VARIANT",
 				"type": "Copy",
 				"dependsOn": [],
@@ -51,6 +17,66 @@
 				"typeProperties": {
 					"source": {
 						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "ATINN",
+								"value": "0000000000"
+							},
+							{
+								"name": "SALES_ORDER",
+								"value": " "
+							},
+							{
+								"name": "ERROR_CD",
+								"value": " "
+							},
+							{
+								"name": "PROC_TS",
+								"value": " "
+							},
+							{
+								"name": "USERID",
+								"value": " "
+							},
+							{
+								"name": "UDATE_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'yyyyMMdd')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "UTIME_O",
+								"value": {
+									"value": "@formatDateTime(addMinutes(addHours(utcNow(),8),00),'HHmmss')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "HG_ITEM_NO",
+								"value": ""
+							},
+							{
+								"name": "PROD_GRP",
+								"value": " "
+							},
+							{
+								"name": "SUB_PROD_GRP",
+								"value": " "
+							},
+							{
+								"name": "NDS_SALES_ORDER",
+								"value": ""
+							},
+							{
+								"name": "UDATE",
+								"value": "0"
+							},
+							{
+								"name": "UTIME",
+								"value": "0"
+							}
+						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
@@ -60,7 +86,7 @@
 					},
 					"sink": {
 						"type": "OracleSink",
-						"writeBatchSize": 10000
+						"writeBatchSize": 1000
 					},
 					"enableStaging": false,
 					"translator": {
@@ -68,16 +94,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['$INTERFACE_ID']"
-								},
-								"sink": {
-									"name": "INTER_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$MANDT']"
+									"path": "$MANDT"
 								},
 								"sink": {
 									"name": "MANDT",
@@ -86,16 +103,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ID_MESSAGE']"
-								},
-								"sink": {
-									"name": "TIMESTAMP",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ORD_REQ_NO']"
+									"path": "$ORD_REQ_NO"
 								},
 								"sink": {
 									"name": "ORDER_REQUEST_NO",
@@ -104,7 +112,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$ITEM_NO']"
+									"path": "$ITEM_NO"
 								},
 								"sink": {
 									"name": "ORDER_ITEM",
@@ -113,16 +121,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$MATL_NO']"
-								},
-								"sink": {
-									"name": "MATNR",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$CHRSTICS']"
+									"path": "$CHRSTICS"
 								},
 								"sink": {
 									"name": "ATNAM",
@@ -131,61 +130,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$CHRSTICS_VAL']"
-								},
-								"sink": {
-									"name": "ATWRT",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$BASE_UOM']"
-								},
-								"sink": {
-									"name": "MEINS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$STATUS']"
-								},
-								"sink": {
-									"name": "STATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ERROR_CD']"
-								},
-								"sink": {
-									"name": "ERROR_CD",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$REC_TYPE']"
-								},
-								"sink": {
-									"name": "REC_TYPE",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$ATINN']"
-								},
-								"sink": {
-									"name": "ATINN",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['$SALES_ORDER']"
+									"path": "$['SALES_ORDER']"
 								},
 								"sink": {
 									"name": "SALES_ORDER",
@@ -194,7 +139,88 @@
 							},
 							{
 								"source": {
-									"path": "$['$USER_ID']"
+									"path": "$MATL_NO"
+								},
+								"sink": {
+									"name": "MATNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$CHRSTICS_VAL"
+								},
+								"sink": {
+									"name": "ATWRT",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$BASE_UOM"
+								},
+								"sink": {
+									"name": "MEINS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$STATUS"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$INTERFACE_ID"
+								},
+								"sink": {
+									"name": "INTER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$ID_MESSAGE"
+								},
+								"sink": {
+									"name": "TIMESTAMP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$REC_TYPE"
+								},
+								"sink": {
+									"name": "REC_TYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
 								},
 								"sink": {
 									"name": "USERID",
@@ -203,7 +229,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UDATE']"
+									"path": "$['UDATE']"
 								},
 								"sink": {
 									"name": "UDATE",
@@ -212,7 +238,7 @@
 							},
 							{
 								"source": {
-									"path": "$['$UTIME']"
+									"path": "$['UTIME']"
 								},
 								"sink": {
 									"name": "UTIME",
@@ -221,46 +247,42 @@
 							},
 							{
 								"source": {
-									"path": "$['$HG_ITEM_NO']"
+									"path": "$['ATINN']"
 								},
 								"sink": {
-									"name": "HG_ITEM_NO",
-									"type": "String"
+									"name": "ATINN"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PROD_GRP ']"
+									"path": "$['HG_ITEM_NO']"
 								},
 								"sink": {
-									"name": "PROD_GRP",
-									"type": "String"
+									"name": "HG_ITEM_NO"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$NDS_SALE_ORDER']"
+									"path": "$['PROD_GRP']"
 								},
 								"sink": {
-									"name": "NDS_SALE_ORDER",
-									"type": "String"
+									"name": "PROD_GRP"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$SUB_PROD_GRP']"
+									"path": "$['SUB_PROD_GRP']"
 								},
 								"sink": {
-									"name": "SUB_PROD_GRP",
-									"type": "String"
+									"name": "SUB_PROD_GRP"
 								}
 							},
 							{
 								"source": {
-									"path": "$['$PROC_TS']"
+									"path": "$['NDS_SALES_ORDER']"
 								},
 								"sink": {
-									"name": "PROC_TS"
+									"name": "NDS_SALE_ORDER"
 								}
 							}
 						]
@@ -274,40 +296,19 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "INT002_YMSDT_OR_VARIANT",
+						"referenceName": "INT002_ESB_YMSDT_OR_VARIANT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Wait_60_sec",
-				"type": "Wait",
+				"name": "INSERT INTO ymsdt_or_variant",
+				"type": "Script",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "update_SAP_ORDER_VARIANT_STATUS_T",
-				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Set variable2_copy1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set variable3",
+						"activity": "Queue_To_YMSDT_OR_VARIANT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -322,29 +323,29 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "NDSQADB5_NDS_Connection",
+					"referenceName": "SAP_ODBC_PRODUCTION",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "Update dbo.SAP_ORDER_VARIANT set STATUS = 'T' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}' and ITEM_NO = '@{variables('ITEM_NO')}'",
-								"type": "Expression"
-							}
+							"text": "INSERT INTO sapsr3.ymsdt_or_variant (\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    atnam,\r\n    atinn,\r\n    nds_sale_order,\r\n    sales_order,\r\n    matnr,\r\n    atwrt,\r\n    meins,\r\n    status,\r\n    hg_item_no,\r\n    prod_grp,\r\n    sub_prod_grp,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime\r\n)SELECT\r\n    mandt,\r\n    order_request_no,\r\n    order_item,\r\n    atnam,\r\n    atinn,\r\n    nds_sale_order,\r\n    sales_order,\r\n    matnr,\r\n    atwrt,\r\n    meins,\r\n    status,\r\n    hg_item_no,\r\n    prod_grp,\r\n    sub_prod_grp,\r\n    inter_id,\r\n    timestamp,\r\n    error_cd,\r\n    proc_ts,\r\n    rec_type,\r\n    userid,\r\n    udate,\r\n    utime\r\nFROM sapsr3.esb_ymsdt_or_variant\r\nwhere (order_request_no,  order_item, atnam) in \r\n(Select order_request_no,  order_item, atnam\r\nFROM sapsr3.esb_ymsdt_or_variant \r\nminus \r\nSelect order_request_no,  order_item, atnam\r\nFROM sapsr3.ymsdt_or_variant)"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
 			{
-				"name": "Order_Variant_Data_To_Queue",
-				"type": "Copy",
+				"name": "DELETE FROM ESB_YMSDT_OR_VARIANT",
+				"type": "Script",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "update_SAP_WBS_SOR_STATUS_T_copy1",
+						"activity": "INSERT INTO ymsdt_or_variant",
 						"dependencyConditions": [
+							"Succeeded",
 							"Failed"
 						]
 					}
@@ -357,546 +358,23 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": {
-							"value": "select * from (SELECT ROW_NUMBER() OVER (ORDER BY ORD_REQ_NO,ITEM_NO,CHRSTICS) AS Row\n       ,isnull(NULLIF(LTRIM(RTRIM(IDENTITY_NO)),''),' ') as IDENTITY_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(INTERFACE_ID)),''),' ')as INTERFACE_ID\n      ,isnull(NULLIF(LTRIM(RTRIM(MANDT)),''),' ')as MANDT\n      ,isnull(NULLIF(LTRIM(RTRIM(ID_MESSAGE)),''),' ')as ID_MESSAGE\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ORD_REQ_NO)), 10),''),' ')as ORD_REQ_NO\n      ,isnull(NULLIF(right('0' + LTRIM(RTRIM(ITEM_NO)), 6),''),' ')as ITEM_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(MATL_NO)),''),' ')as MATL_NO\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS)),''),' ')as CHRSTICS\n      ,isnull(NULLIF(LTRIM(RTRIM(CHRSTICS_VAL)),''),' ')as CHRSTICS_VAL\n      ,isnull(NULLIF(LTRIM(RTRIM(BASE_UOM)),''),' ')as BASE_UOM\n      ,isnull(NULLIF(LTRIM(RTRIM(STATUS)),''),' ')as STATUS\n      ,isnull(NULLIF(LTRIM(RTRIM(ERROR_CD)),''),' ')as ERROR_CD\n      ,isnull(NULLIF(LTRIM(RTRIM(PROC_TS)),''),' ')as PROC_TS\n      ,isnull(NULLIF(LTRIM(RTRIM(REC_TYPE)),''),' ')as REC_TYPE\n      ,isnull(NULLIF(LTRIM(RTRIM(WBSELEMENTID)),''),' ')as WBSELEMENTID\n      ,isnull(NULLIF(LTRIM(RTRIM(SAP_STATUS)),''),' ')as SAP_STATUS\n  FROM dbo.SAP_ORDER_VARIANT where ord_req_no = @{pipeline().parameters.ORD_REQ_NO} and (status = 'T' or status = 'R') and sap_status = 'A' ) AS Order_Variant\n\n",
-							"type": "Expression"
-						},
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Row",
-									"type": "Int64"
-								},
-								"sink": {
-									"path": "$Row"
-								}
-							},
-							{
-								"source": {
-									"name": "IDENTITY_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$IDENTITY_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "INTERFACE_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$INTERFACE_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "MANDT",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MANDT"
-								}
-							},
-							{
-								"source": {
-									"name": "ID_MESSAGE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ID_MESSAGE"
-								}
-							},
-							{
-								"source": {
-									"name": "ORD_REQ_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ORD_REQ_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "ITEM_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ITEM_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "MATL_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$MATL_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "CHRSTICS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CHRSTICS"
-								}
-							},
-							{
-								"source": {
-									"name": "CHRSTICS_VAL",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CHRSTICS_VAL"
-								}
-							},
-							{
-								"source": {
-									"name": "BASE_UOM",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BASE_UOM"
-								}
-							},
-							{
-								"source": {
-									"name": "STATUS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$STATUS"
-								}
-							},
-							{
-								"source": {
-									"name": "ERROR_CD",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$ERROR_CD"
-								}
-							},
-							{
-								"source": {
-									"name": "PROC_TS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PROC_TS"
-								}
-							},
-							{
-								"source": {
-									"name": "REC_TYPE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$REC_TYPE"
-								}
-							},
-							{
-								"source": {
-									"name": "WBSELEMENTID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$WBSELEMENTID"
-								}
-							},
-							{
-								"source": {
-									"name": "SAP_STATUS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SAP_STATUS"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "INT002_SAP_ORDER_VARIANT",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT002_ODOS_SAPY_Queue",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Update_Status_R",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Order_Variant_Data_To_Queue",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
+					"referenceName": "SAP_ODBC_PRODUCTION",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
 							"type": "Query",
-							"text": {
-								"value": "Update dbo.SAP_ORDER_VARIANT Set STATUS = 'R' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}' and ITEM_NO = '@{variables('ITEM_NO')}' and Get_CHRSTICS = '@{variables('CHRSTICS')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "update_SAP_WBS_SOR_STATUS_T_variant",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Update_Status_R",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' WHERE ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'\n",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "update_SAP_ORDER_VARIANT_STATUS_T_copy1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "update_SAP_WBS_SOR_STATUS_T_variant",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update dbo.SAP_ORDER_VARIANT SET STATUS = 'T' WHERE STATUS = 'A' and ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Get_ORD_REQ_NO",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Queue_To_YMSDT_OR_VARIANT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \n   ORD_REQ_NO\nFROM \n    SAP_ORDER_VARIANT\nWHERE \n    ORD_REQ_NO IN (\n        SELECT \n            TOP 1 sod.ORD_REQ_NO \n        FROM \n            SAP_ORDER_VARIANT sod\n        JOIN \n            WMBnotifySORbjpa512 wmb\n        ON \n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\n    );",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT002_SAP_ORDER_VARIANT",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Get_ITEM_NO",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Queue_To_YMSDT_OR_VARIANT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n   ITEM_NO\r\nFROM \r\n    SAP_ORDER_VARIANT\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_VARIANT sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT002_SAP_ORDER_VARIANT",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Set variable2_copy1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Get_ORD_REQ_NO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ord_req_num",
-					"value": {
-						"value": "@activity('Get_ORD_REQ_NO').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set variable2",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Get_ITEM_NO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Item_nos",
-					"value": {
-						"value": "@activity('Get_ITEM_NO').output.value\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Get_CHRSTICS",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Queue_To_YMSDT_OR_VARIANT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    CHRSTICS\r\nFROM \r\n    SAP_ORDER_VARIANT\r\nWHERE \r\n    ORD_REQ_NO IN (\r\n        SELECT \r\n            TOP 1 sod.ORD_REQ_NO \r\n        FROM \r\n            SAP_ORDER_VARIANT sod\r\n        JOIN \r\n            WMBnotifySORbjpa512 wmb\r\n        ON \r\n            sod.ORD_REQ_NO = wmb.ORD_REQ_NO\r\n    );",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT002_SAP_ORDER_VARIANT",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Set variable3",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Get_CHRSTICS",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "chrstic_new",
-					"value": {
-						"value": "@activity('Get_CHRSTICS').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "update_SAP_WBS_SOR_STATUS_T_copy1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "update_SAP_ORDER_VARIANT_STATUS_T",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SQL_DEV_DEMO",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update dbo.SAP_WBS_SOR SET ESB_STATUS = 'T' where ORD_REQ_NO = '@{variables('ORD_REQ_NO')}'",
-								"type": "Expression"
-							}
+							"text": "DELETE FROM sapsr3.esb_ymsdt_or_variant;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
-		"parameters": {
-			"ORD_REQ_NO": {
-				"type": "String",
-				"defaultValue": "ORD_REQ_NO"
-			},
-			"ITEM_NO": {
-				"type": "String",
-				"defaultValue": "ITEM_NO"
-			},
-			"CHRSTICS": {
-				"type": "String",
-				"defaultValue": "CHRSTICS"
-			}
-		},
-		"variables": {
-			"ord_req_num": {
-				"type": "Array"
-			},
-			"Item_nos": {
-				"type": "Array"
-			},
-			"ORD_REQ_NO": {
-				"type": "String"
-			},
-			"ITEM_NO": {
-				"type": "String"
-			},
-			"CHRSTICS": {
-				"type": "String"
-			},
-			"chrstic_new": {
-				"type": "Array"
-			}
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

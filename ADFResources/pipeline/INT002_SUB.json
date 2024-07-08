@@ -1,0 +1,81 @@
+{
+	"name": "INT002_SUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "INSERT INTO ymsdt_or_variant",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO sapsr3.ymsdt_or_variant (\n    mandt,\n    order_request_no,\n    order_item,\n    atnam,\n    atinn,\n    nds_sale_order,\n    sales_order,\n    matnr,\n    atwrt,\n    meins,\n    status,\n    hg_item_no,\n    prod_grp,\n    sub_prod_grp,\n    inter_id,\n    timestamp,\n    error_cd,\n    proc_ts,\n    rec_type,\n    userid,\n    udate,\n    utime\n)SELECT\n    mandt,\n    order_request_no,\n    order_item,\n    atnam,\n    atinn,\n    nds_sale_order,\n    sales_order,\n    matnr,\n    atwrt,\n    meins,\n    status,\n    hg_item_no,\n    prod_grp,\n    sub_prod_grp,\n    inter_id,\n    timestamp,\n    error_cd,\n    proc_ts,\n    rec_type,\n    userid,\n    udate,\n    utime\nFROM sapsr3.esb_ymsdt_or_variant\nwhere (order_request_no,  order_item, atnam) in \n(Select order_request_no,  order_item, atnam\nFROM sapsr3.esb_ymsdt_or_variant \nminus \nSelect order_request_no,  order_item, atnam\nFROM sapsr3.ymsdt_or_variant) and order_request_no='@{pipeline().parameters.ORDER_REQUEST_NUMBER}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DELETE FROM ESB_YMSDT_OR_VARIANT",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "INSERT INTO ymsdt_or_variant",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM sapsr3.esb_ymsdt_or_variant where order_request_no='@{pipeline().parameters.ORDER_REQUEST_NUMBER}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_REQUEST_NUMBER": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": []
+	}
+}
