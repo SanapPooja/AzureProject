@@ -1,0 +1,12 @@
+{
+	"name": "INT003_QUEUE_HEAD_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT003_QUEUE_HEAD_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

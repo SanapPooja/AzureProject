@@ -1,0 +1,101 @@
+{
+	"name": "INT003_TBL_DSS_STS_DNS_VAR_TRK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSPRDDB10",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "FLD_TRK_MANDT",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_TRK_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_SOR_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_TRK_SAL_ORD_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_TRK_REF_SOR_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_TRK_REF_SO_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_TRK_PROJECT",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_CONTRACT",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_PROD_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_ORD_SOURCE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_ORD_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_RUSH_IND",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_CUSORD_DATE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_ORDREQ_DATE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_ORDHDR_UDATE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_ORDHDR_UTIME",
+				"type": "char"
+			},
+			{
+				"name": "FLD_TRK_CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_CREATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_UPDATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_TRK_UPDATE_DATE",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TBL_DSS_STS_DNS_VAR_ATTR"
+		}
+	}
+}

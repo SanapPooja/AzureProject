@@ -1,0 +1,490 @@
+{
+	"name": "INT003_TBL_DSS_STS_DNS_VAR_ATTR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSDB11_STS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "FLD_VATTR_MANDT",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_SOR_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_SAL_ORD_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_ITEM_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_CLBD_ITEM",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_REF_SOR_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_REF_ITEM_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_ACT_WT_ORDER",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_ACT_WT_PER_PC",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_AREA_PER_PC",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_ASSM_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_BASE_TO_SALES_UOM",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_BBSNO",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_BBS_DESC",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_BEND_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_BOM_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_COMPLEXITY",
+				"type": "char"
+			},
+			{
+				"name": "FLD_VATTR_COU_DIA_1",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_COU_DIA_2",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_COU_GRA",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_COU_SYSTEM",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_COU_TYPE_1",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_COU_TYPE_2",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_COUNT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CSB_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_CW_COUNT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_DIA",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_CW_INV_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_INV_OVR_HANG1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_INV_OVR_HANG2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_PRD_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_PRD_OVR_HANG1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_PRD_OVR_HANG2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_CW_SPA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_DELI_DATE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_VATTR_DEP_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_DEP_SO_NUMBER",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_DIAMETER",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_DRAW_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_DRAW_REF",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_DRAW_REV_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_ELEM_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_END_LAP",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_EXT_DIM_HGT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_EXT_DIM_LGT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_EXT_DIM_WDT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_FAB_STANDARD",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_FORMER_DIA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_GALVANIZATION_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_HG_ITEM_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_IND_ITEM_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_INV_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_INV_WT_ORDER",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_INV_WT_PER_PC",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_NO_OF_BEND_PC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_NO_OF_CUT_PC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_NO_OF_END_PC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_NO_OF_PNT_PC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_NO_OF_STR_PC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_NO_ROLLING",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_MAINCON_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_MATL_NO",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_MESH_TYPE",
+				"type": "char"
+			},
+			{
+				"name": "FLD_VATTR_MW_COUNT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_DIA",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "FLD_VATTR_MW_INV_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_INV_OVR_HANG1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_INV_OVR_HANG2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_PRD_LEN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_PRD_OVR_HANG1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_PRD_OVR_HANG2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_MW_SPA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_PILE_DIA",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_PILE_SEQ",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_PRD_LENGTH",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_PRODUCE_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_PROD_CD",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_PROD_GRP",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_PROD_MARK",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_PROD_ORD_NO",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_PROD_TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_PROJ_SECTOR",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_REMARKS",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_RUSH_ORDER_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_SALES_QTY_IN_SALES_UOM",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "FLD_VATTR_SALES_UOM",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_SHAPE_SURCHARGE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_SHAPE_CODE",
+				"type": "nchar"
+			},
+			{
+				"name": "FLD_VATTR_ST_LAP",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_TOTAL_ITEMS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_TWIN_IND",
+				"type": "bit"
+			},
+			{
+				"name": "FLD_VATTR_WBS1",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_WBS2",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_WBS3",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_WBS4",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_WBS5",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_HIERARCHY",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLD_VATTR_STATUS",
+				"type": "char"
+			},
+			{
+				"name": "FLD_VATTR_CREATE_BY",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_CREATE_DATE",
+				"type": "varchar"
+			},
+			{
+				"name": "FLD_VATTR_PURECSB_IND",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TBL_DSS_STS_DNS_VAR_ATTR"
+		}
+	}
+}
