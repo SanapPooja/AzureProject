@@ -1,0 +1,2708 @@
+{
+	"name": "NSH_INT047_ODOS_ORDER_HEADER_PUB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'A'and wmb.transfer_status='A';\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "Int047_scm_order_header",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "update_script",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "UPDATE dbo.SCM_Order_Header \r\nSET transfer_status = 'I' \r\nWHERE order_request_no IN (\r\n    SELECT soh.ORDER_REQUEST_NO\r\n    FROM SCM_Order_Header soh\r\n    JOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\n    WHERE soh.transfer_status = 'A' AND wmb.transfer_status = 'A'\r\n);\r\n"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Order_Header",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable5",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT \r\n    soh.order_request_no, \r\n    soh.order_no, \r\n    soh.cust_code, \r\n    soh.cust_name, \r\n    soh.contract_no, \r\n    soh.proj_no, \r\n    soh.proj_name, \r\n    soh.cust_po_no, \r\n    soh.cust_order_date, \r\n    soh.req_del_date_fr, \r\n    soh.req_del_date_to, \r\n    soh.projected_casting_date, \r\n    soh.actual_del_date, \r\n    soh.planning_strategy, \r\n    soh.order_type, \r\n    soh.cust_class, \r\n    soh.proj_segment, \r\n    soh.proj_sub_segment, \r\n    soh.job_site_location, \r\n    soh.forecast_order_no, \r\n    soh.account_mgr, \r\n    soh.segment_mgr, \r\n    soh.proj_coordinator, \r\n    soh.product_type, \r\n    soh.cab_former_type, \r\n    soh.vehicle_type, \r\n    soh.order_pieces, \r\n    soh.delivered_pieces, \r\n    soh.credit_status, \r\n    soh.approval_status, \r\n    soh.delivery_status, \r\n    soh.cancellation_status, \r\n    soh.mat_source_ind, \r\n    soh.urgent_order_ind, \r\n    soh.allow_partial_delivery_ind, \r\n    soh.forecast_order_ind, \r\n    soh.local_order_ind, \r\n    soh.mto_ind, \r\n    soh.self_collect_ind, \r\n    soh.premium_service_ind, \r\n    soh.crane_booked_ind, \r\n    soh.barge_booked_ind, \r\n    soh.police_escort_ind, \r\n    soh.company_code, \r\n    soh.no_of_items, \r\n    soh.int_remark, \r\n    soh.ext_remark, \r\n    soh.time_stamp, \r\n    soh.remarks, \r\n    soh.process_status, \r\n    soh.order_udate, \r\n    soh.order_utime, \r\n    CONCAT(\r\n        SUBSTRING(soh.order_udate, 1, 4), '-', \r\n        SUBSTRING(soh.order_udate, 5, 2), '-', \r\n        SUBSTRING(soh.order_udate, 7, 2), ' ', \r\n        SUBSTRING(soh.order_utime, 1, 2), ':', \r\n        SUBSTRING(soh.order_utime, 3, 2), ':', \r\n        SUBSTRING(soh.order_utime, 5, 2)\r\n    ) AS time_stamp_so_creation, \r\n    soh.transfer_idref, \r\n    soh.transfer_status, \r\n    soh.create_by, \r\n    soh.create_date, \r\n    soh.update_by, \r\n    soh.update_date, \r\n    soh.QA_transfer_status, \r\n    soh.order_group_id, \r\n    soh.group_member_count, \r\n    soh.LOW_BED_VEHICLE_ALLOWED, \r\n    soh.FIFTYTON_VEHICLE_ALLOWED, \r\n    soh.UNIT_TAG_MODE_IND, \r\n    soh.MUST_HAVE_DATE, \r\n    soh.PHYSICAL_PROJ_NO, \r\n    soh.PHYSICAL_DELIVERY_PROJ_NO \r\nFROM SCM_ORDER_HEADER soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'I';\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "100",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "order_request_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_REQUEST_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "order_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cust_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "cust_name",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_NAME"
+											}
+										},
+										{
+											"source": {
+												"name": "contract_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CONTRACT_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_name",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_NAME"
+											}
+										},
+										{
+											"source": {
+												"name": "cust_po_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_PO_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cust_order_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_ORDER_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "req_del_date_fr",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REQ_DEL_DATE_FR"
+											}
+										},
+										{
+											"source": {
+												"name": "req_del_date_to",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REQ_DEL_DATE_TO"
+											}
+										},
+										{
+											"source": {
+												"name": "projected_casting_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJECTED_CASTING_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "actual_del_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ACTUAL_DEL_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "planning_strategy",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PLANNING_STRATEGY"
+											}
+										},
+										{
+											"source": {
+												"name": "order_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "cust_class",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CUST_CLASS"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_segment",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_SEGMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_sub_segment",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_SUB_SEGMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "job_site_location",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$JOB_SITE_LOCATION"
+											}
+										},
+										{
+											"source": {
+												"name": "forecast_order_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FORECAST_ORDER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "account_mgr",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ACCOUNT_MGR"
+											}
+										},
+										{
+											"source": {
+												"name": "segment_mgr",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SEGMENT_MGR"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_coordinator",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_COORDINATOR"
+											}
+										},
+										{
+											"source": {
+												"name": "product_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCT_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "vehicle_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$VEHICLE_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "order_pieces",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$ORDER_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "delivered_pieces",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$DELIVERED_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "credit_status",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CREDIT_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "approval_status",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$APPROVAL_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "delivery_status",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DELIVERY_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "mat_source_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MAT_SOURCE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "urgent_order_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$URGENT_ORDER_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "allow_partial_delivery_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ALLOW_PARTIAL_DELIVERY_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "forecast_order_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FORECAST_ORDER_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "local_order_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LOCAL_ORDER_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mto_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MTO_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "self_collect_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SELF_COLLECT_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "premium_service_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PREMIUM_SERVICE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "crane_booked_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CRANE_BOOKED_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "barge_booked_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BARGE_BOOKED_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "police_escort_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$POLICE_ESCORT_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "company_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMPANY_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "no_of_items",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$NO_OF_ITEMS"
+											}
+										},
+										{
+											"source": {
+												"name": "int_remark",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$INT_REMARK"
+											}
+										},
+										{
+											"source": {
+												"name": "ext_remark",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$EXT_REMARK"
+											}
+										},
+										{
+											"source": {
+												"name": "remarks",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REMARKS"
+											}
+										},
+										{
+											"source": {
+												"name": "order_group_id",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_FORMER_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "group_member_count",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$GROUP_MEMBER_COUNT"
+											}
+										},
+										{
+											"source": {
+												"name": "LOW_BED_VEHICLE_ALLOWED",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$LOW_BED_VEHICLE_ALLOWED"
+											}
+										},
+										{
+											"source": {
+												"name": "FIFTYTON_VEHICLE_ALLOWED",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$FIFTYTON_VEHICLE_ALLOWED"
+											}
+										},
+										{
+											"source": {
+												"name": "UNIT_TAG_MODE_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$UNIT_TAG_MODE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "MUST_HAVE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MUST_HAVE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "PHYSICAL_PROJ_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PHYSICAL_PROJ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PHYSICAL_DELIVERY_PROJ_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PHYSICAL_DELIVERY_PROJ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cancellation_status"
+											},
+											"sink": {
+												"path": "$['$cancellation_status']"
+											}
+										},
+										{
+											"source": {
+												"name": "time_stamp"
+											},
+											"sink": {
+												"path": "$['$TIME_STAMP']"
+											}
+										},
+										{
+											"source": {
+												"name": "time_stamp_so_creation"
+											},
+											"sink": {
+												"path": "$['$TIME_STAMP_SO_CREATION']"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Int047_scm_order_header",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT047_ORDER_HEADER_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Lookup2",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Order_Header",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT Case WHEN COUNT(1) > 0 THEN cast(CEILING(COUNT(1) / 100.0) as int)\r\n    ELSE 0\r\n    end as recordcount\r\nFROM \r\n    dbo.SCM_ORDER_HEADER\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no\r\n        FROM \r\n            dbo.SCM_ORDER_HEADER \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "Int047_scm_order_header",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "RowCount",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('Lookup2').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Order_Item_Records",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "RowCount",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT \r\n    soi.id_message,\r\n    soi.order_request_no,\r\n    soi.item_no,\r\n    soi.parent_item_no,\r\n    soi.sap_order_item,\r\n    TRIM(soi.material_no) AS material_no,\r\n    TRIM(soi.product_hierarchy) AS product_hierarchy,\r\n    soi.order_qty,\r\n    TRIM(soi.sales_uom) AS sales_uom,\r\n    soi.fg_production_wt_kg,\r\n    soi.component_production_wt_kg,\r\n    TRIM(soi.product_marking) AS product_marking,\r\n    TRIM(soi.component_prefix) AS component_prefix,\r\n    soi.order_pieces,\r\n    soi.delivered_pieces,\r\n    soi.actual_del_date,\r\n    soi.delivery_status,\r\n    soi.cancellation_status,\r\n    soi.no_of_points,\r\n    soi.env_length,\r\n    soi.env_width,\r\n    soi.env_height,\r\n    TRIM(soi.wbs1) AS wbs1,\r\n    TRIM(soi.wbs2) AS wbs2,\r\n    TRIM(soi.wbs3) AS wbs3,\r\n    TRIM(soi.wbs4) AS wbs4,\r\n    TRIM(soi.wbs5) AS wbs5,\r\n    TRIM(soi.proj_stage) AS proj_stage,\r\n    TRIM(soi.bbs_no) AS bbs_no,\r\n    TRIM(soi.bbs_desc) AS bbs_desc,\r\n    soi.needs_galvanizing_ind,\r\n    COALESCE(soi.needs_production_ind, 'N') AS needs_production_ind,\r\n    soi.cab_spiral_pitch,\r\n    soi.cab_fleet_pitch,\r\n    soi.cab_bar_grade,\r\n    soi.cab_dia,\r\n    soi.cab_bvbs,\r\n    soi.cab_cut_length,\r\n    soi.cab_coupler_end_no,\r\n    soi.cab_former_size,\r\n    soi.cab_shape_group,\r\n    TRIM(soi.shape_code) AS shape_code,\r\n    TRIM(soi.cab_cou_end_type1) AS cab_cou_end_type1,\r\n    TRIM(soi.cab_cou_end_type2) AS cab_cou_end_type2,\r\n    soi.cab_no_of_bend,\r\n    soi.mesh_lw_cw_reversed_ind,\r\n    soi.mesh_lw_dia,\r\n    soi.mesh_lw_length,\r\n    TRIM(soi.mesh_lw_mat_type) AS mesh_lw_mat_type,\r\n    COALESCE(soi.mesh_lw_spacing, 0) AS mesh_lw_spacing,\r\n    soi.mesh_lw_grade,\r\n    soi.mesh_lw_oh1,\r\n    soi.mesh_lw_oh2,\r\n    soi.mesh_lw_qty,\r\n    soi.mesh_lw_mat_code,\r\n    soi.mesh_lw_wt_kg,\r\n    TRIM(soi.mesh_lw_twin_ind) AS mesh_lw_twin_ind,\r\n    soi.mesh_lw_bvbs,\r\n    soi.mesh_cw_dia,\r\n    soi.mesh_cw_length,\r\n    TRIM(soi.mesh_cw_mat_code) AS mesh_cw_mat_code,\r\n    soi.mesh_cw_twin_ind,\r\n    TRIM(soi.mesh_cw_mat_type) AS mesh_cw_mat_type,\r\n    soi.mesh_cw_spacing,\r\n    soi.mesh_cw_grade,\r\n    soi.mesh_cw_oh1,\r\n    soi.mesh_cw_oh2,\r\n    soi.mesh_cw_qty,\r\n    soi.mesh_cw_wt_kg,\r\n    soi.mesh_cw_bvbs,\r\n    soi.mesh_no_of_bend,\r\n    soi.mesh_no_of_cut,\r\n    soi.mesh_manual_trim_ind,\r\n    soi.mesh_bom_ind,\r\n    soi.meshb_wire_line_cross,\r\n    soi.meshb_wire_seq_no,\r\n    TRIM(soi.meshb_wire_mat_code) AS meshb_wire_mat_code,\r\n    soi.meshb_wire_length,\r\n    soi.meshb_wire_dia,\r\n    COALESCE(soi.meshb_wire_wt_kg, 0.0) AS meshb_wire_wt_kg,\r\n    COALESCE(CAST(soi.meshb_wire_qty AS INT), 0) AS meshb_wire_qty,\r\n    COALESCE(CAST(soi.meshb_wire_spacing AS INT), 0) AS meshb_wire_spacing,\r\n    soi.bpc_cage_dia,\r\n    soi.bpc_cage_length,\r\n    TRIM(soi.bpc_cage_set_code) AS bpc_cage_set_code,\r\n    soi.bpc_centralizer_qty,\r\n    soi.bpc_lap_length,\r\n    soi.bpc_end_length,\r\n    soi.bpc_pile_dia,\r\n    soi.bpc_l2_cage_dia,\r\n    soi.bpc_no_rings_start,\r\n    TRIM(soi.bpc_sleeve_id) AS bpc_sleeve_id,\r\n    TRIM(soi.bpc_jig_id) AS bpc_jig_id,\r\n    TRIM(soi.bpc_add_jig_id) AS bpc_add_jig_id,\r\n    soi.bpc_pile_seq_no,\r\n    soi.bpc_micropile_ind,\r\n    soi.bpc_no_rings_end,\r\n    COALESCE(TRIM(soi.pcg_cage_type), ' ') AS pcg_cage_type,\r\n    COALESCE(TRIM(soi.pcg_assembly_ind), ' ') AS pcg_assembly_ind,\r\n    TRIM(soi.remarks) AS remarks,\r\n    soi.time_stamp,\r\n    TRIM(soi.st_element) AS st_element,\r\n    soi.process_status,\r\n    soi.transfer_idref,\r\n    soi.transfer_status,\r\n    soi.create_by,\r\n    soi.create_date,\r\n    soi.update_by,\r\n    soi.update_date,\r\n    soi.qty_in_base_uom,\r\n    soi.base_uom,\r\n    soi.QA_transfer_status,\r\n    COALESCE(soi.drawing_no_rev, ' ') AS drawing_no_rev,\r\n    COALESCE(soi.drawing_no, ' ') AS drawing_no,\r\n    COALESCE(soi.inv_len_in_mm, 0.0) AS inv_len_in_mm,\r\n    COALESCE(soi.grade_dia, ' ') AS grade_dia,\r\n    COALESCE(soi.bpc_layer, 0) AS bpc_layer,\r\n    COALESCE(soi.cab_main_bar_angle, ' ') AS cab_main_bar_angle,\r\n    COALESCE(soi.sap_product_group, ' ') AS sap_product_group,\r\n    COALESCE(soi.product_marking_rev_no, ' ') AS product_marking_rev_no,\r\n    COALESCE(soi.cab_standard_end_no, 0) AS cab_standard_end_no,\r\n    COALESCE(soi.cab_former_type, ' ') AS cab_former_type,\r\n    soi.bpc_pile_no,\r\n    soh.order_no,\r\n    soh.product_type,\r\n    COALESCE(soi.cab_extended_end_no, 0) AS cab_extended_end_no,\r\n    COALESCE(soi.cab_stud_end_no, 0) AS cab_stud_end_no,\r\n    soi.prc_bpc_layer_no,\r\n    COALESCE(soi.bbs_page_no, 1) AS bbs_page_no,\r\n    soi.mesh_product_code,\r\n    COALESCE(soi.mesh_lw_inv_len, 0) AS mesh_lw_inv_len,\r\n    COALESCE(soi.mesh_cw_inv_len, 0) AS mesh_cw_inv_len,\r\n    COALESCE(soi.mesh_inv_mo1, 0) AS mesh_inv_mo1,\r\n    COALESCE(soi.mesh_inv_mo2, 0) AS mesh_inv_mo2,\r\n    COALESCE(soi.mesh_inv_co1, 0) AS mesh_inv_co1,\r\n    COALESCE(soi.mesh_inv_co2, 0) AS mesh_inv_co2,\r\n    COALESCE(soi.mesh_num_of_links, 0) AS mesh_num_of_links,\r\n    COALESCE(soi.meshb_START_POS, 0) AS meshb_START_POS,\r\n    COALESCE(soi.meshb_NO_PITCH, 0) AS meshb_NO_PITCH,\r\n    soi.mesh_slope_indicator,\r\n    soi.meshb_MESH_TYPE,\r\n    soi.meshb_WIRE_SPEC,\r\n    COALESCE(soi.meshb_REP_FROM, 0) AS meshb_REP_FROM,\r\n    COALESCE(soi.meshb_REP_TO, 0) AS meshb_REP_TO,\r\n    COALESCE(soi.meshb_num_of_REPETITION, 0) AS meshb_num_of_REPETITION,\r\n    soi.meshb_WIRE_PROD_CODE,\r\n    soi.meshb_TWIN_IND,\r\n    soi.meshb_MACH_WIRE_SPEC,\r\n    COALESCE(soi.mesh_slope, 0) AS mesh_slope,\r\n    soi.prc_panel_no,\r\n    COALESCE(soi.prc_panel_seq_no, 0) AS prc_panel_seq_no,\r\n    soi.IDENTICAL_HASHCODE,\r\n    COALESCE(soi.SIMILAR_MAINBAR_HASHCODE, 0) AS SIMILAR_MAINBAR_HASHCODE,\r\n    COALESCE(soi.SIMILAR_EXTLINK_HASHCODE, 0) AS SIMILAR_EXTLINK_HASHCODE,\r\n    COALESCE(soi.COMPLEXITY_IND, 0.0) AS COMPLEXITY_IND\r\nFROM dbo.SCM_Order_Item soi\r\nJOIN dbo.SCM_Order_Header soh\r\nON soi.order_request_no = soh.order_request_no\r\nWHERE soi.order_request_no in (SELECT soh2.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh2\r\nJOIN WMBbjxbnfv wmb ON soh2.order_request_no = wmb.order_request_no\r\nWHERE soh2.transfer_status = 'I')\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "50",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "order_request_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_REQUEST_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "item_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "parent_item_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARENT_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "sap_order_item",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_ORDER_ITEM"
+											}
+										},
+										{
+											"source": {
+												"name": "material_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MATERIAL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "product_hierarchy",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCT_HIERARCHY"
+											}
+										},
+										{
+											"source": {
+												"name": "order_qty",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$ORDER_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "sales_uom",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SALES_UOM"
+											}
+										},
+										{
+											"source": {
+												"name": "fg_production_wt_kg",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$FG_PRODUCTION_WT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "component_production_wt_kg",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$COMPONENT_PRODUCTION_WT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "product_marking",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCT_MARKING"
+											}
+										},
+										{
+											"source": {
+												"name": "component_prefix",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMPONENT_PREFIX"
+											}
+										},
+										{
+											"source": {
+												"name": "order_pieces",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$ORDER_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "delivered_pieces",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$DELIVERED_PIECES"
+											}
+										},
+										{
+											"source": {
+												"name": "actual_del_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ACTUAL_DEL_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "delivery_status",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DELIVERY_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "cancellation_status",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CANCELLATION_STATUS"
+											}
+										},
+										{
+											"source": {
+												"name": "no_of_points",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$NO_OF_POINTS"
+											}
+										},
+										{
+											"source": {
+												"name": "env_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$ENV_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "env_width",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$ENV_WIDTH"
+											}
+										},
+										{
+											"source": {
+												"name": "env_height",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$ENV_HEIGHT"
+											}
+										},
+										{
+											"source": {
+												"name": "wbs1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS1"
+											}
+										},
+										{
+											"source": {
+												"name": "wbs2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS2"
+											}
+										},
+										{
+											"source": {
+												"name": "wbs3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS3"
+											}
+										},
+										{
+											"source": {
+												"name": "wbs4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS4"
+											}
+										},
+										{
+											"source": {
+												"name": "wbs5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$WBS5"
+											}
+										},
+										{
+											"source": {
+												"name": "proj_stage",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PROJ_STAGE"
+											}
+										},
+										{
+											"source": {
+												"name": "bbs_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "bbs_desc",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_DESC"
+											}
+										},
+										{
+											"source": {
+												"name": "needs_galvanizing_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NEEDS_GALVANIZING_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "needs_production_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$NEEDS_PRODUCTION_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_spiral_pitch",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_SPIRAL_PITCH"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_fleet_pitch",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_FLEET_PITCH"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_bar_grade",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_BAR_GRADE"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$CAB_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_bvbs",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_BVBS"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_cut_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_CUT_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_coupler_end_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_COUPLER_END_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_former_size",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$CAB_FORMER_SIZE"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_shape_group",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_SHAPE_GROUP"
+											}
+										},
+										{
+											"source": {
+												"name": "shape_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_cou_end_type1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_COU_END_TYPE1"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_cou_end_type2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_COU_END_TYPE2"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_no_of_bend",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_NO_OF_BEND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_cw_reversed_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_LW_CW_REVERSED_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_LW_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_LW_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_mat_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_LW_MAT_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_spacing",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_LW_SPACING"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_grade",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_LW_GRADE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_oh1",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_LW_OH1"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_oh2",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_LW_OH2"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_qty",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_LW_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_wt_kg",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_LW_WT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_bvbs",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_LW_BVBS"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_CW_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_CW_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_mat_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_CW_MAT_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_mat_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_CW_MAT_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_twin_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_CW_TWIN_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_spacing",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_CW_SPACING"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_grade",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_CW_GRADE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_oh1",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_CW_OH1"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_oh2",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_CW_OH2"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_qty",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_CW_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_wt_kg",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_CW_WT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_bvbs",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_CW_BVBS"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_twin_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_LW_TWIN_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_no_of_bend",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_NO_OF_BEND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_no_of_cut",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESH_NO_OF_CUT"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_manual_trim_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_MANUAL_TRIM_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_bom_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_BOM_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_line_cross",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_LINE_CROSS"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_seq_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_SEQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_mat_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_MAT_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_wt_kg",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_WT_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_qty",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_wire_spacing",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_SPACING"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_cage_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$BPC_CAGE_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_cage_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_CAGE_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_cage_set_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_CAGE_SET_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_centralizer_qty",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_CENTRALIZER_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_lap_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_LAP_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_end_length",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_END_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_pile_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$BPC_PILE_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_l2_cage_dia",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$BPC_L2_CAGE_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_no_rings_start",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_NO_RINGS_START"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_sleeve_id",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_SLEEVE_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_jig_id",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_JIG_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_add_jig_id",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_ADD_JIG_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_pile_seq_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_PILE_SEQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_micropile_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_MICROPILE_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "pcg_cage_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PCG_CAGE_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "pcg_assembly_ind",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PCG_ASSEMBLY_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "remarks",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$REMARKS"
+											}
+										},
+										{
+											"source": {
+												"name": "st_element",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ST_ELEMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "qty_in_base_uom",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$QTY_IN_BASE_UOM"
+											}
+										},
+										{
+											"source": {
+												"name": "base_uom",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BASE_UOM"
+											}
+										},
+										{
+											"source": {
+												"name": "drawing_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DRAWING_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "inv_len_in_mm",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$INV_LEN_IN_MM"
+											}
+										},
+										{
+											"source": {
+												"name": "grade_dia",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$GRADE_DIA"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_layer",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BPC_LAYER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_main_bar_angle",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_MAIN_BAR_ANGLE"
+											}
+										},
+										{
+											"source": {
+												"name": "sap_product_group",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_PRODUCT_GROUP"
+											}
+										},
+										{
+											"source": {
+												"name": "product_marking_rev_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCT_MARKING_REV_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_standard_end_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_STANDARD_END_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_stud_end_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$CAB_STUD_END_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "drawing_no_rev",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$DRAWING_NO_REV"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_former_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CAB_FORMER_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_pile_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BPC_PILE_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "prc_bpc_layer_no",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$PRC_BPC_LAYER_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "bbs_page_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_PAGE_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_product_code",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_PRODUCT_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_inv_len",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_LW_INV_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_cw_inv_len",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_CW_INV_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_inv_mo1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_INV_MO1"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_inv_mo2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_INV_MO2"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_inv_co1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_INV_CO1"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_inv_co2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_INV_CO2"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_slope_indicator",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESH_SLOPE_INDICATOR"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_num_of_links",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_NUM_OF_LINKS"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_MESH_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_MESH_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_START_POS",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_START_POS"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_WIRE_SPEC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_SPEC"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_NO_PITCH",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_NO_PITCH"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_REP_FROM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_REP_FROM"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_REP_TO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_REP_TO"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_num_of_REPETITION",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESHB_NUM_OF_REPETITION"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_WIRE_PROD_CODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_WIRE_PROD_CODE"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_TWIN_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_TWIN_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "meshb_MACH_WIRE_SPEC",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MESHB_MACH_WIRE_SPEC"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_slope",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$MESH_SLOPE"
+											}
+										},
+										{
+											"source": {
+												"name": "prc_panel_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRC_PANEL_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "prc_panel_seq_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRC_PANEL_SEQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "IDENTICAL_HASHCODE",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$IDENTICAL_HASHCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "SIMILAR_MAINBAR_HASHCODE",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$SIMILAR_MAINBAR_HASHCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "SIMILAR_EXTLINK_HASHCODE",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$SIMILAR_EXTLINK_HASHCODE"
+											}
+										},
+										{
+											"source": {
+												"name": "COMPLEXITY_IND",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$COMPLEXITY_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "mesh_lw_mat_code"
+											},
+											"sink": {
+												"path": "$['$MESH_LW_MAT_CODE']"
+											}
+										},
+										{
+											"source": {
+												"name": "bpc_no_rings_end"
+											},
+											"sink": {
+												"path": "$['$BPC_NO_RINGS_END']"
+											}
+										},
+										{
+											"source": {
+												"name": "order_no"
+											},
+											"sink": {
+												"path": "$['$ORDER_NO']"
+											}
+										},
+										{
+											"source": {
+												"name": "product_type"
+											},
+											"sink": {
+												"path": "$['$PRODUCT_TYPE']"
+											}
+										},
+										{
+											"source": {
+												"name": "time_stamp"
+											},
+											"sink": {
+												"path": "$['$TIME_STAMP']"
+											}
+										},
+										{
+											"source": {
+												"name": "cab_extended_end_no"
+											},
+											"sink": {
+												"path": "$['$CAB_EXTENDED_END_NO']"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT047_SCM_Order_Item",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT047_ORDER_ITEM_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Lookup3",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Order_Item_Records",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT \r\n    Case WHEN COUNT(1) > 0 THEN cast(CEILING(COUNT(1) / 50.0) as int)\r\n    ELSE 0\r\n    end as recordcount\r\nFROM \r\n    dbo.SCM_Order_Item\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            transfer_status = 'I'\r\n    );\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "INT047_SCM_Order_Item",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "item_rowcount",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "item_rowcount",
+								"value": {
+									"value": "@range(1, int(activity('Lookup3').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Order_Item_Fabrication_Prefix",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "item_rowcount",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT\r\n    order_request_no, \r\n    parent_item_no, \r\n    coalesce(MB_prefix,'')as MB_prefix, \r\n    component_prefix, \r\n    fabrication_pts, \r\n    coalesce(MB_item_no,'')as MB_item_no,\r\n    component_item_no \r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (SELECT soh.ORDER_REQUEST_NO\r\nFROM SCM_Order_Header soh\r\nJOIN WMBbjxbnfv wmb ON soh.order_request_no = wmb.order_request_no\r\nWHERE soh.transfer_status = 'I'\r\n);\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "100",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "order_request_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$ORDER_REQUEST_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "parent_item_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PARENT_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "MB_prefix",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MB_PREFIX"
+											}
+										},
+										{
+											"source": {
+												"name": "component_prefix",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMPONENT_PREFIX"
+											}
+										},
+										{
+											"source": {
+												"name": "fabrication_pts",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$FABRICATION_PTS"
+											}
+										},
+										{
+											"source": {
+												"name": "MB_item_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$MB_ITEM_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "component_item_no",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$COMPONENET_ITEM_NO"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT047_ORDER_ITEM_FABRICATION_PREFIX",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT047_ORDER_ITEM_FAB_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Lookup4",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Order_Item_Fabrication_Prefix",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT \r\n    Case WHEN COUNT(1) > 0 THEN cast(CEILING(COUNT(1) / 100.0) as int)\r\n    ELSE 0\r\n    end as recordcount\r\nFROM \r\n    dbo.ORDER_ITEM_FABRICATION_PREFIX \r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            order_request_no \r\n        FROM \r\n            dbo.SCM_Order_Header \r\n        WHERE \r\n            TRANSFER_STATUS = 'I'\r\n    );\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "INT047_order_item_fabrication",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "fabrication_row_count",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup4",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "fabrication_row_count",
+								"value": {
+									"value": "@range(1, int(activity('Lookup4').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Error_order_header",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Order_Header",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "update  dbo.SCM_Order_Header set transfer_status = 'E' where transfer_status='I';"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Error_Order_Item",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Order_Item_Records",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "update from dbo.SCM_Order_Header set transfer_status = 'E' where transfer_status='I';"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Error_order_item_fabrication",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Order_Item_Fabrication_Prefix",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "update dbo.SCM_Order_Header set transfer_status = 'E' where transfer_status='I';"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "distinct_order_req_no",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "update_script",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "select distinct order_request_no FROM SCM_ORDER_HEADER WHERE transfer_status ='I'",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "INT047_SCM_Order_Item",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "distinct_order_req_no",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "order_request_no",
+								"value": {
+									"value": "@activity('distinct_order_req_no').output.value",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('item_rowcount')",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 20,
+					"activities": [
+						{
+							"name": "order_item",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT047_ORDER_ITEM",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach3",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEach1_copy1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('fabrication_row_count')",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 20,
+					"activities": [
+						{
+							"name": "order_fabrication",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT047_ORDER_FABRICATION",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1_copy1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 20,
+					"activities": [
+						{
+							"name": "order_order_header_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT047_ORDER_HEADER",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach4",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Script4_copy1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Order_Request_no')",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 20,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "INT47_STAGING_TO_MAIN_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"ORDER_REQUEST_NO": {
+										"value": "@item().order_request_no",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "sp_of_order_header",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "ForEach3",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT INT_Interface('USP_INT047') AS Result FROM dual;",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "NSH_INT047_ORDER_HEADER",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Script4_copy1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "sp_of_order_header",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_CONNECTION_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "delete from SCM_ADMIN.ESB_ORDER_HEADER;",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"concurrency": 1,
+		"variables": {
+			"RowCount": {
+				"type": "Array"
+			},
+			"item_rowcount": {
+				"type": "Array"
+			},
+			"fabrication_row_count": {
+				"type": "Array"
+			},
+			"order_request_no": {
+				"type": "Array"
+			},
+			"Order_Request_number": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": []
+	}
+}

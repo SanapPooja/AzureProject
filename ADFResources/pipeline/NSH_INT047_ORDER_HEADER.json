@@ -31,6 +31,10 @@
 									"value": "@{formatDateTime(addminutes(addhours(utcnow(), 8), 0), 'yyyy-MM-dd-HH.mm.ss.FFF')}",
 									"type": "Expression"
 								}
+							},
+							{
+								"name": "EXTERNAL_CONFIRMED_DATE_IND",
+								"value": "N"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
@@ -572,13 +576,21 @@
 								"sink": {
 									"name": "TIME_STAMP_SO_CREATION"
 								}
+							},
+							{
+								"source": {
+									"path": "$['EXTERNAL_CONFIRMED_DATE_IND']"
+								},
+								"sink": {
+									"name": "EXTERNAL_CONFIRMED_DATE_IND"
+								}
 							}
 						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "int047_orderheader_head",
+						"referenceName": "NSH_INT047_ORDER_HEADER_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -590,6 +602,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "Prod_Env"
+		},
 		"annotations": []
 	}
 }

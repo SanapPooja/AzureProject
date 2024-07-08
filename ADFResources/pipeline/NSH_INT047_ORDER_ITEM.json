@@ -1328,13 +1328,29 @@
 								"sink": {
 									"name": "PRODUCT_MARKING"
 								}
+							},
+							{
+								"source": {
+									"path": "$['$MESH_LW_SPACING']"
+								},
+								"sink": {
+									"name": "MESH_LW_SPACING"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MESH_LW_GRADE']"
+								},
+								"sink": {
+									"name": "MESH_LW_GRADE"
+								}
 							}
 						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "INT047_orderItem_head",
+						"referenceName": "NSH_INT047_ORDER_ITEM_HEAD_QUEUE_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -1346,6 +1362,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "Prod_Env"
+		},
 		"annotations": []
 	}
 }
