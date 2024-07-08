@@ -2,7 +2,7 @@
 	"name": "NSH_INT047_ORDER_HEADER_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSH_INT047_QUEUE_HEAD_PROD",
+			"referenceName": "int047_orderheader_head",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

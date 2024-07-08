@@ -2,7 +2,7 @@
 	"name": "INT047_order_item_fabrication_oracle",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

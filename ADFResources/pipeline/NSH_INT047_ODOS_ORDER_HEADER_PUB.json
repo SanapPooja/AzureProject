@@ -59,7 +59,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -2306,7 +2306,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -2339,7 +2339,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -2372,7 +2372,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -2594,10 +2594,6 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"pipeline": {
-									"referenceName": "INT47_STAGING_TO_MAIN_SUB",
-									"type": "PipelineReference"
-								},
 								"waitOnCompletion": false,
 								"parameters": {
 									"ORDER_REQUEST_NO": {
@@ -2664,10 +2660,6 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_CONNECTION_PROD",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
 					"scripts": [
 						{
@@ -2701,7 +2693,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

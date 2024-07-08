@@ -2,14 +2,14 @@
 	"name": "NSH_INT047_ORDER_HEADER",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "SCM_ADMIN",
+			"schema": "scm_admin",
 			"table": "ESB_ORDER_HEADER"
 		}
 	}

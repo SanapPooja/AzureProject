@@ -2,7 +2,7 @@
 	"name": "NSH_INT047_ORDER_ITEM_FAB_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSH_INT047_ORDER_ITEM_FAB_QUEUE_HEAD_PROD",
+			"referenceName": "int047_order_item_head",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
