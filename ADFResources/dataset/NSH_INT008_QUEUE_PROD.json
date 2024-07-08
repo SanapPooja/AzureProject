@@ -2,7 +2,7 @@
 	"name": "NSH_INT008_QUEUE_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSH_INT008_QUEUE_PROD",
+			"referenceName": "NSH_INT008_QUEUE",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

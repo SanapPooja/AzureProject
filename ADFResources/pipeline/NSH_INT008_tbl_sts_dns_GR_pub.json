@@ -40,7 +40,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSDB11_STS",
+								"referenceName": "STS_QA",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -913,7 +913,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSDB11_STS",
+								"referenceName": "STS_QA",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -949,7 +949,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSDB11_STS",
+								"referenceName": "STS_QA",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1132,7 +1132,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

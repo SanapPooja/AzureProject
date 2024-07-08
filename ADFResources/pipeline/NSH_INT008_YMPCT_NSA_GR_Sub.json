@@ -1776,7 +1776,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SAP_ODBC_PRODUCTION",
+					"referenceName": "SAP_QA_Connection",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -1810,7 +1810,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "SAP_ODBC_PRODUCTION",
+					"referenceName": "SAP_QA_Connection",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -2797,7 +2797,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

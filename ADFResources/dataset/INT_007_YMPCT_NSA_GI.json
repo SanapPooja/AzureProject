@@ -2,7 +2,7 @@
 	"name": "INT_007_YMPCT_NSA_GI",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_ODBC_PRODUCTION",
+			"referenceName": "SAP_QA_Connection",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

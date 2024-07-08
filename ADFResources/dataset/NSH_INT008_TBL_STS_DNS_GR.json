@@ -2,7 +2,7 @@
 	"name": "NSH_INT008_TBL_STS_DNS_GR",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

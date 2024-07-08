@@ -2,7 +2,7 @@
 	"name": "NSH_INT046_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSH_INT046_QUEUE_HEAD_PROD",
+			"referenceName": "INT046_SAPY_ODOS_OrderHeader_Head",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

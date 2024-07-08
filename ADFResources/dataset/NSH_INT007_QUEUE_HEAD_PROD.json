@@ -2,7 +2,7 @@
 	"name": "NSH_INT007_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSH_INT007_QUEUE_HEAD_PROD",
+			"referenceName": "IINT007_Activity_head",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
