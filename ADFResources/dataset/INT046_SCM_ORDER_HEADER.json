@@ -2,7 +2,7 @@
 	"name": "INT046_SCM_ORDER_HEADER",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NDSQADB5_NDS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

@@ -2,7 +2,7 @@
 	"name": "INT046_YMSDT_ORDER_HDR",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SAP_ODBC_PRODUCTION",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
