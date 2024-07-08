@@ -1,0 +1,115 @@
+{
+	"name": "NSH_INT048_STAGING",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO scm_admin.tagprint_shape_variant (\n    order_no,\n    item_no,\n    product_type,\n    segment_length_1,\n    shape_param_1,\n    param_ind_1,\n    coordinate_x_1,\n    coordinate_y_1,\n    critical_ind_1,\n    segment_length_2,\n    shape_param_2,\n    param_ind_2,\n    coordinate_x_2,\n    coordinate_y_2,\n    critical_ind_2,\n    segment_length_3,\n    shape_param_3,\n    critical_ind_3,\n    segment_length_4,\n    shape_param_4,\n    param_ind_4,\n    coordinate_x_4,\n    coordinate_y_4,\n    critical_ind_4,\n    segment_length_5,\n    shape_param_5,\n    param_ind_5,\n    coordinate_x_5,\n    coordinate_y_5,\n    critical_ind_5,\n    segment_length_6,\n    shape_param_6,\n    param_ind_6,\n    coordinate_x_6,\n    coordinate_y_6,\n    critical_ind_6,\n    segment_length_7,\n    shape_param_7,\n    param_ind_7,\n    coordinate_x_7,\n    coordinate_y_7,\n    critical_ind_7,\n    segment_length_8,\n    shape_param_8,\n    param_ind_8,\n    coordinate_x_8,\n    coordinate_y_8,\n    critical_ind_8,\n    segment_length_9,\n    shape_param_9,\n    param_ind_9,\n    coordinate_x_9,\n    coordinate_y_9,\n    critical_ind_9,\n    segment_length_10,\n    shape_param_10,\n    param_ind_10,\n    coordinate_x_10,\n    coordinate_y_10,\n    critical_ind_10,\n    segment_length_11,\n    shape_param_11,\n    param_ind_11,\n    coordinate_x_11,\n    coordinate_y_11,\n    critical_ind_11,\n    segment_length_12,\n    shape_param_12,\n    param_ind_12,\n    coordinate_x_12,\n    coordinate_y_12,\n    critical_ind_12,\n    segment_length_13,\n    shape_param_13,\n    param_ind_13,\n    coordinate_x_13,\n    coordinate_y_13,\n    critical_ind_13,\n    segment_length_14,\n    shape_param_14,\n    param_ind_14,\n    coordinate_x_14,\n    coordinate_y_14,\n    critical_ind_14,\n    segment_length_15,\n    shape_param_15,\n    param_ind_15,\n    coordinate_x_15,\n    coordinate_y_15,\n    critical_ind_15,\n    segment_length_16,\n    shape_param_16,\n    param_ind_16,\n    coordinate_x_16,\n    coordinate_y_16,\n    critical_ind_16,\n    segment_length_17,\n    shape_param_17,\n    param_ind_17,\n    coordinate_x_17,\n    coordinate_y_17,\n    critical_ind_17,\n    segment_length_18,\n    shape_param_18,\n    param_ind_18,\n    coordinate_x_18,\n    coordinate_y_18,\n    critical_ind_18,\n    segment_length_19,\n    shape_param_19,\n    param_ind_19,\n    coordinate_x_19,\n    coordinate_y_19,\n    critical_ind_19,\n    segment_length_20,\n    shape_param_20,\n    param_ind_20,\n    coordinate_x_20,\n    coordinate_y_20,\n    critical_ind_20,\n    param_ind_3,\n    coordinate_x_3,\n    coordinate_y_3,\n    last_export_timestamp,\n    rec_id,\n    sap_product_group\n) \nSELECT\n    order_no,\n    item_no,\n    product_type,\n    segment_length_1,\n    shape_param_1,\n    param_ind_1,\n    coordinate_x_1,\n    coordinate_y_1,\n    critical_ind_1,\n    segment_length_2,\n    shape_param_2,\n    param_ind_2,\n    coordinate_x_2,\n    coordinate_y_2,\n    critical_ind_2,\n    segment_length_3,\n    shape_param_3,\n    critical_ind_3,\n    segment_length_4,\n    shape_param_4,\n    param_ind_4,\n    coordinate_x_4,\n    coordinate_y_4,\n    critical_ind_4,\n    segment_length_5,\n    shape_param_5,\n    param_ind_5,\n    coordinate_x_5,\n    coordinate_y_5,\n    critical_ind_5,\n    segment_length_6,\n    shape_param_6,\n    param_ind_6,\n    coordinate_x_6,\n    coordinate_y_6,\n    critical_ind_6,\n    segment_length_7,\n    shape_param_7,\n    param_ind_7,\n    coordinate_x_7,\n    coordinate_y_7,\n    critical_ind_7,\n    segment_length_8,\n    shape_param_8,\n    param_ind_8,\n    coordinate_x_8,\n    coordinate_y_8,\n    critical_ind_8,\n    segment_length_9,\n    shape_param_9,\n    param_ind_9,\n    coordinate_x_9,\n    coordinate_y_9,\n    critical_ind_9,\n    segment_length_10,\n    shape_param_10,\n    param_ind_10,\n    coordinate_x_10,\n    coordinate_y_10,\n    critical_ind_10,\n    segment_length_11,\n    shape_param_11,\n    param_ind_11,\n    coordinate_x_11,\n    coordinate_y_11,\n    critical_ind_11,\n    segment_length_12,\n    shape_param_12,\n    param_ind_12,\n    coordinate_x_12,\n    coordinate_y_12,\n    critical_ind_12,\n    segment_length_13,\n    shape_param_13,\n    param_ind_13,\n    coordinate_x_13,\n    coordinate_y_13,\n    critical_ind_13,\n    segment_length_14,\n    shape_param_14,\n    param_ind_14,\n    coordinate_x_14,\n    coordinate_y_14,\n    critical_ind_14,\n    segment_length_15,\n    shape_param_15,\n    param_ind_15,\n    coordinate_x_15,\n    coordinate_y_15,\n    critical_ind_15,\n    segment_length_16,\n    shape_param_16,\n    param_ind_16,\n    coordinate_x_16,\n    coordinate_y_16,\n    critical_ind_16,\n    segment_length_17,\n    shape_param_17,\n    param_ind_17,\n    coordinate_x_17,\n    coordinate_y_17,\n    critical_ind_17,\n    segment_length_18,\n    shape_param_18,\n    param_ind_18,\n    coordinate_x_18,\n    coordinate_y_18,\n    critical_ind_18,\n    segment_length_19,\n    shape_param_19,\n    param_ind_19,\n    coordinate_x_19,\n    coordinate_y_19,\n    critical_ind_19,\n    segment_length_20,\n    shape_param_20,\n    param_ind_20,\n    coordinate_x_20,\n    coordinate_y_20,\n    critical_ind_20,\n    param_ind_3,\n    coordinate_x_3,\n    coordinate_y_3,\n    last_export_timestamp,\n    rec_id,\n    sap_product_group\nFROM\n    scm_admin.esb_tagprint_shape_variant where order_no = '@{pipeline().parameters.ORDER_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM scm_admin.esb_tagprint_shape_variant where order_no = '@{pipeline().parameters.ORDER_NO}';\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE dbo.SCM_Order_Header\nSET transfer_status = 'E'\nWHERE order_request_no = '@{pipeline().parameters.ORDER_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_NO": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

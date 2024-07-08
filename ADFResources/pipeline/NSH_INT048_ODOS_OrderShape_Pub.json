@@ -1233,7 +1233,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1266,7 +1266,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1406,7 +1406,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1439,7 +1439,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1472,7 +1472,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSPRDDB10",
+								"referenceName": "NSQADB5_ODOS_Connection",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1556,17 +1556,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"pipeline": {
-									"referenceName": "INT48_STAGING_TO_MAIN_SUB",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": false,
-								"parameters": {
-									"ORDER_NO": {
-										"value": "@item().ORDER_NO",
-										"type": "Expression"
-									}
-								}
+								"waitOnCompletion": false
 							}
 						}
 					]
@@ -1589,7 +1579,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

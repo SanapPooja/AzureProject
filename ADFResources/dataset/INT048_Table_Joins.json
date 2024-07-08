@@ -2,7 +2,7 @@
 	"name": "INT048_Table_Joins",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSPRDDB10",
+			"referenceName": "NSQADB5_ODOS_Connection",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
