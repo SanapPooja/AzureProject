@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "Lookup2",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -17,64 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    (COUNT(1) + 49) / 50 AS recordcount\r\nFROM \r\n    tbl_sts_dns_GI_con\r\nWHERE \r\n    fld_GI_status = 'I'\r\n    AND (\r\n        fld_GI_rec_type = 'A' \r\n        OR fld_GI_rec_type = 'Q' \r\n        OR fld_GI_rec_type = 'H' \r\n        OR fld_GI_rec_type = 'S'\r\n    );\r\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "INT_007_tbl_sts_dns_GI_con",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Rowcount",
-					"value": {
-						"value": "@range(1, int(activity('Lookup1').output.value[0].recordcount))",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Lookup2",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT   fld_GI_con_id\r\nFROM tbl_sts_dns_GI_con \t\t\t\t\t\t\t\r\nWHERE ( fld_GI_rec_type= 'A'  AND fld_GI_status= 'I')\t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'Q'  AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'H' AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'S'  AND fld_GI_status= 'I')",
+						"sqlReaderQuery": "SELECT   fld_GI_con_id\r\nFROM tbl_sts_dns_GI_con \t\t\t\t\t\t\t\r\nWHERE ( fld_GI_rec_type= 'A'  AND fld_GI_status= 'P')\t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'Q'  AND fld_GI_status= 'P') \t\t\t\t\t\t\t\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -90,7 +33,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable4",
+						"activity": "Lookup2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -140,14 +83,17 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "WITH TopGICon AS (\r\n    SELECT TOP 1000 \r\n        fld_GI_con_id,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_id_message)),''),' ') AS fld_GI_id_message,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_batch_id)),''),' ') AS fld_GI_GR_batch_id,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_aim_matl_no)),''),' ') AS fld_GI_GR_aim_matl_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_ach_matl_no)),''),' ') AS fld_GI_GR_ach_matl_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_batch_id)),''),' ') AS fld_GI_batch_id,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_matl_no)),''),' ') AS fld_GI_matl_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_plant)),''),' ') AS fld_GI_plant,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_stor_loc)),''),' ') AS fld_GI_stor_loc,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_doc_date)),''),' ') AS fld_GI_doc_date,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_postg_date)),''),' ') AS fld_GI_postg_date,\r\n        ISNULL(fld_GI_tot_qty,0) AS fld_GI_tot_qty,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_base_uom)),''),' ') AS fld_GI_base_uom,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_prod_ord_no)),''),' ') AS fld_GI_prod_ord_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_shift)),''),' ') AS fld_GI_shift,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_sal_ord_no)),''),' ') AS fld_GI_sal_ord_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_item_no)),''),' ') AS fld_GI_item_no,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_pcode)),''),' ') AS fld_GI_pcode,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_clbd_item)),''),' ') AS fld_GI_clbd_item,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_rev_status)),''),' ') AS fld_GI_rev_status,\r\n        fld_GI_rec_type,\r\n        fld_GI_status,\r\n        ISNULL(nullif(LTRIM(RTRIM(fld_GI_qty_d)),''),'0') AS fld_GI_qty_d\r\n    FROM \r\n        tbl_sts_dns_GI_con\r\n    WHERE \r\n        (fld_GI_rec_type = 'A' AND fld_GI_status = 'P')\r\n        OR (fld_GI_rec_type = 'Q' AND fld_GI_status = 'P')\r\n        OR (fld_GI_rec_type = 'H' AND fld_GI_status = 'P')\r\n        OR (fld_GI_rec_type = 'S' AND fld_GI_status = 'P')\r\n)\r\nUPDATE TopGICon\r\nSET fld_GI_status = 'I';\r\n"
+										"text": {
+											"value": "UPDATE tbl_sts_dns_GI_con\nSET fld_GI_status = 'I',fld_GI_modify_by = 'ESB Service',fld_GI_modify_date ='@{variables('CurrentTime')}'\nWHERE (fld_GI_rec_type = 'A' AND fld_GI_status = 'P')\n    OR (fld_GI_rec_type = 'Q' AND fld_GI_status = 'P')",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -175,7 +121,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT fld_GI_con_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_id_message)),''),' ') AS fld_GI_id_message,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_batch_id)),''),' ')AS fld_GI_GR_batch_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_aim_matl_no)),''),' ')AS fld_GI_GR_aim_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_ach_matl_no)),''),' ')AS fld_GI_GR_ach_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_batch_id)),''),' ')AS fld_GI_batch_id, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_matl_no)),''),' ')AS fld_GI_matl_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_plant)),''),' ')AS fld_GI_plant, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_stor_loc)),''),' ')AS fld_GI_stor_loc, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_doc_date)),''),' ')AS fld_GI_doc_date, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_postg_date)),''), ' ') AS fld_GI_postg_date,\t\t\t\t\t\t\t\r\nISNULL(fld_GI_tot_qty,0) AS fld_GI_tot_qty, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_base_uom)),''),' ')AS fld_GI_base_uom, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_prod_ord_no)),''),' ')AS fld_GI_prod_ord_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_shift)),''),' ')AS fld_GI_shift, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_sal_ord_no)),''), ' ') AS fld_GI_sal_ord_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_item_no)),''),' ')AS fld_GI_item_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_pcode)),''),' ') AS fld_GI_pcode,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_clbd_item)),''),' ')AS fld_GI_clbd_item, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_rev_status)),''),' ')AS fld_GI_rev_status ,\t\t\t\t\t\t\t\r\nfld_GI_rec_type,\t\t\t\t\t\t\t\r\nfld_GI_status,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_qty_d)),''),'0') AS fld_GI_qty_d \t\t\t\t\t\t\t\r\nFROM tbl_sts_dns_GI_con \t\t\t\t\t\t\t\r\nWHERE ( fld_GI_rec_type= 'A'  AND fld_GI_status= 'I')\t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'Q'  AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'H' AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'S'  AND fld_GI_status= 'I')\t\t\t\t\t\t\t",
+									"sqlReaderQuery": "SELECT fld_GI_con_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_id_message)),''),' ') AS fld_GI_id_message,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_batch_id)),''),' ')AS fld_GI_GR_batch_id,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_aim_matl_no)),''),' ')AS fld_GI_GR_aim_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_GR_ach_matl_no)),''),' ')AS fld_GI_GR_ach_matl_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_batch_id)),''),' ')AS fld_GI_batch_id, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_matl_no)),''),' ')AS fld_GI_matl_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_plant)),''),' ')AS fld_GI_plant, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_stor_loc)),''),' ')AS fld_GI_stor_loc, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_doc_date)),''),' ')AS fld_GI_doc_date, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_postg_date)),''), ' ') AS fld_GI_postg_date,\t\t\t\t\t\t\t\r\nISNULL(fld_GI_tot_qty,0) AS fld_GI_tot_qty, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_base_uom)),''),' ')AS fld_GI_base_uom, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_prod_ord_no)),''),' ')AS fld_GI_prod_ord_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_shift)),''),' ')AS fld_GI_shift, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_sal_ord_no)),''), ' ') AS fld_GI_sal_ord_no,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_item_no)),''),' ')AS fld_GI_item_no, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_pcode)),''),' ') AS fld_GI_pcode,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_clbd_item)),''),' ')AS fld_GI_clbd_item, \t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_rev_status)),''),' ')AS fld_GI_rev_status ,\t\t\t\t\t\t\t\r\nfld_GI_rec_type,\t\t\t\t\t\t\t\r\nfld_GI_status,\t\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GI_qty_d)),''),'0') AS fld_GI_qty_d \t\t\t\t\t\t\t\r\nFROM tbl_sts_dns_GI_con \t\t\t\t\t\t\t\r\nWHERE ( fld_GI_rec_type= 'A'  AND fld_GI_status= 'I')\t\t\t\t\t\t\t\r\nOR  ( fld_GI_rec_type= 'Q'  AND fld_GI_status= 'I') \t\t\t\t\t\t\t\r\n\t\t\t\t\t",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -184,7 +130,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "100",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -360,6 +306,14 @@
 											"sink": {
 												"path": "$['$fld_GI_rec_type']"
 											}
+										},
+										{
+											"source": {
+												"name": "fld_GI_id_message"
+											},
+											"sink": {
+												"path": "$['$TIMESTAMP']"
+											}
 										}
 									]
 								}
@@ -372,7 +326,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT_007_GiRecords_QUEUE",
+									"referenceName": "NSH_INT007_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -382,7 +336,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -397,7 +351,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -405,43 +359,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_rec_type = 'Y',fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'A' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script5",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'W', fld_GI_status = 'P', fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'S' and fld_GI_status = 'I'",
+											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_rec_type = 'Y',fld_GI_modify_by = 'ESB Service' where fld_GI_rec_type = 'A' and fld_GI_status = 'I' AND fld_GI_modify_date = '@{variables('CurrentTime')}'",
 											"type": "Expression"
 										}
 									}
@@ -454,7 +372,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -469,7 +387,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -477,43 +395,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'X', fld_GI_status = 'P', fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'Q' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script4",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'Z', fld_GI_status = 'P', fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_rec_type = 'H' and fld_GI_status = 'I'",
+											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'X', fld_GI_status = 'P', fld_GI_modify_by = 'ESB Service' where fld_GI_rec_type = 'Q' and fld_GI_status = 'I' AND fld_GI_modify_date = '@{variables('CurrentTime')}'",
 											"type": "Expression"
 										}
 									}
@@ -524,8 +406,42 @@
 						{
 							"name": "Script6",
 							"type": "Script",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSDB11_STS",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'E',fld_GI_rec_type = 'E',fld_GI_modify_by = 'ESB Service'  where fld_GI_status = 'I' AND fld_GI_modify_date = '@{variables('CurrentTime')}'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Lookup1",
+							"type": "Lookup",
 							"dependsOn": [
 								{
 									"activity": "Copy data1",
@@ -542,21 +458,42 @@
 								"secureInput": false
 							},
 							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
 							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_status = 'P',fld_GI_rec_type = 'Y',fld_GI_modify_by = 'ESB Service', fld_GI_modify_date = '@{variables('CurrentTime')}' where fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT CASE\r\n    WHEN COUNT(1) > 0 THEN cast(CEILING(COUNT(1) / 100.0) as int)\r\n    ELSE 0\r\n    end as recordcount\r\nFROM \r\n    tbl_sts_dns_GI_con\r\nWHERE fld_GI_status = 'I'\r\n    AND (\r\n        fld_GI_rec_type = 'A' \r\n        OR fld_GI_rec_type = 'Q'\r\n    );",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "INT_007_tbl_sts_dns_GI_con",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Lookup1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Rowcount",
+								"value": {
+									"value": "@range(1, int(activity('Lookup1').output.value[0].recordcount))",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -582,7 +519,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "CALL SUBSCRIBER PIPELINE",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -599,215 +536,9 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "ForEach2",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Gi_id')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Set variable5",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "GI_Con_Id",
-								"value": {
-									"value": "@item().fld_GI_con_id",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Script7",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'E' where fld_GI_con_id = '@{variables('GI_Con_Id')}'and fld_GI_rec_type = 'A' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script10",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'E' where fld_GI_con_id = '@{variables('GI_Con_Id')}'and fld_GI_rec_type = 'S' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script9",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'E' where fld_GI_con_id = '@{variables('GI_Con_Id')}'and fld_GI_rec_type = 'H' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script8",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable5",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update dbo.tbl_sts_dns_GI_con set fld_GI_rec_type = 'E' where fld_GI_con_id = '@{variables('GI_Con_Id')}'and fld_GI_rec_type = 'Q' and fld_GI_status = 'I'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Set variable4",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Gi_id",
-					"value": {
-						"value": "@activity('Lookup2').output.value",
-						"type": "Expression"
-					}
-				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"Rowcount": {
 				"type": "Array"
@@ -821,6 +552,9 @@
 			"GI_Con_Id": {
 				"type": "Integer"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

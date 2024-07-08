@@ -5,6 +5,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -32,23 +34,23 @@
 							},
 							{
 								"name": "MJAHR",
-								"value": " "
+								"value": "000000"
 							},
 							{
 								"name": "RUECK",
-								"value": " "
+								"value": "0000000000"
 							},
 							{
 								"name": "RMZHL",
-								"value": " "
+								"value": "00000000"
 							},
 							{
 								"name": "REV_RUECK",
-								"value": " "
+								"value": "0000000000"
 							},
 							{
 								"name": "REV_RMZHL",
-								"value": " "
+								"value": "00000000"
 							},
 							{
 								"name": "INTER_ID",
@@ -64,11 +66,11 @@
 							},
 							{
 								"name": "UDATE",
-								"value": " "
+								"value": "00000000"
 							},
 							{
 								"name": "UTIME",
-								"value": " "
+								"value": "000000"
 							},
 							{
 								"name": "USERID",
@@ -365,7 +367,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int007_Gi_head",
+						"referenceName": "NSH_INT007_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -417,11 +419,459 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int007_activity/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int007_sts_gi/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
 					}
+				}
+			},
+			{
+				"name": "QUEUE TO DEST",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "REC_TYPE",
+								"value": "S"
+							},
+							{
+								"name": "MANDT",
+								"value": "600"
+							},
+							{
+								"name": "MBLNR",
+								"value": " "
+							},
+							{
+								"name": "MJAHR",
+								"value": " "
+							},
+							{
+								"name": "RUECK",
+								"value": " "
+							},
+							{
+								"name": "RMZHL",
+								"value": " "
+							},
+							{
+								"name": "REV_RUECK",
+								"value": " "
+							},
+							{
+								"name": "REV_RMZHL",
+								"value": " "
+							},
+							{
+								"name": "INTER_ID",
+								"value": "105"
+							},
+							{
+								"name": "PROC_TS",
+								"value": " "
+							},
+							{
+								"name": "ERROR_CD",
+								"value": " "
+							},
+							{
+								"name": "UDATE",
+								"value": " "
+							},
+							{
+								"name": "UTIME",
+								"value": " "
+							},
+							{
+								"name": "USERID",
+								"value": " "
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "OracleSink",
+						"writeBatchSize": 100
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['$GR_CHARG']"
+								},
+								"sink": {
+									"name": "GR_CHARG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GR_MATNR_AIM']"
+								},
+								"sink": {
+									"name": "GR_MATNR_AIM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GR_MATNR_ACH']"
+								},
+								"sink": {
+									"name": "GR_MATNR_ACH"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_MATNR']"
+								},
+								"sink": {
+									"name": "GI_MATNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PLANT']"
+								},
+								"sink": {
+									"name": "PLANT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_LGORT']"
+								},
+								"sink": {
+									"name": "GI_LGORT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BLDAT']"
+								},
+								"sink": {
+									"name": "BLDAT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$BUDAT']"
+								},
+								"sink": {
+									"name": "BUDAT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY']"
+								},
+								"sink": {
+									"name": "QUANTITY"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$MEINS']"
+								},
+								"sink": {
+									"name": "MEINS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$AUFNR']"
+								},
+								"sink": {
+									"name": "AUFNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$SHIFT']"
+								},
+								"sink": {
+									"name": "SHIFT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$VBELN']"
+								},
+								"sink": {
+									"name": "VBELN"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$PCODE']"
+								},
+								"sink": {
+									"name": "PCODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$POSNR']"
+								},
+								"sink": {
+									"name": "POSNR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$REV_STATUS']"
+								},
+								"sink": {
+									"name": "REV_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$QUANTITY_D']"
+								},
+								"sink": {
+									"name": "QUANTITY_D",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$GI_CHARG']"
+								},
+								"sink": {
+									"name": "GI_CHARG"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$fld_GI_rec_type']"
+								},
+								"sink": {
+									"name": "STATUS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REC_TYPE']"
+								},
+								"sink": {
+									"name": "REC_TYPE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MANDT']"
+								},
+								"sink": {
+									"name": "MANDT"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MBLNR']"
+								},
+								"sink": {
+									"name": "MBLNR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MJAHR']"
+								},
+								"sink": {
+									"name": "MJAHR"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RUECK']"
+								},
+								"sink": {
+									"name": "RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RMZHL']"
+								},
+								"sink": {
+									"name": "RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RUECK']"
+								},
+								"sink": {
+									"name": "REV_RUECK"
+								}
+							},
+							{
+								"source": {
+									"path": "$['REV_RMZHL']"
+								},
+								"sink": {
+									"name": "REV_RMZHL"
+								}
+							},
+							{
+								"source": {
+									"path": "$['INTER_ID']"
+								},
+								"sink": {
+									"name": "INTER_ID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PROC_TS']"
+								},
+								"sink": {
+									"name": "PROC_TS"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ERROR_CD']"
+								},
+								"sink": {
+									"name": "ERROR_CD"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UDATE']"
+								},
+								"sink": {
+									"name": "UDATE"
+								}
+							},
+							{
+								"source": {
+									"path": "$['UTIME']"
+								},
+								"sink": {
+									"name": "UTIME"
+								}
+							},
+							{
+								"source": {
+									"path": "$['USERID']"
+								},
+								"sink": {
+									"name": "USERID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$TIMESTAMP']"
+								},
+								"sink": {
+									"name": "TIMESTAMP"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NSH_INT007_QUEUE_HEAD_PROD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "INT_007_YMPCT_NSA_GI",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "QUEUE TO DEST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO sapsr3.ympct_nsa_gi (\r\n    mandt,\r\n    gr_charg,\r\n    gr_matnr_aim,\r\n    timestamp,\r\n    gr_matnr_ach,\r\n    gi_charg,\r\n    gi_matnr,\r\n    plant,\r\n    gi_lgort,\r\n    bldat,\r\n    budat,\r\n    quantity,\r\n    meins,\r\n    aufnr,\r\n    shift,\r\n    vbeln,\r\n    posnr,\r\n    mblnr,\r\n    mjahr,\r\n    rueck,\r\n    rmzhl,\r\n    rev_rueck,\r\n    rev_rmzhl,\r\n    pcode,\r\n    quantity_d,\r\n    inter_id,\r\n    proc_ts,\r\n    rec_type,\r\n    rev_status,\r\n    status,\r\n    error_cd,\r\n    udate,\r\n    utime,\r\n    userid\r\n) SELECT\r\n    mandt,\r\n    gr_charg,\r\n    gr_matnr_aim,\r\n    timestamp,\r\n    gr_matnr_ach,\r\n    gi_charg,\r\n    gi_matnr,\r\n    plant,\r\n    gi_lgort,\r\n    bldat,\r\n    budat,\r\n    quantity,\r\n    meins,\r\n    aufnr,\r\n    shift,\r\n    vbeln,\r\n    posnr,\r\n    mblnr,\r\n    mjahr,\r\n    rueck,\r\n    rmzhl,\r\n    rev_rueck,\r\n    rev_rmzhl,\r\n    pcode,\r\n    quantity_d,\r\n    inter_id,\r\n    proc_ts,\r\n    rec_type,\r\n    rev_status,\r\n    status,\r\n    error_cd,\r\n    udate,\r\n    utime,\r\n    userid\r\nFROM\r\n    sapsr3.esb_ympct_nsa_gi;\r\n\r\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SAP_ODBC_PRODUCTION",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "delete from sapsr3.esb_ympct_nsa_gi;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
@@ -437,10 +887,10 @@
 			},
 			"GI_Con_Id": {
 				"type": "Integer"
-			},
-			"DefaultValue": {
-				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
