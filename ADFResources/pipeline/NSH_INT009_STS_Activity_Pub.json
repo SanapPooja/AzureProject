@@ -16,13 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    (COUNT(1) + 49) / 50 AS recordcount\r\nFROM tbl_sts_dns_act_con\r\nWHERE (fld_ACT_status = 'I' AND fld_ACT_rec_type = 'A') \r\n   OR (fld_ACT_status = 'I' AND fld_ACT_rec_type = 'Z');\r\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_Act_con",
+						"referenceName": "BPC_PRINT_TAG",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -55,6 +54,8 @@
 			{
 				"name": "Lookup2",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -73,13 +74,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT fld_ACT_id\r\nFROM tbl_sts_dns_act_con\r\nWHERE fld_ACT_status = 'I' \r\n  AND (fld_ACT_rec_type = 'A' OR fld_ACT_rec_type = 'Z');\r\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "tbl_sts_dns_Act_con",
+						"referenceName": "BPC_PRINT_TAG",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -130,6 +130,8 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Script1",
@@ -465,12 +467,6 @@
 									]
 								}
 							},
-							"inputs": [
-								{
-									"referenceName": "tbl_sts_dns_Act_con",
-									"type": "DatasetReference"
-								}
-							],
 							"outputs": [
 								{
 									"referenceName": "NSH_INT009_QUEUE",
