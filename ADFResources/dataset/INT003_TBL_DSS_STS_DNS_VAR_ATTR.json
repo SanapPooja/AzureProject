@@ -2,7 +2,7 @@
 	"name": "INT003_TBL_DSS_STS_DNS_VAR_ATTR",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
