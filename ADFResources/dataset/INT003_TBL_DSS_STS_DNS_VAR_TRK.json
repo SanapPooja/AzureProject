@@ -2,7 +2,7 @@
 	"name": "INT003_TBL_DSS_STS_DNS_VAR_TRK",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSPRDDB10",
+			"referenceName": "NSQADB5_ODOS_Connection",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
