@@ -1,0 +1,16 @@
+{
+	"name": "INT001_ESB_YMSDT_ORDER_ITEM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAP_ODBC_PRODUCTION",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SAPSR3",
+			"table": "ESB_YMSDT_ORDER_ITEM"
+		}
+	}
+}

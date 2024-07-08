@@ -2,7 +2,7 @@
 	"name": "INT001_NDS_SAPY_Queue",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT001_NDS_SAPY_OrderItem",
+			"referenceName": "INT001_ORDER_ITEM_QUEUE_PROD",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

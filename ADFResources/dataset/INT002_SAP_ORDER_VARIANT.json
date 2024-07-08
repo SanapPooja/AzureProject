@@ -2,7 +2,7 @@
 	"name": "INT002_SAP_ORDER_VARIANT",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NDSQADB5_NDS_Connection",
+			"referenceName": "NSPRDDB10",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

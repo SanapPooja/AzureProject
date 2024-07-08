@@ -2,7 +2,7 @@
 	"name": "INT002_NDS_SAPY_OrderVariant_Head",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT002_NDS_SAPY_OrderVariant_Head",
+			"referenceName": "INT002_ORDER_VARIANT_QUEUE_HEAD_PROD",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
