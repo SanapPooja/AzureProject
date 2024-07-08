@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    t1.IDENTITY_NO,\r\n    t1.ORD_REQ_NO,\r\n    t1.SALES_ORDER,\r\n    t1.ITEM_NO,\r\n    t1.SHAPE_IND,\r\n    t1.SHAPE_CD,\r\n    t1.DIM_SEQ,\r\n    t1.DIM_CHAR,\r\n    t1.DIM_TYPE,\r\n    t1.DIM_VALUE,\r\n    t1.DIM_X,\r\n    t1.DIM_Y,\r\n    t1.DIM_Z,\r\n    t1.CRITICAL_IND,\r\n    t1.BEND_SEQ,\r\n    t1.PRINT_TAG,\r\n    t1.STATUS,\r\n    t1.PROC_TIMESTAMP,\r\n    t1.WBSElementId,\r\n    t2.PROD_GRP\r\nFROM \r\n    SAP_ORD_SHAPE_VARIANT_DSS t1\r\nJOIN \r\n    SAP_ORDER_ITEM t2 ON t1.ORD_REQ_NO = t2.ORD_REQ_NO AND t1.ITEM_NO = t2.ITEM_NO\r\nWHERE  t1.transfer_status='Y' AND\r\n    t1.ORD_REQ_NO IN (\r\n        SELECT sod.order_request_no\r\n        FROM dbo.SCM_Order_Header sod\r\n        JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no\r\n    )\r\n    AND t1.ITEM_NO IN (\r\n        SELECT DISTINCT ITEM_NO \r\n        FROM SAP_ORD_SHAPE_VARIANT_DSS \r\n        WHERE ORD_REQ_NO IN (\r\n            SELECT sod.order_request_no\r\n            FROM dbo.SCM_Order_Header sod\r\n            JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no\r\n        )\r\n    );\r\n",
+						"sqlReaderQuery": "SELECT \r\n    t1.IDENTITY_NO,\r\n    t1.ORD_REQ_NO,\r\n    t1.SALES_ORDER,\r\n    t1.ITEM_NO,\r\n    t1.SHAPE_IND,\r\n    t1.SHAPE_CD,\r\n    t1.DIM_SEQ,\r\n    t1.DIM_CHAR,\r\n    t1.DIM_TYPE,\r\n    t1.DIM_VALUE,\r\n    t1.DIM_X,\r\n    t1.DIM_Y,\r\n    t1.DIM_Z,\r\n    t1.CRITICAL_IND,\r\n    t1.BEND_SEQ,\r\n    t1.PRINT_TAG,\r\n    t1.STATUS,\r\n    t1.PROC_TIMESTAMP,\r\n    t1.WBSElementId,\r\n    t2.PROD_GRP\r\nFROM \r\n    SAP_ORD_SHAPE_VARIANT_DSS t1\r\nJOIN \r\n    SAP_ORDER_ITEM t2 ON t1.ORD_REQ_NO = t2.ORD_REQ_NO AND t1.ITEM_NO = t2.ITEM_NO\r\nWHERE \r\n    t1.ORD_REQ_NO IN (\r\n        SELECT sod.order_request_no\r\n        FROM dbo.SCM_Order_Header sod\r\n        JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status='Y'\r\n    )\r\n    AND t1.ITEM_NO IN (\r\n        SELECT DISTINCT ITEM_NO \r\n        FROM SAP_ORD_SHAPE_VARIANT_DSS \r\n        WHERE ORD_REQ_NO IN (\r\n            SELECT sod.order_request_no\r\n            FROM dbo.SCM_Order_Header sod\r\n            JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status='Y'\r\n        )\r\n    );\r\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -68,7 +68,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "DECLARE @cols AS NVARCHAR(MAX),\r\n        @query AS NVARCHAR(MAX),\r\n        @topN INT = 20, -- Number of dimension sets to pivot\r\n        @maxCounter INT = 20; -- Maximum counter value for the loop\r\n\r\n-- Initialize the column strings\r\nSET @cols = '';\r\n\r\n-- Generate column aliases\r\nSELECT @cols = @cols +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_X END) AS DIM_X' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_Y END) AS DIM_Y' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_CHAR END) AS DIM_CHAR' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_TYPE END) AS DIM_TYPE' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_VALUE END) AS DIM_VALUE' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    (CASE WHEN number = @maxCounter THEN 'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN CRITICAL_IND END) AS CRITICAL_IND20'\r\n     ELSE 'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN CRITICAL_IND END) AS CRITICAL_IND' + CAST(number AS VARCHAR(10)) END) + ', '\r\nFROM master..spt_values WHERE type = 'P' AND number BETWEEN 1 AND @maxCounter;\r\n\r\n-- Remove trailing comma and space\r\nSET @cols = LEFT(@cols, LEN(@cols) - 1);\r\n\r\n-- Generate the full dynamic SQL query\r\nSET @query = '\r\nWITH RankedData AS (\r\n    SELECT \r\n        t1.ORD_REQ_NO,\r\n        t1.ITEM_NO,\r\n        t1.DIM_X,\r\n        t1.DIM_Y,\r\n        t1.DIM_CHAR,\r\n        t1.DIM_TYPE,\r\n        t1.DIM_VALUE,\r\n        t1.CRITICAL_IND,\r\n\t\tt2.PROD_GRP,\r\n\t\tCASE \r\n            WHEN t3.PRODTYPE_ID = ''7'' THEN ''MSH''\r\n            WHEN t3.PRODTYPE_ID = ''4'' THEN ''CAB''\r\n            WHEN t3.PRODTYPE_ID = ''9'' THEN ''BPC''\r\n            WHEN t3.PRODTYPE_ID = ''10'' THEN ''PRC''\r\n            WHEN t3.PRODTYPE_ID = ''14'' THEN ''PRC''\r\n        END AS PRODUCT_TYPE,\r\n        ROW_NUMBER() OVER (PARTITION BY t1.ORD_REQ_NO, t1.ITEM_NO ORDER BY t1.ITEM_NO) AS GroupedRowNum\r\n    FROM\r\n        SAP_ORD_SHAPE_VARIANT_DSS t1\r\n\t\tINNER JOIN \r\n    dbo.SAP_ORDER_ITEM t2 \r\n    ON t1.ORD_REQ_NO = t2.ORD_REQ_NO \r\n    AND t1.ITEM_NO = t2.ITEM_NO\r\n\tINNER JOIN \r\n    dbo.SAP_WBS_SOR t3 \r\n    ON t1.ORD_REQ_NO = t3.ORD_REQ_NO\r\n\tWHERE  \r\n    t1.ORD_REQ_NO IN (SELECT \r\n\t\t\t\t\t\t\tsod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status=''P'')\r\n    AND t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO IN (SELECT \r\n\t\t\t\t\t\t\t sod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status=''P''))\r\n    AND (\r\n        (t3.PRODTYPE_ID = ''7'') \r\n        OR \r\n        (t3.PRODTYPE_ID != ''7'' AND (t1.PRINT_TAG = ''Y'' OR t1.PRINT_TAG IS null))\r\n    )\r\n)\r\nSELECT\r\n    ORD_REQ_NO,\r\n    ITEM_NO,\r\n\tPROD_GRP,\r\n\tPRODUCT_TYPE,\r\n    ' + @cols + '\r\nFROM RankedData\r\nGROUP BY ORD_REQ_NO, ITEM_NO,PROD_GRP,PRODUCT_TYPE\r\nORDER BY ORD_REQ_NO, ITEM_NO;';\r\n\r\n-- Execute the dynamic SQL\r\nEXEC sp_executesql @query;",
+									"sqlReaderQuery": "DECLARE @cols AS NVARCHAR(MAX),\r\n        @query AS NVARCHAR(MAX),\r\n        @topN INT = 20, -- Number of dimension sets to pivot\r\n        @maxCounter INT = 20; -- Maximum counter value for the loop\r\n\r\n-- Initialize the column strings\r\nSET @cols = '';\r\n\r\n-- Generate column aliases\r\nSELECT @cols = @cols +\r\n  'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_X END) AS DIM_X' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_Y END) AS DIM_Y' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_CHAR END) AS DIM_CHAR' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN DIM_TYPE END) AS DIM_TYPE' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN CAST(CAST(DIM_VALUE AS INT) AS NVARCHAR(MAX)) END) AS DIM_VALUE' + CAST(number AS VARCHAR(10)) + ', ' +\r\n    'MAX(CASE WHEN GroupedRowNum = ' + CAST(number AS VARCHAR(10)) + ' THEN CRITICAL_IND END) AS CRITICAL_IND' + CAST(number AS VARCHAR(10)) + ', '\r\nFROM master..spt_values \r\nWHERE type = 'P' AND number BETWEEN 1 AND @maxCounter;\r\n\r\n-- Remove trailing comma and space\r\nSET @cols = LEFT(@cols, LEN(@cols) - 1);\r\n\r\n-- Generate the full dynamic SQL query\r\nSET @query = '\r\nWITH RankedData AS (\r\n    SELECT \r\n        t4.order_no,\r\n        t1.ITEM_NO,\r\n        t1.DIM_X,\r\n        t1.DIM_Y,\r\n        t1.DIM_CHAR,\r\n        t1.DIM_TYPE,\r\n        t1.DIM_VALUE,\r\n        t1.CRITICAL_IND,\r\n        t1.dim_seq,\r\n        t1.PRINT_TAG,\r\n        t2.PROD_GRP,\r\n        t3.PRODTYPE_ID,\r\n        CASE \r\n            WHEN t3.PRODTYPE_ID = ''7'' THEN ''MSH''\r\n            WHEN t3.PRODTYPE_ID = ''4'' THEN ''CAB''\r\n            WHEN t3.PRODTYPE_ID = ''9'' THEN ''BPC''\r\n            WHEN t3.PRODTYPE_ID = ''10'' THEN ''PRC''\r\n            WHEN t3.PRODTYPE_ID = ''14'' THEN ''PRC''\r\n        END AS PRODUCT_TYPE,\r\n        ROW_NUMBER() OVER (PARTITION BY t4.order_no, t1.ITEM_NO ORDER BY t1.dim_seq) AS GroupedRowNum\r\n    FROM\r\n        SAP_ORD_SHAPE_VARIANT_DSS t1\r\n        INNER JOIN dbo.SAP_ORDER_ITEM t2 \r\n        ON t1.ORD_REQ_NO = t2.ORD_REQ_NO \r\n        AND t1.ITEM_NO = t2.ITEM_NO\r\n        INNER JOIN dbo.SAP_WBS_SOR t3 \r\n        ON t1.ORD_REQ_NO = t3.ORD_REQ_NO\r\n        INNER JOIN dbo.SCM_ORDER_HEADER t4\r\n        ON t1.ORD_REQ_NO = t4.order_request_no \r\n    WHERE  \r\n       t1.ORD_REQ_NO IN (SELECT \r\n\t\t\t\t\t\t\tsod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status=''P'')\r\n    AND t1.ITEM_NO IN (select distinct ITEM_NO from SAP_ORD_SHAPE_VARIANT_DSS where ORD_REQ_NO IN (SELECT \r\n\t\t\t\t\t\t\t sod.order_request_no\r\n\t\t\t\t\t\tFROM dbo.SCM_Order_Header sod\r\n\t\t\t\t\t\tJOIN \r\n\t\t\t\t\t\t\t WMBORDERSHAPEbj1ugcj wmb\r\n\t\t\t\t\t\tON \r\n\t\t\t\t\t\t\t sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status=''P''))\r\n)\r\nSELECT\r\n    order_no,\r\n    ITEM_NO,\r\n    PROD_GRP,\r\n    PRODUCT_TYPE,\r\n    ' + @cols + '\r\nFROM RankedData\r\nWHERE \r\n    (PRODTYPE_ID = ''7'') \r\n    OR \r\n    (PRODTYPE_ID != ''7'' AND (PRINT_TAG = ''Y'' OR PRINT_TAG IS NULL))\r\nGROUP BY order_no, ITEM_NO, PROD_GRP, PRODUCT_TYPE\r\nORDER BY order_no, ITEM_NO;';\r\n\r\n-- Execute the dynamic SQL\r\nEXEC sp_executesql @query;\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -86,8 +86,7 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "ORD_REQ_NO",
-												"type": "String"
+												"name": "order_no"
 											},
 											"sink": {
 												"path": "$ORD_REQ_NO"
@@ -1209,7 +1208,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT048_OrderShape_Queue",
+									"referenceName": "NSH_INT048_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -1234,7 +1233,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB5_ODOS_Connection",
+								"referenceName": "NSPRDDB10",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1252,7 +1251,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "SOURCE TO QUEUE",
+									"activity": "Set variable3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1267,7 +1266,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB5_ODOS_Connection",
+								"referenceName": "NSPRDDB10",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1302,14 +1301,15 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    DISTINCT t1.ORD_REQ_NO\r\nFROM \r\n    SAP_ORD_SHAPE_VARIANT_DSS t1\r\nJOIN \r\n    SAP_ORDER_ITEM t2 ON t1.ORD_REQ_NO = t2.ORD_REQ_NO AND t1.ITEM_NO = t2.ITEM_NO\r\nWHERE  t1.transfer_status='P' AND\r\n    t1.ORD_REQ_NO IN (\r\n        SELECT sod.order_request_no\r\n        FROM dbo.SCM_Order_Header sod\r\n        JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no\r\n    )\r\n    AND t1.ITEM_NO IN (\r\n        SELECT DISTINCT ITEM_NO \r\n        FROM SAP_ORD_SHAPE_VARIANT_DSS \r\n        WHERE ORD_REQ_NO IN (\r\n            SELECT sod.order_request_no\r\n            FROM dbo.SCM_Order_Header sod\r\n            JOIN WMBORDERSHAPEbj1ugcj wmb ON sod.order_request_no = wmb.order_request_no\r\n        )\r\n    );\r\n",
+									"sqlReaderQuery": "SELECT \r\n    DISTINCT t2.ORDER_NO\r\nFROM \r\n    SAP_ORD_SHAPE_VARIANT_DSS t1\r\nJOIN \r\n    SCM_ORDER_HEADER t2 ON t1.ORD_REQ_NO = t2.ORDER_REQUEST_NO\r\nWHERE  t2.transfer_status='P' and ORD_REQ_NO IN (SELECT sod.order_request_no\r\nFROM dbo.SCM_Order_Header sod\r\nJOIN WMBORDERSHAPEbj1ugcj wmb\r\nON   sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status='P')\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
 								"dataset": {
 									"referenceName": "INT048_Table_Joins",
 									"type": "DatasetReference"
-								}
+								},
+								"firstRowOnly": false
 							}
 						},
 						{
@@ -1329,7 +1329,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "Order_request_number",
+								"variableName": "order_req_no",
 								"value": {
 									"value": "@activity('Distinct_Ord_Req_No').output.value",
 									"type": "Expression"
@@ -1358,7 +1358,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "SELECT \r\n    (COUNT(1)/ 50) + 1 AS recordcount\r\nFROM \r\n    dbo.SCM_Order_Header\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            t1.order_request_no\r\n        FROM \r\n            dbo.SCM_Order_Header t1\r\n        JOIN \r\n            WMBORDERSHAPEbj1ugcj t2 ON t1.order_request_no = t2.order_request_no\r\n            where t1.transfer_status='P'\r\n    );\r\n",
+									"sqlReaderQuery": "Select (count(1)/ 50) + 1  AS recordcount From \r\n(Select distinct ITEM_NO, ORD_REQ_NO from SAP_ORD_SHAPE_VARIANT_DSS\r\nwhere ORD_REQ_NO IN (SELECT sod.order_request_no\r\nFROM dbo.SCM_Order_Header sod\r\nJOIN WMBORDERSHAPEbj1ugcj wmb\r\nON   sod.order_request_no = wmb.order_request_no WHERE sod.transfer_status='P')) rowcount2\r\n ",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -1406,7 +1406,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB5_ODOS_Connection",
+								"referenceName": "NSPRDDB10",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1414,6 +1414,72 @@
 									{
 										"type": "Query",
 										"text": "UPDATE dbo.SCM_Order_Header SET transfer_status='P'\r\nWHERE \r\n    order_request_no IN (\r\n        SELECT \r\n            t1.order_request_no\r\n        FROM \r\n            dbo.SCM_Order_Header t1\r\n        JOIN \r\n            WMBORDERSHAPEbj1ugcj t2 ON t1.order_request_no = t2.order_request_no\r\n            where t1.transfer_status='Y'\r\n    );\r\n"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Delete from buffer table",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "SUCCESS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "DELETE FROM WMBORDERSHAPEbj1ugcj WHERE order_request_no IN\r\n(SELECT order_request_no FROM SCM_Order_Header WHERE transfer_status='S' )"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Delete from buffer table_copy1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "FAILURE",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSPRDDB10",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": "DELETE FROM WMBORDERSHAPEbj1ugcj WHERE ord_req_no IN\r\n(SELECT ord_req_no FROM SCM_Order_Header WHERE transfer_status='E' )"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -1439,7 +1505,8 @@
 						"value": "@variables('Rowcount')",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
+					"batchCount": 20,
 					"activities": [
 						{
 							"name": "Execute Pipeline1_copy1",
@@ -1474,141 +1541,39 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('Order_request_number')",
+						"value": "@variables('order_req_no')",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
+					"batchCount": 20,
 					"activities": [
 						{
-							"name": "Insert into tag print shape variant",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable4",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "INSERT INTO scm_admin.tagprint_shape_variant (\n    order_no,\n    item_no,\n    product_type,\n    segment_length_1,\n    shape_param_1,\n    param_ind_1,\n    coordinate_x_1,\n    coordinate_y_1,\n    critical_ind_1,\n    segment_length_2,\n    shape_param_2,\n    param_ind_2,\n    coordinate_x_2,\n    coordinate_y_2,\n    critical_ind_2,\n    segment_length_3,\n    shape_param_3,\n    critical_ind_3,\n    segment_length_4,\n    shape_param_4,\n    param_ind_4,\n    coordinate_x_4,\n    coordinate_y_4,\n    critical_ind_4,\n    segment_length_5,\n    shape_param_5,\n    param_ind_5,\n    coordinate_x_5,\n    coordinate_y_5,\n    critical_ind_5,\n    segment_length_6,\n    shape_param_6,\n    param_ind_6,\n    coordinate_x_6,\n    coordinate_y_6,\n    critical_ind_6,\n    segment_length_7,\n    shape_param_7,\n    param_ind_7,\n    coordinate_x_7,\n    coordinate_y_7,\n    critical_ind_7,\n    segment_length_8,\n    shape_param_8,\n    param_ind_8,\n    coordinate_x_8,\n    coordinate_y_8,\n    critical_ind_8,\n    segment_length_9,\n    shape_param_9,\n    param_ind_9,\n    coordinate_x_9,\n    coordinate_y_9,\n    critical_ind_9,\n    segment_length_10,\n    shape_param_10,\n    param_ind_10,\n    coordinate_x_10,\n    coordinate_y_10,\n    critical_ind_10,\n    segment_length_11,\n    shape_param_11,\n    param_ind_11,\n    coordinate_x_11,\n    coordinate_y_11,\n    critical_ind_11,\n    segment_length_12,\n    shape_param_12,\n    param_ind_12,\n    coordinate_x_12,\n    coordinate_y_12,\n    critical_ind_12,\n    segment_length_13,\n    shape_param_13,\n    param_ind_13,\n    coordinate_x_13,\n    coordinate_y_13,\n    critical_ind_13,\n    segment_length_14,\n    shape_param_14,\n    param_ind_14,\n    coordinate_x_14,\n    coordinate_y_14,\n    critical_ind_14,\n    segment_length_15,\n    shape_param_15,\n    param_ind_15,\n    coordinate_x_15,\n    coordinate_y_15,\n    critical_ind_15,\n    segment_length_16,\n    shape_param_16,\n    param_ind_16,\n    coordinate_x_16,\n    coordinate_y_16,\n    critical_ind_16,\n    segment_length_17,\n    shape_param_17,\n    param_ind_17,\n    coordinate_x_17,\n    coordinate_y_17,\n    critical_ind_17,\n    segment_length_18,\n    shape_param_18,\n    param_ind_18,\n    coordinate_x_18,\n    coordinate_y_18,\n    critical_ind_18,\n    segment_length_19,\n    shape_param_19,\n    param_ind_19,\n    coordinate_x_19,\n    coordinate_y_19,\n    critical_ind_19,\n    segment_length_20,\n    shape_param_20,\n    param_ind_20,\n    coordinate_x_20,\n    coordinate_y_20,\n    critical_ind_20,\n    param_ind_3,\n    coordinate_x_3,\n    coordinate_y_3,\n    last_export_timestamp,\n    rec_id,\n    sap_product_group\n) \nSELECT\n    order_no,\n    item_no,\n    product_type,\n    segment_length_1,\n    shape_param_1,\n    param_ind_1,\n    coordinate_x_1,\n    coordinate_y_1,\n    critical_ind_1,\n    segment_length_2,\n    shape_param_2,\n    param_ind_2,\n    coordinate_x_2,\n    coordinate_y_2,\n    critical_ind_2,\n    segment_length_3,\n    shape_param_3,\n    critical_ind_3,\n    segment_length_4,\n    shape_param_4,\n    param_ind_4,\n    coordinate_x_4,\n    coordinate_y_4,\n    critical_ind_4,\n    segment_length_5,\n    shape_param_5,\n    param_ind_5,\n    coordinate_x_5,\n    coordinate_y_5,\n    critical_ind_5,\n    segment_length_6,\n    shape_param_6,\n    param_ind_6,\n    coordinate_x_6,\n    coordinate_y_6,\n    critical_ind_6,\n    segment_length_7,\n    shape_param_7,\n    param_ind_7,\n    coordinate_x_7,\n    coordinate_y_7,\n    critical_ind_7,\n    segment_length_8,\n    shape_param_8,\n    param_ind_8,\n    coordinate_x_8,\n    coordinate_y_8,\n    critical_ind_8,\n    segment_length_9,\n    shape_param_9,\n    param_ind_9,\n    coordinate_x_9,\n    coordinate_y_9,\n    critical_ind_9,\n    segment_length_10,\n    shape_param_10,\n    param_ind_10,\n    coordinate_x_10,\n    coordinate_y_10,\n    critical_ind_10,\n    segment_length_11,\n    shape_param_11,\n    param_ind_11,\n    coordinate_x_11,\n    coordinate_y_11,\n    critical_ind_11,\n    segment_length_12,\n    shape_param_12,\n    param_ind_12,\n    coordinate_x_12,\n    coordinate_y_12,\n    critical_ind_12,\n    segment_length_13,\n    shape_param_13,\n    param_ind_13,\n    coordinate_x_13,\n    coordinate_y_13,\n    critical_ind_13,\n    segment_length_14,\n    shape_param_14,\n    param_ind_14,\n    coordinate_x_14,\n    coordinate_y_14,\n    critical_ind_14,\n    segment_length_15,\n    shape_param_15,\n    param_ind_15,\n    coordinate_x_15,\n    coordinate_y_15,\n    critical_ind_15,\n    segment_length_16,\n    shape_param_16,\n    param_ind_16,\n    coordinate_x_16,\n    coordinate_y_16,\n    critical_ind_16,\n    segment_length_17,\n    shape_param_17,\n    param_ind_17,\n    coordinate_x_17,\n    coordinate_y_17,\n    critical_ind_17,\n    segment_length_18,\n    shape_param_18,\n    param_ind_18,\n    coordinate_x_18,\n    coordinate_y_18,\n    critical_ind_18,\n    segment_length_19,\n    shape_param_19,\n    param_ind_19,\n    coordinate_x_19,\n    coordinate_y_19,\n    critical_ind_19,\n    segment_length_20,\n    shape_param_20,\n    param_ind_20,\n    coordinate_x_20,\n    coordinate_y_20,\n    critical_ind_20,\n    param_ind_3,\n    coordinate_x_3,\n    coordinate_y_3,\n    last_export_timestamp,\n    rec_id,\n    sap_product_group\nFROM\n    scm_admin.esb_tagprint_shape_variant where order_no = @{variables('ORDER_R_NO')};",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "delete from ESB_TAGPRINT_SHAPE_VARIANT",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Insert into tag print shape variant",
-									"dependencyConditions": [
-										"Succeeded",
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "DELETE FROM scm_admin.esb_tagprint_shape_variant where order_no = @{variables('ORDER_R_NO')};;",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Set variable4",
-							"type": "SetVariable",
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
-								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "ORDER_R_NO",
-								"value": {
-									"value": "@item().ORD_REQ_NO",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "FAIL",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Insert into tag print shape variant",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB5_ODOS_Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "UPDATE dbo.SCM_Order_Header\nSET transfer_status = 'E'\nWHERE order_request_no = @{variables('ORDER_R_NO')};",
-											"type": "Expression"
-										}
+								"pipeline": {
+									"referenceName": "INT48_STAGING_TO_MAIN_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"ORDER_NO": {
+										"value": "@item().ORDER_NO",
+										"type": "Expression"
 									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
+								}
 							}
 						}
 					]
 				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"Rowcount": {
 				"type": "Array"
@@ -1622,6 +1587,9 @@
 			"ORDER_R_NO": {
 				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
