@@ -293,12 +293,6 @@
 						"referenceName": "INT002_NDS_SAPY_OrderVariant_Head",
 						"type": "DatasetReference"
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT002_ESB_YMSDT_OR_VARIANT",
-						"type": "DatasetReference"
-					}
 				]
 			},
 			{
@@ -322,10 +316,6 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_ODBC_PRODUCTION",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
 					"scripts": [
 						{
@@ -358,10 +348,6 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SAP_ODBC_PRODUCTION",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
 					"scripts": [
 						{
@@ -374,7 +360,7 @@
 			}
 		],
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}
