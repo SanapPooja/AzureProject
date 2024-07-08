@@ -7,7 +7,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Lookup2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -40,7 +40,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -48,7 +48,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'I',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date ='@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'P'\t\n",
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'I',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date ='@{variables('CurrentTime')}' WHERE fld_gr_rec_type ='A' and fld_gr_status = 'P'\t\n",
 											"type": "Expression"
 										}
 									}
@@ -78,7 +78,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "select  fld_GR_id,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_id_message)),''), ' ') AS fld_GR_id_message, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_aim_matl_no)),''), ' ') AS fld_GR_aim_matl_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_id)),''), ' ') AS fld_GR_batch_id,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_ach_mat_no)),''), ' ') AS fld_GR_ach_mat_no, \t\t\t\t\t\t\r\nISNULL(fld_GR_tot_qty,0) AS fld_GR_tot_qty,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_base_uom)),''), ' ') AS fld_GR_base_uom, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_ord_type)),''), ' ') AS fld_GR_ord_type, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prod_ord_no)),''), ' ') AS fld_GR_prod_ord_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_doc_date)),''), ' ') AS fld_GR_doc_date, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_postg_date)),''), ' ') AS fld_GR_postg_date,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcode)),''), ' ') AS fld_GR_pcode, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_sap_plant)),''), ' ') AS fld_GR_sap_plant,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_stor_loc)),''), ' ') AS fld_GR_stor_loc, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_GI_rec)),''), ' ') AS fld_GR_no_GI_rec, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_sal_ord_no)),''), ' ') AS fld_GR_sal_ord_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_item_no)),''), ' ') AS fld_GR_item_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_heat_no)),''), ' ') AS fld_GR_heat_no,\t\t\t\t\t\t\r\nISNULL(fld_GR_theo_wt,0) AS fld_GR_theo_wt,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_shift_date)),''), ' ') AS fld_GR_shift_date, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mill_source)),''), ' ') AS fld_GR_mill_source,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_length)),''), ' ') AS fld_GR_length,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_standard)),''), ' ') AS fld_GR_standard, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcs_per_heat)),''), ' ') AS fld_GR_pcs_per_heat, \t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_bld,0) AS fld_GR_wt_per_bld, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcs_per_bld)),''), ' ') AS fld_GR_pcs_per_bld,\t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_pcs,0) AS fld_GR_wt_per_pcs, \t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_coil,0) AS fld_GR_wt_per_coil, \t\t\t\t\t\t\r\nISNULL(fld_GR_act_coi_wt,0) AS fld_GR_act_coi_wt, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mac_no)),''), ' ') AS fld_GR_mac_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_coil_no)),''), ' ') AS fld_GR_coil_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_cut)),''), ' ') AS fld_GR_no_of_cut,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_bend)),''), ' ') AS fld_GR_no_of_bend, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_link)),''), ' ') AS fld_GR_no_of_link,\t\t\t\t\t\t\r\nISNULL(fld_GR_cut_per_ton,0) AS fld_GR_cut_per_ton,\t\t\t\t\t\t\r\nISNULL(fld_GR_bend_per_ton,0) AS fld_GR_bend_per_ton,\t\t\t\t\t\t\r\nISNULL(fld_GR_link_per_ton,0) AS fld_GR_link_per_ton,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_gra)),''), ' ') AS fld_GR_cou_gra,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_trf)),''), ' ') AS fld_GR_cou_trf,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_end)),''), ' ') AS fld_GR_no_of_end, \t\t\t\t\t\t\r\nISNULL(fld_GR_cou_dia1,0) AS fld_GR_cou_dia1, \t\t\t\t\t\t\r\nISNULL(fld_GR_cou_dia2,0) AS fld_GR_cou_dia2,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_type_1)),''), ' ') AS fld_GR_cou_type_1, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_type_2)),''), ' ') AS fld_GR_cou_type_2, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_pnt)),''), ' ') AS fld_GR_no_of_pnt, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_tag_no)),''), ' ') AS fld_GR_tag_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mac_tpl)),''), ' ') AS fld_GR_mac_tpl,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_str)),''), ' ') AS fld_GR_no_of_str, \t\t\t\t\t\t\r\nISNULL(fld_GR_area_per_pc,0) AS fld_GR_area_per_pc,\t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_pc_mesh,0) AS fld_GR_wt_per_pc_mesh,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_plant_d)),''), ' ') AS fld_GR_plant_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_stor_loc_d)),''), ' ') AS fld_GR_stor_loc_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_matl_no_d)),''), ' ') AS fld_GR_matl_no_d, \t\t\t\t\t\t\r\nISNULL(fld_GR_qty_d,0) AS fld_GR_qty_d,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_id_d)),''), ' ') AS fld_GR_batch_id_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prodn_date)),''), ' ') AS fld_GR_prodn_date,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_shift)),''), ' ') AS fld_GR_shift, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_rev_status,''), ' ') AS fld_GR_rev_status,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prod_status)),''), ' ') AS fld_GR_prod_status,\t\t\t\t\t\t\r\nfld_GR_status, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_con_batches)),''), ' ') AS fld_GR_con_batches,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_A)),''), ' ') AS fld_GR_bat_locator_A, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_B)),''), ' ') AS fld_GR_bat_locator_B, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_C)),''), ' ') AS fld_GR_bat_locator_C, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_con_matl)),''), ' ') AS fld_GR_con_matl,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_no_legacy)),''), ' ') AS fld_GR_batch_no_legacy, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_nds_sale_order,''), ' ') AS fld_GR_nds_sale_order, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_order_item)),''), ' ') AS fld_GR_order_item,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_shape_code,''), ' ') AS fld_GR_shape_code, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_inv_len,''), ' ') AS fld_GR_inv_len,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs1,''), ' ') AS fld_GR_wbs1, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs2,''), ' ') AS fld_GR_wbs2, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs3,''), ' ') AS fld_GR_wbs3, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_bbsno,''), ' ') AS fld_GR_bbsno,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_prod_mark,''), ' ') AS fld_GR_prod_mark, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_pieces)),''), ' ') AS fld_GR_no_pieces, \t\t\t\t\t\t\r\nISNULL(fld_GR_mw_spa,0) AS fld_GR_mw_spa,\t\t\t\t\t\t\r\nISNULL(fld_GR_cw_spa,0) AS fld_GR_cw_spa, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mw_len)),''), '0') AS fld_GR_mw_len, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cw_len)),''), '0') AS fld_GR_cw_len,\t\t\t\t\t\t\r\nISNULL(fld_GR_co1,0) AS fld_GR_co1, \t\t\t\t\t\t\r\nISNULL(fld_GR_co2,0) AS fld_GR_co2,\t\t\t\t\t\t\r\nISNULL(fld_GR_mo1,0) AS fld_GR_mo1, \t\t\t\t\t\t\r\nISNULL(fld_GR_mo2,0) AS fld_GR_mo2,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_clbd_item)),''), ' ') AS fld_GR_clbd_item,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_bbs_desc,''), ' ')  AS fld_GR_bbs_desc,\t\t\t\t\t\t\r\nfld_GR_rec_type\t\t\t\t\t\t\r\nFROM tbl_sts_dns_GR \t\t\t\t\t\t\r\nWHERE fld_GR_status = 'I' AND (fld_gr_rec_type = 'A' or fld_gr_rec_type = 'H')\r\n\r\n\r\n",
+									"sqlReaderQuery": "select  fld_GR_id,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_id_message)),''), ' ') AS fld_GR_id_message, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_aim_matl_no)),''), ' ') AS fld_GR_aim_matl_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_id)),''), ' ') AS fld_GR_batch_id,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_ach_mat_no)),''), ' ') AS fld_GR_ach_mat_no, \t\t\t\t\t\t\r\nISNULL(fld_GR_tot_qty,0) AS fld_GR_tot_qty,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_base_uom)),''), ' ') AS fld_GR_base_uom, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_ord_type)),''), ' ') AS fld_GR_ord_type, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prod_ord_no)),''), ' ') AS fld_GR_prod_ord_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_doc_date)),''), ' ') AS fld_GR_doc_date, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_postg_date)),''), ' ') AS fld_GR_postg_date,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcode)),''), ' ') AS fld_GR_pcode, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_sap_plant)),''), ' ') AS fld_GR_sap_plant,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_stor_loc)),''), ' ') AS fld_GR_stor_loc, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_GI_rec)),''), ' ') AS fld_GR_no_GI_rec, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_sal_ord_no)),''), ' ') AS fld_GR_sal_ord_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_item_no)),''), ' ') AS fld_GR_item_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_heat_no)),''), ' ') AS fld_GR_heat_no,\t\t\t\t\t\t\r\nISNULL(fld_GR_theo_wt,0) AS fld_GR_theo_wt,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_shift_date)),''), ' ') AS fld_GR_shift_date, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mill_source)),''), ' ') AS fld_GR_mill_source,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_length)),''), ' ') AS fld_GR_length,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_standard)),''), ' ') AS fld_GR_standard, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcs_per_heat)),''), ' ') AS fld_GR_pcs_per_heat, \t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_bld,0) AS fld_GR_wt_per_bld, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_pcs_per_bld)),''), ' ') AS fld_GR_pcs_per_bld,\t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_pcs,0) AS fld_GR_wt_per_pcs, \t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_coil,0) AS fld_GR_wt_per_coil, \t\t\t\t\t\t\r\nISNULL(fld_GR_act_coi_wt,0) AS fld_GR_act_coi_wt, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mac_no)),''), ' ') AS fld_GR_mac_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_coil_no)),''), ' ') AS fld_GR_coil_no, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_cut)),''), ' ') AS fld_GR_no_of_cut,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_bend)),''), ' ') AS fld_GR_no_of_bend, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_link)),''), ' ') AS fld_GR_no_of_link,\t\t\t\t\t\t\r\nISNULL(fld_GR_cut_per_ton,0) AS fld_GR_cut_per_ton,\t\t\t\t\t\t\r\nISNULL(fld_GR_bend_per_ton,0) AS fld_GR_bend_per_ton,\t\t\t\t\t\t\r\nISNULL(fld_GR_link_per_ton,0) AS fld_GR_link_per_ton,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_gra)),''), ' ') AS fld_GR_cou_gra,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_trf)),''), ' ') AS fld_GR_cou_trf,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_end)),''), ' ') AS fld_GR_no_of_end, \t\t\t\t\t\t\r\nISNULL(fld_GR_cou_dia1,0) AS fld_GR_cou_dia1, \t\t\t\t\t\t\r\nISNULL(fld_GR_cou_dia2,0) AS fld_GR_cou_dia2,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_type_1)),''), ' ') AS fld_GR_cou_type_1, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cou_type_2)),''), ' ') AS fld_GR_cou_type_2, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_pnt)),''), ' ') AS fld_GR_no_of_pnt, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_tag_no)),''), ' ') AS fld_GR_tag_no,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mac_tpl)),''), ' ') AS fld_GR_mac_tpl,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_of_str)),''), ' ') AS fld_GR_no_of_str, \t\t\t\t\t\t\r\nISNULL(fld_GR_area_per_pc,0) AS fld_GR_area_per_pc,\t\t\t\t\t\t\r\nISNULL(fld_GR_wt_per_pc_mesh,0) AS fld_GR_wt_per_pc_mesh,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_plant_d)),''), ' ') AS fld_GR_plant_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_stor_loc_d)),''), ' ') AS fld_GR_stor_loc_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_matl_no_d)),''), ' ') AS fld_GR_matl_no_d, \t\t\t\t\t\t\r\nISNULL(fld_GR_qty_d,0) AS fld_GR_qty_d,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_id_d)),''), ' ') AS fld_GR_batch_id_d, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prodn_date)),''), ' ') AS fld_GR_prodn_date,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_shift)),''), ' ') AS fld_GR_shift, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_rev_status,''), ' ') AS fld_GR_rev_status,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_prod_status)),''), ' ') AS fld_GR_prod_status,\t\t\t\t\t\t\r\nfld_GR_status, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_con_batches)),''), ' ') AS fld_GR_con_batches,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_A)),''), ' ') AS fld_GR_bat_locator_A, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_B)),''), ' ') AS fld_GR_bat_locator_B, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_bat_locator_C)),''), ' ') AS fld_GR_bat_locator_C, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_con_matl)),''), ' ') AS fld_GR_con_matl,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_batch_no_legacy)),''), ' ') AS fld_GR_batch_no_legacy, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_nds_sale_order,''), ' ') AS fld_GR_nds_sale_order, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_order_item)),''), ' ') AS fld_GR_order_item,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_shape_code,''), ' ') AS fld_GR_shape_code, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_inv_len,''), ' ') AS fld_GR_inv_len,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs1,''), ' ') AS fld_GR_wbs1, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs2,''), ' ') AS fld_GR_wbs2, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_wbs3,''), ' ') AS fld_GR_wbs3, \t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_bbsno,''), ' ') AS fld_GR_bbsno,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_prod_mark,''), ' ') AS fld_GR_prod_mark, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_no_pieces)),''), ' ') AS fld_GR_no_pieces, \t\t\t\t\t\t\r\nISNULL(fld_GR_mw_spa,0) AS fld_GR_mw_spa,\t\t\t\t\t\t\r\nISNULL(fld_GR_cw_spa,0) AS fld_GR_cw_spa, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_mw_len)),''), '0') AS fld_GR_mw_len, \t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_cw_len)),''), '0') AS fld_GR_cw_len,\t\t\t\t\t\t\r\nISNULL(fld_GR_co1,0) AS fld_GR_co1, \t\t\t\t\t\t\r\nISNULL(fld_GR_co2,0) AS fld_GR_co2,\t\t\t\t\t\t\r\nISNULL(fld_GR_mo1,0) AS fld_GR_mo1, \t\t\t\t\t\t\r\nISNULL(fld_GR_mo2,0) AS fld_GR_mo2,\t\t\t\t\t\t\r\nISNULL(nullif(LTRIM(RTRIM(fld_GR_clbd_item)),''), ' ') AS fld_GR_clbd_item,\t\t\t\t\t\t\r\nISNULL(nullif(fld_GR_bbs_desc,''), ' ')  AS fld_GR_bbs_desc,\t\t\t\t\t\t\r\nfld_GR_rec_type\t\t\t\t\t\t\r\nFROM tbl_sts_dns_GR \t\t\t\t\t\t\r\nWHERE fld_GR_status = 'I' AND fld_gr_rec_type = 'A'\r\n\r\n\r\n",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -87,7 +87,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "100",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -888,7 +888,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "NSH_INT008_QUEUE",
+									"referenceName": "NSH_INT008_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -898,7 +898,7 @@
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -913,7 +913,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -921,7 +921,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date ='@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t",
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_rec_type='Y', fld_gr_modify_by = 'ESB Service' WHERE fld_gr_rec_type ='A' and fld_gr_status = 'I'\tAND fld_gr_modify_date = '@{variables('CurrentTime')}'\t\t\t\t\t\t\t\t",
 											"type": "Expression"
 										}
 									}
@@ -949,7 +949,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -957,7 +957,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'E',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' WHERE fld_gr_rec_type in ('A','H') and fld_gr_status = 'I'\t\t\t\t\t\t\t\t\t",
+											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_rec_type = 'E',fld_gr_status = 'E', fld_gr_modify_by = 'ESB Service' WHERE fld_gr_rec_type ='A' and fld_gr_status = 'I' AND fld_gr_modify_date = '@{variables('CurrentTime')}'",
 											"type": "Expression"
 										}
 									}
@@ -981,109 +981,13 @@
 									"type": "Expression"
 								}
 							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Lookup2",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set variable3",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "select  fld_GR_id FROM tbl_sts_dns_GR WHERE fld_GR_status = 'A' AND (fld_gr_rec_type = 'A' or fld_gr_rec_type = 'H')",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "NSH_INT008_TBL_STS_DNS_GR",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Gr_Id",
-					"value": {
-						"value": "@activity('Lookup2').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Status_update_onSucess",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Gr_Id')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "fld_GR_id",
-								"value": {
-									"value": "@item().fld_GR_id",
-									"type": "Expression"
-								}
-							}
 						},
 						{
-							"name": "Script4",
-							"type": "Script",
+							"name": "BatchSize",
+							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "Copy data1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1097,28 +1001,49 @@
 								"secureInput": false
 							},
 							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
 							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'P',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' where fld_gr_id ='@{variables('fld_GR_id')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": "SELECT Case WHEN COUNT(1) > 0 THEN cast(CEILING(COUNT(1) / 100.0) as int)\r\n    ELSE 0\r\n    end as recordcount\r\nFROM \r\n    tbl_sts_dns_GR\r\nWHERE fld_GR_status = 'I' \r\n    AND fld_gr_rec_type = 'A';\r\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT008_TBL_STS_DNS_GR",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Rowcount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
 							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lookup2",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -1132,7 +1057,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT \r\n    (COUNT(1) + 49) / 50 AS recordcount\r\nFROM \r\n    tbl_sts_dns_GR\r\nWHERE \r\n    fld_GR_status = 'I' \r\n    AND (fld_gr_rec_type = 'A' OR fld_gr_rec_type = 'H');\r\n",
+						"sqlReaderQuery": "select  fld_GR_id FROM tbl_sts_dns_GR WHERE fld_GR_status = 'P' AND fld_gr_rec_type = 'A' ",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -1141,30 +1066,6 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Set variable3",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Rowcount",
-					"value": {
-						"value": "@range(1, int(activity('Lookup1').output.value[0].recordcount))",
-						"type": "Expression"
-					}
 				}
 			},
 			{
@@ -1187,7 +1088,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "Call Subsriber Pipeline",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -1204,83 +1105,9 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "Status_update_onFailure",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('Gr_Id')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Set variable2_copy1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "fld_GR_id_error",
-								"value": {
-									"value": "@item().fld_GR_id",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Script4_copy1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Set variable2_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "UPDATE tbl_sts_dns_GR SET fld_gr_status = 'PE',fld_gr_rec_type = 'Y',fld_gr_modify_by = 'ESB Service',fld_gr_modify_date = '@{variables('CurrentTime')}' where fld_gr_id ='@{variables('fld_GR_id_error')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						}
-					]
-				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"Gr_Id": {
 				"type": "Array"
@@ -1302,13 +1129,10 @@
 			},
 			"GI_Con_Id": {
 				"type": "Integer"
-			},
-			"ACT_ID": {
-				"type": "Array"
-			},
-			"ACT_ID_ERROR": {
-				"type": "Integer"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
