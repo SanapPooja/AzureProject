@@ -110,6 +110,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "QA_Env"
+		},
 		"annotations": []
 	}
 }
