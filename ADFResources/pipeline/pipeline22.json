@@ -1,0 +1,266 @@
+{
+	"name": "pipeline22",
+	"properties": {
+		"activities": [
+			{
+				"name": "insert_to_order_item",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "\nINSERT INTO scm_admin.order_item (\n    order_request_no,\n    item_no,\n    parent_item_no,\n    sap_order_item,\n    material_no,\n    product_hierarchy,\n    order_qty,\n    sales_uom,\n    fg_production_wt_kg,\n    component_production_wt_kg,\n    product_marking,\n    component_prefix,\n    order_pieces,\n    delivered_pieces,\n    actual_del_date,\n    delivery_status,\n    cancellation_status,\n    no_of_points,\n    env_length,\n    env_width,\n    env_height,\n    wbs1,\n    wbs2,\n    wbs3,\n    wbs4,\n    wbs5,\n    proj_stage,\n    bbs_no,\n    bbs_desc,\n    needs_galvanizing_ind,\n    needs_production_ind,\n    cab_spiral_pitch,\n    cab_fleet_pitch,\n    cab_bar_grade,\n    cab_dia,\n    cab_bvbs,\n    cab_cut_length,\n    cab_coupler_end_no,\n    cab_former_size,\n    cab_shape_group,\n    shape_code,\n    cab_cou_end_type1,\n    cab_cou_end_type2,\n    cab_no_of_bend,\n    mesh_lw_dia,\n    mesh_lw_length,\n    mesh_lw_mat_code,\n    mesh_lw_mat_type,\n    mesh_lw_spacing,\n    mesh_lw_grade,\n    mesh_lw_oh1,\n    mesh_lw_oh2,\n    mesh_lw_qty,\n    mesh_lw_wt_kg,\n    mesh_lw_twin_ind,\n    mesh_lw_bvbs,\n    mesh_cw_dia,\n    mesh_cw_length,\n    mesh_cw_mat_code,\n    mesh_cw_mat_type,\n    mesh_cw_spacing,\n    mesh_cw_grade,\n    mesh_cw_oh1,\n    mesh_cw_oh2,\n    mesh_cw_qty,\n    mesh_cw_wt_kg,\n    mesh_cw_twin_ind,\n    mesh_cw_bvbs,\n    mesh_no_of_bend,\n    mesh_no_of_cut,\n    mesh_manual_trim_ind,\n    mesh_bom_ind,\n    meshb_wire_line_cross,\n    meshb_wire_seq_no,\n    meshb_wire_mat_code,\n    meshb_wire_length,\n    meshb_wire_dia,\n    meshb_wire_wt_kg,\n    meshb_wire_qty,\n    meshb_wire_spacing,\n    bpc_cage_dia,\n    bpc_cage_length,\n    bpc_cage_set_code,\n    bpc_lap_length,\n    bpc_end_length,\n    bpc_pile_dia,\n    bpc_l2_cage_dia,\n    bpc_no_rings_start,\n    bpc_no_rings_end,\n    bpc_sleeve_id,\n    bpc_jig_id,\n    bpc_add_jig_id,\n    bpc_centralizer_qty,\n    bpc_pile_seq_no,\n    bpc_micropile_ind,\n    pcg_cage_type,\n    pcg_assembly_ind,\n    remarks,\n    time_stamp,\n    st_element,\n    mesh_lw_cw_reversed_ind,\n    qty_in_base_uom,\n    base_uom,\n    time_stamp_insert,\n    delivery_qty,\n    bpc_pile_no,\n    cab_main_bar_angle,\n    bpc_layer_no,\n    drawing_no,\n    drawing_no_rev,\n    inv_len_in_mm,\n    grade_dia,\n    sap_product_group,\n    product_marking_rev_no,\n    cab_standard_end_no,\n    cab_former_type,\n    order_no,\n    product_type,\n    cab_extended_end_no,\n    cab_stud_end_no,\n    prc_bpc_layer_no,\n    bbs_page_no,\n    mesh_product_code,\n    mesh_lw_inv_len,\n    mesh_cw_inv_len,\n    mesh_inv_mo1,\n    mesh_inv_mo2,\n    mesh_inv_co1,\n    mesh_inv_co2,\n    mesh_slope_indicator,\n    mesh_num_of_links,\n    meshb_mesh_type,\n    meshb_start_pos,\n    meshb_no_pitch,\n    meshb_wire_spec,\n    meshb_rep_from,\n    meshb_rep_to,\n    meshb_num_of_repetition,\n    meshb_wire_prod_code,\n    meshb_twin_ind,\n    meshb_mach_wire_spec,\n    mesh_slope,\n    prc_panel_no,\n    prc_panel_seq_no,\n    identical_hashcode,\n    similar_mainbar_hashcode,\n    similar_extlink_hashcode,\n    time_stamp_insert_update,\n    complexity_ind,\n    bpc_cage_type,\n    bending_hr,\n    spare1,\n    spare2,\n    spare3,\n    spare4,\n    spare5\n) SELECT\n    order_request_no,\n    item_no,\n    parent_item_no,\n    sap_order_item,\n    material_no,\n    product_hierarchy,\n    order_qty,\n    sales_uom,\n    fg_production_wt_kg,\n    component_production_wt_kg,\n    product_marking,\n    component_prefix,\n    order_pieces,\n    delivered_pieces,\n    actual_del_date,\n    delivery_status,\n    cancellation_status,\n    no_of_points,\n    env_length,\n    env_width,\n    env_height,\n    wbs1,\n    wbs2,\n    wbs3,\n    wbs4,\n    wbs5,\n    proj_stage,\n    bbs_no,\n    bbs_desc,\n    needs_galvanizing_ind,\n    needs_production_ind,\n    cab_spiral_pitch,\n    cab_fleet_pitch,\n    cab_bar_grade,\n    cab_dia,\n    cab_bvbs,\n    cab_cut_length,\n    cab_coupler_end_no,\n    cab_former_size,\n    cab_shape_group,\n    shape_code,\n    cab_cou_end_type1,\n    cab_cou_end_type2,\n    cab_no_of_bend,\n    mesh_lw_dia,\n    mesh_lw_length,\n    mesh_lw_mat_code,\n    mesh_lw_mat_type,\n    mesh_lw_spacing,\n    mesh_lw_grade,\n    mesh_lw_oh1,\n    mesh_lw_oh2,\n    mesh_lw_qty,\n    mesh_lw_wt_kg,\n    mesh_lw_twin_ind,\n    mesh_lw_bvbs,\n    mesh_cw_dia,\n    mesh_cw_length,\n    mesh_cw_mat_code,\n    mesh_cw_mat_type,\n    mesh_cw_spacing,\n    mesh_cw_grade,\n    mesh_cw_oh1,\n    mesh_cw_oh2,\n    mesh_cw_qty,\n    mesh_cw_wt_kg,\n    mesh_cw_twin_ind,\n    mesh_cw_bvbs,\n    mesh_no_of_bend,\n    mesh_no_of_cut,\n    mesh_manual_trim_ind,\n    mesh_bom_ind,\n    meshb_wire_line_cross,\n    meshb_wire_seq_no,\n    meshb_wire_mat_code,\n    meshb_wire_length,\n    meshb_wire_dia,\n    meshb_wire_wt_kg,\n    meshb_wire_qty,\n    meshb_wire_spacing,\n    bpc_cage_dia,\n    bpc_cage_length,\n    bpc_cage_set_code,\n    bpc_lap_length,\n    bpc_end_length,\n    bpc_pile_dia,\n    bpc_l2_cage_dia,\n    bpc_no_rings_start,\n    bpc_no_rings_end,\n    bpc_sleeve_id,\n    bpc_jig_id,\n    bpc_add_jig_id,\n    bpc_centralizer_qty,\n    bpc_pile_seq_no,\n    bpc_micropile_ind,\n    pcg_cage_type,\n    pcg_assembly_ind,\n    remarks,\n    time_stamp,\n    st_element,\n    mesh_lw_cw_reversed_ind,\n    qty_in_base_uom,\n    base_uom,\n    time_stamp_insert,\n    delivery_qty,\n    bpc_pile_no,\n    cab_main_bar_angle,\n    bpc_layer_no,\n    drawing_no,\n    drawing_no_rev,\n    inv_len_in_mm,\n    grade_dia,\n    sap_product_group,\n    product_marking_rev_no,\n    cab_standard_end_no,\n    cab_former_type,\n    order_no,\n    product_type,\n    cab_extended_end_no,\n    cab_stud_end_no,\n    prc_bpc_layer_no,\n    bbs_page_no,\n    mesh_product_code,\n    mesh_lw_inv_len,\n    mesh_cw_inv_len,\n    mesh_inv_mo1,\n    mesh_inv_mo2,\n    mesh_inv_co1,\n    mesh_inv_co2,\n    mesh_slope_indicator,\n    mesh_num_of_links,\n    meshb_mesh_type,\n    meshb_start_pos,\n    meshb_no_pitch,\n    meshb_wire_spec,\n    meshb_rep_from,\n    meshb_rep_to,\n    meshb_num_of_repetition,\n    meshb_wire_prod_code,\n    meshb_twin_ind,\n    meshb_mach_wire_spec,\n    mesh_slope,\n    prc_panel_no,\n    prc_panel_seq_no,\n    identical_hashcode,\n    similar_mainbar_hashcode,\n    similar_extlink_hashcode,\n    time_stamp_insert_update,\n    complexity_ind,\n    bpc_cage_type,\n    bending_hr,\n    spare1,\n    spare2,\n    spare3,\n    spare4,\n    spare5\nFROM\n    scm_admin.esb_order_item where order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "insert_into_fabrication_table",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "insert_to_order_item",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO scm_admin.order_item_fabrication_prefix (\n    order_request_no,\n    parent_item_no,\n    mb_prefix,\n    component_prefix,\n    fabrication_pts,\n    mb_item_no,\n    component_item_no\n) SELECT\n    order_request_no,\n    parent_item_no,\n    mb_prefix,\n    component_prefix,\n    fabrication_pts,\n    mb_item_no,\n    component_item_no\nFROM\n    scm_admin.esb_order_item_fabrication_prefix where order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "delete_from_order_item",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "insert_to_order_item",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM where order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "delete_from_fabrication",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "insert_into_fabrication_table",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SCM_IDB_Connect",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM SCM_ADMIN.ESB_ORDER_ITEM_FABRICATION_PREFIX where order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script5",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "insert_into_fabrication_table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update  dbo.SCM_Order_Header set transfer_status = 'Y' where transfer_status='I' and order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "delete_from_buffer",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "DELETE FROM WMBbjxbnfv WHERE order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script7",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "insert_to_order_item",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "insert_into_fabrication_table",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSQADB5_ODOS_Connection",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update  dbo.SCM_Order_Header set transfer_status = 'E' where transfer_status='I' AND order_request_no='@{pipeline().parameters.ORDER_REQUEST_NO}';",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"ORDER_REQUEST_NO": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
