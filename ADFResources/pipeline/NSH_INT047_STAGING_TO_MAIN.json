@@ -1,5 +1,5 @@
 {
-	"name": "pipeline22",
+	"name": "NSH_INT047_STAGING_TO_MAIN",
 	"properties": {
 		"activities": [
 			{
