@@ -17,12 +17,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        FLD_SBOM_SAL_ORD_NO,\r\n        FLD_SBOM_ORD_ITEM_NO,\r\n        FLD_SBOM_SAL_ITEM_NO\r\n    FROM (\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.BPC_BOM\r\n        MINUS\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.ESB_BPC_BOM\r\n    )\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT *\r\nFROM (\r\n    SELECT\r\n        NVL(TRIM(FSQ.FLD_SBOM_REC_TYPE_OBSOLETE), ' ') AS FLD_SBOM_REC_TYPE_OBSOLETE,\r\n        NVL(FSQ.FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\r\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_MATL_NO), ' ') AS FLD_SBOM_COMP_MATL_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_CREATE_DATE), ' ') AS FLD_SBOM_Q_CREATE_DATE,\r\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_UOM), ' ') AS FLD_SBOM_COMP_UOM,\r\n        NVL(TRIM(FSQ.FLD_SBOM_PROD_ORD_NO), ' ') AS FLD_SBOM_PROD_ORD_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_BOM_ITEM_NO), ' ') AS FLD_SBOM_BOM_ITEM_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ORD_NO), ' ') AS FLD_SBOM_SAL_ORD_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_ORD_ITEM_NO), ' ') AS FLD_SBOM_ORD_ITEM_NO,\r\n        NVL(FSQ.FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\r\n        NVL(TRIM(FSQ.FLD_SBOM_MSG_ID), ' ') AS FLD_SBOM_MSG_ID,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_MODIFY_DATE), ' ') AS FLD_SBOM_Q_MODIFY_DATE,\r\n        NVL(TRIM(FSQ.FLD_SBOM_MATL_NO), ' ') AS FLD_SBOM_MATL_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ITEM_NO), ' ') AS FLD_SBOM_SAL_ITEM_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_PROD_ORD_NO), ' ') AS FLD_SBOM_Q_PROD_ORD_NO,\r\n        NVL(FSQ.REC_ID, 0) AS REC_ID,\r\n        ROWNUM AS RN\r\n    FROM\r\n        scm_admin.BPC_BOM FSQ\r\n    JOIN \r\n        FirstQuery FQ ON FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO\r\n                     AND FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO\r\n                     AND FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO\r\n)\r\nWHERE RN <= 5;\r\n",
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        FLD_SBOM_SAL_ORD_NO,\r\n        FLD_SBOM_ORD_ITEM_NO,\r\n        FLD_SBOM_SAL_ITEM_NO\r\n    FROM (\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.BPC_BOM\r\n        MINUS\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.ESB_BPC_BOM\r\n    ) \r\n)\r\nSELECT *\r\nFROM (\r\n    SELECT\r\n        NVL(TRIM(FSQ.FLD_SBOM_REC_TYPE_OBSOLETE), ' ') AS FLD_SBOM_REC_TYPE_OBSOLETE,\r\n        NVL(FSQ.FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\r\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_MATL_NO), ' ') AS FLD_SBOM_COMP_MATL_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_CREATE_DATE), ' ') AS FLD_SBOM_Q_CREATE_DATE,\r\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_UOM), ' ') AS FLD_SBOM_COMP_UOM,\r\n        NVL(TRIM(FSQ.FLD_SBOM_PROD_ORD_NO), ' ') AS FLD_SBOM_PROD_ORD_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_BOM_ITEM_NO), ' ') AS FLD_SBOM_BOM_ITEM_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ORD_NO), ' ') AS FLD_SBOM_SAL_ORD_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_ORD_ITEM_NO), ' ') AS FLD_SBOM_ORD_ITEM_NO,\r\n        NVL(FSQ.FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\r\n        NVL(TRIM(FSQ.FLD_SBOM_MSG_ID), ' ') AS FLD_SBOM_MSG_ID,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_MODIFY_DATE), ' ') AS FLD_SBOM_Q_MODIFY_DATE,\r\n        NVL(TRIM(FSQ.FLD_SBOM_MATL_NO), ' ') AS FLD_SBOM_MATL_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ITEM_NO), ' ') AS FLD_SBOM_SAL_ITEM_NO,\r\n        NVL(TRIM(FSQ.FLD_SBOM_Q_PROD_ORD_NO), ' ') AS FLD_SBOM_Q_PROD_ORD_NO,\r\n        NVL(FSQ.REC_ID, 0) AS REC_ID,\r\n        ROWNUM AS RN\r\n    FROM\r\n        scm_admin.BPC_BOM FSQ\r\n    JOIN \r\n        FirstQuery FQ ON FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO\r\n                     AND FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO\r\n                     AND FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO\r\n)\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "IDB_BPC_BOM",
+						"referenceName": "INT049_IDB_BPC_BOM",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -49,6 +49,8 @@
 						{
 							"name": "Wait1",
 							"type": "Wait",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
@@ -58,39 +60,11 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Web1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int049_idb_bpc_bom/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
 							"name": "Copy data2",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -108,7 +82,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_SBOM_SAL_ORD_NO,\n        FLD_SBOM_ORD_ITEM_NO,\n        FLD_SBOM_SAL_ITEM_NO\n    FROM (\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_SAL_ITEM_NO\n        FROM scm_admin.BPC_BOM\n        MINUS\n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_SAL_ITEM_NO\n        FROM scm_admin.ESB_BPC_BOM\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT *\nFROM (\n    SELECT\n        NVL(TRIM(FSQ.FLD_SBOM_REC_TYPE_OBSOLETE), ' ') AS FLD_SBOM_REC_TYPE_OBSOLETE,\n        NVL(FSQ.FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_MATL_NO), ' ') AS FLD_SBOM_COMP_MATL_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_CREATE_DATE), ' ') AS FLD_SBOM_Q_CREATE_DATE,\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_UOM), ' ') AS FLD_SBOM_COMP_UOM,\n        NVL(TRIM(FSQ.FLD_SBOM_PROD_ORD_NO), ' ') AS FLD_SBOM_PROD_ORD_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_BOM_ITEM_NO), ' ') AS FLD_SBOM_BOM_ITEM_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ORD_NO), ' ') AS FLD_SBOM_SAL_ORD_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_ORD_ITEM_NO), ' ') AS FLD_SBOM_ORD_ITEM_NO,\n        NVL(FSQ.FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\n        NVL(TRIM(FSQ.FLD_SBOM_MSG_ID), ' ') AS FLD_SBOM_MSG_ID,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_MODIFY_DATE), ' ') AS FLD_SBOM_Q_MODIFY_DATE,\n        NVL(TRIM(FSQ.FLD_SBOM_MATL_NO), ' ') AS FLD_SBOM_MATL_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ITEM_NO), ' ') AS FLD_SBOM_SAL_ITEM_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_PROD_ORD_NO), ' ') AS FLD_SBOM_Q_PROD_ORD_NO,\n        NVL(FSQ.REC_ID, 0) AS REC_ID,\n        ROWNUM AS RN\n    FROM\n        scm_admin.BPC_BOM FSQ\n    JOIN \n        FirstQuery FQ ON FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO\n                     AND FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO\n                     AND FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO\n)\nWHERE RN <= 5;\n",
+										"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_SBOM_SAL_ORD_NO,\n        FLD_SBOM_ORD_ITEM_NO,\n        FLD_SBOM_SAL_ITEM_NO\n    FROM (        \n        SELECT \n            FLD_SBOM_SAL_ORD_NO,\n            FLD_SBOM_ORD_ITEM_NO,\n            FLD_SBOM_SAL_ITEM_NO\n        FROM scm_admin.ESB_BPC_BOM\n        where  ESBSTATUS = 'I'\n    )\n)\nSELECT *\nFROM (\n    SELECT\n        NVL(TRIM(FSQ.FLD_SBOM_REC_TYPE_OBSOLETE), ' ') AS FLD_SBOM_REC_TYPE_OBSOLETE,\n        NVL(FSQ.FLD_SBOM_BASE_QTY, 0) AS FLD_SBOM_BASE_QTY,\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_MATL_NO), ' ') AS FLD_SBOM_COMP_MATL_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_CREATE_DATE), ' ') AS FLD_SBOM_Q_CREATE_DATE,\n        NVL(TRIM(FSQ.FLD_SBOM_COMP_UOM), ' ') AS FLD_SBOM_COMP_UOM,\n        NVL(TRIM(FSQ.FLD_SBOM_PROD_ORD_NO), ' ') AS FLD_SBOM_PROD_ORD_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_BOM_ITEM_NO), ' ') AS FLD_SBOM_BOM_ITEM_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ORD_NO), ' ') AS FLD_SBOM_SAL_ORD_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_ORD_ITEM_NO), ' ') AS FLD_SBOM_ORD_ITEM_NO,\n        NVL(FSQ.FLD_SBOM_COMP_QTY, 0) AS FLD_SBOM_COMP_QTY,\n        NVL(TRIM(FSQ.FLD_SBOM_MSG_ID), ' ') AS FLD_SBOM_MSG_ID,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_MODIFY_DATE), ' ') AS FLD_SBOM_Q_MODIFY_DATE,\n        NVL(TRIM(FSQ.FLD_SBOM_MATL_NO), ' ') AS FLD_SBOM_MATL_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_SAL_ITEM_NO), ' ') AS FLD_SBOM_SAL_ITEM_NO,\n        NVL(TRIM(FSQ.FLD_SBOM_Q_PROD_ORD_NO), ' ') AS FLD_SBOM_Q_PROD_ORD_NO,\n        NVL(FSQ.REC_ID, 0) AS REC_ID,\n        ROWNUM AS RN\n    FROM\n        scm_admin.BPC_BOM FSQ\n    JOIN \n        FirstQuery FQ ON FSQ.FLD_SBOM_SAL_ORD_NO = FQ.FLD_SBOM_SAL_ORD_NO\n                     AND FSQ.FLD_SBOM_ORD_ITEM_NO = FQ.FLD_SBOM_ORD_ITEM_NO\n                     AND FSQ.FLD_SBOM_SAL_ITEM_NO = FQ.FLD_SBOM_SAL_ITEM_NO\n)",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -120,7 +94,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "400",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -258,13 +232,13 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "IDB_BPC_BOM",
+									"referenceName": "INT049_IDB_BPC_BOM",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "INT049_IDB_BPC_BOM",
+									"referenceName": "INT049_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -281,7 +255,7 @@
 							"typeProperties": {
 								"variableName": "CurrentTime",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
@@ -291,7 +265,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data2",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -311,7 +285,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "S"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -321,13 +295,13 @@
 											}
 										}
 									],
-									"oracleReaderQuery": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.BPC_BOM\t\t\t\t\t\t\t\r\nminus\t\t\t\t\t\t\t\r\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.ESB_BPC_BOM) where rownum <= '5'",
+									"oracleReaderQuery": "select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from (select FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.BPC_BOM\t\t\t\t\t\t\t\r\nminus\t\t\t\t\t\t\t\r\nselect FLD_SBOM_SAL_ORD_NO,FLD_SBOM_ORD_ITEM_NO,FLD_SBOM_SAL_ITEM_NO from scm_admin.ESB_BPC_BOM)",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
 								"sink": {
 									"type": "OracleSink",
-									"writeBatchSize": 10000
+									"writeBatchSize": 400
 								},
 								"enableStaging": false,
 								"translator": {
@@ -393,20 +367,80 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "IDB_BPC_BOM",
+									"referenceName": "INT049_IDB_BPC_BOM",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ESB_IDB_bbc_bom",
+									"referenceName": "INT049_ESB_IDB_bbc_bom",
 									"type": "DatasetReference"
 								}
 							]
 						},
 						{
-							"name": "Execute Pipeline1_copy1_copy1",
-							"type": "ExecutePipeline",
+							"name": "Sucess",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}'and ESBSTATUS = 'I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
 							"dependsOn": [
 								{
 									"activity": "Copy data1",
@@ -415,6 +449,90 @@
 									]
 								}
 							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/400 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.BPC_BOM\r\n        MINUS\r\n        SELECT \r\n            FLD_SBOM_SAL_ORD_NO,\r\n            FLD_SBOM_ORD_ITEM_NO,\r\n            FLD_SBOM_SAL_ITEM_NO\r\n        FROM scm_admin.ESB_BPC_BOM\r\n        where  ESBSTATUS = 'I'\r\n    ) ",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "INT049_IDB_BPC_BOM",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Fail",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'and ESBSTATUS = 'I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1_copy1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
 							"policy": {
 								"secureInput": false
 							},
@@ -426,94 +544,6 @@
 								},
 								"waitOnCompletion": true
 							}
-						},
-						{
-							"name": "Wait2",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 60
-							}
-						},
-						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script2",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1_copy1_copy1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SM_ADMIN.ESB_BPC_BOM set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
 						}
 					]
 				}
@@ -523,7 +553,13 @@
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
