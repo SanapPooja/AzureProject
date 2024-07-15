@@ -2,7 +2,7 @@
 	"name": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_Dataset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

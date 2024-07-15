@@ -390,7 +390,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT064_QUEUE_HEAD_PROD",
+						"referenceName": "int064_cab_blender_head",
 						"type": "DatasetReference"
 					}
 				],
@@ -400,54 +400,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "Wait1",
-				"type": "Wait",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int064_cab_bender_download/messages/head",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://servicebus.azure.net/"
-					}
-				}
 			}
 		],
 		"variables": {
@@ -457,7 +409,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

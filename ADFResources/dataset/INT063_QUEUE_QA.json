@@ -1,0 +1,12 @@
+{
+	"name": "INT063_QUEUE_QA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NSH_INT063_CABSEQUENCING_QUEUE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

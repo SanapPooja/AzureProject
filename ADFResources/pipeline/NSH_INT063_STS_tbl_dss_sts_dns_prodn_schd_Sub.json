@@ -543,7 +543,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT063_QUEUE_HEAD_PROD",
+						"referenceName": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_HEAD",
 						"type": "DatasetReference"
 					}
 				],
@@ -610,7 +610,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

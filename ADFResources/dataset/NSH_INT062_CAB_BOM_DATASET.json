@@ -2,7 +2,7 @@
 	"name": "NSH_INT062_CAB_BOM_DATASET",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

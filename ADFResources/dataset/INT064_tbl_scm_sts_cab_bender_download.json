@@ -2,7 +2,7 @@
 	"name": "INT064_tbl_scm_sts_cab_bender_download",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

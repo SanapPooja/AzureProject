@@ -360,7 +360,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "NSH_INT064_CAB_BENDER_DOWNLOAD_QUEUE_PROD",
+									"referenceName": "Int064_Cab_bender",
 									"type": "DatasetReference"
 								}
 							]
@@ -385,7 +385,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -511,7 +511,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT064_ESB_cab_bender_download",
+									"referenceName": "INT064_ESB_STAGING",
 									"type": "DatasetReference"
 								}
 							]
@@ -536,7 +536,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -661,7 +661,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

@@ -1,19 +1,16 @@
 {
-	"name": "INT063_Esb_CabSequencing",
+	"name": "INT064_ESB_STAGING",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
-		},
-		"folder": {
-			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "OracleTable",
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "ESB_CABSEQUENCING"
+			"table": "ESB_CAB_BENDER_DOWNLOAD"
 		}
 	}
 }
