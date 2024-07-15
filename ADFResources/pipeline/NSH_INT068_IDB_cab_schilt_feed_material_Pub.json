@@ -19,24 +19,13 @@
 						"value": "@greater(length(activity('Lookup1').output.value), 0)",
 						"type": "Expression"
 					},
-					"ifFalseActivities": [
-						{
-							"name": "Wait2",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						}
-					],
 					"ifTrueActivities": [
 						{
 							"name": "Copy data1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -53,7 +42,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": "WITH MaterialCTE AS (\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\n    MINUS\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\n    WHERE ROWNUM <= 1000\n)\nSELECT \n    NVL(CSF.UPDATE_DATE, ' ') AS UPDATE_DATE,\n    NVL(CSF.CREATE_DATE, ' ') AS CREATE_DATE,\n    NVL(CSF.NO_OF_BARS, 0) AS NO_OF_BARS,\n    NVL(CSF.BAR_LENGTH, 0) AS BAR_LENGTH,\n    NVL(CSF.MATERIAL_SOURCE, ' ') AS MATERIAL_SOURCE,\n    NVL(CSF.DIAMETER, 0) AS DIAMETER,\n    NVL(CSF.GRADE, ' ') AS GRADE,\n    NVL(CSF.MATERIAL_NO, ' ') AS MATERIAL_NO,\n    NVL(CSF.FEEDMAT_RECORD_ID, ' ') AS FEEDMAT_RECORD_ID,\n    NVL(CSF.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\n    NVL(CSF.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(CSF.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS\nFROM \n    SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL CSF\nJOIN \n    MaterialCTE MC ON CSF.MATERIAL_NO = MC.MATERIAL_NO AND CSF.FEEDMAT_RECORD_ID = MC.FEEDMAT_RECORD_ID;",
+									"oracleReaderQuery": "WITH MaterialCTE AS (   \n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \n    FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\n    WHere ESBSTATUS = 'I'\n)\nSELECT \n    NVL(CSF.UPDATE_DATE, ' ') AS UPDATE_DATE,\n    NVL(CSF.CREATE_DATE, ' ') AS CREATE_DATE,\n    NVL(CSF.NO_OF_BARS, 0) AS NO_OF_BARS,\n    NVL(CSF.BAR_LENGTH, 0) AS BAR_LENGTH,\n    NVL(CSF.MATERIAL_SOURCE, ' ') AS MATERIAL_SOURCE,\n    NVL(CSF.DIAMETER, 0) AS DIAMETER,\n    NVL(CSF.GRADE, ' ') AS GRADE,\n    NVL(CSF.MATERIAL_NO, ' ') AS MATERIAL_NO,\n    NVL(CSF.FEEDMAT_RECORD_ID, ' ') AS FEEDMAT_RECORD_ID,\n    NVL(CSF.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\n    NVL(CSF.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(CSF.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS\nFROM \n    SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL CSF\nJOIN \n    MaterialCTE MC ON CSF.MATERIAL_NO = MC.MATERIAL_NO AND CSF.FEEDMAT_RECORD_ID = MC.FEEDMAT_RECORD_ID;",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -62,7 +51,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "600",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -188,7 +177,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "int068_cab_schilt_feed_material",
+									"referenceName": "INT068_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -198,7 +187,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -218,7 +207,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "S"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -228,7 +217,7 @@
 											}
 										}
 									],
-									"oracleReaderQuery": "select MATERIAL_NO, FEEDMAT_RECORD_ID from (select MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\t\t\t\r\nminus\t\t\t\r\nselect  MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL)\t\t\t\r\nwhere rownum <= '1000'\t\t\t",
+									"oracleReaderQuery": "select MATERIAL_NO, FEEDMAT_RECORD_ID from (select MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\t\t\t\r\nminus\t\t\t\r\nselect  MATERIAL_NO, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL)\t\t\t\t",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -302,73 +291,6 @@
 							]
 						},
 						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 60
-							}
-						},
-						{
-							"name": "Web1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int068_cab_schilt_feed_material/messages",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT068_STS_cab_schilt_feed_material_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
 							"name": "Set variable1",
 							"type": "SetVariable",
 							"dependsOn": [],
@@ -380,17 +302,17 @@
 							"typeProperties": {
 								"variableName": "CurrentTime",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
 						},
 						{
-							"name": "Script2",
+							"name": "Fail",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Execute Pipeline1",
+									"activity": "Copy data1",
 									"dependencyConditions": [
 										"Failed"
 									]
@@ -405,7 +327,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -413,7 +335,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'E' Where ESBUPDATETIME ='@{variables('CurrentTime')}'",
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'E' Where ESBUPDATETIME ='@{variables('CurrentTime')}' and ESBSTATUS = 'I'",
 											"type": "Expression"
 										}
 									}
@@ -422,13 +344,13 @@
 							}
 						},
 						{
-							"name": "Script2_copy1",
+							"name": "Success",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data2",
+									"activity": "Copy data1",
 									"dependencyConditions": [
-										"Failed"
+										"Succeeded"
 									]
 								}
 							],
@@ -441,7 +363,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -449,12 +371,69 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'E' Where ESBUPDATETIME ='@{variables('CurrentTime')}'",
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL SET ESBSTATUS = 'S' Where ESBUPDATETIME ='@{variables('CurrentTime')}' and ESBSTATUS = 'I'",
 											"type": "Expression"
 										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/600 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (            \r\n            SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \r\n            FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\r\n            WHere ESBSTATUS = 'I'\r\n    ) ",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "int068_cab_schilt_feed_material1",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
@@ -475,7 +454,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH MaterialCTE AS (\r\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \r\n    FROM SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\r\n    MINUS\r\n    SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \r\n    FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT \r\n    NVL(CSF.UPDATE_DATE, ' ') AS UPDATE_DATE,\r\n    NVL(CSF.CREATE_DATE, ' ') AS CREATE_DATE,\r\n    NVL(CSF.NO_OF_BARS, 0) AS NO_OF_BARS,\r\n    NVL(CSF.BAR_LENGTH, 0) AS BAR_LENGTH,\r\n    NVL(CSF.MATERIAL_SOURCE, ' ') AS MATERIAL_SOURCE,\r\n    NVL(CSF.DIAMETER, 0) AS DIAMETER,\r\n    NVL(CSF.GRADE, ' ') AS GRADE,\r\n    NVL(CSF.MATERIAL_NO, ' ') AS MATERIAL_NO,\r\n    NVL(CSF.FEEDMAT_RECORD_ID, ' ') AS FEEDMAT_RECORD_ID,\r\n    NVL(CSF.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\r\n    NVL(CSF.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\r\n    NVL(CSF.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS\r\nFROM \r\n    SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL CSF\r\nJOIN \r\n    MaterialCTE MC ON CSF.MATERIAL_NO = MC.MATERIAL_NO AND CSF.FEEDMAT_RECORD_ID = MC.FEEDMAT_RECORD_ID;",
+						"oracleReaderQuery": "WITH MaterialCTE AS (    \r\nSELECT MATERIAL_NO, FEEDMAT_RECORD_ID From \r\n    (SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \r\n     FROM SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL\r\n     MINUS\r\n     SELECT MATERIAL_NO, FEEDMAT_RECORD_ID \r\n     FROM SCM_ADMIN.ESB_CAB_SCHILT_FEED_MATERIAL\r\n    )\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT \r\n    NVL(CSF.UPDATE_DATE, ' ') AS UPDATE_DATE,\r\n    NVL(CSF.CREATE_DATE, ' ') AS CREATE_DATE,\r\n    NVL(CSF.NO_OF_BARS, 0) AS NO_OF_BARS,\r\n    NVL(CSF.BAR_LENGTH, 0) AS BAR_LENGTH,\r\n    NVL(CSF.MATERIAL_SOURCE, ' ') AS MATERIAL_SOURCE,\r\n    NVL(CSF.DIAMETER, 0) AS DIAMETER,\r\n    NVL(CSF.GRADE, ' ') AS GRADE,\r\n    NVL(CSF.MATERIAL_NO, ' ') AS MATERIAL_NO,\r\n    NVL(CSF.FEEDMAT_RECORD_ID, ' ') AS FEEDMAT_RECORD_ID,\r\n    NVL(CSF.BBS_RUN_NO, ' ') AS BBS_RUN_NO,\r\n    NVL(CSF.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\r\n    NVL(CSF.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS\r\nFROM \r\n    SCM_ADMIN.CAB_SCHILT_FEED_MATERIAL CSF\r\nJOIN \r\n    MaterialCTE MC ON CSF.MATERIAL_NO = MC.MATERIAL_NO AND CSF.FEEDMAT_RECORD_ID = MC.FEEDMAT_RECORD_ID;",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -485,13 +464,57 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT068_STS_cab_schilt_feed_material_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

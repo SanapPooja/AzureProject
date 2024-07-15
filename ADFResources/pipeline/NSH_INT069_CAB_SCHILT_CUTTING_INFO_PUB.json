@@ -19,24 +19,13 @@
 						"value": "@greater(length(activity('Lookup1').output.value), 0)",
 						"type": "Expression"
 					},
-					"ifFalseActivities": [
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						}
-					],
 					"ifTrueActivities": [
 						{
 							"name": "Copy data1_copy1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable2_copy1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -54,7 +43,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.cab_schilt_cutting_info\n            MINUS\n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n        )\n    WHERE\n        ROWNUM <= '150'\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
+										"value": "WITH cte AS (\n    SELECT\n        prodn_order_no,\n        tag_id,\n        feedmat_record_id\n    FROM\n        (            \n            SELECT\n                prodn_order_no,\n                tag_id,\n                feedmat_record_id\n            FROM\n                scm_admin.esb_cab_schilt_cutting_info\n            where  ESBSTATUS = 'I'\n        )\n)\nSELECT\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\n    nvl(csci.tag_id, ' ') AS tag_id,\n    nvl(bbs_no, ' ') AS bbs_no,\n    nvl(sor_no, ' ') AS sor_no,\n    nvl(sales_order_no, ' ') AS sales_order_no,\n    nvl(item_no, ' ') AS item_no,\n    nvl(combi_no, ' ') AS combi_no,\n    nvl(material_no, ' ') AS material_no,\n    nvl(bar_mark, ' ') AS bar_mark,\n    nvl(pieces, 0) AS pieces,\n    nvl(weight_kg, 0) AS weight_kg,\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\n    nvl(bending_ind, ' ') AS bending_ind,\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\n    nvl(bin_no, ' ') AS bin_no,\n    nvl(conquas_ind, ' ') AS conquas_ind,\n    nvl(urgent_ind, ' ') AS urgent_ind,\n    nvl(free_field_1, ' ') AS free_field_1,\n    nvl(free_field_2, ' ') AS free_field_2,\n    nvl(free_field_3, ' ') AS free_field_3,\n    nvl(free_field_4, ' ') AS free_field_4,\n    nvl(free_field_5, ' ') AS free_field_5,\n    nvl(free_field_6, ' ') AS free_field_6,\n    nvl(free_field_7, ' ') AS free_field_7,\n    nvl(free_field_8, ' ') AS free_field_8,\n    nvl(free_field_9, ' ') AS free_field_9,\n    nvl(free_field_10, ' ') AS free_field_10,\n    nvl(dbs_id, ' ') AS dbs_id,\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\n    nvl(bvbs, ' ') AS bvbs,\n    nvl(cut_length, 0) AS cut_length,\n    nvl(number_of_cuts, 0) AS number_of_cuts,\n    nvl(compartment, ' ') AS compartment,\n    nvl(create_date, ' ') AS create_date,\n    nvl(update_date, ' ') AS update_date,\n    nvl(offcut_ind, ' ') AS offcut_ind,\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\n    last_export_timestamp,\n    rec_id,\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\n    nvl(evac_ind, ' ') AS evac_ind\nFROM\n    scm_admin.cab_schilt_cutting_info   csci\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\n    AND csci.tag_id = ct.tag_id\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -66,7 +55,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "170",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -534,7 +523,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "NSH_INT069_QUEUE",
+									"referenceName": "INT069_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -544,7 +533,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1_copy1",
+									"activity": "Set variable2_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -564,7 +553,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "S"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -575,7 +564,7 @@
 										}
 									],
 									"oracleReaderQuery": {
-										"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO \t\t\t\t\t\t\t\t\t\t\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\twhere rownum <='150'\t\t\t\t\t\t\t\t\t\t\t\t\t",
+										"value": "select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from (select PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.CAB_SCHILT_CUTTING_INFO\t\t\t\nminus\t\t\t\t\t\t\t\t\t\t\t\t\t\nselect PRODN_ORDER_NO, TAG_ID, FEEDMAT_RECORD_ID from SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO )\t\t\t\t\t\t\t\t\t",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -662,78 +651,11 @@
 							]
 						},
 						{
-							"name": "Wait1_copy1",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data2_copy1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 6
-							}
-						},
-						{
-							"name": "Web1_copy1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait1_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int069_cab_cutting_schilt_info/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
-							"name": "Execute Pipeline1_copy1",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy data2_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Script1_copy1",
+							"name": "Fail",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data2_copy1",
+									"activity": "Copy data1_copy1",
 									"dependencyConditions": [
 										"Failed"
 									]
@@ -748,7 +670,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -756,7 +678,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}' and  ESBSTATUS = 'I' \n",
 											"type": "Expression"
 										}
 									}
@@ -765,11 +687,93 @@
 							}
 						},
 						{
-							"name": "Lookup1_copy1",
-							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
+							"name": "Set variable2_copy1",
+							"type": "SetVariable",
 							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Success",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'S' Where ESBUPDATETIME = '@{variables('CurrentTime')}' and  ESBSTATUS = 'I' \n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data2_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -781,94 +785,15 @@
 							"typeProperties": {
 								"source": {
 									"type": "OracleSource",
-									"oracleReaderQuery": {
-										"value": "SELECT sapsr3.INT069_Interface() AS Result FROM dual;",
-										"type": "Expression"
-									},
+									"oracleReaderQuery": " SELECT \r\n CASE\r\n   WHEN COUNT(1) > 0 THEN cast(CEIL(COUNT(1) / 170) as int) \r\n    ELSE 0 \r\n    end as recordcount\r\n    FROM (           \r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.esb_cab_schilt_cutting_info\r\n            where  ESBSTATUS = 'I'\r\n    )",
 									"partitionOption": "None",
-									"convertDecimalToInteger": false,
 									"queryTimeout": "02:00:00"
 								},
 								"dataset": {
-									"referenceName": "SCM_IDB_DB",
+									"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
 									"type": "DatasetReference"
-								}
-							}
-						},
-						{
-							"name": "Set variable2_copy1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup1_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "CurrentTime",
-								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Script2_copy1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1_copy1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_SCHILT_CUTTING_INFO SET ESBSTATUS = 'E' Where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Execute Pipeline1_copy1_copy1",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
-									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"firstRowOnly": false
 							}
 						}
 					]
@@ -889,7 +814,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH cte AS (\r\n    SELECT\r\n        prodn_order_no,\r\n        tag_id,\r\n        feedmat_record_id\r\n    FROM\r\n        (\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.cab_schilt_cutting_info\r\n            MINUS\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.esb_cab_schilt_cutting_info\r\n        )\r\n    WHERE\r\n        ROWNUM <= '1000'\r\n)\r\nSELECT\r\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\r\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\r\n    nvl(csci.tag_id, ' ') AS tag_id,\r\n    nvl(bbs_no, ' ') AS bbs_no,\r\n    nvl(sor_no, ' ') AS sor_no,\r\n    nvl(sales_order_no, ' ') AS sales_order_no,\r\n    nvl(item_no, ' ') AS item_no,\r\n    nvl(combi_no, ' ') AS combi_no,\r\n    nvl(material_no, ' ') AS material_no,\r\n    nvl(bar_mark, ' ') AS bar_mark,\r\n    nvl(pieces, 0) AS pieces,\r\n    nvl(weight_kg, 0) AS weight_kg,\r\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\r\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\r\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\r\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\r\n    nvl(bending_ind, ' ') AS bending_ind,\r\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\r\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\r\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\r\n    nvl(bin_no, ' ') AS bin_no,\r\n    nvl(conquas_ind, ' ') AS conquas_ind,\r\n    nvl(urgent_ind, ' ') AS urgent_ind,\r\n    nvl(free_field_1, ' ') AS free_field_1,\r\n    nvl(free_field_2, ' ') AS free_field_2,\r\n    nvl(free_field_3, ' ') AS free_field_3,\r\n    nvl(free_field_4, ' ') AS free_field_4,\r\n    nvl(free_field_5, ' ') AS free_field_5,\r\n    nvl(free_field_6, ' ') AS free_field_6,\r\n    nvl(free_field_7, ' ') AS free_field_7,\r\n    nvl(free_field_8, ' ') AS free_field_8,\r\n    nvl(free_field_9, ' ') AS free_field_9,\r\n    nvl(free_field_10, ' ') AS free_field_10,\r\n    nvl(dbs_id, ' ') AS dbs_id,\r\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\r\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\r\n    nvl(bvbs, ' ') AS bvbs,\r\n    nvl(cut_length, 0) AS cut_length,\r\n    nvl(number_of_cuts, 0) AS number_of_cuts,\r\n    nvl(compartment, ' ') AS compartment,\r\n    nvl(create_date, ' ') AS create_date,\r\n    nvl(update_date, ' ') AS update_date,\r\n    nvl(offcut_ind, ' ') AS offcut_ind,\r\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\r\n    last_export_timestamp,\r\n    rec_id,\r\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\r\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\r\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\r\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\r\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\r\n    nvl(evac_ind, ' ') AS evac_ind\r\nFROM\r\n    scm_admin.cab_schilt_cutting_info   csci\r\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\r\n    AND csci.tag_id = ct.tag_id\r\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
+						"oracleReaderQuery": "WITH cte AS (\r\n    SELECT\r\n        prodn_order_no,\r\n        tag_id,\r\n        feedmat_record_id\r\n    FROM\r\n        (\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.cab_schilt_cutting_info\r\n            MINUS\r\n            SELECT\r\n                prodn_order_no,\r\n                tag_id,\r\n                feedmat_record_id\r\n            FROM\r\n                scm_admin.esb_cab_schilt_cutting_info\r\n        )\r\n          WHERE ROWNUM <= 1000\r\n)\r\nSELECT\r\n    nvl(csci.feedmat_record_id, ' ') AS feedmat_record_id,\r\n    nvl(csci.prodn_order_no, ' ') AS prodn_order_no,\r\n    nvl(csci.tag_id, ' ') AS tag_id,\r\n    nvl(bbs_no, ' ') AS bbs_no,\r\n    nvl(sor_no, ' ') AS sor_no,\r\n    nvl(sales_order_no, ' ') AS sales_order_no,\r\n    nvl(item_no, ' ') AS item_no,\r\n    nvl(combi_no, ' ') AS combi_no,\r\n    nvl(material_no, ' ') AS material_no,\r\n    nvl(bar_mark, ' ') AS bar_mark,\r\n    nvl(pieces, 0) AS pieces,\r\n    nvl(weight_kg, 0) AS weight_kg,\r\n    nvl(tag_complete_ind, ' ') AS tag_complete_ind,\r\n    nvl(master_bundle_no, ' ') AS master_bundle_no,\r\n    nvl(master_bundle_longest_length, 0) AS master_bundle_longest_length,\r\n    nvl(master_bundle_complete_ind, ' ') AS master_bundle_complete_ind,\r\n    nvl(bending_ind, ' ') AS bending_ind,\r\n    nvl(cutting_line_id, ' ') AS cutting_line_id,\r\n    nvl(cutting_planned_start_time, ' ') AS cutting_planned_start_time,\r\n    nvl(cutting_planned_end_time, ' ') AS cutting_planned_end_time,\r\n    nvl(bin_no, ' ') AS bin_no,\r\n    nvl(conquas_ind, ' ') AS conquas_ind,\r\n    nvl(urgent_ind, ' ') AS urgent_ind,\r\n    nvl(free_field_1, ' ') AS free_field_1,\r\n    nvl(free_field_2, ' ') AS free_field_2,\r\n    nvl(free_field_3, ' ') AS free_field_3,\r\n    nvl(free_field_4, ' ') AS free_field_4,\r\n    nvl(free_field_5, ' ') AS free_field_5,\r\n    nvl(free_field_6, ' ') AS free_field_6,\r\n    nvl(free_field_7, ' ') AS free_field_7,\r\n    nvl(free_field_8, ' ') AS free_field_8,\r\n    nvl(free_field_9, ' ') AS free_field_9,\r\n    nvl(free_field_10, ' ') AS free_field_10,\r\n    nvl(dbs_id, ' ') AS dbs_id,\r\n    nvl(bending_planned_start_time, ' ') AS bending_planned_start_time,\r\n    nvl(bending_planned_end_time, ' ') AS bending_planned_end_time,\r\n    nvl(bvbs, ' ') AS bvbs,\r\n    nvl(cut_length, 0) AS cut_length,\r\n    nvl(number_of_cuts, 0) AS number_of_cuts,\r\n    nvl(compartment, ' ') AS compartment,\r\n    nvl(create_date, ' ') AS create_date,\r\n    nvl(update_date, ' ') AS update_date,\r\n    nvl(offcut_ind, ' ') AS offcut_ind,\r\n    nvl(cutting_sequence_no, 0) AS cutting_sequence_no,\r\n    last_export_timestamp,\r\n    rec_id,\r\n    nvl(prodn_sequence_no, 0) AS prodn_sequence_no,\r\n    nvl(master_bundle_group_id, ' ') AS master_bundle_group_id,\r\n    nvl(master_bundle_grp_longest_len, 0) AS master_bundle_grp_longest_len,\r\n    nvl(group_tag_ind, ' ') AS group_tag_ind,\r\n    nvl(group_tag_total_tags, 0) AS group_tag_total_tags,\r\n    nvl(evac_ind, ' ') AS evac_ind\r\nFROM\r\n    scm_admin.cab_schilt_cutting_info   csci\r\n    JOIN cte ct ON csci.prodn_order_no = ct.prodn_order_no\r\n    AND csci.tag_id = ct.tag_id\r\n    AND csci.feedmat_record_id = ct.feedmat_record_id",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -899,13 +824,57 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT069_STS_CAB_SCHILT_CUTTING_INFO_SUB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

@@ -25,7 +25,7 @@
 							{
 								"name": "$CREATE_DATE",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n\n",
 									"type": "Expression"
 								}
 							},
@@ -504,8 +504,7 @@
 									"path": "$['$EVAC_IND']"
 								},
 								"sink": {
-									"name": "EVAC_IND",
-									"type": "String"
+									"name": "evac_ind"
 								}
 							},
 							{
@@ -559,7 +558,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT069_QUEUE_HEAD",
+						"referenceName": "INT069_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -573,12 +572,13 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded",
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -590,6 +590,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -608,7 +610,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int069_cab_cutting_schilt_info/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int069_cab_schilt_cutting_info/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -621,6 +623,9 @@
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
