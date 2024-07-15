@@ -2,7 +2,7 @@
 	"name": "TBL_DSS_STS_DNS_PRODN_SCHD_ESB",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSQADB2Connection",
+			"referenceName": "NSDB11_STS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
