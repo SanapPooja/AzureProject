@@ -3,429 +3,10 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"oracleReaderQuery": {
-							"value": "WITH FirstQuery AS (\n    SELECT tag_no\n    FROM (\n        SELECT tag_no\n        FROM scm_admin.cab_bender_download\n        MINUS\n        SELECT tag_no\n        FROM scm_admin.esb_cab_bender_download\n    )\n    WHERE ROWNUM <= 1000\n)\nSELECT *\nFROM (\n    SELECT\n        NVL(FSQ.TAG_NO, ' ') AS TAG_NO,\n        NVL(TAG_QTY, 0) AS TAG_QTY,\n        NVL(PRODUCTBAR, ' ') AS PRODUCTBAR,\n        NVL(SHAPECODE, ' ') AS SHAPECODE,\n        NVL(BBS_NO, ' ') AS BBS_NO,\n        NVL(BARMARK, ' ') AS BARMARK,\n        NVL(PRODN_TAG_WT, 0) AS PRODN_TAG_WT,\n        NVL(PIN_TYPE, ' ') AS PIN_TYPE,\n        NVL(PIN_SIZE, ' ') AS PIN_SIZE,\n        NVL(NO_OF_BENDING, 0) AS NO_OF_BENDING,\n        NVL(RUN_NO, ' ') AS RUN_NO,\n        NVL(PLANDURATION, 0) AS PLANDURATION,\n        NVL(PLAN_MACHINE, ' ') AS PLAN_MACHINE,\n        NVL(NO_OF_SEGMENTS, 0) AS NO_OF_SEGMENTS,\n        NVL(SHAPE_BVBS_PARAMETER, ' ') AS SHAPE_BVBS_PARAMETER,\n        NVL(CREATE_DATE, ' ') AS CREATE_DATE,\n        NVL(UPDATE_DATE, ' ') AS UPDATE_DATE,\n        NVL(SPARE1, ' ') AS SPARE1,\n        NVL(SPARE2, ' ') AS SPARE2,\n        NVL(SPARE3, ' ') AS SPARE3,\n        NVL(SPARE4, ' ') AS SPARE4,\n        NVL(SPARE5, ' ') AS SPARE5,\n        NVL(SPARE6, ' ') AS SPARE6,\n        NVL(SPARE7, ' ') AS SPARE7,\n        NVL(SPARE8, ' ') AS SPARE8,\n        NVL(SPARE9, ' ') AS SPARE9,\n        NVL(SPARE12, ' ') AS SPARE12,\n        NVL(PRODN_LEN, 0) AS PRODN_LEN,\n        NVL(BVBS_LEN, 0) AS BVBS_LEN,\n        ROWNUM AS rnum\n    FROM\n        scm_admin.cab_bender_download FSQ\n    JOIN\n        FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\n)\nWHERE rnum <= 5;\n",
-							"type": "Expression"
-						},
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "TAG_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$TAG_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "TAG_QTY",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$TAG_QTY"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODUCTBAR",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODUCTBAR"
-								}
-							},
-							{
-								"source": {
-									"name": "SHAPECODE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SHAPECODE"
-								}
-							},
-							{
-								"source": {
-									"name": "BBS_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BBS_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "BARMARK",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$BARMARK"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_TAG_WT",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$PRODN_TAG_WT"
-								}
-							},
-							{
-								"source": {
-									"name": "PIN_TYPE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PIN_TYPE"
-								}
-							},
-							{
-								"source": {
-									"name": "PIN_SIZE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PIN_SIZE"
-								}
-							},
-							{
-								"source": {
-									"name": "NO_OF_BENDING",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$NO_OF_BENDING"
-								}
-							},
-							{
-								"source": {
-									"name": "RUN_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$RUN_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "PLANDURATION",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$PLANDURATION"
-								}
-							},
-							{
-								"source": {
-									"name": "PLAN_MACHINE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PLAN_MACHINE"
-								}
-							},
-							{
-								"source": {
-									"name": "NO_OF_SEGMENTS",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$NO_OF_SEGMENTS"
-								}
-							},
-							{
-								"source": {
-									"name": "SHAPE_BVBS_PARAMETER",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SHAPE_BVBS_PARAMETER"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CREATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "UPDATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$UPDATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE1",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE1"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE2",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE2"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE3",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE3"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE4",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE4"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE5",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE5"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE6",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE6"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE7",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE7"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE8",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE8"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE9",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE9"
-								}
-							},
-							{
-								"source": {
-									"name": "SPARE12",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SPARE12"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_LEN",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$PRODN_LEN"
-								}
-							},
-							{
-								"source": {
-									"name": "BVBS_LEN",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$BVBS_LEN"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "INT_064_Cab_bender_download",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Int064_Cab_bender",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "Wait2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int_064_cab_bender_download/messages/head"
-				}
-			},
-			{
-				"name": "Wait2",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 60
-				}
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' and esbUpdateTime = '@{variables('CurrentTime')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentTime",
-					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
@@ -436,109 +17,637 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"additionalColumns": [
-							{
-								"name": "ESBSTATUS",
-								"value": "S"
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        tag_no\r\n    FROM (\r\n        SELECT tag_no\r\n        FROM scm_admin.cab_bender_download\r\n        MINUS\r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n    )\r\n    where ROWNUM<=1000\r\n)\r\nSELECT * FROM (\r\n    SELECT\t\t\t\t \t\t\t\t\r\n        NVL(FSQ.TAG_NO, ' ') AS TAG_NO,\r\n        NVL(TAG_QTY, 0) AS TAG_QTY,\r\n        NVL(PRODUCTBAR, ' ') AS PRODUCTBAR,\r\n        NVL(SHAPECODE, ' ') AS SHAPECODE,\r\n        NVL(BBS_NO, ' ') AS BBS_NO,\r\n        NVL(BARMARK, ' ') AS BARMARK,\r\n        NVL(PRODN_TAG_WT, 0) AS PRODN_TAG_WT,\r\n        NVL(PIN_TYPE, ' ') AS PIN_TYPE,\r\n        NVL(PIN_SIZE, ' ') AS PIN_SIZE,\r\n        NVL(NO_OF_BENDING, 0) AS NO_OF_BENDING,\r\n        NVL(RUN_NO, ' ') AS RUN_NO,\r\n        NVL(PLANDURATION, 0) AS PLANDURATION,\r\n        NVL(PLAN_MACHINE, ' ') AS PLAN_MACHINE,\r\n        NVL(NO_OF_SEGMENTS, 0) AS NO_OF_SEGMENTS,\r\n        NVL(SHAPE_BVBS_PARAMETER, ' ') AS SHAPE_BVBS_PARAMETER,\r\n        NVL(CREATE_DATE, ' ') AS CREATE_DATE,\r\n        NVL(UPDATE_DATE, ' ') AS UPDATE_DATE,\r\n        NVL(SPARE1, ' ') AS SPARE1,\r\n        NVL(SPARE2, ' ') AS SPARE2,\r\n        NVL(SPARE3, ' ') AS SPARE3,\r\n        NVL(SPARE4, ' ') AS SPARE4,\r\n        NVL(SPARE5, ' ') AS SPARE5,\r\n        NVL(SPARE6, ' ') AS SPARE6,\r\n        NVL(SPARE7, ' ') AS SPARE7,\r\n        NVL(SPARE8, ' ') AS SPARE8,\r\n        NVL(SPARE9, ' ') AS SPARE9,\r\n        NVL(SPARE12, ' ') AS SPARE12,\r\n        NVL(PRODN_LEN, 0) AS PRODN_LEN,\r\n        NVL(BVBS_LEN, 0) AS BVBS_LEN,\r\n        ROWNUM AS rnum\r\n    FROM\r\n        scm_admin.cab_bender_download FSQ\r\n    JOIN\r\n        FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\r\n);\r\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "INT064_ESB_cab_bender_download",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							{
-								"name": "ESBUPDATETIME",
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "WITH FirstQuery AS (\n    SELECT tag_no\n    FROM (        \n        SELECT tag_no\n        FROM scm_admin.esb_cab_bender_download\n        where  ESBSTATUS = 'I' \n    )\n)\nSELECT *\nFROM (\n    SELECT\n        NVL(FSQ.TAG_NO, ' ') AS TAG_NO,\n        NVL(TAG_QTY, 0) AS TAG_QTY,\n        NVL(PRODUCTBAR, ' ') AS PRODUCTBAR,\n        NVL(SHAPECODE, ' ') AS SHAPECODE,\n        NVL(BBS_NO, ' ') AS BBS_NO,\n        NVL(BARMARK, ' ') AS BARMARK,\n        NVL(PRODN_TAG_WT, 0) AS PRODN_TAG_WT,\n        NVL(PIN_TYPE, ' ') AS PIN_TYPE,\n        NVL(PIN_SIZE, ' ') AS PIN_SIZE,\n        NVL(NO_OF_BENDING, 0) AS NO_OF_BENDING,\n        NVL(RUN_NO, ' ') AS RUN_NO,\n        NVL(PLANDURATION, 0) AS PLANDURATION,\n        NVL(PLAN_MACHINE, ' ') AS PLAN_MACHINE,\n        NVL(NO_OF_SEGMENTS, 0) AS NO_OF_SEGMENTS,\n        NVL(SHAPE_BVBS_PARAMETER, ' ') AS SHAPE_BVBS_PARAMETER,\n        NVL(CREATE_DATE, ' ') AS CREATE_DATE,\n        NVL(UPDATE_DATE, ' ') AS UPDATE_DATE,\n        NVL(SPARE1, ' ') AS SPARE1,\n        NVL(SPARE2, ' ') AS SPARE2,\n        NVL(SPARE3, ' ') AS SPARE3,\n        NVL(SPARE4, ' ') AS SPARE4,\n        NVL(SPARE5, ' ') AS SPARE5,\n        NVL(SPARE6, ' ') AS SPARE6,\n        NVL(SPARE7, ' ') AS SPARE7,\n        NVL(SPARE8, ' ') AS SPARE8,\n        NVL(SPARE9, ' ') AS SPARE9,\n        NVL(SPARE12, ' ') AS SPARE12,\n        NVL(PRODN_LEN, 0) AS PRODN_LEN,\n        NVL(BVBS_LEN, 0) AS BVBS_LEN,\n        ROWNUM AS rnum\n    FROM\n        scm_admin.cab_bender_download FSQ\n    JOIN\n        FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\n);\n",
+										"type": "Expression"
+									},
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "300",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "TAG_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$TAG_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "TAG_QTY",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$TAG_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODUCTBAR",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODUCTBAR"
+											}
+										},
+										{
+											"source": {
+												"name": "SHAPECODE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPECODE"
+											}
+										},
+										{
+											"source": {
+												"name": "BBS_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BBS_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "BARMARK",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$BARMARK"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_TAG_WT",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$PRODN_TAG_WT"
+											}
+										},
+										{
+											"source": {
+												"name": "PIN_TYPE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PIN_TYPE"
+											}
+										},
+										{
+											"source": {
+												"name": "PIN_SIZE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PIN_SIZE"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_BENDING",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$NO_OF_BENDING"
+											}
+										},
+										{
+											"source": {
+												"name": "RUN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$RUN_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "PLANDURATION",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$PLANDURATION"
+											}
+										},
+										{
+											"source": {
+												"name": "PLAN_MACHINE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PLAN_MACHINE"
+											}
+										},
+										{
+											"source": {
+												"name": "NO_OF_SEGMENTS",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$NO_OF_SEGMENTS"
+											}
+										},
+										{
+											"source": {
+												"name": "SHAPE_BVBS_PARAMETER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SHAPE_BVBS_PARAMETER"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CREATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "UPDATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$UPDATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE1",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE1"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE2",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE2"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE3",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE3"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE4",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE4"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE5",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE5"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE6",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE6"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE7",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE7"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE8",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE8"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE9",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE9"
+											}
+										},
+										{
+											"source": {
+												"name": "SPARE12",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SPARE12"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_LEN",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$PRODN_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "BVBS_LEN",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$BVBS_LEN"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT064_ESB_cab_bender_download",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "NSH_INT064_CAB_BENDER_DOWNLOAD_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Fail",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'E' Where esbUpdateTime = '@{variables('CurrentTime')}' and ESBStatus='I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
 								"value": {
-									"value": "@variables('CurrentTime')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
-						],
-						"oracleReaderQuery": "SELECT tag_no\r\n    FROM (\r\n        SELECT tag_no\r\n        FROM scm_admin.cab_bender_download\r\n        MINUS\r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n    )\r\n    WHERE ROWNUM <= 5",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "OracleSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
+						},
+						{
+							"name": "Copy data2",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"additionalColumns": [
+										{
+											"name": "ESBSTATUS",
+											"value": "I"
+										},
+										{
+											"name": "ESBUPDATETIME",
+											"value": {
+												"value": "@variables('CurrentTime')",
+												"type": "Expression"
+											}
+										}
+									],
+									"oracleReaderQuery": "SELECT tag_no\r\n    FROM (\r\n        SELECT tag_no\r\n        FROM scm_admin.cab_bender_download\r\n        MINUS\r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n    )",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "TAG_NO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "TAG_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "INT064_ESB_cab_bender_download",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT064_ESB_cab_bender_download",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Success",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' Where esbUpdateTime = '@{variables('CurrentTime')}' and ESBStatus='I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/300 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (        \r\n        SELECT tag_no\r\n        FROM scm_admin.esb_cab_bender_download\r\n        where  ESBSTATUS = 'I' \r\n    ) ",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "INT064_ESB_cab_bender_download",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
 						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "INT_064_Cab_bender_download",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT064_ESB_cab_bender_download",
-						"type": "DatasetReference"
-					}
-				]
+					]
+				}
 			},
 			{
-				"name": "Execute Pipeline1_copy1",
-				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Failed",
+				"name": "ForEach1",
+				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
-						"type": "PipelineReference"
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
 					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "Script1_copy1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Execute Pipeline1_copy1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
+					"isSequential": true,
+					"activities": [
 						{
-							"type": "Query",
-							"text": {
-								"value": "update SCM_ADMIN.ESB_CAB_BENDER_DOWNLOAD set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-								"type": "Expression"
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT064_STS_tbl_scm_sts_cab_bender_download_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
 							}
 						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					]
 				}
 			}
 		],
@@ -546,7 +655,13 @@
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
