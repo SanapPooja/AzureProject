@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Select_STS_to_Queue",
-				"type": "Copy",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -17,355 +17,343 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"additionalColumns": [
-							{
-								"name": "REC_TYPE",
-								"value": "Y"
-							}
-						],
-						"sqlReaderQuery": "SELECT TOP (10)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\n    START_TIME,\n    END_TIME,  \n    \n    -- Formatting PRODN_REC_DATE\n    CONVERT(varchar(1), MONTH(PRODN_REC_DATE)) + '/' +\n        CONVERT(varchar(2), DAY(PRODN_REC_DATE)) + '/' +\n        CONVERT(varchar(4), YEAR(PRODN_REC_DATE)) + ' ' +\n        RIGHT(CAST((DATEPART(HOUR, PRODN_REC_DATE) % 12) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(MINUTE, PRODN_REC_DATE) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(SECOND, PRODN_REC_DATE) AS VARCHAR(2)), 2) + ' ' +\n        CASE \n            WHEN DATEPART(HOUR, PRODN_REC_DATE) >= 12 THEN 'PM'\n            ELSE 'AM'\n        END AS PRODN_REC_DATE,\n        \n    -- Formatting CREATE_DATE\n    CONVERT(varchar(1), MONTH(CREATE_DATE)) + '/' +\n        CONVERT(varchar(2), DAY(CREATE_DATE)) + '/' +\n        CONVERT(varchar(4), YEAR(CREATE_DATE)) + ' ' +\n        RIGHT(CAST((DATEPART(HOUR, CREATE_DATE) % 12) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(MINUTE, CREATE_DATE) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(SECOND, CREATE_DATE) AS VARCHAR(2)), 2) + ' ' +\n        CASE \n            WHEN DATEPART(HOUR, CREATE_DATE) >= 12 THEN 'PM'\n            ELSE 'AM'\n        END AS CREATE_DATE,\n        \n    -- Formatting MODIFY_DATE\n    CONVERT(varchar(1), MONTH(ISNULL(MODIFY_DATE, GETDATE()))) + '/' +\n        CONVERT(varchar(2), DAY(ISNULL(MODIFY_DATE, GETDATE()))) + '/' +\n        CONVERT(varchar(4), YEAR(ISNULL(MODIFY_DATE, GETDATE()))) + ' ' +\n        RIGHT(CAST((DATEPART(HOUR, ISNULL(MODIFY_DATE, GETDATE())) % 12) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(MINUTE, ISNULL(MODIFY_DATE, GETDATE())) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(SECOND, ISNULL(MODIFY_DATE, GETDATE())) AS VARCHAR(2)), 2) + ' ' +\n        CASE \n            WHEN DATEPART(HOUR, ISNULL(MODIFY_DATE, GETDATE())) >= 12 THEN 'PM'\n            ELSE 'AM'\n        END AS MODIFY_DATE,\n\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    \n    -- Additional Formatting for CREATE_DATE column\n    CONVERT(varchar(1), MONTH(CREATE_DATE)) + '/' +\n        CONVERT(varchar(2), DAY(CREATE_DATE)) + '/' +\n        CONVERT(varchar(4), YEAR(CREATE_DATE)) + ' ' +\n        RIGHT(CAST((DATEPART(HOUR, CREATE_DATE) % 12) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(MINUTE, CREATE_DATE) AS VARCHAR(2)), 2) + ':' +\n        RIGHT('0' + CAST(DATEPART(SECOND, CREATE_DATE) AS VARCHAR(2)), 2) + ' ' +\n        CASE \n            WHEN DATEPART(HOUR, CREATE_DATE) >= 12 THEN 'PM'\n            ELSE 'AM'\n        END AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'A'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "ref_id",
-									"type": "Int64"
-								},
-								"sink": {
-									"path": "$REF_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "SAP_PO_NUM",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SAP_PO_NUM"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_Q_PO_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SCM_Q_PO_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_OPERATION_NO",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$SCM_OPERATION_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_ORD_QTY_KG",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$SCM_ORD_QTY_KG"
-								}
-							},
-							{
-								"source": {
-									"name": "SCM_ORD_QTY_PCS",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$SCM_ORD_QTY_PCS"
-								}
-							},
-							{
-								"source": {
-									"name": "SAP_BATCH_ID",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$SAP_BATCH_ID"
-								}
-							},
-							{
-								"source": {
-									"name": "BATCH_QTY",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$BATCH_QTY"
-								}
-							},
-							{
-								"source": {
-									"name": "BATCH_PCS",
-									"type": "Int32"
-								},
-								"sink": {
-									"path": "$BATCH_PCS"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_MACHINE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$PRODN_MACHINE"
-								}
-							},
-							{
-								"source": {
-									"name": "START_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$START_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "END_TIME",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$END_TIME"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_REC_DATE",
-									"type": "DateTime"
-								},
-								"sink": {
-									"path": "$PRODN_REC_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE",
-									"type": "DateTime"
-								},
-								"sink": {
-									"path": "$['$CREATE_DATE']"
-								}
-							},
-							{
-								"source": {
-									"name": "MODIFY_DATE",
-									"type": "DateTime"
-								},
-								"sink": {
-									"path": "$['$MODIFY_DATE']"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_ORDER_NO_SCH",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$PRODN_ORDER_NO_SCH']"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODN_STATUS",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$PRODN_STATUS']"
-								}
-							},
-							{
-								"source": {
-									"name": "NR_OF_OPERATION",
-									"type": "Decimal"
-								},
-								"sink": {
-									"path": "$['$NR_OF_OPERATION']"
-								}
-							},
-							{
-								"source": {
-									"name": "product_type",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$product_type']"
-								}
-							},
-							{
-								"source": {
-									"name": "REC_TYPE"
-								},
-								"sink": {
-									"path": "$['$REC_TYPE']"
-								}
-							},
-							{
-								"source": {
-									"name": "SAP_BATCH_ID_TAG_NO"
-								},
-								"sink": {
-									"path": "$['$SAP_BATCH_ID_TAG_NO']"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE__STS_START_CRDATE"
-								},
-								"sink": {
-									"path": "$['$CREATE_DATE__STS_START_CRDATE']"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "tbl_sts_scm_prodn_staging_upd_test",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT070_Queue",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Update tbl_sts_scm_prodn_staging_upd_test",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "NSQADB2Connection",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "update top (10)dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P', MODIFY_BY = 'ESB INT070', MODIFY_DATE = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'A'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Update tbl_sts_scm_prodn_staging_upd_test",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT070_IDB_OperationalFeedback_Sub",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "REF_ID",
-					"value": {
-						"value": "@activity('Lookup2').output.value[0].ref_id\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Lookup2",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Select_STS_to_Queue",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT Top (10) ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
+						"sqlReaderQuery": "SELECT TOP (300)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\n    START_TIME,\n    END_TIME,  \n    -- Formatting PRODN_REC_DATE\n    FORMAT(PRODN_REC_DATE, 'M/d/yyyy h:mm:ss tt')  AS PRODN_REC_DATE,\n    -- Formatting CREATE_DATE\n     FORMAT(CREATE_DATE, 'M/d/yyyy h:mm:ss tt') AS CREATE_DATE,\n    -- Formatting MODIFY_DATE\n     FORMAT(GETDATE(), 'M/d/yyyy h:mm:ss tt') AS MODIFY_DATE,\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    -- Additional Formatting for CREATE_DATE column\n    FORMAT(CREATE_DATE, 'M/d/yyyy h:mm:ss tt') AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'A'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "NSH_INT070_SCM_PRODN_STAGING_DATASET",
+						"referenceName": "tbl_sts_scm_prodn_staging_upd_test",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Update to P",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSDB11_STS",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update TOP (300) dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'P' where \n    REC_TYPE = 'A'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Select_STS_to_Queue_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Update to P",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"additionalColumns": [
+										{
+											"name": "REC_TYPE",
+											"value": "Y"
+										}
+									],
+									"sqlReaderQuery": "SELECT TOP (300)\n    ref_id,\n    SAP_PO_NUM,\n    SCM_Q_PO_NO,\n    SCM_OPERATION_NO,\n    SCM_ORD_QTY_KG,\n    SCM_ORD_QTY_PCS,\n    SAP_BATCH_ID,\n    BATCH_QTY,  \n    BATCH_PCS,\n    PRODN_MACHINE,\n    START_TIME,\n    END_TIME,  \n    -- Formatting PRODN_REC_DATE\n    FORMAT(PRODN_REC_DATE, 'M/d/yyyy h:mm:ss tt')  AS PRODN_REC_DATE,\n    -- Formatting CREATE_DATE\n     FORMAT(CREATE_DATE, 'M/d/yyyy h:mm:ss tt') AS CREATE_DATE,\n    -- Formatting MODIFY_DATE\n     FORMAT(GETDATE(), 'M/d/yyyy h:mm:ss tt') AS MODIFY_DATE,\n    PRODN_ORDER_NO_SCH,\n    PRODN_STATUS,\n    NR_OF_OPERATION,\n    product_type,\n    SAP_BATCH_ID AS SAP_BATCH_ID_TAG_NO,\n    -- Additional Formatting for CREATE_DATE column\n    FORMAT(CREATE_DATE, 'M/d/yyyy h:mm:ss tt') AS CREATE_DATE__STS_START_CRDATE\nFROM\n    STS.dbo.tbl_sts_scm_prodn_staging_upd_test\nWHERE\n    REC_TYPE = 'P'  \n    AND (SAP_BATCH_ID LIKE 'O%'\n         OR SAP_BATCH_ID LIKE 'F%'\n         OR SAP_BATCH_ID LIKE 'M%'    \n         OR SAP_BATCH_ID LIKE 'P%'\n         OR (SAP_BATCH_ID LIKE 'A%' AND PRODN_STATUS <> 'G'));",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": 10000,
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "ref_id",
+												"type": "Int64"
+											},
+											"sink": {
+												"path": "$REF_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_PO_NUM",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_PO_NUM"
+											}
+										},
+										{
+											"source": {
+												"name": "SCM_Q_PO_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SCM_Q_PO_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "SCM_OPERATION_NO",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$SCM_OPERATION_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "SCM_ORD_QTY_KG",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$SCM_ORD_QTY_KG"
+											}
+										},
+										{
+											"source": {
+												"name": "SCM_ORD_QTY_PCS",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$SCM_ORD_QTY_PCS"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_BATCH_ID",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$SAP_BATCH_ID"
+											}
+										},
+										{
+											"source": {
+												"name": "BATCH_QTY",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$BATCH_QTY"
+											}
+										},
+										{
+											"source": {
+												"name": "BATCH_PCS",
+												"type": "Int32"
+											},
+											"sink": {
+												"path": "$BATCH_PCS"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_MACHINE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$PRODN_MACHINE"
+											}
+										},
+										{
+											"source": {
+												"name": "START_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$START_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "END_TIME",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$END_TIME"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_REC_DATE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"path": "$PRODN_REC_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATE_DATE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"path": "$['$CREATE_DATE']"
+											}
+										},
+										{
+											"source": {
+												"name": "MODIFY_DATE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"path": "$['$MODIFY_DATE']"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_ORDER_NO_SCH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$PRODN_ORDER_NO_SCH']"
+											}
+										},
+										{
+											"source": {
+												"name": "PRODN_STATUS",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$PRODN_STATUS']"
+											}
+										},
+										{
+											"source": {
+												"name": "NR_OF_OPERATION",
+												"type": "Decimal"
+											},
+											"sink": {
+												"path": "$['$NR_OF_OPERATION']"
+											}
+										},
+										{
+											"source": {
+												"name": "product_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$product_type']"
+											}
+										},
+										{
+											"source": {
+												"name": "REC_TYPE"
+											},
+											"sink": {
+												"path": "$['$REC_TYPE']"
+											}
+										},
+										{
+											"source": {
+												"name": "SAP_BATCH_ID_TAG_NO"
+											},
+											"sink": {
+												"path": "$['$SAP_BATCH_ID_TAG_NO']"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATE_DATE__STS_START_CRDATE"
+											},
+											"sink": {
+												"path": "$['$CREATE_DATE__STS_START_CRDATE']"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "tbl_sts_scm_prodn_staging_upd_test",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT070_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Select_STS_to_Queue_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT070_IDB_OperationalFeedback_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			}
 		],
@@ -380,6 +368,11 @@
 				"type": "Integer"
 			}
 		},
-		"annotations": []
-	}
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-06-25T05:58:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

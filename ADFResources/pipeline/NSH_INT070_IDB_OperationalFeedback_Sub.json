@@ -24,7 +24,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT SCM_ADMIN.INT_Interface('USP_INT070') AS Result FROM dual;",
+						"oracleReaderQuery": "SELECT INT_Interface('USP_INT070') AS Result FROM dual;",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -35,67 +35,8 @@
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ref_identity",
-					"value": {
-						"value": "@activity('Lookup2').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Lookup2",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT top (300) ref_id FROM STS.dbo.tbl_sts_scm_prodn_staging_upd_test \nWHERE REC_TYPE='A'  and (SAP_BATCH_ID like 'O%' or \nSAP_BATCH_ID like 'F%' or SAP_BATCH_ID like 'M%' \tor SAP_BATCH_ID like 'P%' or (SAP_BATCH_ID like 'A%' AND PRODN_STATUS <> 'G'))",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "NSH_INT070_SCM_PRODN_STAGING_DATASET",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -120,7 +61,7 @@
 							{
 								"name": "TIMESTAMP",
 								"value": {
-									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'yyyy-MM-dd HH:mm:ss')\n)",
 									"type": "Expression"
 								}
 							},
@@ -135,7 +76,7 @@
 							{
 								"name": "IDB_START_CR_DATE",
 								"value": {
-									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'MM/dd/yyyy hh:mm:ss tt')\n)",
+									"value": "@concat(\n    formatDateTime(addMinutes(addHours(utcNow(), 8), 0), 'yyyy-MM-dd HH:mm:ss')\n)",
 									"type": "Expression"
 								}
 							}
@@ -391,7 +332,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT070_QueueHead",
+						"referenceName": "INT070_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -407,7 +348,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -416,47 +357,64 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(length(activity('Lookup2').output.value), 0)",
+						"value": "@equals(activity('Lookup1').output.firstRow.RESULT, 'Y')",
 						"type": "Expression"
 					},
-					"ifTrueActivities": [
+					"ifFalseActivities": [
 						{
-							"name": "Wait1",
-							"type": "Wait",
+							"name": "Update tbl_sts_scm_prodn_staging_upd_test_copy1_copy1",
+							"type": "Script",
 							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
 							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "NSDB11_STS",
+								"type": "LinkedServiceReference"
+							},
 							"typeProperties": {
-								"waitTimeInSeconds": 3
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'E', MODIFY_BY = 'ESB INT070', MODIFY_DATE = '@{variables('CurrentTime')}' where REC_TYPE = 'P'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
-					]
-				}
-			},
-			{
-				"name": "ForEach1",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('ref_identity')",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
+					],
+					"ifTrueActivities": [
 						{
-							"name": "Update tbl_sts_scm_prodn_staging_upd_test",
+							"name": "Set variable1_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@formatDateTime(addhours(utcnow(), 8), 'yyyy-MM-dd HH:mm:ss')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Update tbl_sts_scm_prodn_staging_upd_test_copy1",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "Set variable1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -471,7 +429,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "NSQADB2Connection",
+								"referenceName": "NSDB11_STS",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -479,32 +437,51 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE =FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss.fff') where REC_TYPE = 'P' and REF_ID = '@{variables('REF_ID')}' ",
+											"value": "update TOP (300) dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'Y', MODIFY_BY = 'ESB INT070', MODIFY_DATE = '@{variables('CurrentTime')}' where REC_TYPE = 'P'",
 											"type": "Expression"
 										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
 							}
-						},
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "REF_ID",
-								"value": {
-									"value": "@item().REF_ID",
-									"type": "Expression"
-								}
-							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Update to E",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "NSDB11_STS",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update dbo.tbl_sts_scm_prodn_staging_upd_test SET REC_TYPE = 'E', MODIFY_BY = 'ESB INT070', MODIFY_DATE = '@{variables('CurrentTime')}' where REC_TYPE = 'P'",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
@@ -514,7 +491,13 @@
 			},
 			"ref_identity": {
 				"type": "Array"
+			},
+			"CurrentTime": {
+				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
