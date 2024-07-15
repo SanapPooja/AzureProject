@@ -2,7 +2,7 @@
 	"name": "tbl_sts_scm_prodn_staging_upd_test",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSQADB2Connection",
+			"referenceName": "NSDB11_STS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
