@@ -2,8 +2,11 @@
 	"name": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_IDB_Connect",
+			"referenceName": "SCM_CONNECTION_PROD",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "OracleTable",
