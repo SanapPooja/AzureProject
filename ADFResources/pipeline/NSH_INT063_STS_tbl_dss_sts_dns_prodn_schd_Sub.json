@@ -41,7 +41,7 @@
 							{
 								"name": "fld_psch_create_date",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n",
 									"type": "Expression"
 								}
 							},
@@ -543,7 +543,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "NSH_INT063_tbl_dss_sts_dns_prodn_schd_HEAD",
+						"referenceName": "INT063_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -557,6 +557,8 @@
 			{
 				"name": "Delete Data from queue",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait 6 Sec",
@@ -575,7 +577,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/MESSAGES/HEAD",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int063_cab_sequencing/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -585,12 +587,13 @@
 			{
 				"name": "Wait 6 Sec",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded",
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -605,6 +608,9 @@
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

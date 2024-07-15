@@ -25,7 +25,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -43,7 +43,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_PSCH_Q_PO_NO,\n        FLD_PSCH_Q_SEQ_NO,\n        FLD_PSCH_Q_PRODN_ORD_NO,\n        FLD_PSCH_TAG_ID_FROM,\n        FLD_PSCH_PLAN_WRK_CTR\n    FROM (\n        SELECT \n            FLD_PSCH_Q_PO_NO,\n            FLD_PSCH_Q_SEQ_NO,\n            FLD_PSCH_Q_PRODN_ORD_NO,\n            FLD_PSCH_TAG_ID_FROM,\n            FLD_PSCH_PLAN_WRK_CTR\n        FROM scm_admin.cabsequencing\n        MINUS\n        SELECT \n            FLD_PSCH_Q_PO_NO,\n            FLD_PSCH_Q_SEQ_NO,\n            FLD_PSCH_Q_PRODN_ORD_NO,\n            FLD_PSCH_TAG_ID_FROM,\n            FLD_PSCH_PLAN_WRK_CTR\n        FROM scm_admin.esb_cabsequencing\n    )\n    WHERE ROWNUM <= 100\n)\nSELECT * FROM (\n    SELECT\t\t\t\t \t\t\t\t\n        NVL(FSQ.FLD_PSCH_Q_PO_NO, ' ') AS FLD_PSCH_Q_PO_NO,\n        NVL(FSQ.FLD_PSCH_Q_SEQ_NO, 0) AS FLD_PSCH_Q_SEQ_NO,\n        NVL(FLD_PSCH_Q_OPER_TYPE, ' ') AS FLD_PSCH_Q_OPER_TYPE,\n        NVL(FLD_PSCH_Q_START_TIME, ' ') AS FLD_PSCH_Q_START_TIME,\n        NVL(FLD_PSCH_Q_END_TIME, ' ') AS FLD_PSCH_Q_END_TIME,\n        NVL(FLD_PSCH_PLAN_PROCESS_TIME, 0) AS FLD_PSCH_PLAN_PROCESS_TIME,\n        NVL(FLD_PSCH_MSG_ID, ' ') AS FLD_PSCH_MSG_ID,\n        NVL(FLD_PSCH_CUST_ID, ' ') AS FLD_PSCH_CUST_ID,\n        SUBSTR(REPLACE(FLD_PSCH_CUST_DESC,'''','\"'),0,50) AS FLD_PSCH_CUST_DESC,\n        SUBSTR(REPLACE(FLD_PSCH_SHIP_TO_DESC,'''','\"'),0,50) AS FLD_PSCH_SHIP_TO_DESC,\n        NVL(FSQ.FLD_PSCH_Q_PRODN_ORD_NO, ' ') AS FLD_PSCH_Q_PRODN_ORD_NO,\n        NVL(FLD_PSCH_PRODN_ORD_NO, ' ') AS FLD_PSCH_PRODN_ORD_NO,\n        NVL(FLD_PSCH_SAL_ORD_NO, ' ') AS FLD_PSCH_SAL_ORD_NO,\n        NVL(FLD_PSCH_ITEM_NO, ' ') AS FLD_PSCH_ITEM_NO,\n        NVL(FLD_PSCH_MATL_NO, ' ') AS FLD_PSCH_MATL_NO,\n        NVL(FLD_PSCH_PROD_GROUP, ' ') AS FLD_PSCH_PROD_GROUP,\n        NVL(FLD_PSCH_SHAPE_CODE_ID, ' ') AS FLD_PSCH_SHAPE_CODE_ID,\n        NVL(FLD_PSCH_SAL_FG_QTY, 0) AS FLD_PSCH_SAL_FG_QTY,\n        NVL(FLD_PSCH_SAL_FG_UOM, ' ') AS FLD_PSCH_SAL_FG_UOM,\n        NVL(FLD_PSCH_PRODN_QTY_PCS, 0) AS FLD_PSCH_PRODN_QTY_PCS,\n        NVL(FLD_PSCH_PLAN_PRODN_DATE, ' ') AS FLD_PSCH_PLAN_PRODN_DATE,\n        NVL(FLD_PSCH_PLAN_PRODN_SHIFT, ' ') AS FLD_PSCH_PLAN_PRODN_SHIFT,\n        SUBSTR(REPLACE(FLD_PSCH_RUN_NO,'''','\"'),0,12) AS FLD_PSCH_RUN_NO,\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_TAG_ID_FROM,\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_BATCH_FROM,\n        NVL(FLD_PSCH_DEPNT_REQ_FLAG, ' ') AS FLD_PSCH_DEPNT_REQ_FLAG,\n        NVL(FLD_PSCH_INDEPNT_ITEM, 0) AS FLD_PSCH_INDEPNT_ITEM,\n        NVL(FLD_PSCH_INDEPNT_MATL_NO, ' ') AS FLD_PSCH_INDEPNT_MATL_NO,\n        NVL(FLD_PSCH_ENG_DWG_NO, ' ') AS FLD_PSCH_ENG_DWG_NO,\n        NVL(FSQ.FLD_PSCH_PLAN_WRK_CTR, ' ') AS FLD_PSCH_PLAN_WRK_CTR,\n        NVL(FLD_PSCH_PLAN_SETUP_TIME, 0) AS FLD_PSCH_PLAN_SETUP_TIME,\n        NVL(FLD_PSCH_SEQ_NO, '0') AS FLD_PSCH_SEQ_NO,\n        NVL(FLD_PSCH_NXT_WRK_CTR, ' ') AS FLD_PSCH_NXT_WRK_CTR,\n        NVL(FLD_PSCH_Q_ISRELEASE, ' ') AS FLD_PSCH_Q_ISRELEASE,\n        NVL(FLD_PSCH_Q_RELEASE_DATE, ' ') AS FLD_PSCH_Q_RELEASE_DATE,\n        NVL(FLD_PSCH_Q_CREATE_DATE, ' ') AS FLD_PSCH_Q_CREATE_DATE,\n        NVL(FLD_PSCH_Q_MODIFY_DATE, ' ') AS FLD_PSCH_Q_MODIFY_DATE,\n        NVL(FLD_PSCH_RELEASE_CODE, ' ') AS FLD_PSCH_RELEASE_CODE,\n        NVL(FLD_PSCH_PU_NR_OF_OPERATION, 0) AS FLD_PSCH_PU_NR_OF_OPERATION,\n        CASE \n            WHEN FLD_PSCH_UOPQUANTITY < 0 THEN '1'\n            ELSE NVL(TO_CHAR(FLD_PSCH_UOPQUANTITY), '0')\n        END AS FLD_PSCH_UOPQUANTITY,\n        NVL(FLD_PSCH_UOPQUANTITYUOM, ' ') AS FLD_PSCH_UOPQUANTITYUOM,\n        ROWNUM AS rnum\n    FROM scm_admin.cabsequencing FSQ \n    JOIN FirstQuery FQ ON \n        FSQ.FLD_PSCH_Q_PO_NO = FQ.FLD_PSCH_Q_PO_NO AND\n        FSQ.FLD_PSCH_Q_SEQ_NO = FQ.FLD_PSCH_Q_SEQ_NO AND\n        FSQ.FLD_PSCH_Q_PRODN_ORD_NO = FQ.FLD_PSCH_Q_PRODN_ORD_NO AND\n        FSQ.FLD_PSCH_TAG_ID_FROM = FQ.FLD_PSCH_TAG_ID_FROM AND\n        FSQ.FLD_PSCH_PLAN_WRK_CTR = FQ.FLD_PSCH_PLAN_WRK_CTR\n)\nWHERE rnum <= 100;\n",
+										"value": "WITH FirstQuery AS (\n    SELECT \n        FLD_PSCH_Q_PO_NO,\n        FLD_PSCH_Q_SEQ_NO,\n        FLD_PSCH_Q_PRODN_ORD_NO,\n        FLD_PSCH_TAG_ID_FROM,\n        FLD_PSCH_PLAN_WRK_CTR\n    FROM (\n        SELECT \n            FLD_PSCH_Q_PO_NO,\n            FLD_PSCH_Q_SEQ_NO,\n            FLD_PSCH_Q_PRODN_ORD_NO,\n            FLD_PSCH_TAG_ID_FROM,\n            FLD_PSCH_PLAN_WRK_CTR\n        FROM scm_admin.esb_cabsequencing\n        Where ESBSTATUS = 'I' \n    )\n)\nSELECT * FROM (\n    SELECT\t\t\t\t \t\t\t\t\n        NVL(FSQ.FLD_PSCH_Q_PO_NO, ' ') AS FLD_PSCH_Q_PO_NO,\n        NVL(FSQ.FLD_PSCH_Q_SEQ_NO, 0) AS FLD_PSCH_Q_SEQ_NO,\n        NVL(FLD_PSCH_Q_OPER_TYPE, ' ') AS FLD_PSCH_Q_OPER_TYPE,\n        NVL(FLD_PSCH_Q_START_TIME, ' ') AS FLD_PSCH_Q_START_TIME,\n        NVL(FLD_PSCH_Q_END_TIME, ' ') AS FLD_PSCH_Q_END_TIME,\n        NVL(FLD_PSCH_PLAN_PROCESS_TIME, 0) AS FLD_PSCH_PLAN_PROCESS_TIME,\n        NVL(FLD_PSCH_MSG_ID, ' ') AS FLD_PSCH_MSG_ID,\n        NVL(FLD_PSCH_CUST_ID, ' ') AS FLD_PSCH_CUST_ID,\n        SUBSTR(REPLACE(FLD_PSCH_CUST_DESC,'''','\"'),0,50) AS FLD_PSCH_CUST_DESC,\n        SUBSTR(REPLACE(FLD_PSCH_SHIP_TO_DESC,'''','\"'),0,50) AS FLD_PSCH_SHIP_TO_DESC,\n        NVL(FSQ.FLD_PSCH_Q_PRODN_ORD_NO, ' ') AS FLD_PSCH_Q_PRODN_ORD_NO,\n        NVL(FLD_PSCH_PRODN_ORD_NO, ' ') AS FLD_PSCH_PRODN_ORD_NO,\n        NVL(FLD_PSCH_SAL_ORD_NO, ' ') AS FLD_PSCH_SAL_ORD_NO,\n        NVL(FLD_PSCH_ITEM_NO, ' ') AS FLD_PSCH_ITEM_NO,\n        NVL(FLD_PSCH_MATL_NO, ' ') AS FLD_PSCH_MATL_NO,\n        NVL(FLD_PSCH_PROD_GROUP, ' ') AS FLD_PSCH_PROD_GROUP,\n        NVL(FLD_PSCH_SHAPE_CODE_ID, ' ') AS FLD_PSCH_SHAPE_CODE_ID,\n        NVL(FLD_PSCH_SAL_FG_QTY, 0) AS FLD_PSCH_SAL_FG_QTY,\n        NVL(FLD_PSCH_SAL_FG_UOM, ' ') AS FLD_PSCH_SAL_FG_UOM,\n        NVL(FLD_PSCH_PRODN_QTY_PCS, 0) AS FLD_PSCH_PRODN_QTY_PCS,\n        NVL(FLD_PSCH_PLAN_PRODN_DATE, ' ') AS FLD_PSCH_PLAN_PRODN_DATE,\n        NVL(FLD_PSCH_PLAN_PRODN_SHIFT, ' ') AS FLD_PSCH_PLAN_PRODN_SHIFT,\n        SUBSTR(REPLACE(FLD_PSCH_RUN_NO,'''','\"'),0,12) AS FLD_PSCH_RUN_NO,\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_TAG_ID_FROM,\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_BATCH_FROM,\n        NVL(FLD_PSCH_DEPNT_REQ_FLAG, ' ') AS FLD_PSCH_DEPNT_REQ_FLAG,\n        NVL(FLD_PSCH_INDEPNT_ITEM, 0) AS FLD_PSCH_INDEPNT_ITEM,\n        NVL(FLD_PSCH_INDEPNT_MATL_NO, ' ') AS FLD_PSCH_INDEPNT_MATL_NO,\n        NVL(FLD_PSCH_ENG_DWG_NO, ' ') AS FLD_PSCH_ENG_DWG_NO,\n        NVL(FSQ.FLD_PSCH_PLAN_WRK_CTR, ' ') AS FLD_PSCH_PLAN_WRK_CTR,\n        NVL(FLD_PSCH_PLAN_SETUP_TIME, 0) AS FLD_PSCH_PLAN_SETUP_TIME,\n        NVL(FLD_PSCH_SEQ_NO, '0') AS FLD_PSCH_SEQ_NO,\n        NVL(FLD_PSCH_NXT_WRK_CTR, ' ') AS FLD_PSCH_NXT_WRK_CTR,\n        NVL(FLD_PSCH_Q_ISRELEASE, ' ') AS FLD_PSCH_Q_ISRELEASE,\n        NVL(FLD_PSCH_Q_RELEASE_DATE, ' ') AS FLD_PSCH_Q_RELEASE_DATE,\n        NVL(FLD_PSCH_Q_CREATE_DATE, ' ') AS FLD_PSCH_Q_CREATE_DATE,\n        NVL(FLD_PSCH_Q_MODIFY_DATE, ' ') AS FLD_PSCH_Q_MODIFY_DATE,\n        NVL(FLD_PSCH_RELEASE_CODE, ' ') AS FLD_PSCH_RELEASE_CODE,\n        NVL(FLD_PSCH_PU_NR_OF_OPERATION, 0) AS FLD_PSCH_PU_NR_OF_OPERATION,\n        CASE \n            WHEN FLD_PSCH_UOPQUANTITY < 0 THEN '1'\n            ELSE NVL(TO_CHAR(FLD_PSCH_UOPQUANTITY), '0')\n        END AS FLD_PSCH_UOPQUANTITY,\n        NVL(FLD_PSCH_UOPQUANTITYUOM, ' ') AS FLD_PSCH_UOPQUANTITYUOM,\n        ROWNUM AS rnum\n    FROM scm_admin.cabsequencing FSQ \n    JOIN FirstQuery FQ ON \n        FSQ.FLD_PSCH_Q_PO_NO = FQ.FLD_PSCH_Q_PO_NO AND\n        FSQ.FLD_PSCH_Q_SEQ_NO = FQ.FLD_PSCH_Q_SEQ_NO AND\n        FSQ.FLD_PSCH_Q_PRODN_ORD_NO = FQ.FLD_PSCH_Q_PRODN_ORD_NO AND\n        FSQ.FLD_PSCH_TAG_ID_FROM = FQ.FLD_PSCH_TAG_ID_FROM AND\n        FSQ.FLD_PSCH_PLAN_WRK_CTR = FQ.FLD_PSCH_PLAN_WRK_CTR\n);\n",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -55,7 +55,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "100",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -441,45 +441,17 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "cabsequencing_queue",
+									"referenceName": "INT063_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
 						},
 						{
-							"name": "DeleteDataFrom_Queue_copy1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait 6 sec",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/nsh_int063_cabsequencing/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
-							"name": "Script1",
+							"name": "Fail",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Copy data2",
+									"activity": "Copy data1",
 									"dependencyConditions": [
 										"Failed"
 									]
@@ -494,7 +466,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -502,7 +474,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}' and ESBSTATUS = 'I' ",
 											"type": "Expression"
 										}
 									}
@@ -515,7 +487,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -535,7 +507,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "S"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -545,7 +517,7 @@
 											}
 										}
 									],
-									"oracleReaderQuery": "select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from (select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.cabsequencing\t\t\t\t\t\t\nminus\t\t\t\t\t\t\nselect FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.esb_cabsequencing)\t\t\t\t\t\t\nwhere rownum <=100\t\t\t\t",
+									"oracleReaderQuery": "select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from (select FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.cabsequencing\t\t\t\t\t\t\nminus\t\t\t\t\t\t\nselect FLD_PSCH_Q_PO_NO,FLD_PSCH_Q_SEQ_NO,FLD_PSCH_Q_PRODN_ORD_NO,FLD_PSCH_TAG_ID_FROM,FLD_PSCH_PLAN_WRK_CTR from scm_admin.esb_cabsequencing)\t\t\t\t\t\t\n\t\t\t",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
@@ -643,7 +615,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Esb_CabSequencing",
+									"referenceName": "INT063_Esb_CabSequencing",
 									"type": "DatasetReference"
 								}
 							]
@@ -660,58 +632,19 @@
 							"typeProperties": {
 								"variableName": "CurrentTime",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n\n",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n\n",
 									"type": "Expression"
 								}
 							}
 						},
 						{
-							"name": "NSH_INT063_SAPY_CAB_BOM_Sub_copy1",
-							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT063_STS_tbl_dss_sts_dns_prodn_schd_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Wait 6 sec",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 6
-							}
-						},
-						{
-							"name": "Script1_copy1",
+							"name": "Success",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "NSH_INT063_SAPY_CAB_BOM_Sub_copy1",
+									"activity": "Copy data1",
 									"dependencyConditions": [
-										"Failed"
+										"Succeeded"
 									]
 								}
 							],
@@ -724,7 +657,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -732,12 +665,69 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"value": "update SCM_ADMIN.ESB_CABSEQUENCING set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}' and ESBSTATUS = 'I' ",
 											"type": "Expression"
 										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/100 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (        \r\n        SELECT \r\n            FLD_PSCH_Q_PO_NO,\r\n            FLD_PSCH_Q_SEQ_NO,\r\n            FLD_PSCH_Q_PRODN_ORD_NO,\r\n            FLD_PSCH_TAG_ID_FROM,\r\n            FLD_PSCH_PLAN_WRK_CTR\r\n        FROM scm_admin.esb_cabsequencing\r\n        Where ESBSTATUS = 'I' \r\n    ) ",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "NSH_INT063_cabsequencing_DATASET",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
@@ -758,7 +748,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        FLD_PSCH_Q_PO_NO,\r\n        FLD_PSCH_Q_SEQ_NO,\r\n        FLD_PSCH_Q_PRODN_ORD_NO,\r\n        FLD_PSCH_TAG_ID_FROM,\r\n        FLD_PSCH_PLAN_WRK_CTR\r\n    FROM (\r\n        SELECT \r\n            FLD_PSCH_Q_PO_NO,\r\n            FLD_PSCH_Q_SEQ_NO,\r\n            FLD_PSCH_Q_PRODN_ORD_NO,\r\n            FLD_PSCH_TAG_ID_FROM,\r\n            FLD_PSCH_PLAN_WRK_CTR\r\n        FROM scm_admin.cabsequencing\r\n        MINUS\r\n        SELECT \r\n            FLD_PSCH_Q_PO_NO,\r\n            FLD_PSCH_Q_SEQ_NO,\r\n            FLD_PSCH_Q_PRODN_ORD_NO,\r\n            FLD_PSCH_TAG_ID_FROM,\r\n            FLD_PSCH_PLAN_WRK_CTR\r\n        FROM scm_admin.esb_cabsequencing\r\n    )\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT * FROM (\r\n    SELECT\t\t\t\t \t\t\t\t\r\n        NVL(FSQ.FLD_PSCH_Q_PO_NO, ' ') AS FLD_PSCH_Q_PO_NO,\r\n        NVL(FSQ.FLD_PSCH_Q_SEQ_NO, 0) AS FLD_PSCH_Q_SEQ_NO,\r\n        NVL(FLD_PSCH_Q_OPER_TYPE, ' ') AS FLD_PSCH_Q_OPER_TYPE,\r\n        NVL(FLD_PSCH_Q_START_TIME, ' ') AS FLD_PSCH_Q_START_TIME,\r\n        NVL(FLD_PSCH_Q_END_TIME, ' ') AS FLD_PSCH_Q_END_TIME,\r\n        NVL(FLD_PSCH_PLAN_PROCESS_TIME, 0) AS FLD_PSCH_PLAN_PROCESS_TIME,\r\n        NVL(FLD_PSCH_MSG_ID, ' ') AS FLD_PSCH_MSG_ID,\r\n        NVL(FLD_PSCH_CUST_ID, ' ') AS FLD_PSCH_CUST_ID,\r\n        SUBSTR(REPLACE(FLD_PSCH_CUST_DESC,'''','\"'),0,50) AS FLD_PSCH_CUST_DESC,\r\n        SUBSTR(REPLACE(FLD_PSCH_SHIP_TO_DESC,'''','\"'),0,50) AS FLD_PSCH_SHIP_TO_DESC,\r\n        NVL(FSQ.FLD_PSCH_Q_PRODN_ORD_NO, ' ') AS FLD_PSCH_Q_PRODN_ORD_NO,\r\n        NVL(FLD_PSCH_PRODN_ORD_NO, ' ') AS FLD_PSCH_PRODN_ORD_NO,\r\n        NVL(FLD_PSCH_SAL_ORD_NO, ' ') AS FLD_PSCH_SAL_ORD_NO,\r\n        NVL(FLD_PSCH_ITEM_NO, ' ') AS FLD_PSCH_ITEM_NO,\r\n        NVL(FLD_PSCH_MATL_NO, ' ') AS FLD_PSCH_MATL_NO,\r\n        NVL(FLD_PSCH_PROD_GROUP, ' ') AS FLD_PSCH_PROD_GROUP,\r\n        NVL(FLD_PSCH_SHAPE_CODE_ID, ' ') AS FLD_PSCH_SHAPE_CODE_ID,\r\n        NVL(FLD_PSCH_SAL_FG_QTY, 0) AS FLD_PSCH_SAL_FG_QTY,\r\n        NVL(FLD_PSCH_SAL_FG_UOM, ' ') AS FLD_PSCH_SAL_FG_UOM,\r\n        NVL(FLD_PSCH_PRODN_QTY_PCS, 0) AS FLD_PSCH_PRODN_QTY_PCS,\r\n        NVL(FLD_PSCH_PLAN_PRODN_DATE, ' ') AS FLD_PSCH_PLAN_PRODN_DATE,\r\n        NVL(FLD_PSCH_PLAN_PRODN_SHIFT, ' ') AS FLD_PSCH_PLAN_PRODN_SHIFT,\r\n        SUBSTR(REPLACE(FLD_PSCH_RUN_NO,'''','\"'),0,12) AS FLD_PSCH_RUN_NO,\r\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_TAG_ID_FROM,\r\n        NVL(FLD_PSCH_DEPNT_REQ_FLAG, ' ') AS FLD_PSCH_DEPNT_REQ_FLAG,\r\n        NVL(FLD_PSCH_INDEPNT_ITEM, 0) AS FLD_PSCH_INDEPNT_ITEM,\r\n        NVL(FLD_PSCH_INDEPNT_MATL_NO, ' ') AS FLD_PSCH_INDEPNT_MATL_NO,\r\n        NVL(FLD_PSCH_ENG_DWG_NO, ' ') AS FLD_PSCH_ENG_DWG_NO,\r\n        NVL(FSQ.FLD_PSCH_PLAN_WRK_CTR, ' ') AS FLD_PSCH_PLAN_WRK_CTR,\r\n        NVL(FLD_PSCH_PLAN_SETUP_TIME, 0) AS FLD_PSCH_PLAN_SETUP_TIME,\r\n        NVL(FLD_PSCH_SEQ_NO, '0') AS FLD_PSCH_SEQ_NO,\r\n        NVL(FLD_PSCH_NXT_WRK_CTR, ' ') AS FLD_PSCH_NXT_WRK_CTR,\r\n        NVL(FLD_PSCH_Q_ISRELEASE, ' ') AS FLD_PSCH_Q_ISRELEASE,\r\n        NVL(FLD_PSCH_Q_RELEASE_DATE, ' ') AS FLD_PSCH_Q_RELEASE_DATE,\r\n        NVL(FLD_PSCH_Q_CREATE_DATE, ' ') AS FLD_PSCH_Q_CREATE_DATE,\r\n        NVL(FLD_PSCH_Q_MODIFY_DATE, ' ') AS FLD_PSCH_Q_MODIFY_DATE,\r\n        NVL(FLD_PSCH_RELEASE_CODE, ' ') AS FLD_PSCH_RELEASE_CODE,\r\n        NVL(FLD_PSCH_PU_NR_OF_OPERATION, 0) AS FLD_PSCH_PU_NR_OF_OPERATION,\r\n        CASE \r\n            WHEN FLD_PSCH_UOPQUANTITY < 0 THEN '1'\r\n            ELSE NVL(TO_CHAR(FLD_PSCH_UOPQUANTITY), '0')\r\n        END AS FLD_PSCH_UOPQUANTITY,\r\n        NVL(FLD_PSCH_UOPQUANTITYUOM, ' ') AS FLD_PSCH_UOPQUANTITYUOM,\r\n        ROWNUM AS rnum\r\n    FROM scm_admin.cabsequencing FSQ \r\n    JOIN FirstQuery FQ ON \r\n        FSQ.FLD_PSCH_Q_PO_NO = FQ.FLD_PSCH_Q_PO_NO AND\r\n        FSQ.FLD_PSCH_Q_SEQ_NO = FQ.FLD_PSCH_Q_SEQ_NO AND\r\n        FSQ.FLD_PSCH_Q_PRODN_ORD_NO = FQ.FLD_PSCH_Q_PRODN_ORD_NO AND\r\n        FSQ.FLD_PSCH_TAG_ID_FROM = FQ.FLD_PSCH_TAG_ID_FROM AND\r\n        FSQ.FLD_PSCH_PLAN_WRK_CTR = FQ.FLD_PSCH_PLAN_WRK_CTR\r\n)\r\nWHERE rnum <= 5;\r\n",
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        FLD_PSCH_Q_PO_NO,\r\n        FLD_PSCH_Q_SEQ_NO,\r\n        FLD_PSCH_Q_PRODN_ORD_NO,\r\n        FLD_PSCH_TAG_ID_FROM,\r\n        FLD_PSCH_PLAN_WRK_CTR\r\n    FROM (\r\n        SELECT \r\n            FLD_PSCH_Q_PO_NO,\r\n            FLD_PSCH_Q_SEQ_NO,\r\n            FLD_PSCH_Q_PRODN_ORD_NO,\r\n            FLD_PSCH_TAG_ID_FROM,\r\n            FLD_PSCH_PLAN_WRK_CTR\r\n        FROM scm_admin.cabsequencing\r\n        MINUS\r\n        SELECT \r\n            FLD_PSCH_Q_PO_NO,\r\n            FLD_PSCH_Q_SEQ_NO,\r\n            FLD_PSCH_Q_PRODN_ORD_NO,\r\n            FLD_PSCH_TAG_ID_FROM,\r\n            FLD_PSCH_PLAN_WRK_CTR\r\n        FROM scm_admin.esb_cabsequencing\r\n    )\r\n    where ROWNUM<=1000\r\n)\r\nSELECT * FROM (\r\n    SELECT\t\t\t\t \t\t\t\t\r\n        NVL(FSQ.FLD_PSCH_Q_PO_NO, ' ') AS FLD_PSCH_Q_PO_NO,\r\n        NVL(FSQ.FLD_PSCH_Q_SEQ_NO, 0) AS FLD_PSCH_Q_SEQ_NO,\r\n        NVL(FLD_PSCH_Q_OPER_TYPE, ' ') AS FLD_PSCH_Q_OPER_TYPE,\r\n        NVL(FLD_PSCH_Q_START_TIME, ' ') AS FLD_PSCH_Q_START_TIME,\r\n        NVL(FLD_PSCH_Q_END_TIME, ' ') AS FLD_PSCH_Q_END_TIME,\r\n        NVL(FLD_PSCH_PLAN_PROCESS_TIME, 0) AS FLD_PSCH_PLAN_PROCESS_TIME,\r\n        NVL(FLD_PSCH_MSG_ID, ' ') AS FLD_PSCH_MSG_ID,\r\n        NVL(FLD_PSCH_CUST_ID, ' ') AS FLD_PSCH_CUST_ID,\r\n        SUBSTR(REPLACE(FLD_PSCH_CUST_DESC,'''','\"'),0,50) AS FLD_PSCH_CUST_DESC,\r\n        SUBSTR(REPLACE(FLD_PSCH_SHIP_TO_DESC,'''','\"'),0,50) AS FLD_PSCH_SHIP_TO_DESC,\r\n        NVL(FSQ.FLD_PSCH_Q_PRODN_ORD_NO, ' ') AS FLD_PSCH_Q_PRODN_ORD_NO,\r\n        NVL(FLD_PSCH_PRODN_ORD_NO, ' ') AS FLD_PSCH_PRODN_ORD_NO,\r\n        NVL(FLD_PSCH_SAL_ORD_NO, ' ') AS FLD_PSCH_SAL_ORD_NO,\r\n        NVL(FLD_PSCH_ITEM_NO, ' ') AS FLD_PSCH_ITEM_NO,\r\n        NVL(FLD_PSCH_MATL_NO, ' ') AS FLD_PSCH_MATL_NO,\r\n        NVL(FLD_PSCH_PROD_GROUP, ' ') AS FLD_PSCH_PROD_GROUP,\r\n        NVL(FLD_PSCH_SHAPE_CODE_ID, ' ') AS FLD_PSCH_SHAPE_CODE_ID,\r\n        NVL(FLD_PSCH_SAL_FG_QTY, 0) AS FLD_PSCH_SAL_FG_QTY,\r\n        NVL(FLD_PSCH_SAL_FG_UOM, ' ') AS FLD_PSCH_SAL_FG_UOM,\r\n        NVL(FLD_PSCH_PRODN_QTY_PCS, 0) AS FLD_PSCH_PRODN_QTY_PCS,\r\n        NVL(FLD_PSCH_PLAN_PRODN_DATE, ' ') AS FLD_PSCH_PLAN_PRODN_DATE,\r\n        NVL(FLD_PSCH_PLAN_PRODN_SHIFT, ' ') AS FLD_PSCH_PLAN_PRODN_SHIFT,\r\n        SUBSTR(REPLACE(FLD_PSCH_RUN_NO,'''','\"'),0,12) AS FLD_PSCH_RUN_NO,\r\n        NVL(FSQ.FLD_PSCH_TAG_ID_FROM, ' ') AS FLD_PSCH_TAG_ID_FROM,\r\n        NVL(FLD_PSCH_DEPNT_REQ_FLAG, ' ') AS FLD_PSCH_DEPNT_REQ_FLAG,\r\n        NVL(FLD_PSCH_INDEPNT_ITEM, 0) AS FLD_PSCH_INDEPNT_ITEM,\r\n        NVL(FLD_PSCH_INDEPNT_MATL_NO, ' ') AS FLD_PSCH_INDEPNT_MATL_NO,\r\n        NVL(FLD_PSCH_ENG_DWG_NO, ' ') AS FLD_PSCH_ENG_DWG_NO,\r\n        NVL(FSQ.FLD_PSCH_PLAN_WRK_CTR, ' ') AS FLD_PSCH_PLAN_WRK_CTR,\r\n        NVL(FLD_PSCH_PLAN_SETUP_TIME, 0) AS FLD_PSCH_PLAN_SETUP_TIME,\r\n        NVL(FLD_PSCH_SEQ_NO, '0') AS FLD_PSCH_SEQ_NO,\r\n        NVL(FLD_PSCH_NXT_WRK_CTR, ' ') AS FLD_PSCH_NXT_WRK_CTR,\r\n        NVL(FLD_PSCH_Q_ISRELEASE, ' ') AS FLD_PSCH_Q_ISRELEASE,\r\n        NVL(FLD_PSCH_Q_RELEASE_DATE, ' ') AS FLD_PSCH_Q_RELEASE_DATE,\r\n        NVL(FLD_PSCH_Q_CREATE_DATE, ' ') AS FLD_PSCH_Q_CREATE_DATE,\r\n        NVL(FLD_PSCH_Q_MODIFY_DATE, ' ') AS FLD_PSCH_Q_MODIFY_DATE,\r\n        NVL(FLD_PSCH_RELEASE_CODE, ' ') AS FLD_PSCH_RELEASE_CODE,\r\n        NVL(FLD_PSCH_PU_NR_OF_OPERATION, 0) AS FLD_PSCH_PU_NR_OF_OPERATION,\r\n        CASE \r\n            WHEN FLD_PSCH_UOPQUANTITY < 0 THEN '1'\r\n            ELSE NVL(TO_CHAR(FLD_PSCH_UOPQUANTITY), '0')\r\n        END AS FLD_PSCH_UOPQUANTITY,\r\n        NVL(FLD_PSCH_UOPQUANTITYUOM, ' ') AS FLD_PSCH_UOPQUANTITYUOM,\r\n        ROWNUM AS rnum\r\n    FROM scm_admin.cabsequencing FSQ \r\n    JOIN FirstQuery FQ ON \r\n        FSQ.FLD_PSCH_Q_PO_NO = FQ.FLD_PSCH_Q_PO_NO AND\r\n        FSQ.FLD_PSCH_Q_SEQ_NO = FQ.FLD_PSCH_Q_SEQ_NO AND\r\n        FSQ.FLD_PSCH_Q_PRODN_ORD_NO = FQ.FLD_PSCH_Q_PRODN_ORD_NO AND\r\n        FSQ.FLD_PSCH_TAG_ID_FROM = FQ.FLD_PSCH_TAG_ID_FROM AND\r\n        FSQ.FLD_PSCH_PLAN_WRK_CTR = FQ.FLD_PSCH_PLAN_WRK_CTR\r\n);\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -768,13 +758,57 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "NSH_INT063_SAPY_CAB_BOM_Sub_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT063_STS_tbl_dss_sts_dns_prodn_schd_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
