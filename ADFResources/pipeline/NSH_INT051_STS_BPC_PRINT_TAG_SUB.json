@@ -349,7 +349,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT051_BPC_PRINT_TAG_HEAD",
+						"referenceName": "INT051_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -363,6 +363,8 @@
 			{
 				"name": "Web1_copy1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -381,7 +383,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int051_bpc_print_tag/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int051_bpc_print_tag/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -391,6 +393,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -401,7 +405,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			}
 		],
@@ -410,6 +414,9 @@
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

@@ -17,12 +17,12 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        tag_no \r\n    FROM (\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.view_bpc_print_tag \r\n        MINUS\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.esb_bpc_print_tag\r\n    )\r\n    WHERE rownum <= 1000\r\n)\r\nSELECT\r\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\r\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\r\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\r\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\r\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\r\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\r\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\r\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\r\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\r\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\r\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\r\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\r\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\r\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\r\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\r\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\r\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\r\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\r\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\r\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\r\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\r\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\r\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\r\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\r\n    NVL(REC_ID, 0) AS REC_ID,\r\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\r\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\r\nFROM \r\n    scm_admin.view_bpc_print_tag FSQ\r\nJOIN \r\n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\r\nWHERE \r\n    ROWNUM <= 5;\r\n",
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT \r\n        tag_no \r\n    FROM (\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.view_bpc_print_tag \r\n        MINUS\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.esb_bpc_print_tag\r\n    )\r\n)\r\nSELECT\r\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\r\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\r\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\r\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\r\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\r\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\r\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\r\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\r\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\r\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\r\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\r\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\r\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\r\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\r\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\r\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\r\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\r\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\r\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\r\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\r\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\r\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\r\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\r\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\r\n    NVL(REC_ID, 0) AS REC_ID,\r\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\r\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\r\nFROM \r\n    scm_admin.view_bpc_print_tag FSQ\r\nJOIN \r\n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\r\n\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
-						"referenceName": "BPC_PRINT_TAG",
+						"referenceName": "INT051_BPC_PRINT_TAG",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -49,6 +49,8 @@
 						{
 							"name": "Wait1",
 							"type": "Wait",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
@@ -62,7 +64,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -80,7 +82,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH FirstQuery AS (\n    SELECT \n        tag_no \n    FROM (\n        SELECT   \n            tag_no  \n        FROM scm_admin.view_bpc_print_tag \n        MINUS\n        SELECT   \n            tag_no  \n        FROM scm_admin.esb_bpc_print_tag\n    )\n    WHERE rownum <= 1000\n)\nSELECT\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\n    NVL(REC_ID, 0) AS REC_ID,\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\nFROM \n    scm_admin.view_bpc_print_tag FSQ\nJOIN \n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\nWHERE \n    ROWNUM <= 5;\n",
+										"value": "WITH FirstQuery AS (\n    SELECT \n        tag_no \n    FROM (\n        \n        SELECT  tag_no  \n        FROM scm_admin.esb_bpc_print_tag \n        WHERE ESBSTATUS = 'I'\n    )\n)\nSELECT\n    NVL(TRIM(MODIFY_DATE), ' ') AS MODIFY_DATE,\n    NVL(TRIM(CREATE_DATE), ' ') AS CREATE_DATE,\n    NVL(TRIM(SO_ITEM_NO), ' ') AS SO_ITEM_NO,\n    NVL(TRIM(BBS_NO), ' ') AS BBS_NO,\n    NVL(TRIM(PLANNEDDATEANDSHIFT), ' ') AS PLANNEDDATEANDSHIFT,\n    NVL(TRIM(DRAWING_NO), ' ') AS DRAWING_NO,\n    NVL(TRIM(DRAWING_REVISION), ' ') AS DRAWING_REVISION,\n    NVL(TRIM(DELIVERY_DATE), ' ') AS DELIVERY_DATE,\n    NVL(SUBSTR(TRIM(CAGE_NAME), 0, 11), ' ') AS CAGE_NAME,\n    NVL(TRIM(SO_NO), ' ') AS SO_NO,\n    NVL(TRIM(FSQ.TAG_NO), ' ') AS TAG_NO,\n    NVL(TRIM(WORK_CENTER), ' ') AS WORK_CENTER,\n    NVL(TRIM(TEMPLATE), ' ') AS TEMPLATE,\n    NVL(TRIM(PROJ_NAME), ' ') AS PROJ_NAME,\n    NVL(TRIM(CUST_NAME), ' ') AS CUST_NAME,\n    NVL(TRIM(PILE_SEQ_NO), ' ') AS PILE_SEQ_NO,\n    NVL(TRIM(PRODN_MARKING_REV_NO), ' ') AS PRODN_MARKING_REV_NO,\n    NVL(TRIM(RUNNING_CNTR), ' ') AS RUNNING_CNTR,\n    NVL(PRODN_SEQ, 0) AS PRODN_SEQ,\n    NVL(TRIM(PRODN_MARKING), ' ') AS PRODN_MARKING,\n    NVL(TRIM(FLD_PSCH_REC_TYPE_OBSOLETE), ' ') AS FLD_PSCH_REC_TYPE_OBSOLETE,\n    NVL(TRIM(Q_PO_NO), ' ') AS Q_PO_NO,\n    NVL(TRIM(RELEASE_CODE), ' ') AS RELEASE_CODE,\n    NVL(TRIM(LOAD_NO), ' ') AS LOAD_NO,\n    NVL(REC_ID, 0) AS REC_ID,\n    NVL(URGENT_ORDER_IND, ' ') AS URGENT_ORDER_IND,\n    NVL(CONQUAS_IND, ' ') AS CONQUAS_IND\nFROM \n    scm_admin.view_bpc_print_tag FSQ\nJOIN \n    FirstQuery FQ ON FSQ.TAG_NO = FQ.TAG_NO\n",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -92,7 +94,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": 10000,
+									"writeBatchSize": "300",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -329,67 +331,23 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "BPC_PRINT_TAG",
+									"referenceName": "INT051_BPC_PRINT_TAG",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "RestResource4",
+									"referenceName": "INT051_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Web1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int051_bpc_print_tag/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
-								}
-							}
-						},
-						{
-							"name": "Wait2",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 60
-							}
 						},
 						{
 							"name": "Copy data2",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -409,7 +367,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "S"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -419,13 +377,13 @@
 											}
 										}
 									],
-									"oracleReaderQuery": "select tag_no from (select   tag_no  from scm_admin.view_bpc_print_tag \r\nminus\r\nselect   tag_no  from scm_admin.esb_bpc_print_tag)\r\nwhere rownum <= 5",
+									"oracleReaderQuery": "select tag_no from (select   tag_no  from scm_admin.view_bpc_print_tag \r\nminus\r\nselect   tag_no  from scm_admin.esb_bpc_print_tag)",
 									"partitionOption": "None",
 									"queryTimeout": "02:00:00"
 								},
 								"sink": {
 									"type": "OracleSink",
-									"writeBatchSize": 10000
+									"writeBatchSize": 1000
 								},
 								"enableStaging": false,
 								"translator": {
@@ -471,13 +429,13 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "BPC_PRINT_TAG",
+									"referenceName": "INT051_BPC_PRINT_TAG",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ESB_BPC_PRINT_TAG",
+									"referenceName": "INT051_ESB_BPC_PRINT_TAG",
 									"type": "DatasetReference"
 								}
 							]
@@ -500,8 +458,104 @@
 							}
 						},
 						{
-							"name": "Execute Pipeline1_copy1_copy1",
-							"type": "ExecutePipeline",
+							"name": "FAIL",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrenTime')}' AND ESBSTATUS = 'I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "SUCCESS",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrenTime')}' AND ESBSTATUS = 'I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Rowcount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
 							"dependsOn": [
 								{
 									"activity": "Copy data2",
@@ -510,6 +564,54 @@
 									]
 								}
 							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": "     SELECT \r\n    Case When count(1)>0 Then     \r\n    cast(count(1)/300 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n\r\n    FROM (\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.view_bpc_print_tag \r\n        MINUS\r\n        SELECT   \r\n            tag_no  \r\n        FROM scm_admin.esb_bpc_print_tag\r\n        where  ESBSTATUS = 'I'\r\n    )",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "INT051_BPC_PRINT_TAG",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Rowcount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1_copy1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
 							"policy": {
 								"secureInput": false
 							},
@@ -520,78 +622,6 @@
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Script1",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1_copy1_copy1",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'E' where ESBUPDATETIME ='@{variables('CurrenTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
-							}
-						},
-						{
-							"name": "Script2",
-							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Copy data2",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
-								"type": "LinkedServiceReference"
-							},
-							"typeProperties": {
-								"scripts": [
-									{
-										"type": "Query",
-										"text": {
-											"value": "update SCM_ADMIN.ESB_BPC_PRINT_TAG set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrenTime')}'",
-											"type": "Expression"
-										}
-									}
-								],
-								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
@@ -606,7 +636,13 @@
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"Rowcount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
