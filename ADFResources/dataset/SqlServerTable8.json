@@ -2,7 +2,7 @@
 	"name": "SqlServerTable8",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

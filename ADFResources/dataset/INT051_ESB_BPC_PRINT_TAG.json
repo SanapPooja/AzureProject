@@ -2,7 +2,7 @@
 	"name": "INT051_ESB_BPC_PRINT_TAG",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

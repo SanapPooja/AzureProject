@@ -349,7 +349,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT051_QUEUE_HEAD_PROD",
+						"referenceName": "INT051_BPC_PRINT_TAG_HEAD",
 						"type": "DatasetReference"
 					}
 				],
@@ -416,7 +416,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}
