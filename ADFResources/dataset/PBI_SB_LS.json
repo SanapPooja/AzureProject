@@ -1,0 +1,12 @@
+{
+	"name": "PBI_SB_LS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PBI_LIPS_REST_API",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

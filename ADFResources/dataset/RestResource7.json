@@ -1,0 +1,12 @@
+{
+	"name": "RestResource7",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PBI_LIPS_Head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
