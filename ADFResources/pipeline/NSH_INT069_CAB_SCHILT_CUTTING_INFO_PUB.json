@@ -523,7 +523,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT069_QUEUE_PROD",
+									"referenceName": "NSH_INT069_QUEUE",
 									"type": "DatasetReference"
 								}
 							]
@@ -645,7 +645,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "NSH_INT069_ESB_CAB_CUTTING_SCHILT_INFO",
+									"referenceName": "INT069_STAGING",
 									"type": "DatasetReference"
 								}
 							]
@@ -670,7 +670,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -723,7 +723,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -874,7 +874,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}

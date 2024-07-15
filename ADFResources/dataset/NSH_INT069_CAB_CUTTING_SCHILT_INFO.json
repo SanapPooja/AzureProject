@@ -2,7 +2,7 @@
 	"name": "NSH_INT069_CAB_CUTTING_SCHILT_INFO",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

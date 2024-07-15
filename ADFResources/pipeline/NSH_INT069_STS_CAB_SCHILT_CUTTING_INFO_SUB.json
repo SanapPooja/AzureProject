@@ -558,7 +558,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT069_QUEUE_HEAD_PROD",
+						"referenceName": "NSH_INT069_QUEUE_HEAD",
 						"type": "DatasetReference"
 					}
 				],
@@ -625,7 +625,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}
