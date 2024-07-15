@@ -2,7 +2,7 @@
 	"name": "int065_tbl_scm_sts_rms_cab_shear",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -132,10 +132,6 @@
 				"name": "fld_d_offcut_ind",
 				"type": "varchar"
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "tbl_scm_sts_rms_cab_shear"
-		}
+		]
 	}
 }

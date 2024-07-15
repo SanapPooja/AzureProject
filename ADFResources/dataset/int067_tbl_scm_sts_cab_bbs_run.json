@@ -2,7 +2,7 @@
 	"name": "int067_tbl_scm_sts_cab_bbs_run",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -45,10 +45,6 @@
 				"precision": 38,
 				"scale": 9
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "tbl_scm_sts_cab_bbs_run"
-		}
+		]
 	}
 }

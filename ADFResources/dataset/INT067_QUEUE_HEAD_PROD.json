@@ -2,7 +2,7 @@
 	"name": "INT067_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT067_QUEUE_HEAD_PROD",
+			"referenceName": "int067_cab_bbs_run_head",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

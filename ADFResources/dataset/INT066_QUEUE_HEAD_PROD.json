@@ -2,7 +2,7 @@
 	"name": "INT066_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT066_QUEUE_HEAD_PROD",
+			"referenceName": "int066_view_cab_print_tag",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

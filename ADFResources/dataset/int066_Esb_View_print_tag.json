@@ -2,7 +2,7 @@
 	"name": "int066_Esb_View_print_tag",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -10,10 +10,6 @@
 		},
 		"annotations": [],
 		"type": "OracleTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "SCM_ADMIN",
-			"table": "ESB_CAB_PRINT_TAG"
-		}
+		"schema": []
 	}
 }

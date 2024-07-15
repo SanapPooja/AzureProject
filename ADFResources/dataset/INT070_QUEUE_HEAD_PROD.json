@@ -2,7 +2,7 @@
 	"name": "INT070_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT070_QUEUE_HEAD_PROD",
+			"referenceName": "INT070_Queue",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

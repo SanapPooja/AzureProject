@@ -2,7 +2,7 @@
 	"name": "tbl_sts_scm_prodn_staging_upd_test",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -172,10 +172,6 @@
 				"name": "product_type",
 				"type": "varchar"
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "tbl_sts_scm_prodn_staging_upd_test"
-		}
+		]
 	}
 }

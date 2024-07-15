@@ -2,7 +2,7 @@
 	"name": "int066_view_cab_print_tag1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -10,10 +10,6 @@
 		},
 		"annotations": [],
 		"type": "OracleTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "SCM_ADMIN",
-			"table": "VIEW_CAB_PRINT_TAG"
-		}
+		"schema": []
 	}
 }

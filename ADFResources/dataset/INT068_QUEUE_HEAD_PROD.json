@@ -2,7 +2,7 @@
 	"name": "INT068_QUEUE_HEAD_PROD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT068_QUEUE_HEAD_PROD",
+			"referenceName": "int068_cab_schilt_feed_material_head",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

@@ -2,7 +2,7 @@
 	"name": "int066_tbl_scm_sts_cab_print_tag",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -637,10 +637,6 @@
 				"name": "PRODUCT_TYPE",
 				"type": "char"
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "tbl_scm_sts_cab_print_tag"
-		}
+		]
 	}
 }
