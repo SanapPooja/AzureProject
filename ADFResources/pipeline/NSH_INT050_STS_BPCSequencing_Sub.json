@@ -437,11 +437,19 @@
 							},
 							{
 								"source": {
-									"path": "STATUS"
+									"path": "$['STATUS']"
 								},
 								"sink": {
 									"name": "STATUS",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['$FLD_PSCH_PLAN_PRODN_DATE']"
+								},
+								"sink": {
+									"name": "FLD_PSCH_PLAN_PRODN_DATE"
 								}
 							}
 						]
@@ -449,7 +457,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "BpcSequencing_head",
+						"referenceName": "INT050_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -463,6 +471,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -473,12 +483,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			},
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -497,7 +509,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int050_bpcseqencing/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int050_bpcsequencing/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -510,6 +522,9 @@
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
