@@ -2,7 +2,7 @@
 	"name": "INT050_IDB_BPCSEQENCING",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

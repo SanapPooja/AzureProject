@@ -1,0 +1,12 @@
+{
+	"name": "INT050_QUEUE_QA_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BpcSequencing_head",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

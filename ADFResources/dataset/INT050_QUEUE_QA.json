@@ -1,0 +1,12 @@
+{
+	"name": "INT050_QUEUE_QA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IDB_BpcSeqencing",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

@@ -457,7 +457,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "INT050_QUEUE_HEAD_PROD",
+						"referenceName": "INT050_QUEUE_QA_HEAD",
 						"type": "DatasetReference"
 					}
 				],
@@ -524,7 +524,7 @@
 			}
 		},
 		"folder": {
-			"name": "Prod_Env"
+			"name": "QA_Env"
 		},
 		"annotations": []
 	}
