@@ -11,7 +11,7 @@
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "PBI_MSP",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5NzY0OTQzNi00ODUzLTQ4OWEtYTExNi05YTAxMzNlYTM3NTgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2Y2ViYmMyZi02MjcyLTQ2NTktODUzZi1hOTRjZDgyOTc1MGUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "MESQARuntime",
