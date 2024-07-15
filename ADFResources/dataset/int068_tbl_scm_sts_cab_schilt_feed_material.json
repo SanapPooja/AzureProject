@@ -2,8 +2,11 @@
 	"name": "int068_tbl_scm_sts_cab_schilt_feed_material",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSQADB2Connection",
+			"referenceName": "NSDB11_STS",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
