@@ -1,5 +1,5 @@
 {
-	"name": "INT049_IDB_BPC_BOM",
+	"name": "INT049_ESB_IDB_bbc_bom",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SCM_CONNECTION_PROD",
@@ -13,7 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SCM_ADMIN",
-			"table": "BPC_BOM"
+			"table": "ESB_BPC_BOM"
 		}
 	}
 }
