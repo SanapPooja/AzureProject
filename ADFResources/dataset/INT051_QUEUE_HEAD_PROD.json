@@ -1,0 +1,15 @@
+{
+	"name": "INT051_QUEUE_HEAD_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "INT051_QUEUE_HEAD_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

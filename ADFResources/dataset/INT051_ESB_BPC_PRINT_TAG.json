@@ -1,0 +1,19 @@
+{
+	"name": "INT051_ESB_BPC_PRINT_TAG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCM_CONNECTION_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Prod_Env"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SCM_ADMIN",
+			"table": "ESB_BPC_PRINT_TAG"
+		}
+	}
+}
