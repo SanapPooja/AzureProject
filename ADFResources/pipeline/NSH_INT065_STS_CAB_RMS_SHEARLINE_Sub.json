@@ -25,7 +25,7 @@
 							{
 								"name": "fld_create_date",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(),5),30),'yyyy-MM-dd HH:mm:ss'\n)",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n",
 									"type": "Expression"
 								}
 							},
@@ -301,7 +301,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int065_cab_rms_head",
+						"referenceName": "INT065_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -315,12 +315,13 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
 						"dependencyConditions": [
-							"Succeeded",
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -332,6 +333,8 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -350,7 +353,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int065_cab_rms_shearline/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
@@ -363,6 +366,9 @@
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(utcnow(), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

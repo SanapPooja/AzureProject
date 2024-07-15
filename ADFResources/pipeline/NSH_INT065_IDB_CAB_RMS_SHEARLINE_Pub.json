@@ -3,590 +3,634 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"additionalColumns": [
-							{
-								"name": "fld_q_rec_type",
-								"value": ""
-							},
-							{
-								"name": "fld_create_date",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
-							},
-							{
-								"name": "fld_create_by",
-								"value": "ESB INT065"
-							},
-							{
-								"name": "fld_modify_date",
-								"value": ""
-							},
-							{
-								"name": "fld_modify_by",
-								"value": ""
-							},
-							{
-								"name": "fld_rec_type",
-								"value": "Y"
-							}
-						],
-						"oracleReaderQuery": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.cab_rms_shearline_download\n        MINUS\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n    )\n    WHERE ROWNUM <= '82'\n)\nSELECT \n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\n    NVL(CRSD.create_date, ' ') AS create_date,\n    NVL(CRSD.update_date, ' ') AS update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\nFROM  \n    FirstQuery FQ\nJOIN\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\n                                             AND FQ.d_section_no = CRSD.d_section_no\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\n",
-						"partitionOption": "None",
-						"convertDecimalToInteger": false,
-						"queryTimeout": "02:00:00"
+					"expression": {
+						"value": "@greater(length(activity('Lookup1').output.value), 0)",
+						"type": "Expression"
 					},
-					"sink": {
-						"type": "RestSink",
-						"httpRequestTimeout": "00:05:00",
-						"requestInterval": 10,
-						"requestMethod": "POST",
-						"writeBatchSize": 10000,
-						"httpCompressionType": "none"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "R_RUN_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$R_RUN_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "R_PROD_TYPE_REF",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$R_PROD_TYPE_REF"
-								}
-							},
-							{
-								"source": {
-									"name": "R_START_STOCK_LEN",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$R_START_STOCK_LEN"
-								}
-							},
-							{
-								"source": {
-									"name": "R_DIA_REF",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$R_DIA_REF"
-								}
-							},
-							{
-								"source": {
-									"name": "L_COMB_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$L_COMB_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "L_QTY_OF_SEGMENT",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$L_QTY_OF_SEGMENT"
-								}
-							},
-							{
-								"source": {
-									"name": "L_STOCK_BARS_LEN",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$L_STOCK_BARS_LEN"
-								}
-							},
-							{
-								"source": {
-									"name": "D_NO_OF_CUTS",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$D_NO_OF_CUTS"
-								}
-							},
-							{
-								"source": {
-									"name": "D_SECTION_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_SECTION_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "D_BIN_NUMBER",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_BIN_NUMBER"
-								}
-							},
-							{
-								"source": {
-									"name": "D_CUT_LENGTH",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_CUT_LENGTH"
-								}
-							},
-							{
-								"source": {
-									"name": "D_TAG_REF_INFO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_TAG_REF_INFO"
-								}
-							},
-							{
-								"source": {
-									"name": "D_STRAIGHT_BEND_FLAG",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_STRAIGHT_BEND_FLAG"
-								}
-							},
-							{
-								"source": {
-									"name": "D_BBS_BAR_MARK_INFO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_BBS_BAR_MARK_INFO"
-								}
-							},
-							{
-								"source": {
-									"name": "D_TAG_NO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_TAG_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "D_FLAG_INFO",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_FLAG_INFO"
-								}
-							},
-							{
-								"source": {
-									"name": "CREATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$CREATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "UPDATE_DATE",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$UPDATE_DATE"
-								}
-							},
-							{
-								"source": {
-									"name": "D_CUTTING_SEQ_NO",
-									"type": "Double"
-								},
-								"sink": {
-									"path": "$D_CUTTING_SEQ_NO"
-								}
-							},
-							{
-								"source": {
-									"name": "D_OFFCUT_IND",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$D_OFFCUT_IND"
-								}
-							},
-							{
-								"source": {
-									"name": "fld_q_rec_type",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$fld_q_rec_type']"
-								}
-							},
-							{
-								"source": {
-									"name": "fld_create_date",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$fld_create_date']"
-								}
-							},
-							{
-								"source": {
-									"name": "fld_create_by",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$fld_create_by']"
-								}
-							},
-							{
-								"source": {
-									"name": "fld_modify_date",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$fld_modify_date']"
-								}
-							},
-							{
-								"source": {
-									"name": "fld_modify_by",
-									"type": "String"
-								},
-								"sink": {
-									"path": "$['$fld_modify_by']"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "int065_cab_rms_shearline",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "int065_cab_rms_shearline",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Web1_copy1_copy1",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "Wait1_copy1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int065_cab_rms_shearline/messages/head"
-				}
-			},
-			{
-				"name": "Script1_copy1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Execute Pipeline1_copy1",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
+					"ifTrueActivities": [
 						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "OracleSource",
-						"additionalColumns": [
-							{
-								"name": "ESBSTATUS",
-								"value": "S"
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							{
-								"name": "ESBUPDATETIME",
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"additionalColumns": [
+										{
+											"name": "fld_q_rec_type",
+											"value": ""
+										},
+										{
+											"name": "fld_create_date",
+											"value": {
+												"value": "@utcnow()",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "fld_create_by",
+											"value": "ESB INT065"
+										},
+										{
+											"name": "fld_modify_date",
+											"value": ""
+										},
+										{
+											"name": "fld_modify_by",
+											"value": ""
+										},
+										{
+											"name": "fld_rec_type",
+											"value": "Y"
+										}
+									],
+									"oracleReaderQuery": "WITH FirstQuery AS (\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n    FROM (        \n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\n        FROM scm_admin.esb_cab_rms_shearline_download\n        where  ESBSTATUS = 'I' \n    )\n)\nSELECT \n    NVL(FQ.r_run_no, ' ') AS r_run_no,\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\n    NVL(CRSD.create_date, ' ') AS create_date,\n    NVL(CRSD.update_date, ' ') AS update_date,\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\nFROM  \n    FirstQuery FQ\nJOIN\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\n                                             AND FQ.d_section_no = CRSD.d_section_no\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\n",
+									"partitionOption": "None",
+									"convertDecimalToInteger": false,
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "RestSink",
+									"httpRequestTimeout": "00:05:00",
+									"requestInterval": 10,
+									"requestMethod": "POST",
+									"writeBatchSize": "300",
+									"httpCompressionType": "none"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "R_RUN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$R_RUN_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "R_PROD_TYPE_REF",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$R_PROD_TYPE_REF"
+											}
+										},
+										{
+											"source": {
+												"name": "R_START_STOCK_LEN",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$R_START_STOCK_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "R_DIA_REF",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$R_DIA_REF"
+											}
+										},
+										{
+											"source": {
+												"name": "L_COMB_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$L_COMB_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "L_QTY_OF_SEGMENT",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$L_QTY_OF_SEGMENT"
+											}
+										},
+										{
+											"source": {
+												"name": "L_STOCK_BARS_LEN",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$L_STOCK_BARS_LEN"
+											}
+										},
+										{
+											"source": {
+												"name": "D_NO_OF_CUTS",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$D_NO_OF_CUTS"
+											}
+										},
+										{
+											"source": {
+												"name": "D_SECTION_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_SECTION_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "D_BIN_NUMBER",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_BIN_NUMBER"
+											}
+										},
+										{
+											"source": {
+												"name": "D_CUT_LENGTH",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_CUT_LENGTH"
+											}
+										},
+										{
+											"source": {
+												"name": "D_TAG_REF_INFO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_TAG_REF_INFO"
+											}
+										},
+										{
+											"source": {
+												"name": "D_STRAIGHT_BEND_FLAG",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_STRAIGHT_BEND_FLAG"
+											}
+										},
+										{
+											"source": {
+												"name": "D_BBS_BAR_MARK_INFO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_BBS_BAR_MARK_INFO"
+											}
+										},
+										{
+											"source": {
+												"name": "D_TAG_NO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_TAG_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "D_FLAG_INFO",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_FLAG_INFO"
+											}
+										},
+										{
+											"source": {
+												"name": "CREATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$CREATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "UPDATE_DATE",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$UPDATE_DATE"
+											}
+										},
+										{
+											"source": {
+												"name": "D_CUTTING_SEQ_NO",
+												"type": "Double"
+											},
+											"sink": {
+												"path": "$D_CUTTING_SEQ_NO"
+											}
+										},
+										{
+											"source": {
+												"name": "D_OFFCUT_IND",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$D_OFFCUT_IND"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_q_rec_type",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$fld_q_rec_type']"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_create_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$fld_create_date']"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_create_by",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$fld_create_by']"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_modify_date",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$fld_modify_date']"
+											}
+										},
+										{
+											"source": {
+												"name": "fld_modify_by",
+												"type": "String"
+											},
+											"sink": {
+												"path": "$['$fld_modify_by']"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "int065_cab_rms_shearline",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT065_QUEUE_PROD",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Copy data2",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"additionalColumns": [
+										{
+											"name": "ESBSTATUS",
+											"value": "I"
+										},
+										{
+											"name": "ESBUPDATETIME",
+											"value": {
+												"value": "@variables('CurrentTime')",
+												"type": "Expression"
+											}
+										}
+									],
+									"oracleReaderQuery": "SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n    FROM (\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.cab_rms_shearline_download\r\n        MINUS\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n    )",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "R_RUN_NO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "R_RUN_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "R_DIA_REF",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "R_DIA_REF",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "L_COMB_NO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "L_COMB_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "D_SECTION_NO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "D_SECTION_NO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "D_BIN_NUMBER",
+												"type": "String"
+											},
+											"sink": {
+												"name": "D_BIN_NUMBER",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "D_CUTTING_SEQ_NO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "D_CUTTING_SEQ_NO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBSTATUS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ESBUPDATETIME",
+												"type": "String"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "int065_cab_rms_shearline",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "INT065_ESB_Cab_rms_shearline",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentTime",
 								"value": {
-									"value": "@variables('CurrentTime')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
 									"type": "Expression"
 								}
 							}
-						],
-						"oracleReaderQuery": "SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n    FROM (\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.cab_rms_shearline_download\r\n        MINUS\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n    )\r\n    WHERE ROWNUM <= '82'",
-						"partitionOption": "None",
-						"queryTimeout": "02:00:00"
-					},
-					"sink": {
-						"type": "OracleSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "R_RUN_NO",
-									"type": "String"
-								},
-								"sink": {
-									"name": "R_RUN_NO",
-									"type": "String"
+						},
+						{
+							"name": "Fail",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Failed"
+									]
 								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							{
-								"source": {
-									"name": "R_DIA_REF",
-									"type": "Decimal"
-								},
-								"sink": {
-									"name": "R_DIA_REF",
-									"type": "Decimal"
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}' and ESBSTATUS='I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Success",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							{
-								"source": {
-									"name": "L_COMB_NO",
-									"type": "String"
-								},
-								"sink": {
-									"name": "L_COMB_NO",
-									"type": "String"
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}' and ESBSTATUS='I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
 							},
-							{
-								"source": {
-									"name": "D_SECTION_NO",
-									"type": "String"
-								},
-								"sink": {
-									"name": "D_SECTION_NO",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "D_BIN_NUMBER",
-									"type": "String"
-								},
-								"sink": {
-									"name": "D_BIN_NUMBER",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "D_CUTTING_SEQ_NO",
-									"type": "Decimal"
-								},
-								"sink": {
-									"name": "D_CUTTING_SEQ_NO",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBSTATUS",
-									"type": "String"
-								},
-								"sink": {
-									"name": "ESBSTATUS",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ESBUPDATETIME",
-									"type": "String"
-								},
-								"sink": {
-									"name": "ESBUPDATETIME",
-									"type": "String"
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RowCount",
+								"value": {
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
+									"type": "Expression"
 								}
 							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/300 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (        \r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n        where  ESBSTATUS = 'I' \r\n    ) ",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "int065_cab_rms_shearline",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
 						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "int065_cab_rms_shearline",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "INT065_ESB_Cab_rms_shearline",
-						"type": "DatasetReference"
-					}
-				]
+					]
+				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentTime",
-					"value": {
-						"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Execute Pipeline1_copy1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "NSH_INT065_STS_CAB_RMS_SHEARLINE_Sub",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "Wait1_copy1",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 6
-				}
-			},
-			{
-				"name": "Script1_copy1_copy2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Copy data2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
@@ -594,21 +638,56 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "WITH FirstQuery AS (\r\n    SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n    FROM (\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.cab_rms_shearline_download\r\n        MINUS\r\n        SELECT r_run_no, r_dia_ref, l_comb_no, d_section_no, d_bin_number, d_cutting_seq_no\r\n        FROM scm_admin.esb_cab_rms_shearline_download\r\n    )\r\n     where ROWNUM<=1000\r\n)\r\nSELECT \r\n    NVL(FQ.r_run_no, ' ') AS r_run_no,\r\n    NVL(CRSD.r_prod_type_ref, ' ') AS r_prod_type_ref,\r\n    NVL(CRSD.r_start_stock_len, 0) AS r_start_stock_len,\r\n    NVL(CRSD.r_dia_ref, 0) AS r_dia_ref,\r\n    NVL(CRSD.l_comb_no, ' ') AS l_comb_no,\r\n    NVL(CRSD.l_qty_of_segment, 0) AS l_qty_of_segment,\r\n    NVL(CRSD.l_stock_bars_len, 0) AS l_stock_bars_len,\r\n    NVL(CRSD.d_no_of_cuts, 0) AS d_no_of_cuts,\r\n    NVL(CRSD.d_section_no, ' ') AS d_section_no,\r\n    NVL(CRSD.d_bin_number, ' ') AS d_bin_number,\r\n    NVL(CRSD.d_cut_length, ' ') AS d_cut_length,\r\n    NVL(CRSD.d_tag_ref_info, ' ') AS d_tag_ref_info,\r\n    NVL(CRSD.d_straight_bend_flag, ' ') AS d_straight_bend_flag,\r\n    NVL(CRSD.d_bbs_bar_mark_info, ' ') AS d_bbs_bar_mark_info,\r\n    NVL(CRSD.d_tag_no, ' ') AS d_tag_no,\r\n    NVL(CRSD.d_flag_info, ' ') AS d_flag_info,\r\n    NVL(CRSD.create_date, ' ') AS create_date,\r\n    NVL(CRSD.update_date, ' ') AS update_date,\r\n    NVL(FQ.d_cutting_seq_no, 0) AS d_cutting_seq_no,\r\n    NVL(CRSD.d_offcut_ind, ' ') AS d_offcut_ind\r\nFROM  \r\n    FirstQuery FQ\r\nJOIN\r\n    scm_admin.cab_rms_shearline_download CRSD ON FQ.r_run_no = CRSD.r_run_no\r\n                                             AND FQ.r_dia_ref = CRSD.r_dia_ref\r\n                                             AND FQ.l_comb_no = CRSD.l_comb_no\r\n                                             AND FQ.d_section_no = CRSD.d_section_no\r\n                                             AND FQ.d_bin_number = CRSD.d_bin_number\r\n                                             AND FQ.d_cutting_seq_no = CRSD.d_cutting_seq_no;\r\n",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "int065_cab_rms_shearline",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
 						{
-							"type": "Query",
-							"text": {
-								"value": "Update SCM_ADMIN.ESB_CAB_RMS_SHEARLINE_DOWNLOAD Set STATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
-								"type": "Expression"
+							"name": "Execute Pipeline1_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT065_STS_CAB_RMS_SHEARLINE_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
 							}
 						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
+					]
 				}
 			}
 		],
@@ -616,7 +695,13 @@
 			"CurrentTime": {
 				"type": "String",
 				"defaultValue": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

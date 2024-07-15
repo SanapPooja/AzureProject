@@ -25,7 +25,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -43,7 +43,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "WITH MissingTags AS (\n    SELECT TAG_NO \n    FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\n    MINUS\n    SELECT TAG_NO \n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\n    WHERE ROWNUM <= 1000\n)\nSELECT\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\n    NVL(V.WEIGHT, 0) AS WEIGHT,\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\n    NVL(V.INV_LEN, 0) AS INV_LEN,\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\n    NVL(V.BVBS, ' ') AS BVBS,\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\nFROM \n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\nJOIN \n    MissingTags M ON V.TAG_NO = M.TAG_NO\nWHERE ROWNUM <= 5;\n",
+										"value": "SELECT\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\n    NVL(V.WEIGHT, 0) AS WEIGHT,\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\n    NVL(V.INV_LEN, 0) AS INV_LEN,\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\n    NVL(V.BVBS, ' ') AS BVBS,\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\nFROM \n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\nInner JOIN       \n    SCM_ADMIN.ESB_CAB_PRINT_TAG M on V.TAG_NO = M.TAG_NO\nwhere  M.ESBSTATUS = 'I' \n",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -55,7 +55,7 @@
 									"httpRequestTimeout": "00:05:00",
 									"requestInterval": 10,
 									"requestMethod": "POST",
-									"writeBatchSize": "10",
+									"writeBatchSize": "70",
 									"httpCompressionType": "none"
 								},
 								"enableStaging": false,
@@ -1378,7 +1378,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "int066_view_cab_print_tag",
+									"referenceName": "INT066_QUEUE_PROD",
 									"type": "DatasetReference"
 								}
 							]
@@ -1388,7 +1388,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy data2",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -1408,7 +1408,7 @@
 									"additionalColumns": [
 										{
 											"name": "ESBSTATUS",
-											"value": "E"
+											"value": "I"
 										},
 										{
 											"name": "ESBUPDATETIME",
@@ -1419,7 +1419,7 @@
 										}
 									],
 									"oracleReaderQuery": {
-										"value": "select TAG_NO from (select TAG_NO from SCM_ADMIN.VIEW_CAB_PRINT_TAG\t\t\t\t\nminus\t\t\t\t\nselect TAG_NO from SCM_ADMIN.ESB_CAB_PRINT_TAG)\t\t\t\t\nwhere rownum <= 5\t\t\t\t",
+										"value": "select TAG_NO from (select TAG_NO from SCM_ADMIN.VIEW_CAB_PRINT_TAG\t\t\t\t\nminus\t\t\t\t\nselect TAG_NO from SCM_ADMIN.ESB_CAB_PRINT_TAG)\t\t\t\t\n\t\t\t",
 										"type": "Expression"
 									},
 									"partitionOption": "None",
@@ -1486,80 +1486,28 @@
 							]
 						},
 						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Failed",
-							"dependsOn": [
-								{
-									"activity": "Copy data3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
 							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "NSH_INT066_STS_View_Cab_Print_tag_Sub",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [
-								{
-									"activity": "Copy data3",
-									"dependencyConditions": [
-										"Failed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						},
-						{
-							"name": "Web1",
-							"type": "WebActivity",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"method": "DELETE",
-								"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int066_view_cab_print_tag/messages/head",
-								"authentication": {
-									"type": "MSI",
-									"resource": "https://servicebus.azure.net/"
+								"variableName": "CurrentTime",
+								"value": {
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 8), 00), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))",
+									"type": "Expression"
 								}
 							}
 						},
 						{
-							"name": "Script1",
+							"name": "Fail",
 							"type": "Script",
 							"dependsOn": [
 								{
-									"activity": "Execute Pipeline1",
+									"activity": "Copy data2",
 									"dependencyConditions": [
 										"Failed"
 									]
@@ -1574,7 +1522,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_IDB_Connect",
+								"referenceName": "SCM_CONNECTION_PROD",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -1582,7 +1530,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "Update SCM_ADMIN.ESB_CAB_PRINT_TAG Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}'",
+											"value": "Update SCM_ADMIN.ESB_CAB_PRINT_TAG Set ESBSTATUS = 'E' where ESBUPDATETIME = '@{variables('CurrentTime')}' and  ESBSTATUS = 'I'",
 											"type": "Expression"
 										}
 									}
@@ -1591,20 +1539,96 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "Success",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SCM_CONNECTION_PROD",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "Update SCM_ADMIN.ESB_CAB_PRINT_TAG Set ESBSTATUS = 'S' where ESBUPDATETIME = '@{variables('CurrentTime')}' and  ESBSTATUS = 'I'",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
 							"type": "SetVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "BatchSize",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "CurrentTime",
+								"variableName": "RowCount",
 								"value": {
-									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss'), '.', formatDateTime(utcnow(), 'fff'))\n",
+									"value": "@range(1, int(activity('BatchSize').output.value[0].recordcount))",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "BatchSize",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy data3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": " SELECT Case When count(1)>0 Then     \r\n    cast(count(1)/70 as int) + 1 \r\n    Else 0\r\n    end as recordcount\r\n    FROM (\r\n           SELECT TAG_NO FROM\r\n            (               \r\n                SELECT TAG_NO \r\n                FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\r\n                where  ESBSTATUS = 'I' \r\n            )\r\n    )",
+									"partitionOption": "None",
+									"queryTimeout": "02:00:00"
+								},
+								"dataset": {
+									"referenceName": "int066_view_cab_print_tag1",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
@@ -1625,7 +1649,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "WITH MissingTags AS (\r\n    SELECT TAG_NO \r\n    FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\r\n    MINUS\r\n    SELECT TAG_NO \r\n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\r\n    WHERE ROWNUM <= 1000\r\n)\r\nSELECT\r\n    NVL(V.BBS_NO, ' ') AS BBS_NO,\r\n    NVL(V.PROD_MARKING, ' ') AS PROD_MARKING,\r\n    NVL(V.PROJ_NAME, ' ') AS PROJ_NAME,\r\n    NVL(V.BBS_DESC, ' ') AS BBS_DESC,\r\n    NVL(V.LOAD_DATE, ' ') AS LOAD_DATE,\r\n    NVL(V.RUN_NO, ' ') AS RUN_NO,\r\n    NVL(V.SHAPECODE, ' ') AS SHAPECODE,\r\n    NVL(V.WEIGHT, 0) AS WEIGHT,\r\n    NVL(V.PIN_SIZE, 0) AS PIN_SIZE,\r\n    NVL(V.TAG_QTY, 0) AS TAG_QTY,\r\n    NVL(V.ITEM_TOTAL_QTY, 0) AS ITEM_TOTAL_QTY,\r\n    NVL(V.INV_LEN, 0) AS INV_LEN,\r\n    NVL(V.GRADE_DIA, ' ') AS GRADE_DIA,\r\n    NVL(V.WORKCENTER, ' ') AS WORKCENTER,\r\n    NVL(V.Q_PO_NO, ' ') AS Q_PO_NO,\r\n    NVL(V.TAG_NO, ' ') AS TAG_NO,\r\n    NVL(V.BENDING_SEQ_NO, ' ') AS BENDING_SEQ_NO,\r\n    NVL(V.SEGMENT_LENGTH_1, ' ') AS SEGMENT_LENGTH_1,\r\n    NVL(V.SHAPE_PARAM_1, ' ') AS SHAPE_PARAM_1,\r\n    NVL(V.PARAM_IND_1, ' ') AS PARAM_IND_1,\r\n    NVL(V.COORDINATE_X_1, ' ') AS COORDINATE_X_1,\r\n    NVL(V.COORDINATE_Y_1, ' ') AS COORDINATE_Y_1,\r\n    NVL(V.SEGMENT_LENGTH_2, ' ') AS SEGMENT_LENGTH_2,\r\n    NVL(V.SHAPE_PARAM_2, ' ') AS SHAPE_PARAM_2,\r\n    NVL(V.PARAM_IND_2, ' ') AS PARAM_IND_2,\r\n    NVL(V.COORDINATE_X_2, ' ') AS COORDINATE_X_2,\r\n    NVL(V.COORDINATE_Y_2, ' ') AS COORDINATE_Y_2,\r\n    NVL(V.SEGMENT_LENGTH_3, ' ') AS SEGMENT_LENGTH_3,\r\n    NVL(V.SHAPE_PARAM_3, ' ') AS SHAPE_PARAM_3,\r\n    NVL(V.PARAM_IND_3, ' ') AS PARAM_IND_3,\r\n    NVL(V.COORDINATE_X_3, ' ') AS COORDINATE_X_3,\r\n    NVL(V.COORDINATE_Y_3, ' ') AS COORDINATE_Y_3,\r\n    NVL(V.SEGMENT_LENGTH_4, ' ') AS SEGMENT_LENGTH_4,\r\n    NVL(V.SHAPE_PARAM_4, ' ') AS SHAPE_PARAM_4,\r\n    NVL(V.PARAM_IND_4, ' ') AS PARAM_IND_4,\r\n    NVL(V.COORDINATE_X_4, ' ') AS COORDINATE_X_4,\r\n    NVL(V.COORDINATE_Y_4, ' ') AS COORDINATE_Y_4,\r\n    NVL(V.SEGMENT_LENGTH_5, ' ') AS SEGMENT_LENGTH_5,\r\n    NVL(V.SHAPE_PARAM_5, ' ') AS SHAPE_PARAM_5,\r\n    NVL(V.PARAM_IND_5, ' ') AS PARAM_IND_5,\r\n    NVL(V.COORDINATE_X_5, ' ') AS COORDINATE_X_5,\r\n    NVL(V.COORDINATE_Y_5, ' ') AS COORDINATE_Y_5,\r\n    NVL(V.SEGMENT_LENGTH_6, ' ') AS SEGMENT_LENGTH_6,\r\n    NVL(V.SHAPE_PARAM_6, ' ') AS SHAPE_PARAM_6,\r\n    NVL(V.PARAM_IND_6, ' ') AS PARAM_IND_6,\r\n    NVL(V.COORDINATE_X_6, ' ') AS COORDINATE_X_6,\r\n    NVL(V.COORDINATE_Y_6, ' ') AS COORDINATE_Y_6,\r\n    NVL(V.SEGMENT_LENGTH_7, ' ') AS SEGMENT_LENGTH_7,\r\n    NVL(V.SHAPE_PARAM_7, ' ') AS SHAPE_PARAM_7,\r\n    NVL(V.PARAM_IND_7, ' ') AS PARAM_IND_7,\r\n    NVL(V.COORDINATE_X_7, ' ') AS COORDINATE_X_7,\r\n    NVL(V.COORDINATE_Y_7, ' ') AS COORDINATE_Y_7,\r\n    NVL(V.SEGMENT_LENGTH_8, ' ') AS SEGMENT_LENGTH_8,\r\n    NVL(V.SHAPE_PARAM_8, ' ') AS SHAPE_PARAM_8,\r\n    NVL(V.PARAM_IND_8, ' ') AS PARAM_IND_8,\r\n    NVL(V.COORDINATE_X_8, ' ') AS COORDINATE_X_8,\r\n    NVL(V.COORDINATE_Y_8, ' ') AS COORDINATE_Y_8,\r\n    NVL(V.SEGMENT_LENGTH_9, ' ') AS SEGMENT_LENGTH_9,\r\n    NVL(V.SHAPE_PARAM_9, ' ') AS SHAPE_PARAM_9,\r\n    NVL(V.PARAM_IND_9, ' ') AS PARAM_IND_9,\r\n    NVL(V.COORDINATE_X_9, ' ') AS COORDINATE_X_9,\r\n    NVL(V.COORDINATE_Y_9, ' ') AS COORDINATE_Y_9,\r\n    NVL(V.SEGMENT_LENGTH_10, ' ') AS SEGMENT_LENGTH_10,\r\n    NVL(V.SHAPE_PARAM_10, ' ') AS SHAPE_PARAM_10,\r\n    NVL(V.PARAM_IND_10, ' ') AS PARAM_IND_10,\r\n    NVL(V.COORDINATE_X_10, ' ') AS COORDINATE_X_10,\r\n    NVL(V.COORDINATE_Y_10, ' ') AS COORDINATE_Y_10,\r\n    NVL(V.SEGMENT_LENGTH_11, ' ') AS SEGMENT_LENGTH_11,\r\n    NVL(V.SHAPE_PARAM_11, ' ') AS SHAPE_PARAM_11,\r\n    NVL(V.PARAM_IND_11, ' ') AS PARAM_IND_11,\r\n    NVL(V.COORDINATE_X_11, ' ') AS COORDINATE_X_11,\r\n    NVL(V.COORDINATE_Y_11, ' ') AS COORDINATE_Y_11,\r\n    NVL(V.SEGMENT_LENGTH_12, ' ') AS SEGMENT_LENGTH_12,\r\n    NVL(V.SHAPE_PARAM_12, ' ') AS SHAPE_PARAM_12,\r\n    NVL(V.PARAM_IND_12, ' ') AS PARAM_IND_12,\r\n    NVL(V.COORDINATE_X_12, ' ') AS COORDINATE_X_12,\r\n    NVL(V.COORDINATE_Y_12, ' ') AS COORDINATE_Y_12,\r\n    NVL(V.SEGMENT_LENGTH_13, ' ') AS SEGMENT_LENGTH_13,\r\n    NVL(V.SHAPE_PARAM_13, ' ') AS SHAPE_PARAM_13,\r\n    NVL(V.PARAM_IND_13, ' ') AS PARAM_IND_13,\r\n    NVL(V.COORDINATE_X_13, ' ') AS COORDINATE_X_13,\r\n    NVL(V.COORDINATE_Y_13, ' ') AS COORDINATE_Y_13,\r\n    NVL(V.SEGMENT_LENGTH_14, ' ') AS SEGMENT_LENGTH_14,\r\n    NVL(V.SHAPE_PARAM_14, ' ') AS SHAPE_PARAM_14,\r\n    NVL(V.PARAM_IND_14, ' ') AS PARAM_IND_14,\r\n    NVL(V.COORDINATE_X_14, ' ') AS COORDINATE_X_14,\r\n    NVL(V.COORDINATE_Y_14, ' ') AS COORDINATE_Y_14,\r\n    NVL(V.SEGMENT_LENGTH_15, ' ') AS SEGMENT_LENGTH_15,\r\n    NVL(V.SHAPE_PARAM_15, ' ') AS SHAPE_PARAM_15,\r\n    NVL(V.PARAM_IND_15, ' ') AS PARAM_IND_15,\r\n    NVL(V.COORDINATE_X_15, ' ') AS COORDINATE_X_15,\r\n    NVL(V.COORDINATE_Y_15, ' ') AS COORDINATE_Y_15,\r\n    NVL(V.SEGMENT_LENGTH_16, ' ') AS SEGMENT_LENGTH_16,\r\n    NVL(V.SHAPE_PARAM_16, ' ') AS SHAPE_PARAM_16,\r\n    NVL(V.PARAM_IND_16, ' ') AS PARAM_IND_16,\r\n    NVL(V.COORDINATE_X_16, ' ') AS COORDINATE_X_16,\r\n    NVL(V.COORDINATE_Y_16, ' ') AS COORDINATE_Y_16,\r\n    NVL(V.SEGMENT_LENGTH_17, ' ') AS SEGMENT_LENGTH_17,\r\n    NVL(V.SHAPE_PARAM_17, ' ') AS SHAPE_PARAM_17,\r\n    NVL(V.PARAM_IND_17, ' ') AS PARAM_IND_17,\r\n    NVL(V.COORDINATE_X_17, ' ') AS COORDINATE_X_17,\r\n    NVL(V.COORDINATE_Y_17, ' ') AS COORDINATE_Y_17,\r\n    NVL(V.SEGMENT_LENGTH_18, ' ') AS SEGMENT_LENGTH_18,\r\n    NVL(V.SHAPE_PARAM_18, ' ') AS SHAPE_PARAM_18,\r\n    NVL(V.PARAM_IND_18, ' ') AS PARAM_IND_18,\r\n    NVL(V.COORDINATE_X_18, ' ') AS COORDINATE_X_18,\r\n    NVL(V.COORDINATE_Y_18, ' ') AS COORDINATE_Y_18,\r\n    NVL(V.SEGMENT_LENGTH_19, ' ') AS SEGMENT_LENGTH_19,\r\n    NVL(V.SHAPE_PARAM_19, ' ') AS SHAPE_PARAM_19,\r\n    NVL(V.PARAM_IND_19, ' ') AS PARAM_IND_19,\r\n    NVL(V.COORDINATE_X_19, ' ') AS COORDINATE_X_19,\r\n    NVL(V.COORDINATE_Y_19, ' ') AS COORDINATE_Y_19,\r\n    NVL(V.SEGMENT_LENGTH_20, ' ') AS SEGMENT_LENGTH_20,\r\n    NVL(V.SHAPE_PARAM_20, ' ') AS SHAPE_PARAM_20,\r\n    NVL(V.PARAM_IND_20, ' ') AS PARAM_IND_20,\r\n    NVL(V.COORDINATE_X_20, ' ') AS COORDINATE_X_20,\r\n    NVL(V.COORDINATE_Y_20, ' ') AS COORDINATE_Y_20,\r\n    NVL(V.LOAD_NO, ' ') AS LOAD_NO,\r\n    NVL(V.TIME_STAMP_CREATION, ' ') AS TIME_STAMP_CREATION,\r\n    NVL(V.TIME_STAMP_UPDATE, ' ') AS TIME_STAMP_UPDATE,\r\n    NVL(V.ORDER_DATE, ' ') AS ORDER_DATE,\r\n    NVL(V.DELIVERY_DATE, ' ') AS DELIVERY_DATE,\r\n    NVL(V.BEND_HR, ' ') AS BEND_HR,\r\n    NVL(V.ORDER_NO, ' ') AS ORDER_NO,\r\n    NVL(V.ITEM_NO, ' ') AS ITEM_NO,\r\n    NVL(V.MAT_SOURCE_IND, ' ') AS MAT_SOURCE_IND,\r\n    NVL(V.RELEASE_CODE, ' ') AS RELEASE_CODE,\r\n    NVL(V.URGENT_IND, ' ') AS URGENT_IND,\r\n    NVL(V.CONQUAS_IND, ' ') AS CONQUAS_IND,\r\n    NVL(V.BVBS, ' ') AS BVBS,\r\n    NVL(V.MAT_SOURCE, ' ') AS MAT_SOURCE,\r\n    NVL(V.TAG_COUNTER, 0) AS TAG_COUNTER,\r\n    NVL(V.TOTAL_TAGS, 0) AS TOTAL_TAGS,\r\n    NVL(V.CUST_NAME, ' ') AS CUST_NAME,\r\n    NVL(V.BBS_PAGE_NO, ' ') AS BBS_PAGE_NO,\r\n    NVL(V.GROUP_TAG_ID, ' ') AS GROUP_TAG_ID,\r\n    NVL(V.BBS_COLORCODE, ' ') AS BBS_COLORCODE,\r\n    NVL(V.GROUP_TAG_IND, ' ') AS GROUP_TAG_IND,\r\n    NVL(V.GROUP_TAG_TOTAL_TAGS, 0) AS GROUP_TAG_TOTAL_TAGS,\r\n    NVL(V.PRODUCT_TYPE, ' ') AS PRODUCT_TYPE,\r\n    NVL(V.CAGE_MARK, ' ') AS CAGE_MARK,\r\n    NVL(V.CAGE_PIECES, 0) AS CAGE_PIECES,\r\n    NVL(V.CAGING_WC, ' ') AS CAGING_WC,\r\n    NVL( SUBSTR(V.CAGING_PLANNED_STARTTIME, 12, 5), ' ') AS CAGING_PLANNED_STARTTIME,\r\n    NVL(V.CAGING_SEQ, 0) AS CAGING_SEQ\r\nFROM \r\n    SCM_ADMIN.VIEW_CAB_PRINT_TAG V\r\nJOIN \r\n    MissingTags M ON V.TAG_NO = M.TAG_NO\r\nWHERE ROWNUM <= 5;\r\n",
+						"oracleReaderQuery": "    SELECT TAG_NO FROM\r\n    (\r\n     SELECT TAG_NO \r\n     FROM SCM_ADMIN.VIEW_CAB_PRINT_TAG\r\n     MINUS\r\n     SELECT TAG_NO \r\n     FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\r\n    )\r\n    WHERE ROWNUM <= 1000\r\n",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -1635,12 +1659,58 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RowCount')",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 10,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "NSH_INT066_STS_View_Cab_Print_tag_Sub",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"CurrentTime": {
 				"type": "String"
+			},
+			"RowCount": {
+				"type": "Array"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}

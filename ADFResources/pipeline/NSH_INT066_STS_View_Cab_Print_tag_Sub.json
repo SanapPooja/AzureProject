@@ -29,7 +29,7 @@
 							{
 								"name": "CREATE_DATE",
 								"value": {
-									"value": "@formatDateTime(addminutes(addhours(utcnow(), 5), 30), 'yyyy-MM-dd HH:mm:ss')",
+									"value": "@concat(formatDateTime(addminutes(addhours(utcnow(),8),00),\n'yyyy-MM-dd HH:mm:ss'\n))\n",
 									"type": "Expression"
 								}
 							},
@@ -1427,7 +1427,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "int066_view_print_tag_head",
+						"referenceName": "INT066_QUEUE_HEAD_PROD",
 						"type": "DatasetReference"
 					}
 				],
@@ -1441,6 +1441,8 @@
 			{
 				"name": "Wait1",
 				"type": "Wait",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -1451,12 +1453,14 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 60
+					"waitTimeInSeconds": 6
 				}
 			},
 			{
 				"name": "Web1",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -1475,47 +1479,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "DELETE",
-					"url": "https://sb-nsh-esb-dev.servicebus.windows.net/int066_view_cab_print_tag/messages/head",
+					"url": "https://sb-nsh-esb-Prd.servicebus.windows.net/int066_view_cab_print_tag/messages/head",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://servicebus.azure.net/"
 					}
-				}
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "SCM_IDB_Connect",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "WITH DeletingTags AS (\n    SELECT TAG_NO \n    FROM SCM_ADMIN.ESB_CAB_PRINT_TAG\n    MINUS\n    SELECT TAG_NO \n    FROM SCM_ADMIN.CAB_PRINT_TAG\n    WHERE ROWNUM <= '1000'\n)\nDELETE FROM SCM_ADMIN.ESB_CAB_PRINT_TAG \nWHERE TAG_NO IN (SELECT TAG_NO FROM DeletingTags);\n",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
@@ -1523,6 +1491,9 @@
 			"CurrentTime": {
 				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Prod_Env"
 		},
 		"annotations": []
 	}
