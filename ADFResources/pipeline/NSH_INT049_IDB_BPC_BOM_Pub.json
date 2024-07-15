@@ -238,7 +238,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "INT049_QUEUE_PROD",
+									"referenceName": "INT049_QUEUE_QA",
 									"type": "DatasetReference"
 								}
 							]
@@ -398,7 +398,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
@@ -491,7 +491,7 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "SCM_CONNECTION_PROD",
+								"referenceName": "SCM_IDB_Connect",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {

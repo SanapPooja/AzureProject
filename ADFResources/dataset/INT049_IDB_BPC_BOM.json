@@ -2,7 +2,7 @@
 	"name": "INT049_IDB_BPC_BOM",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SCM_CONNECTION_PROD",
+			"referenceName": "SCM_IDB_Connect",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

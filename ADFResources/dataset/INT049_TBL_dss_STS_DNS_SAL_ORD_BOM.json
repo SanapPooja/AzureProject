@@ -2,7 +2,7 @@
 	"name": "INT049_TBL_dss_STS_DNS_SAL_ORD_BOM",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NSDB11_STS",
+			"referenceName": "STS_QA",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
