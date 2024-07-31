@@ -2,7 +2,7 @@
 	"name": "INT100_POST_QUEUE_HEAD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT100_POST_QUEUE_HEAD",
+			"referenceName": "INT100_POST_QUEUE_HEAD_PROD",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

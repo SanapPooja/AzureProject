@@ -2,7 +2,7 @@
 	"name": "INT100_YMFAT_01_ITEM",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SAP_DEV_DEMO",
+			"referenceName": "SAP_ODBC_PRODUCTION",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SAPSR3",
-			"table": "YMFAT_01_ITEM"
+			"table": "ESB_YMFAT_01_ITEM"
 		}
 	}
 }

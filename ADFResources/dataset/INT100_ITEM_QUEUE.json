@@ -2,7 +2,7 @@
 	"name": "INT100_ITEM_QUEUE",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "INT100_ITEM_QUEUE",
+			"referenceName": "INT100_ITEM_QUEUE_PROD",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

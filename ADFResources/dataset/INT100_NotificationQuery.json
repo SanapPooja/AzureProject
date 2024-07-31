@@ -2,11 +2,15 @@
 	"name": "INT100_NotificationQuery",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "NIS_QA_CONNECTION",
+			"referenceName": "NIS_CONNECTION_PRODUCTION",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "T_FI_GL_POST"
+		}
 	}
 }
